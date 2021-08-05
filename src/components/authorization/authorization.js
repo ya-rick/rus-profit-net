@@ -44,7 +44,7 @@ export default class Authorization extends Component {
     render() {
         const exception = this.onException();
         return (
-            <div className='container modal-children'>
+            <div className='modal-children'>
                 <div className='center margin-bottom'>
                     <p>Вход на сайт</p>
                 </div>

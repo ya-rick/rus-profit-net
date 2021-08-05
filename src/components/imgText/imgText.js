@@ -8,7 +8,7 @@ const ImgText = () => {
     return (
         <div className='img-text'>
             <div className='col-xs-12 col-md-12 col-lg-6 main-page-img'>
-                <div className='container group-button'>
+                <div className='group-button'>
                     <button className='img-button col-xs-5 col-md-5 col-lg-5' onClick={()=>history.push('/searchWorker')}>
                         Найти работника
                     </button>
@@ -16,7 +16,7 @@ const ImgText = () => {
                         Найти работу
                     </button>
                 </div>
-                <div className='text-block container'>
+                <div className='text-block'>
                     <p className='text-block-text'>
                         Профессиональная сеть <br/> русскоговорящих специалистов
                     </p>

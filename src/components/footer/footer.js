@@ -23,8 +23,8 @@ const Footer = () => {
                     <img src={BigLogo} alt='logo'/>
                 </div>
             </div>
-            <div className='container roles'>
-                <img src={Roles} alt='roles'/>
+            <div className='roles'>
+                <p className='roles-text'>2021 RusProfiNet. Все права защищены</p>
             </div>
         </div>
     );

@@ -18,7 +18,7 @@ export default class VacanciesCard extends Component {
         const {like} = this.state;
         return (
             <div className='card-v'>
-                <div className='card-header'>
+                <div className='header-card'>
                     <div className='card-name'>
                         <div className='name-text'>
                             <p className='text-job'>

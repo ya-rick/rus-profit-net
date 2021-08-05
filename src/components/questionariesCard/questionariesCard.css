@@ -33,7 +33,7 @@
     fill: #97acda;
 }
 
-.card-header{
+.header-card{
     display: flex;
     justify-content: space-between;
     background: #F7FBFC;
@@ -55,6 +55,7 @@
     font-size: 5px;
     line-height: 18px;
     margin-right: 50px;
+    margin-top: 20px;
 
     color: #000000;
 }
@@ -72,10 +73,15 @@
 }
 
 .border-block{
+    height: 146px;
     border: 1px solid #6F80A5;
     box-sizing: border-box;
     border-radius: 15px;
-    padding: 20px 20px 0 20px;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 
