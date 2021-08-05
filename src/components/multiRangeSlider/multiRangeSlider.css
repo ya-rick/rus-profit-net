@@ -1,0 +1,29 @@
+.horizontal-slider {
+    width: 100%;
+    max-width: 500px;
+    height: 50px;
+}
+
+.example-thumb {
+    font-size: 0.9em;
+    text-align: center;
+    background: #F7FBFC;
+    height: 40px;
+    width: 40px;
+    border-radius: 20px;
+    border: 4px solid #153D70;
+    box-sizing: border-box;
+    box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.25);
+    color: #F7FBFC;
+    cursor: pointer;
+}
+.example-track {
+    position: relative;
+    background: #ddd;
+}
+
+.horizontal-slider .example-track {
+    top: 20px;
+    height: 3px;
+    background: #6f80a5;
+}

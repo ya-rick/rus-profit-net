@@ -1,0 +1,87 @@
+.card-v{
+    width: 100%;
+    background: #F7FBFC;
+    border-radius: 20px;
+    padding: 50px;
+    margin-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-v:hover{
+    box-shadow: 4px 4px 10px #4C5E8B;
+}
+
+.card-header{
+    display: flex;
+    justify-content: space-between;
+    background: #F7FBFC;
+    border-bottom: 0;
+    margin-top: -10px;
+    margin-left: -20px;
+    margin-right: -15px;
+}
+
+.card-name{
+    display: flex;
+    justify-content: space-around;
+}
+
+.name-text{
+    margin-right: 30px;
+    text-align: left;
+}
+
+p.text-options{
+    font-family: 'Raleway', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 23px;
+
+    color: #000000;
+    margin-right: 50px;
+}
+
+.start-content{
+    text-align: left;
+    margin-top: 20px;
+}
+
+.main-text{
+    font-family: 'Raleway', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 160%;
+    text-align: left;
+}
+
+.border-block{
+    border: 1px solid #6F80A5;
+    box-sizing: border-box;
+    border-radius: 15px;
+    padding: 20px 20px 0px 20px;
+}
+
+.text-job{
+    text-align: left;
+    font-family: 'Raleway', sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 25px;
+    line-height: 30px;
+
+    color: #000000;
+}
+
+.text-city{
+    font-family: 'Raleway', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 18px;
+
+    color: #000000;
+    margin-top: -20px;
+}

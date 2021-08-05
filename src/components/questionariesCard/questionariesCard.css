@@ -1,0 +1,82 @@
+.card{
+    width: 100%;
+    background: #F7FBFC;
+    border-radius: 20px;
+    padding: 30px 30px;
+    margin: 50px 17px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.card:hover{
+    box-shadow: 4px 4px 10px #4C5E8B;
+}
+
+.avatar{
+    height: 240px;
+    width: 240px;
+}
+
+.hand{
+    margin-top: 30px;
+    margin-left: 12px;
+    height: 35px;
+    width: 33px;
+}
+
+.hand-active {
+    margin-top: 30px;
+    margin-left: 12px;
+    height: 35px;
+    width: 33px;
+    fill: #97acda;
+}
+
+.card-header{
+    display: flex;
+    justify-content: space-between;
+    background: #F7FBFC;
+}
+
+.card-name{
+    display: flex;
+    justify-content: space-around;
+}
+
+.name-text{
+    margin-right: 30px;
+    text-align: left;
+}
+
+.text-options{
+    font-style: normal;
+    font-weight: normal;
+    font-size: 5px;
+    line-height: 18px;
+    margin-right: 50px;
+
+    color: #000000;
+}
+
+.start-content{
+    text-align: left;
+    margin-top: 20px;
+}
+
+.main-text{
+    text-align: left;
+    font-style: normal;
+    font-weight: lighter;
+    font-size: 10px;
+}
+
+.border-block{
+    border: 1px solid #6F80A5;
+    box-sizing: border-box;
+    border-radius: 15px;
+    padding: 20px 20px 0 20px;
+}
+
+
+

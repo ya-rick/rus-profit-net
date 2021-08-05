@@ -1,0 +1,51 @@
+.footer{
+    width: 100%;
+    background: #B9C3D8;
+    min-height: 260px;
+
+}
+
+a{
+    font-family: 'Raleway', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 21px;
+    text-decoration: none;
+    color: #000000;
+    margin-top: 50px;
+}
+
+a:hover{
+    text-decoration: none;
+    color: #000000;
+}
+
+.big-logo{
+    margin-top: 50px;
+    width: 284px;
+    height: 70px;
+}
+
+.column{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.box-row{
+    width: 60%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.roles{
+    width: 100%;
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+}
+
+
+

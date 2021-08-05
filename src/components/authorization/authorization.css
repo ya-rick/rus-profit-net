@@ -1,0 +1,66 @@
+.modal-children{
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+}
+
+.margin-bottom{
+    margin-bottom: 30px;
+}
+
+.name-input{
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+.input-author{
+    width: 100%;
+    height: 30px;
+    border-radius: 15px;
+    border: 2px solid #6F80A5;
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+.button-log{
+    width: 300px;
+    height: 80px;
+    background: #F7FBFC;
+    border: 2px solid #6F80A5;
+    box-sizing: border-box;
+    box-shadow: 6px 6px 10px #4C5E8B;
+    border-radius: 20px;
+    margin-top: 30px;
+}
+
+.button-log:hover{
+    background: #E9F0FF;
+    box-shadow: inset 0px 6px 10px rgba(0, 0, 0, 0.8);
+}
+
+.a-style{
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 18px;
+    text-decoration-line: underline;
+    color: #4C5E8B;
+    border: 0;
+    background: #E5E5E5;
+}
+
+.exception-message{
+    font-style: normal;
+    font-weight: normal;
+    font-size: 8px;
+    line-height: 10px;
+    color: #CC363B;
+    text-align: left;
+}
+
+.center{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
