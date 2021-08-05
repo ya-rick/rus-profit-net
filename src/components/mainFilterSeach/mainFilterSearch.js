@@ -5,6 +5,21 @@ import MultiRangeSlider from "../multiRangeSlider";
 import RangeSlider from "../rangeSlider";
 import Select from '../select';
 
+const testOptins = [
+    {
+        value: 1,
+        text: 'Test'
+    },
+    {
+        value: 2,
+        text: 'Test'
+    },
+    {
+        value: 3,
+        text: 'Test'
+    }
+]
+
 export default class MainFilterSearch extends Component {
 
     state = {
@@ -60,36 +75,42 @@ export default class MainFilterSearch extends Component {
                 <div className='filter container'>
                     <div className='col-xs-12 col-md-6 col-lg-3'>
                         <div className='main-filter-search-subBlock'>
-                            <p className='bg-text'>Выберете страну</p>
-                            <Select className='col-12 input'>
-                                <span>Test</span>
-                                <span>Test</span>
-                                <span>Test</span>
-                                <span>Test</span>
-                                <span>Test</span>
-                                <span>Test</span>
+                            <Select 
+                                className='col-12 input'
+                                headerTitle={'Выберете страну'}
+                            >
+                                {testOptins}
                             </Select>
                         </div>
                         <div className='main-filter-search-subBlock'>
-                            <p className='bg-text'>Выберете город</p>
-                            <Select className='select-input'>
+                            <Select 
+                                className='select-input'
+                                headerTitle={'Выберете город'}
+                            >
+                                {testOptins}
                             </Select>
                         </div>
                     </div>
                     <div className='col-xs-12 col-md-6 col-lg-3'>
                         <div className='main-filter-search-subBlock'>
-                            <p className='bg-text'>Кого вы ищите?</p>
-                            <Select className='select-input' onItemClickCallback={(index, title)=>onChange(title)}>
-                                <option value='nanny'>Няня</option>
-                                <option value='doctor'>Врач</option>
+                            <Select 
+                                className='select-input'
+                                onItemClickCallback={(index, title)=>onChange(title)}
+                                headerTitle={'Кого вы ищите?'}
+                            >
+                                {[
+                                    {value: 'nyanya', text: 'Няня'},
+                                    {value: 'ne_nyanya', text: 'хз'}
+                                ]}
                             </Select>
                         </div>
                         <div className='main-filter-search-subBlock'>
-                            <p className='bg-long-text'>Предлагаемая заработная плата</p>
                             <div className='group-input'>
-                                <input className='col-4 select-mini-input' type='text'/>
-                                <Select className='col-4 select-mini-input'>
-
+                                <Select 
+                                    headerTitle={'Предлагаемая заработная плата'}
+                                    leftHeaderItem={<input className='select-mini-input' type='text'/>}
+                                >
+                                    {testOptins}
                                 </Select>
                             </div>
                         </div>

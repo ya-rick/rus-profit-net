@@ -27,12 +27,12 @@
 }
 
 .select-mini-input{
-    width: 45%;
     height: 40px;
     border-radius: 15px;
     background: #FFFFFF;
     border: 2px solid #6f80a5;
     box-sizing: border-box;
+    flex: 1;
 }
 
 .input-number{

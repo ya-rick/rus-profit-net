@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
-import { SelectWrapper, SelectHeader, SelectDropdownList, SelectDropdownItem, ArrowWrapper } from './styles';
+import { SelectWrapper, SelectHeader, SelectDropdownList, SelectDropdownItem,
+    ArrowWrapper, SelectTitle, SelectedItem, SelectHeaderLayout } from './styles';
 import { arrow_down } from '../../common/svgElements';
 
 function ArrowDown ({ isInverted = false }) {
@@ -11,8 +12,13 @@ function ArrowDown ({ isInverted = false }) {
     )
 }
 
-export default function Select ({ headerTitle = 'default', elements, children, onItemClickCallback = () => {} }) {
+/**
+ * @param {array} elements - Array of elements { value: <some value>, text: <some text> } 
+ */
+
+export default function Select ({ headerTitle, elements, children, onItemClickCallback = () => {}, leftHeaderItem }) {
     const [isOpen, setIsOpen] = useState(false);
+    const [selectedItem, selectItem] = useState(null)
 
     function toggleOpen (isOpen) {
         if (isOpen === true) {
@@ -24,26 +30,34 @@ export default function Select ({ headerTitle = 'default', elements, children, o
         }
     }
     
-    function onItemClick (index, title) {
+    function onItemClick (element) {
         return () => {
             toggleOpen(false);
-            onItemClickCallback(index, title);
+            selectItem(element)
+            onItemClickCallback(element);
         }
     }
 
     function renderChildren () {
         let toBeRendered = elements || children;
 
-        return toBeRendered?.map((element, index) => <SelectDropdownItem onClick={onItemClick(index, element)}>{element}</SelectDropdownItem>)
+        return toBeRendered?.map(element => <SelectDropdownItem onClick={onItemClick(element)}>{element.text}</SelectDropdownItem>)
     }
     
     return (
         <SelectWrapper>
-            <SelectHeader onClick={toggleOpen}>
+            {headerTitle && <SelectTitle>
                 {headerTitle}
-                <ArrowDown isInverted={isOpen}/>
-            </SelectHeader>
+            </SelectTitle>}
 
+            <SelectHeaderLayout>
+                {leftHeaderItem && leftHeaderItem}
+                <SelectHeader onClick={toggleOpen}>
+                    <SelectedItem>{selectedItem?.text}</SelectedItem>
+                    <ArrowDown isInverted={isOpen}/>    
+                </SelectHeader>
+            </SelectHeaderLayout>
+            
             {isOpen && <SelectDropdownList>
                 {renderChildren()}
             </SelectDropdownList>}
