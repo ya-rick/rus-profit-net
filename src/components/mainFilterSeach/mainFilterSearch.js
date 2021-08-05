@@ -1,7 +1,9 @@
 import React, {Component} from "react";
+
 import './mainFilterSearch.css';
 import MultiRangeSlider from "../multiRangeSlider";
 import RangeSlider from "../rangeSlider";
+import Select from '../select';
 
 export default class MainFilterSearch extends Component {
 
@@ -59,32 +61,37 @@ export default class MainFilterSearch extends Component {
                     <div className='col-xs-12 col-md-6 col-lg-3 main-filter-search-block'>
                         <div className='main-filter-search-subBlock'>
                             <p className='bg-text'>Выберете страну</p>
-                            <select className='col-12 input'>
-
-                            </select>
+                            <Select className='col-12 input'>
+                                <span>Test</span>
+                                <span>Test</span>
+                                <span>Test</span>
+                                <span>Test</span>
+                                <span>Test</span>
+                                <span>Test</span>
+                            </Select>
                         </div>
                         <div className='main-filter-search-subBlock'>
                             <p className='bg-text'>Выберете город</p>
-                            <select className='col-12 input'>
+                            <Select className='col-12 input'>
 
-                            </select>
+                            </Select>
                         </div>
                     </div>
                     <div className='col-xs-12 col-md-6 col-lg-3 main-filter-search-block'>
                         <div className='main-filter-search-subBlock'>
                             <p className='bg-text'>Кого вы ищите?</p>
-                            <select className='col-12 input' onChange={(e)=>onChange(e.target.value)}>
+                            <Select className='col-12 input' onChange={(e)=>onChange(e.target.value)}>
                                 <option value='nanny'>Няня</option>
                                 <option value='doctor'>Врач</option>
-                            </select>
+                            </Select>
                         </div>
                         <div className='main-filter-search-subBlock'>
                             <p className='longe-text'>Предлагаемая заработная плата</p>
                             <div className='group-input'>
                                 <input className='col-5 input input-center' type='text'/>
-                                <select className='col-5 input'>
+                                <Select className='col-5 input'>
 
-                                </select>
+                                </Select>
                             </div>
                         </div>
                     </div>

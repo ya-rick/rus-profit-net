@@ -1,14 +1,17 @@
 import React from "react";
+import { ThemeProvider } from "styled-components";
+
 import './app.css';
 import MainPage from "../mainPage";
+import { defaultStyles } from '../../common/consts';
 
 
 const App = () =>{
 
     return(
-        <div>
+        <ThemeProvider theme={defaultStyles}>
             <MainPage/>
-        </div>
+        </ThemeProvider>
     );
 };
 
