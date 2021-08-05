@@ -56,9 +56,9 @@ export default class MainFilterSearch extends Component {
     render() {
         const {onChange} = this.props;
         return (
-            <div className='main-filter-search'>
-                <div className='wrap-box button-group container'>
-                    <div className='col-xs-12 col-md-6 col-lg-3 main-filter-search-block'>
+            <div className='main-filter'>
+                <div className='filter container'>
+                    <div className='col-xs-12 col-md-6 col-lg-3'>
                         <div className='main-filter-search-subBlock'>
                             <p className='bg-text'>Выберете страну</p>
                             <Select className='col-12 input'>
@@ -72,30 +72,29 @@ export default class MainFilterSearch extends Component {
                         </div>
                         <div className='main-filter-search-subBlock'>
                             <p className='bg-text'>Выберете город</p>
-                            <Select className='col-12 input'>
-
+                            <Select className='select-input'>
                             </Select>
                         </div>
                     </div>
-                    <div className='col-xs-12 col-md-6 col-lg-3 main-filter-search-block'>
+                    <div className='col-xs-12 col-md-6 col-lg-3'>
                         <div className='main-filter-search-subBlock'>
                             <p className='bg-text'>Кого вы ищите?</p>
-                            <Select className='col-12 input' onChange={(e)=>onChange(e.target.value)}>
+                            <Select className='select-input' onItemClickCallback={(index, title)=>onChange(title)}>
                                 <option value='nanny'>Няня</option>
                                 <option value='doctor'>Врач</option>
                             </Select>
                         </div>
                         <div className='main-filter-search-subBlock'>
-                            <p className='longe-text'>Предлагаемая заработная плата</p>
+                            <p className='bg-long-text'>Предлагаемая заработная плата</p>
                             <div className='group-input'>
-                                <input className='col-5 input input-center' type='text'/>
-                                <Select className='col-5 input'>
+                                <input className='col-4 select-mini-input' type='text'/>
+                                <Select className='col-4 select-mini-input'>
 
                                 </Select>
                             </div>
                         </div>
                     </div>
-                    <div className='col-xs-12 col-md-6 col-lg-3 box-center main-filter-search-subBlock'>
+                    <div className='col-xs-12 col-md-6 col-lg-3'>
                         <p className='bg-text'>Опыт работы</p>
                         <div>
                             <RangeSlider min={0} max={10} value={this.state.experience}
@@ -106,7 +105,7 @@ export default class MainFilterSearch extends Component {
                             </div>
                         </div>
                         <div className='col-12 input-center'>
-                            <input className='col-6 input input-margin'
+                            <input className='input-number'
                                    type='text'
                                    value={this.state.experience}
                                    onChange={(e) => {
@@ -115,7 +114,7 @@ export default class MainFilterSearch extends Component {
                             />
                         </div>
                     </div>
-                    <div className='col-xs-12 col-md-6 col-lg-3 main-filter-search-subBlock'>
+                    <div className='col-xs-12 col-md-6 col-lg-3'>
                         <p className='bg-text'>Возраст</p>
                         <div>
                             <MultiRangeSlider min={18} max={60} minAge = {this.state.minAge} maxAge ={this.state.maxAge}
@@ -125,10 +124,10 @@ export default class MainFilterSearch extends Component {
                                 <p>60+ лет</p>
                             </div>
                         </div>
-                        <div className='col-12 group-input '>
-                            <div className='box-inputs-with-labels'>
+                        <div className='group-mini-input '>
+                            <div className='box-inputs-labels'>
                                 <p className='labels sml-text'>от</p>
-                                <input className='col-8 input'
+                                <input className='input-mini-number'
                                        type='text'
                                        value={this.state.minAge}
                                        onChange={(e) => {
@@ -137,9 +136,9 @@ export default class MainFilterSearch extends Component {
                                        }}
                                 />
                             </div>
-                            <div className='box-inputs-with-labels'>
+                            <div className='box-inputs-labels'>
                                 <p className='labels sml-text'>до</p>
-                                <input className='col-8 input'
+                                <input className='input-mini-number'
                                        type='text'
                                        value={this.state.maxAge}
                                        onChange={(e) => {

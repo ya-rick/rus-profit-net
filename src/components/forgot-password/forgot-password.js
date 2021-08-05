@@ -13,7 +13,7 @@ export default class ForgotPassword extends Component{
 
     render() {
         return(
-            <div className='container modal-children'>
+            <div className='modal-children'>
                 <div className='center margin-bottom'>
                     <p>Забыли логин или пароль?</p>
                 </div>

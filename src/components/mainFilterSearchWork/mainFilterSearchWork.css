@@ -1,43 +1,94 @@
-.main-filter-search-subBlock{
+.main-filter{
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+
+    font-family: 'Raleway', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+}
+
+.filter{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.margin-top-15{
     margin-top: 25px;
 }
 
-.group-input{
-    display: flex;
-    justify-content: space-between;
-    align-self: center;
-}
-
-.input{
+.select-input{
+    width: 100%;
+    height: 40px;
+    border-radius: 15px;
     background: #FFFFFF;
     border: 2px solid #6F80A5;
     box-sizing: border-box;
-    border-radius: 15px;
+}
+
+.select-mini-input{
+    width: 45%;
     height: 40px;
+    border-radius: 15px;
+    background: #FFFFFF;
+    border: 2px solid #6f80a5;
+    box-sizing: border-box;
+}
+
+.input-number{
+    width: 40%;
+    margin-left: 30%;
+    height: 40px;
+    border-radius: 15px;
+    background: #FFFFFF;
+    border: 2px solid #6f80a5;
+    box-sizing: border-box;
     text-align: center;
 }
 
-.input-center{
-    display: flex;
-    width: 100%;
-    justify-self: center;
+.input-mini-number{
+    height: 40px;
+    width: 70px;
+    border-radius: 15px;
+    background: #FFFFFF;
+    border: 2px solid #6f80a5;
+    box-sizing: border-box;
+    text-align: center;
 }
 
 .bg-text{
     font-family: 'Raleway', sans-serif;
     font-style: normal;
     font-weight: normal;
-    font-size: 17px;
-    line-height: 20px;
+    text-align: left;
+    font-size: 20px;
+    line-height: 23px;
 
     color: #000000;
 }
 
-.long-text{
+.bg-long-text{
     font-family: 'Raleway', sans-serif;
     font-style: normal;
     font-weight: normal;
-    font-size: 18px;
+    text-align: left;
+    font-size: 17px;
+    line-height: 23px;
+
+    color: #000000;
+}
+
+.text-slider{
+    display: flex;
+    justify-content: space-between;
+}
+
+.text-slider>p{
+    font-family: 'Raleway', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    text-align: left;
+    font-size: 15px;
     line-height: 18px;
 
     color: #000000;
@@ -47,36 +98,22 @@
     font-family: 'Raleway', sans-serif;
     font-style: normal;
     font-weight: normal;
-    font-size: 10px;
-    line-height: 13px;
-}
-
-.box-inputs-with-labels{
-    height: 40px;
-    display: flex;
-    justify-content: center;
-}
-
-.labels{
-    margin-top: 15px;
-    margin-right: 10px;
-}
-
-.input-margin{
-    margin-left: 50px;
-}
-
-.text-slider{
-    display: flex;
-    justify-content: space-between;
-}
-
-.text-slider >p{
-    font-family: 'Raleway', sans-serif;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 12px;
+    text-align: left;
+    font-size: 15px;
     line-height: 18px;
+    margin-left: 15px;
 
     color: #000000;
+}
+
+.box-inputs-labels{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.group-input{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
