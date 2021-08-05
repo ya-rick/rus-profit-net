@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import './mainFilterSearch.css';
 import MultiRangeSlider from "../multiRangeSlider";
 import RangeSlider from "../rangeSlider";
+import Select from "../select";
 
 export default class MainFilterSearch extends Component {
 
@@ -59,32 +60,31 @@ export default class MainFilterSearch extends Component {
                     <div className='col-xs-12 col-md-6 col-lg-3'>
                         <div className='main-filter-search-subBlock'>
                             <p className='bg-text'>Выберете страну</p>
-                            <select className='select-input'>
+                            <Select>
 
-                            </select>
+                            </Select>
                         </div>
                         <div className='main-filter-search-subBlock'>
                             <p className='bg-text'>Выберете город</p>
-                            <select className='select-input'>
+                            <Select>
 
-                            </select>
+                            </Select>
                         </div>
                     </div>
                     <div className='col-xs-12 col-md-6 col-lg-3'>
                         <div className='main-filter-search-subBlock'>
                             <p className='bg-text'>Кого вы ищите?</p>
-                            <select className='select-input' onChange={(e)=>onChange(e.target.value)}>
-                                <option value='nanny'>Няня</option>
-                                <option value='doctor'>Врач</option>
-                            </select>
+                            <Select>
+
+                            </Select>
                         </div>
                         <div className='main-filter-search-subBlock'>
                             <p className='bg-long-text'>Предлагаемая заработная плата</p>
                             <div className='group-input'>
                                 <input className='col-4 select-mini-input' type='text'/>
-                                <select className='col-4 select-mini-input'>
+                                <Select>
 
-                                </select>
+                                </Select>
                             </div>
                         </div>
                     </div>

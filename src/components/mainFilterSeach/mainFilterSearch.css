@@ -63,6 +63,8 @@
     font-size: 20px;
     line-height: 23px;
 
+    margin-top: 10px;
+
     color: #000000;
 }
 
@@ -73,6 +75,8 @@
     text-align: left;
     font-size: 17px;
     line-height: 23px;
+
+    margin-top: 10px;
 
     color: #000000;
 }
