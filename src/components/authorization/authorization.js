@@ -7,7 +7,7 @@ export default class Authorization extends Component {
     state = {
         login: '',
         password: '',
-        exception: false,
+        exception: true,
         description: ''
     };
 
@@ -18,9 +18,10 @@ export default class Authorization extends Component {
 
     onLoginChange = (e) => {
         this.setState({login: e.target.value});
-        if (e.target.value.length === 0) {
-            this.setState({exception: true})
-        }
+    }
+
+    onPasswordChange = (e)=>{
+        this.setState({password: e.target.value});
     }
 
     onException = () => {
@@ -29,14 +30,35 @@ export default class Authorization extends Component {
             return (
                 <p className='exception-message'>{description}</p>
             );
+        }else {
+            return (
+                <></>
+            );
         }
     };
 
+    setLogin = (error, description) =>{
+        if(error){
+            this.setState({exception:error, description: description});
+        }else{
+            const {onGetID} = this.props;
+            onGetID(1000);
+        }
+    }
+
     onSubmit = () => {
         const {login, password} = this.state;
-        const authorization = new registrationService();
-        const data = authorization.login(login, password);
-        console.log(data);
+        const authorization = new  registrationService();
+        const data = {
+            error: false,
+            description: ''
+        }
+        authorization.login(login,password).then((res)=>{
+            data.error = res.data[0].error;
+            data.description = res.data[0].description;
+        }).then(() =>
+            this.setLogin(data.error, data.description)
+        ).then(()=>console.log(data));
     }
 
 
@@ -55,7 +77,8 @@ export default class Authorization extends Component {
                 </div>
                 <div>
                     <p className='name-input'>Пароль</p>
-                    <input className='input-author' type='text'/>
+                    <input className='input-author' onChange={this.onPasswordChange} type='password'/>
+                    {exception}
                 </div>
                 <div className='margin-bottom'>
                     <button className='a-style' onClick={this.onClickForgot}>Забыли логин или пароль?</button>

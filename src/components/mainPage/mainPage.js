@@ -26,7 +26,11 @@ export default class MainPage extends Component {
     setIdModal = (id) => {
         const {modalActive} = this.state;
         if (modalActive) {
-            this.setState({idModal: id});
+            if(id===1000){
+                this.setModalActive(false);
+            }else{
+                this.setState({idModal: id});
+            }
         } else {
             this.setState({idModal: id});
             this.setModalActive();
@@ -49,9 +53,10 @@ export default class MainPage extends Component {
     }
 
     getElementFilter = (filter)=>{
-        if(filter === 'nanny'){
+        const {value} = filter;
+        if(value === 'nanny'){
             return (<MenuNanny/>);
-        }else{
+        }else if (value ==='doctor'){
             return (<MenuDoctor/>);
         }
     }

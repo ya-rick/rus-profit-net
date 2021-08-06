@@ -1,12 +1,30 @@
 import React, {Component} from "react";
 import './mainFilterSearchWork.css';
 import RangeSlider from "../rangeSlider";
+import Select from "../select";
 import MultiRangeSlider from "../multiRangeSlider";
+
+const testOptins = [
+    {
+        value: 1,
+        text: 'Test'
+    },
+    {
+        value: 2,
+        text: 'Test'
+    },
+    {
+        value: 3,
+        text: 'Test'
+    }
+]
 
 export default class MainFilterSearchWork extends Component {
 
     state = {
         experience: 0,
+        minAge: 18,
+        maxAge: 60,
     }
 
     onChangeExperience = (value) => {
@@ -21,32 +39,36 @@ export default class MainFilterSearchWork extends Component {
                     <div className='col-xs-12 col-md-4 col-lg-4'>
                         <div className='main-filter-search-subBlock'>
                             <p className='bg-text'>Выберете страну</p>
-                            <select className='select-input'>
-
-                            </select>
+                            <Select>
+                                {testOptins}
+                            </Select>
                         </div>
                         <div className='main-filter-search-subBlock'>
                             <p className='bg-text'>Выберете город</p>
-                            <select className='select-input'>
-
-                            </select>
+                            <Select>
+                                {testOptins}
+                            </Select>
                         </div>
                     </div>
                     <div className='col-xs-12 col-md-4 col-lg-4'>
                         <div className='main-filter-search-subBlock'>
                             <p className='bg-text'>Кого вы ищите?</p>
-                            <select className='select-input' onChange={(e)=>onChange(e.target.value)}>
-                                <option value='nanny'>Няня</option>
-                                <option value='doctor'>Врач</option>
-                            </select>
+                            <Select onItemClickCallback={(value, text) => onChange(value)}>
+                                {[
+                                    {value: 'nanny', text: 'Няня'},
+                                    {value: 'doctor', text: 'Врач'}
+                                ]}
+                            </Select>
                         </div>
                         <div className='main-filter-search-subBlock'>
                             <p className='bg-long-text'>Предлагаемая заработная плата</p>
                             <div className='group-input'>
                                 <input className='col-4 select-mini-input' type='text'/>
-                                <select className='col-4 select-mini-input'>
-
-                                </select>
+                                <div className='select-mini-input-s'>
+                                    <Select>
+                                        {testOptins}
+                                    </Select>
+                                </div>
                             </div>
                         </div>
                     </div>

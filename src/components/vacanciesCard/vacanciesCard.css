@@ -31,8 +31,8 @@
 p.text-options{
     font-family: 'Raleway', sans-serif;
     font-style: normal;
-    font-weight: normal;
-    font-size: 20px;
+    font-weight: 400;
+    font-size: 16px;
     line-height: 23px;
 
     color: #000000;
@@ -79,5 +79,5 @@ p.text-options{
     line-height: 18px;
 
     color: #000000;
-    margin-top: -20px;
+    margin-top: -10px;
 }

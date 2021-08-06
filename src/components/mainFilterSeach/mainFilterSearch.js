@@ -4,6 +4,21 @@ import MultiRangeSlider from "../multiRangeSlider";
 import RangeSlider from "../rangeSlider";
 import Select from "../select";
 
+const testOptins = [
+    {
+        value: 1,
+        text: 'Test'
+    },
+    {
+        value: 2,
+        text: 'Test'
+    },
+    {
+        value: 3,
+        text: 'Test'
+    }
+]
+
 export default class MainFilterSearch extends Component {
 
     state = {
@@ -19,15 +34,14 @@ export default class MainFilterSearch extends Component {
     onChangeMultiRange = (value, index) => {
         const {minAge, maxAge} = this.state;
         if (index === 0) {
-            if(value[index]> maxAge){
-                this.setState({minAge: maxAge-1});
-            }else{
+            if (value[index] > maxAge) {
+                this.setState({minAge: maxAge - 1});
+            } else {
                 this.setState({minAge: value[index]});
             }
         } else {
-            if(value[index]<minAge)
-            {
-                this.setState({maxAge: minAge+1});
+            if (value[index] < minAge) {
+                this.setState({maxAge: minAge + 1});
             } else {
                 this.setState({maxAge: value[index]});
             }
@@ -37,15 +51,14 @@ export default class MainFilterSearch extends Component {
     onChangeMultiRangeFromText = (value, index) => {
         const {minAge, maxAge} = this.state;
         if (index === 0) {
-            if(value> maxAge){
-                this.setState({minAge: maxAge-1});
-            }else{
+            if (value > maxAge) {
+                this.setState({minAge: maxAge - 1});
+            } else {
                 this.setState({minAge: value});
             }
         } else {
-            if(value<minAge)
-            {
-                this.setState({maxAge: minAge+1});
+            if (value < minAge) {
+                this.setState({maxAge: minAge + 1});
             } else {
                 this.setState({maxAge: value});
             }
@@ -61,30 +74,35 @@ export default class MainFilterSearch extends Component {
                         <div className='main-filter-search-subBlock'>
                             <p className='bg-text'>Выберете страну</p>
                             <Select>
-
+                                {testOptins}
                             </Select>
                         </div>
                         <div className='main-filter-search-subBlock'>
                             <p className='bg-text'>Выберете город</p>
                             <Select>
-
+                                {testOptins}
                             </Select>
                         </div>
                     </div>
                     <div className='col-xs-12 col-md-6 col-lg-3'>
                         <div className='main-filter-search-subBlock'>
                             <p className='bg-text'>Кого вы ищите?</p>
-                            <Select>
-
+                            <Select onItemClickCallback={(value, text) => onChange(value)}>
+                                {[
+                                    {value: 'nanny', text: 'Няня'},
+                                    {value: 'doctor', text: 'Врач'}
+                                ]}
                             </Select>
                         </div>
                         <div className='main-filter-search-subBlock'>
                             <p className='bg-long-text'>Предлагаемая заработная плата</p>
                             <div className='group-input'>
                                 <input className='col-4 select-mini-input' type='text'/>
-                                <Select>
-
-                                </Select>
+                                <div className='select-mini-input-s'>
+                                    <Select>
+                                        {testOptins}
+                                    </Select>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -111,7 +129,7 @@ export default class MainFilterSearch extends Component {
                     <div className='col-xs-12 col-md-6 col-lg-3'>
                         <p className='bg-text'>Возраст</p>
                         <div>
-                            <MultiRangeSlider min={18} max={60} minAge = {this.state.minAge} maxAge ={this.state.maxAge}
+                            <MultiRangeSlider min={18} max={60} minAge={this.state.minAge} maxAge={this.state.maxAge}
                                               onChange={this.onChangeMultiRange}/>
                             <div className='text-slider'>
                                 <p>до 18 лет</p>

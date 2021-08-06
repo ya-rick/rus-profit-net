@@ -1,9 +1,24 @@
 import React from "react";
 import './imgText.css';
 import { useHistory } from 'react-router-dom';
+import MainPageService from "../../services/mainPageService";
 
 
 const ImgText = () => {
+    const service = new MainPageService();
+    const data = {
+        title:'',
+        image:'',
+        error: false,
+        description: ''
+    }
+    service.getMainPage().then((res)=>{
+        data.error = res.data[0].error;
+        data.description = res.data[0].description;
+        data.title = res.data[0].options[0].block1_title;
+        data.image = res.data[0].options[1].block1_image;
+        console.log(res);
+    }).then(()=>console.log(data));
     const history = useHistory();
     return (
         <div className='img-text'>

@@ -1,7 +1,7 @@
 .main-filter{
     display: flex;
     justify-content: center;
-    margin-top: 15px;
+    margin-bottom: 35px;
 
     font-family: 'Raleway', sans-serif;
     font-style: normal;
@@ -33,6 +33,11 @@
     background: #FFFFFF;
     border: 2px solid #6f80a5;
     box-sizing: border-box;
+}
+
+.select-mini-input-s{
+    width: 45%;
+    height: 40px;
 }
 
 .input-number{

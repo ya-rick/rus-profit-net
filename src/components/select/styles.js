@@ -20,7 +20,6 @@ export const SelectHeader = styled.div`
   padding: 9px 16px 9px 20px;
   border: 2px solid ${props => props.theme.borderColor};
   border-radius: ${props => props.theme.borderRadius};
-  width: 100%;
   height: 40px;
   border-radius: 15px;
   background: #FFFFFF;
@@ -51,7 +50,10 @@ export const SelectDropdownList = styled.ul`
   border-top: none;
   border-radius: ${props => `${props.theme.borderRadius} ${props.theme.borderRadius}`};
   background-color: white;
-
+  border-radius: 15px;
+  border-left: 2px solid #6F80A5;
+  border-bottom: 2px solid #6F80A5;
+  border-right: 2px solid #6F80A5;
   cursor: pointer;
 `;
 
