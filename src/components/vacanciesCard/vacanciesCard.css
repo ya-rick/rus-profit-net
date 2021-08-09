@@ -29,7 +29,6 @@
 }
 
 p.text-options{
-    font-family: 'Raleway', sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 20px;
@@ -45,7 +44,6 @@ p.text-options{
 }
 
 .main-text{
-    font-family: 'Raleway', sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 15px;
@@ -62,7 +60,6 @@ p.text-options{
 
 .text-job{
     text-align: left;
-    font-family: 'Raleway', sans-serif;
     font-style: normal;
     font-weight: bold;
     font-size: 25px;
@@ -72,7 +69,6 @@ p.text-options{
 }
 
 .text-city{
-    font-family: 'Raleway', sans-serif;
     font-style: normal;
     font-weight: 600;
     font-size: 15px;

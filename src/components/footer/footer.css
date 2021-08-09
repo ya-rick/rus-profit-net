@@ -6,7 +6,6 @@
 }
 
 a{
-    font-family: 'Raleway', sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 18px;
@@ -49,7 +48,6 @@ a:hover{
 
 .roles-text{
     color: #153D70;
-    font-family: 'Raleway', sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 15px;
