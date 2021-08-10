@@ -72,13 +72,13 @@ export default class MainFilterSearch extends Component {
                 <div className='filter container'>
                     <div className='col-xs-12 col-md-6 col-lg-3'>
                         <div className='main-filter-search-subBlock'>
-                            <p className='bg-text'>Выберете страну</p>
+                            <p className='bg-long-text'>Выберите страну</p>
                             <Select>
                                 {testOptins}
                             </Select>
                         </div>
                         <div className='main-filter-search-subBlock'>
-                            <p className='bg-text'>Выберете город</p>
+                            <p className='bg-long-text'>Выберите город</p>
                             <Select>
                                 {testOptins}
                             </Select>
@@ -86,7 +86,7 @@ export default class MainFilterSearch extends Component {
                     </div>
                     <div className='col-xs-12 col-md-6 col-lg-3'>
                         <div className='main-filter-search-subBlock'>
-                            <p className='bg-text'>Кого вы ищите?</p>
+                            <p className='bg-long-text'>Кого вы ищите?</p>
                             <Select onItemClickCallback={(value, text) => onChange(value)}>
                                 {[
                                     {value: 'nanny', text: 'Няня'},
@@ -107,7 +107,7 @@ export default class MainFilterSearch extends Component {
                         </div>
                     </div>
                     <div className='col-xs-12 col-md-6 col-lg-3'>
-                        <p className='bg-text'>Опыт работы</p>
+                        <p className='bg-long-text'>Опыт работы</p>
                         <div>
                             <RangeSlider min={0} max={10} value={this.state.experience}
                                          onChange={this.onChangeExperience}/>
@@ -127,7 +127,7 @@ export default class MainFilterSearch extends Component {
                         </div>
                     </div>
                     <div className='col-xs-12 col-md-6 col-lg-3'>
-                        <p className='bg-text'>Возраст</p>
+                        <p className='bg-long-text'>Возраст</p>
                         <div>
                             <MultiRangeSlider min={18} max={60} minAge={this.state.minAge} maxAge={this.state.maxAge}
                                               onChange={this.onChangeMultiRange}/>

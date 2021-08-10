@@ -65,7 +65,7 @@ export const SelectDropdownItem = styled.li`
 export const ArrowWrapper = styled.span`
   display: inline-block;
   width: 16px;
-  height: 8px;
+  height: 15px;
 
-  ${props => props.isInverted && `transform: rotateX(180deg) translateY(-100%);`}
+  ${props => props.isInverted && `transform: rotateX(180deg);`}
 `;

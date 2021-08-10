@@ -14,6 +14,7 @@ import Vacancies from "../vacancies/vacancies";
 import ImgText from "../imgText";
 import MenuNanny from "../menuNanny";
 import MainFilterSearchWork from "../mainFilterSearchWork";
+import HeaderNew from "../header2";
 
 export default class MainPage extends Component {
 
@@ -71,28 +72,32 @@ export default class MainPage extends Component {
         return (
             <Router>
                 <div className='main-page'>
-                    <Header onGetId={this.setIdModal}/>
                     <Switch>
                         <Route exact path='/'>
+                            <Header onGetId={this.setIdModal}/>
                             <ImgText/>
                         </Route>
                         <Route path='/searchWorker'>
+                            <HeaderNew onGetId={this.setIdModal}/>
                             <ImgText/>
                             <MainFilterSearch onChange = {this.onChangeProfession}/>
                             {element}
                             <Footer/>
                         </Route>
                         <Route path='/searchWork'>
+                            <HeaderNew onGetId={this.setIdModal}/>
                             <ImgText/>
                             <MainFilterSearchWork onChange = {this.onChangeProfession}/>
                             {element}
                             <Footer/>
                         </Route>
                         <Route path='/questionaries'>
+                            <HeaderNew onGetId={this.setIdModal}/>
                             <Questionnaires/>
                             <Footer/>
                         </Route>
                         <Route path='/vacancies'>
+                            <HeaderNew onGetId={this.setIdModal}/>
                             <Vacancies/>
                             <Footer/>
                         </Route>

@@ -1,6 +1,5 @@
 import React from "react";
 import BigLogo from '../../images/2021RusProfiNetFooterLogo.svg';
-import Roles from '../../images/2021RusProfiNetRoles.png';
 import './footer.css';
 
 const Footer = () => {
@@ -8,13 +7,13 @@ const Footer = () => {
         <div className='footer'>
             <div className='container wrap-box'>
                 <div className='column col-xs-12 col-md-6 col-lg-3'>
-                    <a href='#/'>+7 916 500 50 50</a>
+                    <a href='/#'>+7 916 500 50 50</a>
                     <a href='https://google.com'>Напишите нам</a>
-                    <a href='localhost:3000'>Рекламодателям</a>
+                    <a href='http://localhost:3000'>Рекламодателям</a>
                 </div>
                 <div className='column col-xs-12 col-md-6 col-lg-3'>
-                    <a href='127.0.0.1:3000'>FAQ</a>
-                    <a href='#/'>Условия использования</a>
+                    <a href='http://127.0.0.1:3000'>FAQ</a>
+                    <a href='/#'>Условия использования</a>
                 </div>
                 <div className='col-xs-12 col-md-3 col-lg-3'>
 

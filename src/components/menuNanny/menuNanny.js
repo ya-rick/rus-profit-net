@@ -212,13 +212,13 @@ export default class MenuNanny extends Component {
                     </div>
                     <div className='col-xs-12 col-md-6 col-lg-4'>
                         <button className='combo-button' onClick={this.onResponsibilitiesChange}>
-                            Обязаности
+                            Обязанности
                         </button>
                         <MenuNannyItem listsData={responsibilitiesElements}/>
                     </div>
                 </div>
-                <div className='container center'>
-                    <button className='send-data-button'>
+                <div className='container center margin-top-15'>
+                    <button className='img-button'>
                         Подобрать анкеты
                     </button>
                 </div>

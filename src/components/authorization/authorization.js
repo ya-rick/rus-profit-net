@@ -58,7 +58,7 @@ export default class Authorization extends Component {
             data.description = res.data[0].description;
         }).then(() =>
             this.setLogin(data.error, data.description)
-        ).then(()=>console.log(data));
+        );
     }
 
 

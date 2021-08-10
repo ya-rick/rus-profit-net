@@ -1,4 +1,4 @@
-.card{
+.card {
     width: 100%;
     background: #F7FBFC;
     border-radius: 20px;
@@ -9,16 +9,16 @@
     flex-direction: row;
 }
 
-.card:hover{
+.card:hover {
     box-shadow: 4px 4px 10px #4C5E8B;
 }
 
-.avatar{
+.avatar {
     height: 240px;
     width: 240px;
 }
 
-.hand{
+.hand {
     margin-top: 30px;
     margin-left: 12px;
     height: 35px;
@@ -33,28 +33,37 @@
     fill: #97acda;
 }
 
-.header-card{
+.header-card {
     display: flex;
     justify-content: space-between;
     background: #F7FBFC;
 }
 
-.card-name{
+.card-name {
     display: flex;
     justify-content: space-around;
 }
 
-.name-text{
+.name-text-q {
+    font-family: 'Raleway', sans-serif;
+    font-size: 25px;
+    font-weight: 700;
     margin-right: 30px;
     text-align: left;
 }
 
-.start-content{
+.name-text-block {
+    font-weight: 600;
+    margin-right: 30px;
+    text-align: left;
+}
+
+.start-content {
     text-align: left;
     margin-top: 20px;
 }
 
-.text-options{
+.text-options {
     text-align: left;
     font-style: normal;
     font-weight: lighter;
@@ -67,14 +76,17 @@
     color: #000000;
 }
 
-.main-text{
+.main-text {
+    width: 100%;
+    justify-content: center;
+    align-items: center;
     text-align: left;
     font-style: normal;
     font-weight: lighter;
     font-size: 10px;
 }
 
-.border-block{
+.border-block-q {
     height: 146px;
     border: 1px solid #6F80A5;
     box-sizing: border-box;

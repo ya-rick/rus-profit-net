@@ -6,7 +6,7 @@ export default class Vacancies extends Component{
     render() {
         return(
             <div className='container vac-contain'>
-                <h1>Вакансии</h1>
+                <h1 className='vacancies'>Вакансии</h1>
                 <VacanciesCard/>
                 <VacanciesCard/>
                 <VacanciesCard/>

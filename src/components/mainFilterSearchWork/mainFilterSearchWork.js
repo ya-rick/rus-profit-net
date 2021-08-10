@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import './mainFilterSearchWork.css';
 import RangeSlider from "../rangeSlider";
 import Select from "../select";
-import MultiRangeSlider from "../multiRangeSlider";
 
 const testOptins = [
     {
@@ -38,13 +37,13 @@ export default class MainFilterSearchWork extends Component {
                 <div className='filter container'>
                     <div className='col-xs-12 col-md-4 col-lg-4'>
                         <div className='main-filter-search-subBlock'>
-                            <p className='bg-text'>Выберете страну</p>
+                            <p className='bg-long-text'>Выберете страну</p>
                             <Select>
                                 {testOptins}
                             </Select>
                         </div>
                         <div className='main-filter-search-subBlock'>
-                            <p className='bg-text'>Выберете город</p>
+                            <p className='bg-long-text'>Выберете город</p>
                             <Select>
                                 {testOptins}
                             </Select>
@@ -52,8 +51,8 @@ export default class MainFilterSearchWork extends Component {
                     </div>
                     <div className='col-xs-12 col-md-4 col-lg-4'>
                         <div className='main-filter-search-subBlock'>
-                            <p className='bg-text'>Кого вы ищите?</p>
-                            <Select onItemClickCallback={(value, text) => onChange(value)}>
+                            <p className='bg-long-text'>Кого вы ищите?</p>
+                            <Select onItemClickCallback={(value) => onChange(value)}>
                                 {[
                                     {value: 'nanny', text: 'Няня'},
                                     {value: 'doctor', text: 'Врач'}
@@ -73,7 +72,7 @@ export default class MainFilterSearchWork extends Component {
                         </div>
                     </div>
                     <div className='col-xs-12 col-md-4 col-lg-4'>
-                        <p className='bg-text'>Опыт работы</p>
+                        <p className='bg-long-text'>Опыт работы</p>
                         <div>
                             <RangeSlider min={0} max={10} value={this.state.experience}
                                          onChange={this.onChangeExperience}/>

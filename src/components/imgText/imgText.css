@@ -2,12 +2,12 @@
     position: relative;
     width: 100%;
     height: 91vh;
-    background: url("../../images/stock-photo-connection-technologies-for-business-mixed-media-mixed-media-558424228 1.png") no-repeat;
     display: flex;
     align-items: center;
-    background-size: 100% ;
     flex-direction: column-reverse;
     justify-content: flex-start;
+    background-size: cover;
+    background-position-x: center;
 }
 
 .buttons{

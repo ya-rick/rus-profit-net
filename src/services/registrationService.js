@@ -11,4 +11,12 @@ export default class RegistrationService {
 
         return await axios.post(this._apiBase, postParams);
     };
+
+    async recovery(email){
+        const postParams = new URLSearchParams();
+        postParams.set('type', 'recovery');
+        postParams.set('email',email);
+
+        return await axios.post(this._apiBase, postParams);
+    }
 };

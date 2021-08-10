@@ -1,11 +1,11 @@
 import React from "react";
-import Logo from '../../images/2021RusProfiNetFooterLogo.svg';
+import Logo from '../../images/logo_outcome_Artboard_6_1.png';
 import Login from '../../images/login-icon.svg';
 import Register from '../../images/register-icon.svg';
 import {useHistory} from 'react-router-dom';
-import './header.css';
+import './header2.css';
 
-const Header = ({onGetId}) => {
+const HeaderNew = ({onGetId}) => {
 
     const history = useHistory();
 
@@ -34,4 +34,4 @@ const Header = ({onGetId}) => {
     );
 };
 
-export default Header;
+export default HeaderNew;
