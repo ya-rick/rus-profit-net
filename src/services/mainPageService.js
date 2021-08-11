@@ -9,4 +9,11 @@ export default class MainPageService{
 
         return await axios.post(this._apiBase, postParams);
     };
+
+    async getErrorPage(){
+        const postParams = new URLSearchParams();
+        postParams.set('type', 'get_page_404');
+
+        return await axios.post(this._apiBase, postParams);
+    };
 }

@@ -17,9 +17,17 @@ const ImgText = () => {
         }));
         setLoaded(true);
     }
+
+    const myStyle = {
+        backgroundSize: 'recover',
+        backgroundPositionX: 'center',
+        width: '100%',
+        backgroundImage: `url(${data.image})`
+    }
+
     const history = useHistory();
     return (
-        <div className='img-text' style={{background: `url(${data.image})`}}>
+        <div className='img-text' style={myStyle}>
             <div className='col-xs-12 col-md-12 col-lg-6 main-page-img'>
                 <div className='group-button'>
                     <button className='img-button col-xs-5 col-md-5 col-lg-5'

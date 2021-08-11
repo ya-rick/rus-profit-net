@@ -15,6 +15,7 @@ import ImgText from "../imgText";
 import MenuNanny from "../menuNanny";
 import MainFilterSearchWork from "../mainFilterSearchWork";
 import HeaderNew from "../header2";
+import Error404 from "../error404";
 
 export default class MainPage extends Component {
 
@@ -100,6 +101,10 @@ export default class MainPage extends Component {
                             <HeaderNew onGetId={this.setIdModal}/>
                             <Vacancies/>
                             <Footer/>
+                        </Route>
+                        <Route path='/404'>
+                            <HeaderNew onGetId={this.setIdModal}/>
+                            <Error404/>
                         </Route>
                     </Switch>
                     <Modal active={modalActive} setActive={this.setModalActive}>
