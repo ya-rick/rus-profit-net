@@ -16,6 +16,9 @@ import MenuNanny from "../menuNanny";
 import MainFilterSearchWork from "../mainFilterSearchWork";
 import HeaderNew from "../header2";
 import Error404 from "../error404";
+import Register from "../register";
+import HeaderRegister from "../header-reg";
+import RegisterVacancies from "../registerVacancies";
 
 export default class MainPage extends Component {
 
@@ -105,6 +108,18 @@ export default class MainPage extends Component {
                         <Route path='/404'>
                             <HeaderNew onGetId={this.setIdModal}/>
                             <Error404/>
+                        </Route>
+                        <Route path='/register'>
+                            <Register/>
+                        </Route>
+                        <Route path='/registerVacancies'>
+                            <HeaderNew onGetId={this.setIdModal}/>
+                            <RegisterVacancies/>
+                            <Footer/>
+                        </Route>
+                        <Route path='/registerQuestionaries'>
+                            <HeaderNew onGetId={this.setIdModal}/>
+                            <Footer/>
                         </Route>
                     </Switch>
                     <Modal active={modalActive} setActive={this.setModalActive}>

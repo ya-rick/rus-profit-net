@@ -23,7 +23,7 @@ const HeaderNew = ({onGetId}) => {
                             <img className='button-icon' src={Login} alt='login-icon'/>
                             Авторизация
                         </button>
-                        <button className='header-button'>
+                        <button className='header-button' onClick={()=>history.push('/register')}>
                             <img className='button-icon-people' src={Register} alt='register-icon'/>
                             Регистрация
                         </button>
