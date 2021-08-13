@@ -18,12 +18,14 @@ import HeaderNew from "../header2";
 import Error404 from "../error404";
 import Register from "../register";
 import RegisterVacancies from "../registerVacancies";
+import RegisterQuestionaries from "../registerQuestionaries";
+import VerifyWithSms from "../verifyWithSms";
 
 export default class MainPage extends Component {
 
     state = {
-        modalActive: false,
-        idModal: null,
+        modalActive: true,
+        idModal: 3,
         filter: 'nanny'
     };
 
@@ -71,7 +73,9 @@ export default class MainPage extends Component {
         const modals = [
             <Authorization onGetID={this.setIdModal}/>,
             <ForgotPassword onGetID={this.setIdModal}/>,
-            <ThanksForm/>];
+            <ThanksForm/>,
+            <VerifyWithSms/>
+        ];
         return (
             <Router>
                 <div className='main-page'>
@@ -113,11 +117,12 @@ export default class MainPage extends Component {
                         </Route>
                         <Route path='/registerVacancies'>
                             <HeaderNew onGetId={this.setIdModal}/>
-                            <RegisterVacancies/>
+                            <RegisterVacancies onGetId={this.setIdModal}/>
                             <Footer/>
                         </Route>
                         <Route path='/registerQuestionaries'>
                             <HeaderNew onGetId={this.setIdModal}/>
+                            <RegisterQuestionaries onGetId={this.setIdModal}/>
                             <Footer/>
                         </Route>
                     </Switch>

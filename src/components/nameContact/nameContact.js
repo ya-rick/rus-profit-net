@@ -18,6 +18,7 @@ const testOptins = [
 ]
 
 export default class NameContact extends Component {
+
     render() {
         return (
             <>
