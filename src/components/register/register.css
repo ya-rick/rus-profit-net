@@ -38,7 +38,7 @@
     justify-content: space-around;
 }
 
-.img-button:hover{
+.img-reg-button:hover{
     background: #E9F0FF;
     border: 2px solid #6F80A5;
     box-sizing: border-box;

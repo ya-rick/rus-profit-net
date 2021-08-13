@@ -2,7 +2,6 @@ import React, {useState} from "react";
 import './register.css';
 import {useHistory} from 'react-router-dom';
 import MainPageService from "../../services/mainPageService";
-import Logo from "../../images/logo_outcome_Artboard_6_1.png";
 import HeaderRegister from "../header-reg";
 
 

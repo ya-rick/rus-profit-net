@@ -17,7 +17,6 @@ import MainFilterSearchWork from "../mainFilterSearchWork";
 import HeaderNew from "../header2";
 import Error404 from "../error404";
 import Register from "../register";
-import HeaderRegister from "../header-reg";
 import RegisterVacancies from "../registerVacancies";
 
 export default class MainPage extends Component {

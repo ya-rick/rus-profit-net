@@ -2,7 +2,6 @@ import React, {useState} from "react";
 import './error404.css';
 import {useHistory} from 'react-router-dom';
 import MainPageService from "../../services/mainPageService";
-import * as url from "url";
 
 
 const Error404 = () => {
