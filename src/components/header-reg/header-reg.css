@@ -1,0 +1,18 @@
+.header-reg{
+    background: transparent;
+    height: 63px;
+    z-index: 1000;
+}
+
+.header-container{
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+
+    padding: 10px 0;
+}
+
+.logo{
+    margin-left: 18px;
+    height: 43px;
+}

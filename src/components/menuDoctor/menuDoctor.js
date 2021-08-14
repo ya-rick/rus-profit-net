@@ -94,8 +94,8 @@ export default class MenuDoctor extends Component{
                         <MenuDoctorItem listsData={dirElement}/>
                     </div>
                 </div>
-                <div className='container center'>
-                    <button className='send-data-button'>
+                <div className='container center margin-top-bottom'>
+                    <button className='img-button'>
                         Подобрать анкеты
                     </button>
                 </div>

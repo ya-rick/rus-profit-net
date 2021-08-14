@@ -14,19 +14,29 @@ import Vacancies from "../vacancies/vacancies";
 import ImgText from "../imgText";
 import MenuNanny from "../menuNanny";
 import MainFilterSearchWork from "../mainFilterSearchWork";
+import HeaderNew from "../header2";
+import Error404 from "../error404";
+import Register from "../register";
+import RegisterVacancies from "../registerVacancies";
+import RegisterQuestionaries from "../registerQuestionaries";
+import VerifyWithSms from "../verifyWithSms";
 
 export default class MainPage extends Component {
 
     state = {
-        modalActive: false,
-        idModal: null,
+        modalActive: true,
+        idModal: 3,
         filter: 'nanny'
     };
 
     setIdModal = (id) => {
         const {modalActive} = this.state;
         if (modalActive) {
-            this.setState({idModal: id});
+            if(id===1000){
+                this.setModalActive(false);
+            }else{
+                this.setState({idModal: id});
+            }
         } else {
             this.setState({idModal: id});
             this.setModalActive();
@@ -49,9 +59,10 @@ export default class MainPage extends Component {
     }
 
     getElementFilter = (filter)=>{
-        if(filter === 'nanny'){
+        const {value} = filter;
+        if(value === 'nanny'){
             return (<MenuNanny/>);
-        }else{
+        }else if (value ==='doctor'){
             return (<MenuDoctor/>);
         }
     }
@@ -62,33 +73,56 @@ export default class MainPage extends Component {
         const modals = [
             <Authorization onGetID={this.setIdModal}/>,
             <ForgotPassword onGetID={this.setIdModal}/>,
-            <ThanksForm/>];
+            <ThanksForm/>,
+            <VerifyWithSms/>
+        ];
         return (
             <Router>
                 <div className='main-page'>
-                    <Header onGetId={this.setIdModal}/>
                     <Switch>
                         <Route exact path='/'>
+                            <Header onGetId={this.setIdModal}/>
                             <ImgText/>
                         </Route>
                         <Route path='/searchWorker'>
+                            <HeaderNew onGetId={this.setIdModal}/>
                             <ImgText/>
                             <MainFilterSearch onChange = {this.onChangeProfession}/>
                             {element}
                             <Footer/>
                         </Route>
                         <Route path='/searchWork'>
+                            <HeaderNew onGetId={this.setIdModal}/>
                             <ImgText/>
                             <MainFilterSearchWork onChange = {this.onChangeProfession}/>
                             {element}
                             <Footer/>
                         </Route>
                         <Route path='/questionaries'>
+                            <HeaderNew onGetId={this.setIdModal}/>
                             <Questionnaires/>
                             <Footer/>
                         </Route>
                         <Route path='/vacancies'>
+                            <HeaderNew onGetId={this.setIdModal}/>
                             <Vacancies/>
+                            <Footer/>
+                        </Route>
+                        <Route path='/404'>
+                            <HeaderNew onGetId={this.setIdModal}/>
+                            <Error404/>
+                        </Route>
+                        <Route path='/register'>
+                            <Register/>
+                        </Route>
+                        <Route path='/registerVacancies'>
+                            <HeaderNew onGetId={this.setIdModal}/>
+                            <RegisterVacancies onGetId={this.setIdModal}/>
+                            <Footer/>
+                        </Route>
+                        <Route path='/registerQuestionaries'>
+                            <HeaderNew onGetId={this.setIdModal}/>
+                            <RegisterQuestionaries onGetId={this.setIdModal}/>
                             <Footer/>
                         </Route>
                     </Switch>

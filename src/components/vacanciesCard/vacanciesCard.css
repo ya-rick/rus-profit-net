@@ -21,17 +21,19 @@
 .card-name{
     display: flex;
     justify-content: space-around;
+    align-items: center;
 }
 
 .name-text{
+    font-weight: 600;
     margin-right: 30px;
     text-align: left;
 }
 
 p.text-options{
     font-style: normal;
-    font-weight: normal;
-    font-size: 20px;
+    font-weight: 400;
+    font-size: 16px;
     line-height: 23px;
 
     color: #000000;
@@ -44,6 +46,10 @@ p.text-options{
 }
 
 .main-text{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    font-family: 'Raleway', sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 15px;
@@ -52,16 +58,20 @@ p.text-options{
 }
 
 .border-block{
+    height: 120px;
     border: 1px solid #6F80A5;
     box-sizing: border-box;
     border-radius: 15px;
-    padding: 20px 20px 0px 20px;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .text-job{
     text-align: left;
     font-style: normal;
-    font-weight: bold;
+    font-weight: 700;
     font-size: 25px;
     line-height: 30px;
 
@@ -75,5 +85,5 @@ p.text-options{
     line-height: 18px;
 
     color: #000000;
-    margin-top: -20px;
+    margin-top: -10px;
 }

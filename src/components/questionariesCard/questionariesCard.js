@@ -60,7 +60,7 @@ export default class QuestionariesCard extends Component {
                 <div className='col-xs-12 col-md-8 col-lg-9'>
                     <div className='header-card'>
                         <div className='card-name'>
-                            <p className='name-text'>
+                            <p className='name-text-q'>
                                 Анна, 34
                             </p>
                             <Like clazz={like} click={this.onLike}/>
@@ -72,8 +72,8 @@ export default class QuestionariesCard extends Component {
                         <p className='text-options'>Паспорт ЕС</p>
                         <p className='text-options'>10$ в час</p>
                     </div>
-                    <p className='name-text- start-content'>О себе</p>
-                    <div className='border-block'>
+                    <p className='name-text-block start-content'>О себе</p>
+                    <div className='border-block-q'>
                         <p className='main-text'>Добрый день,уважаемые родители! Я предлагаю свои услуги няни. 10 лет
                             работала в семьях в Лондоне с детьми возраста от 5 мес.до 8 лет. По моим рекомендациям вы
                             сможете увидеть,что я как правило, работаю в одной семье минимум 3 года. Добрый

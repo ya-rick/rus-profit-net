@@ -1,5 +1,5 @@
 import React from "react";
-import Logo from '../../images/logo_outcome_Artboard_6_1.png';
+import Logo from '../../images/2021RusProfiNetFooterLogo.svg';
 import Login from '../../images/login-icon.svg';
 import Register from '../../images/register-icon.svg';
 import {useHistory} from 'react-router-dom';
@@ -23,7 +23,7 @@ const Header = ({onGetId}) => {
                             <img className='button-icon' src={Login} alt='login-icon'/>
                             Авторизация
                         </button>
-                        <button className='header-button'>
+                        <button className='header-button' onClick={()=>history.push('/register')}>
                             <img className='button-icon-people' src={Register} alt='register-icon'/>
                             Регистрация
                         </button>

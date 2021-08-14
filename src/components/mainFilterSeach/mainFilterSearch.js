@@ -3,7 +3,7 @@ import React, {Component} from "react";
 import './mainFilterSearch.css';
 import MultiRangeSlider from "../multiRangeSlider";
 import RangeSlider from "../rangeSlider";
-import Select from '../select';
+import Select from "../select";
 
 const testOptins = [
     {
@@ -35,15 +35,14 @@ export default class MainFilterSearch extends Component {
     onChangeMultiRange = (value, index) => {
         const {minAge, maxAge} = this.state;
         if (index === 0) {
-            if(value[index]> maxAge){
-                this.setState({minAge: maxAge-1});
-            }else{
+            if (value[index] > maxAge) {
+                this.setState({minAge: maxAge - 1});
+            } else {
                 this.setState({minAge: value[index]});
             }
         } else {
-            if(value[index]<minAge)
-            {
-                this.setState({maxAge: minAge+1});
+            if (value[index] < minAge) {
+                this.setState({maxAge: minAge + 1});
             } else {
                 this.setState({maxAge: value[index]});
             }
@@ -53,15 +52,14 @@ export default class MainFilterSearch extends Component {
     onChangeMultiRangeFromText = (value, index) => {
         const {minAge, maxAge} = this.state;
         if (index === 0) {
-            if(value> maxAge){
-                this.setState({minAge: maxAge-1});
-            }else{
+            if (value > maxAge) {
+                this.setState({minAge: maxAge - 1});
+            } else {
                 this.setState({minAge: value});
             }
         } else {
-            if(value<minAge)
-            {
-                this.setState({maxAge: minAge+1});
+            if (value < minAge) {
+                this.setState({maxAge: minAge + 1});
             } else {
                 this.setState({maxAge: value});
             }
@@ -75,48 +73,41 @@ export default class MainFilterSearch extends Component {
                 <div className='filter container'>
                     <div className='col-xs-12 col-md-6 col-lg-3'>
                         <div className='main-filter-search-subBlock'>
-                            <Select 
-                                className='col-12 input'
-                                headerTitle={'Выберете страну'}
-                            >
+                            <p className='bg-long-text'>Выберите страну</p>
+                            <Select>
                                 {testOptins}
                             </Select>
                         </div>
                         <div className='main-filter-search-subBlock'>
-                            <Select 
-                                className='select-input'
-                                headerTitle={'Выберете город'}
-                            >
+                            <p className='bg-long-text'>Выберите город</p>
+                            <Select>
                                 {testOptins}
                             </Select>
                         </div>
                     </div>
                     <div className='col-xs-12 col-md-6 col-lg-3'>
                         <div className='main-filter-search-subBlock'>
-                            <Select 
-                                className='select-input'
-                                onItemClickCallback={(index, title)=>onChange(title)}
-                                headerTitle={'Кого вы ищите?'}
-                            >
+                            <p className='bg-long-text'>Кого вы ищите?</p>
+                            <Select onItemClickCallback={(value, text) => onChange(value)}>
                                 {[
-                                    {value: 'nyanya', text: 'Няня'},
-                                    {value: 'ne_nyanya', text: 'хз'}
+                                    {value: 'nanny', text: 'Няня'},
+                                    {value: 'doctor', text: 'Врач'}
                                 ]}
                             </Select>
                         </div>
                         <div className='main-filter-search-subBlock'>
                             <div className='group-input'>
-                                <Select 
-                                    headerTitle={'Предлагаемая заработная плата'}
-                                    leftHeaderItem={<input className='select-mini-input' type='text'/>}
-                                >
-                                    {testOptins}
-                                </Select>
+                                <input className='col-4 select-mini-input' type='text'/>
+                                <div className='select-mini-input-s'>
+                                    <Select>
+                                        {testOptins}
+                                    </Select>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div className='col-xs-12 col-md-6 col-lg-3'>
-                        <p className='bg-text'>Опыт работы</p>
+                        <p className='bg-long-text'>Опыт работы</p>
                         <div>
                             <RangeSlider min={0} max={10} value={this.state.experience}
                                          onChange={this.onChangeExperience}/>
@@ -136,9 +127,9 @@ export default class MainFilterSearch extends Component {
                         </div>
                     </div>
                     <div className='col-xs-12 col-md-6 col-lg-3'>
-                        <p className='bg-text'>Возраст</p>
+                        <p className='bg-long-text'>Возраст</p>
                         <div>
-                            <MultiRangeSlider min={18} max={60} minAge = {this.state.minAge} maxAge ={this.state.maxAge}
+                            <MultiRangeSlider min={18} max={60} minAge={this.state.minAge} maxAge={this.state.maxAge}
                                               onChange={this.onChangeMultiRange}/>
                             <div className='text-slider'>
                                 <p>до 18 лет</p>

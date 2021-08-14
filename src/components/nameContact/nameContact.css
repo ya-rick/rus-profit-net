@@ -1,0 +1,86 @@
+.input-reg{
+    width: 100%;
+    height: 40px;
+    border-radius: 15px;
+    background: #FFFFFF;
+    border: 2px solid #6f80a5;
+    box-sizing: border-box;
+    padding: 11px 20px;
+
+    font-family: 'Raleway', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 18px;
+    color: #000000;
+}
+
+.combo-button-reg{
+    margin-bottom: 20px;
+    margin-top: 35px;
+    width: 100%;
+    height: 75px;
+    background: #F7FBFC;
+    border: 0;
+    box-sizing: border-box;
+    border-radius: 15px;
+    padding: 18px;
+    display: flex;
+
+
+    justify-content: center;
+    align-items: center;
+
+    font-family: 'Raleway', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    text-align: center;
+    font-size: 17px;
+    line-height: 23px;
+
+    color: #000000;
+}
+
+.subtext{
+    font-family: 'Raleway', sans-serif;
+    margin-top: 10px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 18px;
+
+    color: #4C5E8B;
+}
+
+.bg-reg-text{
+    font-family: 'Raleway', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    text-align: left;
+    font-size: 17px;
+    line-height: 23px;
+
+    margin-bottom: 20px;
+    margin-top: 30px;
+
+    color: #000000;
+}
+
+.contacts{
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    margin: 50px 18px;
+}
+
+.subtext-new{
+    font-family: 'Raleway', sans-serif;
+    margin-top: 10px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 18px;
+    text-align: left;
+    margin-left: 18px;
+
+    color: #4C5E8B;
+}
