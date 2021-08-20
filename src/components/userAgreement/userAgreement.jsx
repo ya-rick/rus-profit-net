@@ -1,10 +1,15 @@
 import { politic, siteAgreement } from "./text";
 import './styles.css';
+
 import LinkedButton from "../../common/components/LinkedButton";
+import PageTitle from "../../common/components/PageTitle";
+import PageContentWrapper from "../../common/components/PageContentWrapper";
+import TwoLinkedButtonGroup from "../../common/components/TwoLinkedButtonGroup";
 
 export default function UserAgreement () {
-    return <div className={'container marginedByVertical'}>
-        <h1 className={'pageTitle'}>Условия использования сайта</h1>
+    return <PageContentWrapper>
+
+        <PageTitle>Условия использования сайта</PageTitle>
 
 
         <div className={'borderedTitle'}>Соглашение об использовании сайта</div>
@@ -15,12 +20,12 @@ export default function UserAgreement () {
 
         <div>{politic}</div>
 
-        <div className={'linked-button-group'}>
+        <TwoLinkedButtonGroup>
             <LinkedButton to={'/vacancies'}>Найти работника</LinkedButton>
             <LinkedButton to={'/questionnaires'}>Найти работу</LinkedButton>
-        </div>
+        </TwoLinkedButtonGroup>
 
 
-    </div>
+    </PageContentWrapper>
     
 }

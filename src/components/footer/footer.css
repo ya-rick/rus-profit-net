@@ -1,23 +1,12 @@
-.footer{
+.footer {
     width: 100%;
     background: #B9C3D8;
     min-height: 200px;
 
 }
 
-a{
-    font-style: normal;
-    font-weight: normal;
-    font-size: 16px;
-    line-height: 18px;
-    text-decoration: none;
-    color: #000000;
+.footer a {
     margin-top: 30px;
-}
-
-a:hover{
-    text-decoration: none;
-    color: #000000;
 }
 
 .big-logo{

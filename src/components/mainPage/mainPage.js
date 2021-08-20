@@ -21,6 +21,7 @@ import RegisterVacancies from "../registerVacancies";
 import RegisterQuestionaries from "../registerQuestionaries";
 import VerifyWithSms from "../verifyWithSms";
 import UserAgreement from "../userAgreement/userAgreement";
+import FAQ from "../FAQ/FAQ";
 
 export default class MainPage extends Component {
 
@@ -130,6 +131,11 @@ export default class MainPage extends Component {
                         <Route path='/userAgreement'>
                             <HeaderNew onGetId={this.setIdModal}/>
                             <UserAgreement/>
+                            <Footer/>
+                        </Route>
+                        <Route path='/faq'>
+                            <HeaderNew onGetId={this.setIdModal}/>
+                            <FAQ/>
                             <Footer/>
                         </Route>
                     </Switch>

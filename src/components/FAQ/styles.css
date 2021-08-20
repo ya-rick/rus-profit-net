@@ -1,0 +1,17 @@
+.dropdown-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.col {
+    width: 47%;
+}
+
+.col > * {
+    margin-bottom: 40px;
+}
+
+.col > *:last-child {
+    margin-bottom: 0;
+}

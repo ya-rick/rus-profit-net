@@ -1,11 +1,3 @@
-.pageTitle {
-
-    font-size: 40px;
-    line-height: 47px;
-    margin: 0;
-
-}
-
 .borderedTitle {
 
     font-size: 25px;
@@ -13,15 +5,10 @@
     border-radius: 20px;
     line-height: 29px;
     padding: 20px 40px;
+    margin: 70px 0;
 
     font-weight: 600;
 
-}
-
-.linked-button-group {
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
 }
 
 .marginedByVertical > * {

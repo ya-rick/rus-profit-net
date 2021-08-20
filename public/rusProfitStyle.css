@@ -12,6 +12,20 @@ html, body, .app, #root{
     line-height: 32px;
 }
 
+a {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 18px;
+    text-decoration: none;
+    color: #000000;
+}
+
+a:hover, a:active {
+    text-decoration: none;
+    color: #000000;
+}
+
 .button-group{
     display: flex;
 }
@@ -30,4 +44,16 @@ html, body, .app, #root{
     .container {
         width: 1580px;
     }
+}
+
+@media (max-width: 600px) {
+    
+    .linked-button-group {
+        flex-direction: column;
+    }
+
+    .linked-button-group > a {
+        text-align: center;
+    }
+
 }
