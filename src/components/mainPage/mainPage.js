@@ -20,6 +20,7 @@ import Register from "../register";
 import RegisterVacancies from "../registerVacancies";
 import RegisterQuestionaries from "../registerQuestionaries";
 import VerifyWithSms from "../verifyWithSms";
+import UserAgreement from "../userAgreement/userAgreement";
 
 export default class MainPage extends Component {
 
@@ -83,6 +84,7 @@ export default class MainPage extends Component {
                         <Route exact path='/'>
                             <Header onGetId={this.setIdModal}/>
                             <ImgText/>
+                            <Footer/>
                         </Route>
                         <Route path='/searchWorker'>
                             <HeaderNew onGetId={this.setIdModal}/>
@@ -123,6 +125,11 @@ export default class MainPage extends Component {
                         <Route path='/registerQuestionaries'>
                             <HeaderNew onGetId={this.setIdModal}/>
                             <RegisterQuestionaries onGetId={this.setIdModal}/>
+                            <Footer/>
+                        </Route>
+                        <Route path='/userAgreement'>
+                            <HeaderNew onGetId={this.setIdModal}/>
+                            <UserAgreement/>
                             <Footer/>
                         </Route>
                     </Switch>

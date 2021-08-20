@@ -1,0 +1,29 @@
+.pageTitle {
+
+    font-size: 40px;
+    line-height: 47px;
+    margin: 0;
+
+}
+
+.borderedTitle {
+
+    font-size: 25px;
+    border: 1px solid #6F80A5;
+    border-radius: 20px;
+    line-height: 29px;
+    padding: 20px 40px;
+
+}
+
+.marginedByVertical > * {
+
+    margin-top: 70px;
+
+}
+
+.marginedByVertical > *:last-child {
+
+    margin-bottom: 70px;
+
+}
