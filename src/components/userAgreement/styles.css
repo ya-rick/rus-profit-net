@@ -18,6 +18,12 @@
 
 }
 
+.linked-button-group {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
 .marginedByVertical > * {
 
     margin-top: 70px;
