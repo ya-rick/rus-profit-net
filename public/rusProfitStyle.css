@@ -7,9 +7,9 @@ html, body, .app, #root{
 * {
     font-family: 'Raleway', sans-serif;
     font-style: normal;
-    font-weight: 600;
-    font-size: 13px;
-    line-height: 23px;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 32px;
 }
 
 .button-group{
