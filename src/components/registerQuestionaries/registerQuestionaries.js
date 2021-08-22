@@ -14,9 +14,13 @@ export default class RegisterQuestionaries extends Component {
         agree: false
     }
 
-    Check = () => {
+    check = () => {
         const {agree} = this.state;
         this.setState({agree: !agree});
+    }
+
+    verify = ()=>{
+        this.props.onGetId(3);
     }
 
     render() {
@@ -30,7 +34,7 @@ export default class RegisterQuestionaries extends Component {
                 <div className='container'>
                     <h2 className='contacts col-12'>Общие данные</h2>
                 </div>
-                <GeneralInformation/>
+                <GeneralInformation photo={this.props.photo} img={this.props.img} getPhoto = {this.props.onGetId}/>
                 <div className='container'>
                     <h2 className='contacts col-12'>Какую работу вы ищете</h2>
                 </div>
@@ -43,7 +47,7 @@ export default class RegisterQuestionaries extends Component {
                 <TextArea/>
                 <div className='container'>
                     <div className='display-right'>
-                        <CheckBox isChecked={agree} check={this.Check}>
+                        <CheckBox isChecked={agree} check={this.check}>
                             <p className='agree'>
                                 Я согласен с условиями оказания услуг и с политикой <br/>
                                 конфиденциальности в отношении обработки персональных<br/>
@@ -53,7 +57,7 @@ export default class RegisterQuestionaries extends Component {
                     </div>
                 </div>
                 <div className='container center margin-top-15'>
-                    <button className='img-reg-button' >
+                    <button className='img-reg-button' onClick={()=> this.verify()} >
                         Сохранить вакансию
                     </button>
                 </div>

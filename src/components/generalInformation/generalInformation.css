@@ -73,5 +73,9 @@
     color: #000000;
 }
 
+.container-sub>label{
+    cursor: pointer;
+}
+
 
 

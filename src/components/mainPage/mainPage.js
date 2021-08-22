@@ -20,14 +20,23 @@ import Register from "../register";
 import RegisterVacancies from "../registerVacancies";
 import RegisterQuestionaries from "../registerQuestionaries";
 import VerifyWithSms from "../verifyWithSms";
+import RedImg from "../red-img";
+import HeaderAfterReg from "../headerAfterReg";
+import Vacancy from "../vacancy";
+import Questionnaire from "../questionnaire";
 
 export default class MainPage extends Component {
 
     state = {
-        modalActive: true,
-        idModal: 3,
-        filter: 'nanny'
+        modalActive: false,
+        idModal: null,
+        filter: 'nanny',
+        photo: null
     };
+
+    setPhoto = (photo)=>{
+        this.setState({photo});
+    }
 
     setIdModal = (id) => {
         const {modalActive} = this.state;
@@ -67,14 +76,32 @@ export default class MainPage extends Component {
         }
     }
 
+    choosePhoto = (e) => {
+        const reader = new FileReader();
+        const file = e.target.files[0];
+
+        reader.onloadend = () => {
+            this.setState({
+                photo: reader.result
+            });
+        };
+
+        if (file) {
+            reader.readAsDataURL(file);
+            this.setIdModal(4);
+        }
+    }
+
+
     render() {
-        const {modalActive, filter} = this.state;
+        const {modalActive, filter, photo} = this.state;
         const element = this.getElementFilter(filter);
         const modals = [
             <Authorization onGetID={this.setIdModal}/>,
             <ForgotPassword onGetID={this.setIdModal}/>,
             <ThanksForm/>,
-            <VerifyWithSms/>
+            <VerifyWithSms/>,
+            <RedImg image={this.state.photo} setPhoto={this.setPhoto}/>
         ];
         return (
             <Router>
@@ -122,7 +149,17 @@ export default class MainPage extends Component {
                         </Route>
                         <Route path='/registerQuestionaries'>
                             <HeaderNew onGetId={this.setIdModal}/>
-                            <RegisterQuestionaries onGetId={this.setIdModal}/>
+                            <RegisterQuestionaries photo={this.choosePhoto} img={this.state.photo} onGetId={this.setIdModal}/>
+                            <Footer/>
+                        </Route>
+                        <Route path='/vacancy'>
+                            <HeaderAfterReg/>
+                            <Vacancy/>
+                            <Footer/>
+                        </Route>
+                        <Route path='/questionnaire'>
+                            <HeaderAfterReg/>
+                            <Questionnaire/>
                             <Footer/>
                         </Route>
                     </Switch>

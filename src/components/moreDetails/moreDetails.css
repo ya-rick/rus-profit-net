@@ -1,0 +1,14 @@
+.margin-left-10{
+    margin-left: -15px;
+}
+
+.empty{
+    height: 60px;
+}
+
+.flex-end{
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: start;
+    align-items: center;
+}

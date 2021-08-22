@@ -1,0 +1,10 @@
+.modal-redact{
+    height: 350px;
+    width: 350px;
+}
+
+.red-display{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

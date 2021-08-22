@@ -18,7 +18,7 @@ body{
 }
 
 body * {
-    font-family: Railway;
+    font-family: 'Raleway', sans-serif;
 }
 
 .button-group{
@@ -32,6 +32,6 @@ body * {
 
 @media (min-width: 1200px) {
     .container {
-        width: 1580px;
+        width: 1320px;
     }
 }

@@ -1,0 +1,32 @@
+.header-button-after{
+    margin-left: 25px;
+    height: 40px;
+    width: 165px;
+    background: #F7FBFC;
+    border: 2px solid #6F80A5;
+    border-radius: 15px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-style: normal;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 20px;
+
+    color: #000000;
+}
+
+.header-button-after:hover{
+    background: #E9F0FF;
+    border: 2px solid #6F80A5;
+    box-sizing: border-box;
+    box-shadow: inset 0 6px 10px rgba(0, 0, 0, 0.8);
+}
+
+.button-icon-after{
+    width: 24px;
+    height: 22px;
+    margin-right: 10px;
+}
