@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from 'react-router-dom';
+
 import BigLogo from '../../images/2021RusProfiNetFooterLogo.svg';
 import './footer.css';
 
@@ -7,13 +9,13 @@ const Footer = () => {
         <div className='footer'>
             <div className='container wrap-box'>
                 <div className='column col-xs-12 col-md-6 col-lg-3'>
-                    <a href='/#'>+7 916 500 50 50</a>
-                    <a href='https://google.com'>Напишите нам</a>
-                    <a href='http://localhost:3000'>Рекламодателям</a>
+                    <Link href='/#'>+7 916 500 50 50</Link>
+                    <Link href='https://google.com'>Напишите нам</Link>
+                    <Link href='http://localhost:3000'>Рекламодателям</Link>
                 </div>
                 <div className='column col-xs-12 col-md-6 col-lg-3'>
-                    <a href='http://127.0.0.1:3000'>FAQ</a>
-                    <a href='/#'>Условия использования</a>
+                    <Link href='http://127.0.0.1:3000'>FAQ</Link>
+                    <Link to={'/userAgreement'}>Условия использования</Link>
                 </div>
                 <div className='col-xs-12 col-md-3 col-lg-3'>
 

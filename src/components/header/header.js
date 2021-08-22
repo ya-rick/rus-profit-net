@@ -4,12 +4,13 @@ import Login from '../../images/login-icon.svg';
 import Register from '../../images/register-icon.svg';
 import {useHistory} from 'react-router-dom';
 import './header.css';
+import { ModalVariants } from '../../common/consts';
 
 const Header = ({onGetId}) => {
 
     const history = useHistory();
 
-    const getFirstId = () => {
+    const openAuthModal = () => {
         onGetId(0);
     }
 
@@ -19,7 +20,7 @@ const Header = ({onGetId}) => {
                 <div className='header-container'>
                     <img className='logo' onClick={() => history.push('/')} src={Logo} alt='logo'/>
                     <div className='button-group'>
-                        <button className='header-button' onClick={getFirstId}>
+                        <button className='header-button' onClick={openAuthModal}>
                             <img className='button-icon' src={Login} alt='login-icon'/>
                             Авторизация
                         </button>

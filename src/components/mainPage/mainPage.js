@@ -1,6 +1,5 @@
-import React, {Component} from "react";
+import {Component, createContext} from "react";
 import './mainPage.css';
-import Header from "../header";
 import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import Footer from "../footer";
 import Questionnaires from "../questionnaires";
@@ -24,43 +23,81 @@ import RedImg from "../red-img";
 import HeaderAfterReg from "../headerAfterReg";
 import Vacancy from "../vacancy";
 import Questionnaire from "../questionnaire";
+import UserAgreement from "../userAgreement/userAgreement";
+import QuestionModalContent from "../FAQ/QuestionModalContent";
+import FAQ from "../FAQ/FAQ";
+import { ModalVariants } from '../../common/consts';
+
+const modals = {
+    [ModalVariants.Authorization]: Authorization,
+    [ModalVariants.ForgotPassword]: ForgotPassword,
+    [ModalVariants.VerifyWithSms]: VerifyWithSms,
+    [ModalVariants.ThanksForm]: ThanksForm,
+    [ModalVariants.FAQ]: QuestionModalContent,
+    [ModalVariants.RedImg]: RedImg
+};
+
+export const ModalContext = createContext();
 
 export default class MainPage extends Component {
 
+    constructor() {
+        super();
+
+        this.setCurrentModalName = this.setCurrentModalName.bind(this);
+        this.openAuthModal = this.openAuthModal.bind(this);
+        this.openForgotPasswordModal = this.openForgotPasswordModal.bind(this);
+        this.openVerifyWithSmsModal = this.openVerifyWithSmsModal.bind(this);
+        this.openThanksFormModal = this.openThanksFormModal.bind(this);
+        this.openFAQModal = this.openFAQModal.bind(this);
+        this.openRedImgModal = this.openRedImgModal.bind(this);
+        this.setPhoto = this.setPhoto.bind(this);
+    }
+
     state = {
-        modalActive: false,
-        idModal: null,
+        currentModalName: null,
         filter: 'nanny',
         photo: null
     };
 
-    setPhoto = (photo)=>{
+    setPhoto = (photo) => {
         this.setState({photo});
     }
 
-    setIdModal = (id) => {
-        const {modalActive} = this.state;
-        if (modalActive) {
-            if(id===1000){
-                this.setModalActive(false);
-            }else{
-                this.setState({idModal: id});
-            }
+    get currentModalExists() {
+        return typeof ModalVariants[this.state.currentModalName] === 'string';
+    }
+
+    setCurrentModalName = (modalName) => {
+        if (!modalName) {
+            this.setState({ currentModalName: null });
         } else {
-            this.setState({idModal: id});
-            this.setModalActive();
+            this.setState({ currentModalName: modalName });
         }
     }
 
+    openAuthModal() {
+        this.setCurrentModalName(ModalVariants.Authorization);
+    }
 
-    setModalActive = () => {
-        const {modalActive} = this.state;
-        this.setState({modalActive: !modalActive});
-    };
+    openForgotPasswordModal() {
+        this.setCurrentModalName(ModalVariants.ForgotPassword);
+    }
 
-    getChildren = (list) => {
-        const {idModal} = this.state;
-        return list[idModal];
+    openVerifyWithSmsModal() {
+        this.setCurrentModalName(ModalVariants.VerifyWithSms);
+    }
+
+    openThanksFormModal() {
+        this.setCurrentModalName(ModalVariants.ThanksForm);
+    }
+
+    openFAQModal() {
+        this.setCurrentModalName(ModalVariants.FAQ);
+    }
+
+    openRedImgModal() {
+        this.setCurrentModalName(ModalVariants.RedImg);
     }
 
     onChangeProfession = (option) =>{
@@ -75,7 +112,7 @@ export default class MainPage extends Component {
             return (<MenuDoctor/>);
         }
     }
-
+    
     choosePhoto = (e) => {
         const reader = new FileReader();
         const file = e.target.files[0];
@@ -92,82 +129,104 @@ export default class MainPage extends Component {
         }
     }
 
+    generateModalContextValue() {
+        return {
+            setCurrentModalName: this.setCurrentModalName,
+            openAuthModal: this.openAuthModal,
+            openForgotPasswordModal: this.openForgotPasswordModal,
+            openVerifyWithSmsModal: this.openVerifyWithSmsModal,
+            openThanksFormModal: this.openThanksFormModal,
+            openFAQModal: this.openFAQModal,
+            openRedImgModal: this.openRedImgModal
+        }
+    }
 
     render() {
-        const {modalActive, filter, photo} = this.state;
+        const {filter} = this.state;
         const element = this.getElementFilter(filter);
-        const modals = [
-            <Authorization onGetID={this.setIdModal}/>,
-            <ForgotPassword onGetID={this.setIdModal}/>,
-            <ThanksForm/>,
-            <VerifyWithSms/>,
-            <RedImg image={this.state.photo} setPhoto={this.setPhoto}/>
-        ];
+        
         return (
-            <Router>
-                <div className='main-page'>
-                    <Switch>
-                        <Route exact path='/'>
-                            <Header onGetId={this.setIdModal}/>
-                            <ImgText/>
-                        </Route>
-                        <Route path='/searchWorker'>
-                            <HeaderNew onGetId={this.setIdModal}/>
-                            <ImgText/>
-                            <MainFilterSearch onChange = {this.onChangeProfession}/>
-                            {element}
-                            <Footer/>
-                        </Route>
-                        <Route path='/searchWork'>
-                            <HeaderNew onGetId={this.setIdModal}/>
-                            <ImgText/>
-                            <MainFilterSearchWork onChange = {this.onChangeProfession}/>
-                            {element}
-                            <Footer/>
-                        </Route>
-                        <Route path='/questionaries'>
-                            <HeaderNew onGetId={this.setIdModal}/>
-                            <Questionnaires/>
-                            <Footer/>
-                        </Route>
-                        <Route path='/vacancies'>
-                            <HeaderNew onGetId={this.setIdModal}/>
-                            <Vacancies/>
-                            <Footer/>
-                        </Route>
-                        <Route path='/404'>
-                            <HeaderNew onGetId={this.setIdModal}/>
-                            <Error404/>
-                        </Route>
-                        <Route path='/register'>
-                            <Register/>
-                        </Route>
-                        <Route path='/registerVacancies'>
-                            <HeaderNew onGetId={this.setIdModal}/>
-                            <RegisterVacancies onGetId={this.setIdModal}/>
-                            <Footer/>
-                        </Route>
-                        <Route path='/registerQuestionaries'>
-                            <HeaderNew onGetId={this.setIdModal}/>
-                            <RegisterQuestionaries photo={this.choosePhoto} img={this.state.photo} onGetId={this.setIdModal}/>
-                            <Footer/>
-                        </Route>
-                        <Route path='/vacancy'>
-                            <HeaderAfterReg/>
-                            <Vacancy/>
-                            <Footer/>
-                        </Route>
-                        <Route path='/questionnaire'>
-                            <HeaderAfterReg/>
-                            <Questionnaire/>
-                            <Footer/>
-                        </Route>
-                    </Switch>
-                    <Modal active={modalActive} setActive={this.setModalActive}>
-                        {this.getChildren(modals)}
-                    </Modal>
-                </div>
-            </Router>
+            <ModalContext.Provider value={this.generateModalContextValue()}>
+                <Router>
+                    <div className='main-page'>
+                        <Switch>
+                            <Route exact path='/'>
+                                <HeaderNew/>
+                                <ImgText/>
+                                <Footer/>
+                            </Route>
+                            <Route path='/searchWorker'>
+                                <HeaderNew/>
+                                <ImgText/>
+                                <MainFilterSearch onChange = {this.onChangeProfession}/>
+                                {element}
+                                <Footer/>
+                            </Route>
+                            <Route path='/searchWork'>
+                                <HeaderNew/>
+                                <ImgText/>
+                                <MainFilterSearchWork onChange = {this.onChangeProfession}/>
+                                {element}
+                                <Footer/>
+                            </Route>
+                            <Route path='/questionaries'>
+                                <HeaderNew/>
+                                <Questionnaires/>
+                                <Footer/>
+                            </Route>
+                            <Route path='/vacancies'>
+                                <HeaderNew/>
+                                <Vacancies/>
+                                <Footer/>
+                            </Route>
+                            <Route path='/404'>
+                                <HeaderNew/>
+                                <Error404/>
+                            </Route>
+                            <Route path='/register'>
+                                <Register/>
+                            </Route>
+                            <Route path='/registerVacancies'>
+                                <HeaderNew/>
+                                <RegisterVacancies/>
+                                <Footer/>
+                            </Route>
+                            <Route path='/registerQuestionaries'>
+                                <HeaderNew/>
+                                <RegisterQuestionaries/>
+                                <Footer/>
+                            </Route>
+                            <Route path='/userAgreement'>
+                                <HeaderNew/>
+                                <UserAgreement/>
+                                <Footer/>
+                            </Route>
+                            <Route path='/faq'>
+                                <HeaderNew/>
+                                <FAQ/>
+                                <Footer/>
+                            </Route>
+                            <Route path='/vacancy'>
+                                <HeaderAfterReg/>
+                                <Vacancy/>
+                                <Footer/>
+                            </Route>
+                            <Route path='/questionnaire'>
+                                <HeaderAfterReg/>
+                                <Questionnaire/>
+                                <Footer/>
+                            </Route>
+                        </Switch>
+                        {this.currentModalExists && <Modal
+                            closeModal={() => this.setCurrentModalName(null)}
+                            ModalContent={modals[this.state.currentModalName]}
+                            payload={{
+                                photo: this.state.photo,
+                                setPhoto: this.setPhoto
+                            }}/>}
+                    </div>
+                </Router>
+            </ModalContext.Provider>
         );
     }
 };
