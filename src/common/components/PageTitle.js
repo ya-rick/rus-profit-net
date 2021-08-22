@@ -6,3 +6,4 @@ export default styled.h1`
     margin: 0;
     margin-bottom: 70px;
 `;
+    

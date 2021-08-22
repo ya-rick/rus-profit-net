@@ -1,6 +1,9 @@
 import React, {Component} from "react";
 import './authorization.css';
 import registrationService from '../../services/registrationService';
+import { ModalButtonWapper, ModalContent, ModalLink, ModalSubtitle, ModalTitle } from "../../common/components/ModalStyles";
+import CommonButton from "../../common/components/CommonButton";
+import Input from "../../common/components/Input";
 
 export default class Authorization extends Component {
 
@@ -66,29 +69,31 @@ export default class Authorization extends Component {
     render() {
         const exception = this.onException();
         return (
-            <div className='modal-children'>
-                <div className='center margin-bottom'>
-                    <p>Вход на сайт</p>
-                </div>
-                <div>
-                    <p className='name-input'>E-mail</p>
-                    <input className='input-author' onChange={this.onLoginChange} type='text'/>
-                    {exception}
-                </div>
-                <div>
-                    <p className='name-input'>Пароль</p>
-                    <input className='input-author' onChange={this.onPasswordChange} type='password'/>
-                    {exception}
-                </div>
-                <div className='margin-bottom'>
-                    <button className='a-style' onClick={this.onClickForgot}>Забыли логин или пароль?</button>
-                </div>
-                <div className='center'>
-                    <button className='button-log' onClick={this.onSubmit}>
-                        Войти
-                    </button>
-                </div>
-            </div>
+            <>
+                <ModalTitle>Вход на сайт</ModalTitle>
+
+                <ModalContent>
+
+                    <ModalSubtitle>E-mail</ModalSubtitle>
+                    <Input
+                        placeholder={'maria@mail.ru'}
+                        onChange={this.onLoginChange}
+                    />
+
+                    <ModalSubtitle>Пароль</ModalSubtitle>
+                    <Input
+                        type={'password'}
+                        onChange={this.onPasswordChange}
+                    />
+
+                    <ModalLink onClick-={this.onClickForgot}>Забыли логин или пароль?</ModalLink>
+
+                </ModalContent>
+
+                <ModalButtonWapper>
+                    <CommonButton onClick={this.onSubmit}>Войти</CommonButton>
+                </ModalButtonWapper>
+            </>
         )
     }
 }

@@ -1,6 +1,9 @@
 import React, {Component} from "react";
 import './forgot-password.css';
 import registrationService from "../../services/registrationService";
+import { ModalButtonWapper, ModalContent, ModalSubtitle, ModalTitle } from "../../common/components/ModalStyles";
+import Input from "../../common/components/Input";
+import CommonButton from "../../common/components/CommonButton";
 
 export default class ForgotPassword extends Component {
     state = {
@@ -56,21 +59,25 @@ export default class ForgotPassword extends Component {
         this.onClickForgot();
         const exception = this.onException();
         return (
-            <div className='modal-children'>
-                <div className='center margin-bottom'>
-                    <p>Забыли логин или пароль?</p>
-                </div>
-                <div>
-                    <p className='name-input'>Введите ваш e-mail</p>
-                    <input className='input-author' onChange={this.onChange} type='text'/>
-                    {exception}
-                </div>
-                <div className='center'>
-                    <button className='button-log' onClick={this.onSubmit}>
-                        Отправить
-                    </button>
-                </div>
-            </div>
+            <>
+            
+                <ModalTitle>Забыли логин или пароль?</ModalTitle>
+
+                <ModalContent>
+
+                    <ModalSubtitle>Введите ваш e-mail</ModalSubtitle>
+                    <Input
+                        placeholder={'maria@mail.ru'}
+                        onChange={this.onChange}
+                    />
+
+                </ModalContent>
+
+                <ModalButtonWapper>
+                    <CommonButton onClick={this.onSubmit}>Отправить</CommonButton>
+                </ModalButtonWapper>
+
+            </>
         )
     }
 }
