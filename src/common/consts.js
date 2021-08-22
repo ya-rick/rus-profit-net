@@ -4,3 +4,11 @@ export const defaultStyles = {
     fontSize: '13px',
     backgroundColor: '#E5E5E5'
 }
+
+export const ModalVariants = {
+    Authorization: 'Authorization',
+    ForgotPassword: 'ForgotPassword',
+    ThanksForm: 'ThanksForm',
+    VerifyWithSms: 'VerifyWithSms',
+    FAQ: 'FAQ'
+}

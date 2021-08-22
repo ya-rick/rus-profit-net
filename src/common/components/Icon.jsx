@@ -14,4 +14,5 @@ const Wrapper = styled.div`
     align-items: center;
     width: 40px;
     height: 40px;
+    cursor: pointer;
 `;

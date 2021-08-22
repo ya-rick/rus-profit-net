@@ -1,19 +1,25 @@
 import React from "react";
-import Exit from '../../images/modal-exit.svg';
+import Background from "../../common/components/Background";
+import Icon from "../../common/components/Icon";
+import { ModalCloseImgWrapper, ModalContainer, ModalLayout } from "../../common/components/ModalStyles";
 import './modal.css';
 
-const Modal = ({active, setActive, children})=>{
+const Modal = ({closeModal, ModalContent})=> {
+    let backgroundRef = null;
+
     return(
-        <div className={active ?  'modal active' : 'modal'}>
-            <div className={active ?  'modal-content active' : 'modal-content'} onClick={e => e.stopImmediatePropagation}>
-                <div className='modal-exit'>
-                    <button className='modal-button' onClick={()=>setActive(false)}>
-                        <img className='modal-button-img' src={Exit} alt='exit'/>
-                    </button>
-                </div>
-                {children}
-            </div>
-        </div>
+        <Background
+            ref={el => backgroundRef = el}
+            onClick={e => e.target === backgroundRef && closeModal()}
+        >
+            <ModalContainer>
+                <ModalLayout>
+                    <ModalCloseImgWrapper onClick={closeModal}><Icon iconName={'exit'}/></ModalCloseImgWrapper>
+                    
+                    <ModalContent closeModal={closeModal}/>
+                </ModalLayout>
+            </ModalContainer>
+        </Background>
     );
 };
 
