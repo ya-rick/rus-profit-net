@@ -14,7 +14,9 @@ const Modal = ({closeModal, ModalContent})=> {
         >
             <ModalContainer>
                 <ModalLayout>
-                    <ModalCloseImgWrapper onClick={closeModal}><Icon iconName={'exit'}/></ModalCloseImgWrapper>
+                    <ModalCloseImgWrapper onClick={closeModal}>
+                        <Icon iconName={'exit'}/>
+                    </ModalCloseImgWrapper>
                     
                     <ModalContent closeModal={closeModal}/>
                 </ModalLayout>

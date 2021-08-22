@@ -4,7 +4,7 @@ import Login from '../../images/login-icon.svg';
 import Register from '../../images/register-icon.svg';
 import {useHistory} from 'react-router-dom';
 import './header2.css';
-import { ModalContext } from "../mainPage/mainPage";
+import { ModalContext } from "../mainPage/contexts";
 
 const HeaderNew = () => {
 

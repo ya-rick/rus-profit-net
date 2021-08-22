@@ -4,6 +4,7 @@ import './mainFilterSearch.css';
 import MultiRangeSlider from "../multiRangeSlider";
 import RangeSlider from "../rangeSlider";
 import Select from "../select";
+import Input from "../../common/components/Input";
 
 const testOptins = [
     {
@@ -97,7 +98,7 @@ export default class MainFilterSearch extends Component {
                         </div>
                         <div className='main-filter-search-subBlock'>
                             <div className='group-input'>
-                                <input className='col-4 select-mini-input' type='text'/>
+                                <Input/>
                                 <div className='select-mini-input-s'>
                                     <Select>
                                         {testOptins}

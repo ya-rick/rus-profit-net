@@ -10,5 +10,6 @@ export const ModalVariants = {
     ForgotPassword: 'ForgotPassword',
     ThanksForm: 'ThanksForm',
     VerifyWithSms: 'VerifyWithSms',
-    FAQ: 'FAQ'
+    FAQ: 'FAQ',
+    RedImg: 'RedImg'
 }

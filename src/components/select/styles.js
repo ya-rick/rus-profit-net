@@ -24,19 +24,18 @@ export const SelectWrapper = styled.div`
     border-radius: 15px;
     background: #FFFFFF;
     border: 2px solid #6F80A5;
-    box-sizing: border-box;
     
     cursor: pointer;
   `;
 
   export const SelectTitle = styled.div`
-    font-size: 20px;
-    line-height: 23px;
     margin-bottom: 30px;
   `;
 
   export const SelectedItem = styled.div`
     height: 18px;
+    font-size: 13px;
+    line-height: 23px;
   `;
 
   export const SelectDropdownList = styled.ul`
@@ -60,10 +59,14 @@ export const SelectWrapper = styled.div`
   export const SelectDropdownItem = styled.li`
     padding: 11px 16px 11px 20px;
     list-style: none;
+    font-size: 13px;
+    line-height: 23px;
   `;
 
   export const ArrowWrapper = styled.span`
-    display: inline-block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 16px;
     height: 15px;
 

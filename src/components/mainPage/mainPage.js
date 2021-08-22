@@ -27,6 +27,7 @@ import UserAgreement from "../userAgreement/userAgreement";
 import QuestionModalContent from "../FAQ/QuestionModalContent";
 import FAQ from "../FAQ/FAQ";
 import { ModalVariants } from '../../common/consts';
+import { UserContext, ModalContext } from "./contexts";
 
 const modals = {
     [ModalVariants.Authorization]: Authorization,
@@ -36,8 +37,6 @@ const modals = {
     [ModalVariants.FAQ]: QuestionModalContent,
     [ModalVariants.RedImg]: RedImg
 };
-
-export const ModalContext = createContext();
 
 export default class MainPage extends Component {
 
@@ -57,8 +56,15 @@ export default class MainPage extends Component {
     state = {
         currentModalName: null,
         filter: 'nanny',
-        photo: null
+        photo: null,
+        user: {
+            id: null
+        }
     };
+
+    get isLoggedIn() {
+        return this.state.user.id !== null;
+    }
 
     setPhoto = (photo) => {
         this.setState({photo});
@@ -141,91 +147,98 @@ export default class MainPage extends Component {
         }
     }
 
+    
+
     render() {
         const {filter} = this.state;
         const element = this.getElementFilter(filter);
-        
+
         return (
             <ModalContext.Provider value={this.generateModalContextValue()}>
-                <Router>
-                    <div className='main-page'>
-                        <Switch>
-                            <Route exact path='/'>
-                                <HeaderNew/>
-                                <ImgText/>
-                                <Footer/>
-                            </Route>
-                            <Route path='/searchWorker'>
-                                <HeaderNew/>
-                                <ImgText/>
-                                <MainFilterSearch onChange = {this.onChangeProfession}/>
-                                {element}
-                                <Footer/>
-                            </Route>
-                            <Route path='/searchWork'>
-                                <HeaderNew/>
-                                <ImgText/>
-                                <MainFilterSearchWork onChange = {this.onChangeProfession}/>
-                                {element}
-                                <Footer/>
-                            </Route>
-                            <Route path='/questionaries'>
-                                <HeaderNew/>
-                                <Questionnaires/>
-                                <Footer/>
-                            </Route>
-                            <Route path='/vacancies'>
-                                <HeaderNew/>
-                                <Vacancies/>
-                                <Footer/>
-                            </Route>
-                            <Route path='/404'>
-                                <HeaderNew/>
-                                <Error404/>
-                            </Route>
-                            <Route path='/register'>
-                                <Register/>
-                            </Route>
-                            <Route path='/registerVacancies'>
-                                <HeaderNew/>
-                                <RegisterVacancies/>
-                                <Footer/>
-                            </Route>
-                            <Route path='/registerQuestionaries'>
-                                <HeaderNew/>
-                                <RegisterQuestionaries/>
-                                <Footer/>
-                            </Route>
-                            <Route path='/userAgreement'>
-                                <HeaderNew/>
-                                <UserAgreement/>
-                                <Footer/>
-                            </Route>
-                            <Route path='/faq'>
-                                <HeaderNew/>
-                                <FAQ/>
-                                <Footer/>
-                            </Route>
-                            <Route path='/vacancy'>
-                                <HeaderAfterReg/>
-                                <Vacancy/>
-                                <Footer/>
-                            </Route>
-                            <Route path='/questionnaire'>
-                                <HeaderAfterReg/>
-                                <Questionnaire/>
-                                <Footer/>
-                            </Route>
-                        </Switch>
-                        {this.currentModalExists && <Modal
-                            closeModal={() => this.setCurrentModalName(null)}
-                            ModalContent={modals[this.state.currentModalName]}
-                            payload={{
-                                photo: this.state.photo,
-                                setPhoto: this.setPhoto
-                            }}/>}
-                    </div>
-                </Router>
+                <UserContext.Provider value={{
+                    isLoggedIn: this.isLoggedIn,
+                    setUserId: (id) => this.setState({ user: { id } })
+                }}>
+                    <Router>
+                        <div className='main-page'>
+                            <Switch>
+                                <Route exact path='/'>
+                                    <HeaderNew/>
+                                    <ImgText/>
+                                    <Footer/>
+                                </Route>
+                                <Route path='/searchWorker'>
+                                    <HeaderNew/>
+                                    <ImgText/>
+                                    <MainFilterSearch onChange = {this.onChangeProfession}/>
+                                    {element}
+                                    <Footer/>
+                                </Route>
+                                <Route path='/searchWork'>
+                                    <HeaderNew/>
+                                    <ImgText/>
+                                    <MainFilterSearchWork onChange = {this.onChangeProfession}/>
+                                    {element}
+                                    <Footer/>
+                                </Route>
+                                <Route path='/questionaries'>
+                                    <HeaderNew/>
+                                    <Questionnaires/>
+                                    <Footer/>
+                                </Route>
+                                <Route path='/vacancies'>
+                                    <HeaderNew/>
+                                    <Vacancies/>
+                                    <Footer/>
+                                </Route>
+                                <Route path='/404'>
+                                    <HeaderNew/>
+                                    <Error404/>
+                                </Route>
+                                <Route path='/register'>
+                                    <Register/>
+                                </Route>
+                                <Route path='/registerVacancies'>
+                                    <HeaderNew/>
+                                    <RegisterVacancies/>
+                                    <Footer/>
+                                </Route>
+                                <Route path='/registerQuestionaries'>
+                                    <HeaderNew/>
+                                    <RegisterQuestionaries/>
+                                    <Footer/>
+                                </Route>
+                                <Route path='/userAgreement'>
+                                    <HeaderNew/>
+                                    <UserAgreement/>
+                                    <Footer/>
+                                </Route>
+                                <Route path='/faq'>
+                                    <HeaderNew/>
+                                    <FAQ/>
+                                    <Footer/>
+                                </Route>
+                                <Route path='/vacancy'>
+                                    <HeaderAfterReg/>
+                                    <Vacancy/>
+                                    <Footer/>
+                                </Route>
+                                <Route path='/questionnaire'>
+                                    <HeaderAfterReg/>
+                                    <Questionnaire/>
+                                    <Footer/>
+                                </Route>
+                            </Switch>
+                            {this.currentModalExists && <Modal
+                                closeModal={() => this.setCurrentModalName(null)}
+                                ModalContent={modals[this.state.currentModalName]}
+                                payload={{
+                                    photo: this.state.photo,
+                                    setPhoto: this.setPhoto
+                                }}/>}
+                        </div>
+                    </Router>
+                </UserContext.Provider>
             </ModalContext.Provider>
         );
     }

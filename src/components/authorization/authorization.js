@@ -4,13 +4,15 @@ import registrationService from '../../services/registrationService';
 import { ModalButtonWapper, ModalContent, ModalLink, ModalSubtitle, ModalTitle } from "../../common/components/ModalStyles";
 import CommonButton from "../../common/components/CommonButton";
 import Input from "../../common/components/Input";
+import ErrorBlock from "../../common/components/ErrorBlock";
+import { UserContext } from "../mainPage/contexts";
 
-export default class Authorization extends Component {
+class Authorization extends Component {
 
     state = {
         login: '',
         password: '',
-        exception: true,
+        exception: false,
         description: ''
     };
 
@@ -27,47 +29,31 @@ export default class Authorization extends Component {
         this.setState({password: e.target.value});
     }
 
-    onException = () => {
-        const {exception, description} = this.state;
-        if (exception) {
-            return (
-                <p className='exception-message'>{description}</p>
-            );
-        }else {
-            return (
-                <></>
-            );
-        }
-    };
-
-    setLogin = (error, description) =>{
+    setLogin = (error, description, userID) =>{
         if(error){
             this.setState({exception:error, description: description});
         }else{
-            const {onGetID} = this.props;
-            onGetID(1000);
+            this.context.setUserId(userID);
+            this.props.closeModal();
         }
     }
 
     onSubmit = () => {
         const {login, password} = this.state;
         const authorization = new  registrationService();
-        const data = {
-            error: false,
-            description: ''
-        }
-        authorization.login(login,password).then((res)=>{
-            data.error = res.data[0].error;
-            data.description = res.data[0].description;
-        }).then(() =>
-            this.setLogin(data.error, data.description)
-        );
+
+        authorization.login(login,password).then((res)=> ({
+            error: res.data[0].error === true ? true : false,
+            description: res.data[0].description,
+            userID: res.data[0].id
+        })).then(({ error, description, userID }) => {
+            this.setLogin(error, description, userID);
+        });
     }
 
 
 
     render() {
-        const exception = this.onException();
         return (
             <>
                 <ModalTitle>Вход на сайт</ModalTitle>
@@ -79,12 +65,14 @@ export default class Authorization extends Component {
                         placeholder={'maria@mail.ru'}
                         onChange={this.onLoginChange}
                     />
+                    {this.state.exception && <ErrorBlock>{this.state.description}</ErrorBlock>}
 
                     <ModalSubtitle>Пароль</ModalSubtitle>
                     <Input
                         type={'password'}
                         onChange={this.onPasswordChange}
                     />
+                    {this.state.exception && <ErrorBlock>{this.state.description}</ErrorBlock>}
 
                     <ModalLink onClick-={this.onClickForgot}>Забыли логин или пароль?</ModalLink>
 
@@ -97,3 +85,7 @@ export default class Authorization extends Component {
         )
     }
 }
+
+Authorization.contextType = UserContext;
+
+export default Authorization;

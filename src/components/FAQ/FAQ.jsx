@@ -6,7 +6,7 @@ import LinkedButton from "../../common/components/LinkedButton";
 import PageContentWrapper from "../../common/components/PageContentWrapper";
 import PageTitle from "../../common/components/PageTitle";
 import TwoLinkedButtonGroup from "../../common/components/TwoLinkedButtonGroup";
-import { ModalContext } from '../mainPage/mainPage';
+import { ModalContext } from '../mainPage/contexts';
 import { Col, DropdownContainer } from "./styles";
 
 export default function FAQ () {

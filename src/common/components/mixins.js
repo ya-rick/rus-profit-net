@@ -25,12 +25,4 @@ export const inputMixins = css`
     ::placeholder {
         color: #4C5E8B;
     }
-
-    ::after {
-        ${props => props.errorMessage && `content: ${props.errorMessage}`};
-        margin-top: 15px;
-        color: #CC363B;
-        font-size: 15px;
-        line-height: 17,61px;
-    }
 `;
