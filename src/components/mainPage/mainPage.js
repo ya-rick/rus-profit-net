@@ -28,6 +28,7 @@ import QuestionModalContent from "../FAQ/QuestionModalContent";
 import FAQ from "../FAQ/FAQ";
 import { ModalVariants } from '../../common/consts';
 import { UserContext, ModalContext } from "./contexts";
+import Header from "../header";
 
 const modals = {
     [ModalVariants.Authorization]: Authorization,
@@ -131,7 +132,7 @@ export default class MainPage extends Component {
 
         if (file) {
             reader.readAsDataURL(file);
-            this.setIdModal(4);
+            this.openRedImgModal();
         }
     }
 
@@ -147,8 +148,6 @@ export default class MainPage extends Component {
         }
     }
 
-    
-
     render() {
         const {filter} = this.state;
         const element = this.getElementFilter(filter);
@@ -163,7 +162,7 @@ export default class MainPage extends Component {
                         <div className='main-page'>
                             <Switch>
                                 <Route exact path='/'>
-                                    <HeaderNew/>
+                                    <Header/>
                                     <ImgText/>
                                     <Footer/>
                                 </Route>
@@ -205,7 +204,7 @@ export default class MainPage extends Component {
                                 </Route>
                                 <Route path='/registerQuestionaries'>
                                     <HeaderNew/>
-                                    <RegisterQuestionaries/>
+                                    <RegisterQuestionaries photo={this.choosePhoto} img={this.state.photo} onGetId={this.openRedImgModal}/>
                                     <Footer/>
                                 </Route>
                                 <Route path='/userAgreement'>

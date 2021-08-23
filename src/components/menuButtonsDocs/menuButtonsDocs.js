@@ -4,146 +4,31 @@ import MenuNannyItem from "../menuNannyItem";
 
 export default class MenuButtonsDocs extends Component{
 
-    maxId = 100;
+    maxId = 0;
     state = {
         docList: [
-            this.createListItem('lorem ipsum'),
-            this.createListItem('lorem ipsum'),
-            this.createListItem('lorem ipsum'),
-            this.createListItem('lorem ipsum')
+            this.createListItem('lorem ipsum', true),
+            this.createListItem('lorem ipsum', false),
+            this.createListItem('lorem ipsum', false),
+            this.createListItem('lorem ipsum', false)
         ],
-        scheduleList: [
-            this.createListItem('lorem ipsum'),
-            this.createListItem('lorem ipsum'),
-            this.createListItem('lorem ipsum'),
-            this.createListItem('lorem ipsum')
-        ],
-        nativeLanguageList: [
-            this.createListItem('lorem ipsum'),
-            this.createListItem('lorem ipsum'),
-            this.createListItem('lorem ipsum'),
-            this.createListItem('lorem ipsum')
-        ],
-        languageList: [
-            this.createListItem('lorem ipsum'),
-            this.createListItem('lorem ipsum'),
-            this.createListItem('lorem ipsum'),
-            this.createListItem('lorem ipsum'),
-            this.createListItem('lorem ipsum')
-        ],
-        educationList: [
-            this.createListItem('lorem ipsum'),
-            this.createListItem('lorem ipsum'),
-            this.createListItem('lorem ipsum'),
-            this.createListItem('lorem ipsum'),
-            this.createListItem('lorem ipsum')
-        ],
-        responsibilitiesList: [
-            this.createListItem('lorem ipsum'),
-            this.createListItem('lorem ipsum'),
-            this.createListItem('lorem ipsum'),
-            this.createListItem('lorem ipsum'),
-            this.createListItem('lorem ipsum')
-        ],
-        docVisible : false,
-        scheduleVisible: false,
-        nativeVisible : false,
-        languageVisible: false,
-        educationVisible : false,
-        responsibilitiesVisible: false
+        docVisible : false
     }
 
-    onEducationChange = ()=>{
-        const {educationVisible} = this.state;
-        if(educationVisible){
-            this.setState(()=>{
-                return{
-                    educationVisible: false
-                };
-            });
-        }else{
-            this.setState(()=>{
-                return{
-                    educationVisible: true
-                };
-            });
-        }
-    };
-
-    onLanguageChange = ()=>{
-        const {languageVisible} = this.state;
-        if(languageVisible){
-            this.setState(()=>{
-                return{
-                    languageVisible: false
-                };
-            });
-        }else{
-            this.setState(()=>{
-                return{
-                    languageVisible: true
-                };
-            });
-        }
-    };
-
-    onNativeChange = ()=>{
-        const {nativeVisible} = this.state;
-        if(nativeVisible){
-            this.setState(()=>{
-                return{
-                    nativeVisible: false
-                };
-            });
-        }else{
-            this.setState(()=>{
-                return{
-                    nativeVisible: true
-                };
-            });
-        }
-    };
-
-    onScheduleChange = ()=>{
-        const {scheduleVisible} = this.state;
-        if(scheduleVisible){
-            this.setState(()=>{
-                return{
-                    scheduleVisible: false
-                };
-            });
-        }else{
-            this.setState(()=>{
-                return{
-                    scheduleVisible: true
-                };
-            });
-        }
-    };
-
-    onResponsibilitiesChange = ()=>{
-        const {responsibilitiesVisible} = this.state;
-        if(responsibilitiesVisible){
-            this.setState(()=>{
-                return{
-                    responsibilitiesVisible: false
-                };
-            });
-        }else{
-            this.setState(()=>{
-                return{
-                    responsibilitiesVisible: true
-                };
-            });
-        }
-    };
-
-    createListItem(label) {
+    createListItem(label, checked) {
         return {
             id: this.maxId++,
-            label
+            label,
+            checked: checked
         }
     };
+
+    onChangeCheck = (id)=>{
+        const {docList} = this.state;
+        const newList = docList;
+        newList[id].checked = !docList[id].checked;
+        this.setState({docList: newList});
+    }
 
     onVisibleChange = ()=>{
         const {docVisible} = this.state;
@@ -171,13 +56,8 @@ export default class MenuButtonsDocs extends Component{
     };
 
     render() {
-        const {docList, scheduleList, nativeLanguageList, languageList, educationList, responsibilitiesList, docVisible, scheduleVisible, nativeVisible, languageVisible, educationVisible, responsibilitiesVisible} = this.state;
+        const {docList, docVisible} = this.state;
         const docElements = this.showDocList(docList, docVisible);
-        const scheduleElements = this.showDocList(scheduleList, scheduleVisible);
-        const nativeElements = this.showDocList(nativeLanguageList, nativeVisible);
-        const languageElements = this.showDocList(languageList, languageVisible);
-        const educationElements = this.showDocList(educationList, educationVisible);
-        const responsibilitiesElements = this.showDocList(responsibilitiesList, responsibilitiesVisible);
         return (
             <div>
                 <div className='container wrap-box'>
@@ -185,37 +65,37 @@ export default class MenuButtonsDocs extends Component{
                         <button className='combo-button' onClick={this.onVisibleChange}>
                             Документы
                         </button>
-                        <MenuNannyItem listsData={docElements}/>
+                        <MenuNannyItem listsData={docElements} chek={this.onChangeCheck}/>
                     </div>
                     <div className='col-xs-12 col-md-6 col-lg-4'>
-                        <button className='combo-button' onClick={this.onScheduleChange}>
+                        <button className='combo-button' onClick={this.onVisibleChange}>
                             График работы
                         </button>
-                        <MenuNannyItem listsData={scheduleElements}/>
+                        <MenuNannyItem listsData={docElements} chek={this.onChangeCheck}/>
                     </div>
                     <div className='col-xs-12 col-md-6 col-lg-4'>
-                        <button className='combo-button' onClick={this.onNativeChange}>
+                        <button className='combo-button' onClick={this.onVisibleChange}>
                             Родной язык
                         </button>
-                        <MenuNannyItem listsData={nativeElements}/>
+                        <MenuNannyItem listsData={docElements} chek={this.onChangeCheck}/>
                     </div>
                     <div className='col-xs-12 col-md-6 col-lg-4'>
-                        <button className='combo-button' onClick={this.onLanguageChange}>
+                        <button className='combo-button' onClick={this.onVisibleChange}>
                             Иностранные языки
                         </button>
-                        <MenuNannyItem listsData={languageElements}/>
+                        <MenuNannyItem listsData={docElements} chek={this.onChangeCheck}/>
                     </div>
                     <div className='col-xs-12 col-md-6 col-lg-4'>
-                        <button className='combo-button' onClick={this.onEducationChange}>
+                        <button className='combo-button' onClick={this.onVisibleChange}>
                             Образование
                         </button>
-                        <MenuNannyItem listsData={educationElements}/>
+                        <MenuNannyItem listsData={docElements} chek={this.onChangeCheck}/>
                     </div>
                     <div className='col-xs-12 col-md-6 col-lg-4'>
-                        <button className='combo-button' onClick={this.onResponsibilitiesChange}>
+                        <button className='combo-button' onClick={this.onVisibleChange}>
                             Обязанности
                         </button>
-                        <MenuNannyItem listsData={responsibilitiesElements}/>
+                        <MenuNannyItem listsData={docElements} chek={this.onChangeCheck}/>
                     </div>
                 </div>
             </div>

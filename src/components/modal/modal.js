@@ -4,7 +4,7 @@ import Icon from "../../common/components/Icon";
 import { ModalCloseImgWrapper, ModalContainer, ModalLayout } from "../../common/components/ModalStyles";
 import './modal.css';
 
-const Modal = ({closeModal, ModalContent})=> {
+const Modal = ({closeModal, ModalContent, payload})=> {
     let backgroundRef = null;
 
     return(
@@ -18,7 +18,7 @@ const Modal = ({closeModal, ModalContent})=> {
                         <Icon iconName={'exit'}/>
                     </ModalCloseImgWrapper>
                     
-                    <ModalContent closeModal={closeModal}/>
+                    <ModalContent closeModal={closeModal} payload = {payload}/>
                 </ModalLayout>
             </ModalContainer>
         </Background>

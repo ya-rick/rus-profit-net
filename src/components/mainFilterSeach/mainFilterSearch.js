@@ -97,8 +97,9 @@ export default class MainFilterSearch extends Component {
                             </Select>
                         </div>
                         <div className='main-filter-search-subBlock'>
+                            <p className='bg-long-text'>Предлагаемая заработная плата</p>
                             <div className='group-input'>
-                                <Input/>
+                                <input className='select-mini-input' type='text'/>
                                 <div className='select-mini-input-s'>
                                     <Select>
                                         {testOptins}

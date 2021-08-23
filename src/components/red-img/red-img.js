@@ -5,7 +5,7 @@ import './red-img.css';
 import getCroppedImg from "./cropImage";
 import RangeSlider from "../rangeSlider";
 
-const RedImg = ({image, setPhoto}) => {
+const RedImg = ({image, setPhoto, payload}) => {
     const [crop, setCrop] = useState({ x: 0, y: 0 })
     const [zoom, setZoom] = useState(1)
     const [croppedAreaPixels, setCroppedAreaPixels] = useState(null)
@@ -40,7 +40,7 @@ const RedImg = ({image, setPhoto}) => {
             <div className='modal-redact'>
                 <Cropper
                     disableAutomaticStylesInjection={true}
-                    image={image}
+                    image={payload.photo}
                     crop={crop}
                     zoom={zoom}
                     aspect={1}

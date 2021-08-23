@@ -1,13 +1,16 @@
 import React from "react";
 import './menuNannyItem.css';
+import CheckBox from "../checkbox";
 
-const MenuNannyItem = (listsData)=>{
-    const elements = listsData.listsData.map((item) => {
-        const {id,label} = item;
+const MenuNannyItem = ({listsData, chek})=>{
+
+    const elements = listsData.map((item) => {
+        const {id,label, checked} = item;
         return (
             <div key={id} className="input-list col-xs-12 col-md-12 col-lg-6">
-                <input type='checkbox'/>
-                <label>{label}</label>
+                <CheckBox isChecked={checked} check={()=>chek(id)}>
+                    <p className='p-item'>{label}</p>
+                </CheckBox>
             </div>
         );
     });

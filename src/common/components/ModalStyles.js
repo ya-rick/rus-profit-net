@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 export const ModalContainer = styled.div`
-    background-color: white;
+    background-color: #f1f3f6;
     position: relative;
     margin: 10px 0;
     max-height: calc(100vh - 20px);
@@ -11,7 +11,7 @@ export const ModalContainer = styled.div`
 `;
 
 export const ModalLayout = styled.div`
-    margin: 170px;
+    margin: 80px;
 `;
 
 export const ModalCloseImgWrapper = styled.div`
