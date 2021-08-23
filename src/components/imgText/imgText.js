@@ -1,22 +1,19 @@
-import React, {useState} from "react";
+import React, { useState, useEffect } from "react";
 import './imgText.css';
 import {useHistory} from 'react-router-dom';
-import MainPageService from "../../services/mainPageService";
+import { dataSerializer } from "../../api/exchangeLayer";
 
 
 const ImgText = () => {
-    const service = new MainPageService();
     const [data, setData] = useState({error: false, description: '', title: '', image: ''});
-    const [loaded, setLoaded] = useState(false);
-    if (!loaded) {
-        service.getMainPage().then((res) => setData({
-            error: res.data[0].error,
-            description: res.data[0].description,
-            title: res.data[0].options[0].block1_title,
-            image: res.data[0].options[1].block1_image
-        }));
-        setLoaded(true);
-    }
+    
+    useEffect(() => {
+        dataSerializer('getMainPageData').then(data => (console.log(data),setData({    
+            title: data.options[0].block1_title,
+            image: data.options[1].block1_image
+        })));
+    }, [])
+    
 
     const myStyle = {
         backgroundSize: 'recover',

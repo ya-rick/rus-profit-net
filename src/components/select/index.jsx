@@ -32,6 +32,7 @@ export default function Select ({ headerTitle, elements, children, onItemClickCa
     
     function onItemClick (element) {
         return () => {
+            console.log(element)
             toggleOpen(false);
             selectItem(element)
             onItemClickCallback(element);
@@ -41,7 +42,7 @@ export default function Select ({ headerTitle, elements, children, onItemClickCa
     function renderChildren () {
         let toBeRendered = elements || children;
 
-        return toBeRendered?.map(element => <SelectDropdownItem onClick={onItemClick(element)}>{element.text}</SelectDropdownItem>)
+        return toBeRendered?.map(element => <SelectDropdownItem onClick={onItemClick(element)}>{element.name}</SelectDropdownItem>)
     }
     
     return (
@@ -53,7 +54,7 @@ export default function Select ({ headerTitle, elements, children, onItemClickCa
             <SelectHeaderLayout>
                 {leftHeaderItem && leftHeaderItem}
                 <SelectHeader onClick={toggleOpen}>
-                    <SelectedItem>{selectedItem?.text}</SelectedItem>
+                    <SelectedItem>{selectedItem?.name}</SelectedItem>
                     <ArrowDown isInverted={isOpen}/>    
                 </SelectHeader>
             </SelectHeaderLayout>

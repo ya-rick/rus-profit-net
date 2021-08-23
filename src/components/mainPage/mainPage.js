@@ -1,9 +1,8 @@
-import {Component, createContext} from "react";
+import { Component } from "react";
 import './mainPage.css';
 import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import Footer from "../footer";
 import Questionnaires from "../questionnaires";
-import MenuDoctor from "../menuDoctor";
 import Modal from "../modal";
 import Authorization from "../authorization";
 import MainFilterSearch from "../mainFilterSeach";
@@ -11,7 +10,6 @@ import ForgotPassword from "../forgot-password";
 import ThanksForm from "../thanks-form";
 import Vacancies from "../vacancies/vacancies";
 import ImgText from "../imgText";
-import MenuNanny from "../menuNanny";
 import MainFilterSearchWork from "../mainFilterSearchWork";
 import HeaderNew from "../header2";
 import Error404 from "../error404";
@@ -28,7 +26,6 @@ import QuestionModalContent from "../FAQ/QuestionModalContent";
 import FAQ from "../FAQ/FAQ";
 import { ModalVariants } from '../../common/consts';
 import { UserContext, ModalContext } from "./contexts";
-import Header from "../header";
 
 const modals = {
     [ModalVariants.Authorization]: Authorization,
@@ -56,11 +53,10 @@ export default class MainPage extends Component {
 
     state = {
         currentModalName: null,
-        filter: 'nanny',
         photo: null,
         user: {
             id: null
-        }
+        },
     };
 
     get isLoggedIn() {
@@ -110,15 +106,6 @@ export default class MainPage extends Component {
     onChangeProfession = (option) =>{
         this.setState({filter:option});
     }
-
-    getElementFilter = (filter)=>{
-        const {value} = filter;
-        if(value === 'nanny'){
-            return (<MenuNanny/>);
-        }else if (value ==='doctor'){
-            return (<MenuDoctor/>);
-        }
-    }
     
     choosePhoto = (e) => {
         const reader = new FileReader();
@@ -149,9 +136,6 @@ export default class MainPage extends Component {
     }
 
     render() {
-        const {filter} = this.state;
-        const element = this.getElementFilter(filter);
-
         return (
             <ModalContext.Provider value={this.generateModalContextValue()}>
                 <UserContext.Provider value={{
@@ -162,7 +146,7 @@ export default class MainPage extends Component {
                         <div className='main-page'>
                             <Switch>
                                 <Route exact path='/'>
-                                    <Header/>
+                                    <HeaderNew/>
                                     <ImgText/>
                                     <Footer/>
                                 </Route>
@@ -170,14 +154,12 @@ export default class MainPage extends Component {
                                     <HeaderNew/>
                                     <ImgText/>
                                     <MainFilterSearch onChange = {this.onChangeProfession}/>
-                                    {element}
                                     <Footer/>
                                 </Route>
                                 <Route path='/searchWork'>
                                     <HeaderNew/>
                                     <ImgText/>
                                     <MainFilterSearchWork onChange = {this.onChangeProfession}/>
-                                    {element}
                                     <Footer/>
                                 </Route>
                                 <Route path='/questionaries'>

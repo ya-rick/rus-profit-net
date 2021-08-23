@@ -13,3 +13,8 @@ export const ModalVariants = {
     FAQ: 'FAQ',
     RedImg: 'RedImg'
 }
+
+export const SalaryTypes = {
+    1: 'в час',
+    2: 'в месяц'
+}

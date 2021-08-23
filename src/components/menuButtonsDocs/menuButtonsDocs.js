@@ -4,48 +4,29 @@ import MenuNannyItem from "../menuNannyItem";
 
 export default class MenuButtonsDocs extends Component{
 
-    maxId = 0;
     state = {
-        docList: [
-            this.createListItem('lorem ipsum', true),
-            this.createListItem('lorem ipsum', false),
-            this.createListItem('lorem ipsum', false),
-            this.createListItem('lorem ipsum', false)
-        ],
-        docVisible : false
+        visible: []
     }
 
-    createListItem(label, checked) {
-        return {
-            id: this.maxId++,
-            label,
-            checked: checked
-        }
-    };
-
-    onChangeCheck = (id)=>{
-        const {docList} = this.state;
-        const newList = docList;
-        newList[id].checked = !docList[id].checked;
-        this.setState({docList: newList});
+    componentDidMount() {
+        this.setState({ visible: this.props.categories.map(() => false) });
     }
 
-    onVisibleChange = ()=>{
-        const {docVisible} = this.state;
-        if(docVisible){
-            this.setState(()=>{
-                return{
-                    docVisible: false
-                };
-            });
-        }else{
-            this.setState(()=>{
-                return{
-                    docVisible: true
-                };
-            });
+    onChangeCheck = (newID) => {
+        let newChecked = this.props.selectedParameters.includes(newID) ?
+            this.props.selectedParameters.filter( id => id !== newID ) :
+            (this.props.selectedParameters.push(newID), this.props.selectedParameters);
+        this.props.onCheckChanged(newChecked)
+    }
+
+    onVisibleChange(toggleID) {
+        return () => {
+            let newVisible = [...this.state.visible];
+            newVisible[toggleID] = !newVisible[toggleID];
+
+            this.setState({ visible: newVisible })
         }
-    };
+    }
 
     showDocList = (list, visible) =>{
         if(visible){
@@ -56,47 +37,20 @@ export default class MenuButtonsDocs extends Component{
     };
 
     render() {
-        const {docList, docVisible} = this.state;
-        const docElements = this.showDocList(docList, docVisible);
+        const { categories, selectedParameters } = this.props;
+
+        console.log(this.state.visible)
         return (
             <div>
                 <div className='container wrap-box'>
-                    <div className='col-xs-12 col-md-6 col-lg-4'>
-                        <button className='combo-button' onClick={this.onVisibleChange}>
-                            Документы
-                        </button>
-                        <MenuNannyItem listsData={docElements} chek={this.onChangeCheck}/>
-                    </div>
-                    <div className='col-xs-12 col-md-6 col-lg-4'>
-                        <button className='combo-button' onClick={this.onVisibleChange}>
-                            График работы
-                        </button>
-                        <MenuNannyItem listsData={docElements} chek={this.onChangeCheck}/>
-                    </div>
-                    <div className='col-xs-12 col-md-6 col-lg-4'>
-                        <button className='combo-button' onClick={this.onVisibleChange}>
-                            Родной язык
-                        </button>
-                        <MenuNannyItem listsData={docElements} chek={this.onChangeCheck}/>
-                    </div>
-                    <div className='col-xs-12 col-md-6 col-lg-4'>
-                        <button className='combo-button' onClick={this.onVisibleChange}>
-                            Иностранные языки
-                        </button>
-                        <MenuNannyItem listsData={docElements} chek={this.onChangeCheck}/>
-                    </div>
-                    <div className='col-xs-12 col-md-6 col-lg-4'>
-                        <button className='combo-button' onClick={this.onVisibleChange}>
-                            Образование
-                        </button>
-                        <MenuNannyItem listsData={docElements} chek={this.onChangeCheck}/>
-                    </div>
-                    <div className='col-xs-12 col-md-6 col-lg-4'>
-                        <button className='combo-button' onClick={this.onVisibleChange}>
-                            Обязанности
-                        </button>
-                        <MenuNannyItem listsData={docElements} chek={this.onChangeCheck}/>
-                    </div>
+                    {categories && categories.map((category, index) => (
+                        <div className='col-xs-12 col-md-6 col-lg-4'>
+                            <button className='combo-button' onClick={this.onVisibleChange(index)}>
+                                {category.name}
+                            </button>
+                            {this.state.visible[index] && <MenuNannyItem listsData={category.parameters} selectedIDs={selectedParameters} chek={this.onChangeCheck}/>}
+                        </div>
+                    ))}
                 </div>
             </div>
         );
