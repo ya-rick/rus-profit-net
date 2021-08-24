@@ -151,18 +151,17 @@ export default class MainPage extends Component {
                     isLoggedIn: this.isLoggedIn,
                     setUserId: (id) => this.setState({ user: { id } })
                 }}>
-                    <Router>
-                        <div className='main-page'>
-                            <Switch>
-                                <Route exact path='/'>
-                                    <Header/>
-                                    <ImgText/>
-                                </Route>
-
-                                <SearchResultContext.Provider value={{
+                    <SearchResultContext.Provider value={{
                                     results: this.state.results,
                                     setResults: this.setResults
                                 }}>
+                        <Router>
+                            <div className='main-page'>
+                                <Switch>
+                                    <Route exact path='/'>
+                                        <Header/>
+                                        <ImgText/>
+                                    </Route>
                                     <Route path='/searchWorker'>
                                         <HeaderNew/>
                                         <ImgText/>
@@ -175,8 +174,6 @@ export default class MainPage extends Component {
                                         <MainFilterSearchWork onChange = {this.onChangeProfession}/>
                                         <Footer/>
                                     </Route>
-
-                               
                                     <Route path='/questionaries'>
                                         <HeaderNew/>
                                         <Questionnaires/>
@@ -187,69 +184,68 @@ export default class MainPage extends Component {
                                         <Vacancies/>
                                         <Footer/>
                                     </Route>
-                                </SearchResultContext.Provider>
-                                
-                                <Route path='/404'>
-                                    <HeaderNew/>
-                                    <Error404/>
-                                </Route>
-                                <Route path='/register'>
-                                    <Register/>
-                                </Route>
-                                <Route path='/registerVacancies'>
-                                    <HeaderNew/>
-                                    <RegisterVacancies/>
-                                    <Footer/>
-                                </Route>
-                                <Route path='/registerQuestionaries'>
-                                    <HeaderNew/>
-                                    <PhotoContext.Provider value={{
-                                        onImgChanged: this.choosePhoto,
-                                        imgFile: this.state.imgFile,
-                                        openRedImgModal: this.openRedImgModal
+                                    <Route path='/404'>
+                                        <HeaderNew/>
+                                        <Error404/>
+                                    </Route>
+                                    <Route path='/register'>
+                                        <Register/>
+                                    </Route>
+                                    <Route path='/registerVacancies'>
+                                        <HeaderNew/>
+                                        <RegisterVacancies/>
+                                        <Footer/>
+                                    </Route>
+                                    <Route path='/registerQuestionaries'>
+                                        <HeaderNew/>
+                                        <PhotoContext.Provider value={{
+                                            onImgChanged: this.choosePhoto,
+                                            imgFile: this.state.imgFile,
+                                            openRedImgModal: this.openRedImgModal
+                                        }}>
+                                            <RegisterQuestionaries/>
+                                        </PhotoContext.Provider>
+                                        <Footer/>
+                                    </Route>
+                                    <Route path='/userAgreement'>
+                                        <HeaderNew/>
+                                        <UserAgreement/>
+                                        <Footer/>
+                                    </Route>
+                                    <Route path='/advertMen'>
+                                        <HeaderNew/>
+                                        <AdvertMen/>
+                                        <Footer/>
+                                    </Route>
+                                    <Route path='/faq'>
+                                        <HeaderNew/>
+                                        <FAQ/>
+                                        <Footer/>
+                                    </Route>
+                                    <Route path='/vacancy'>
+                                        <HeaderAfterReg/>
+                                        <Vacancy/>
+                                        <Footer/>
+                                    </Route>
+                                    <Route path='/questionnaire'>
+                                        <HeaderAfterReg/>
+                                        <Questionnaire/>
+                                        <Footer/>
+                                    </Route>
+                                </Switch>
+                                <PhotoContext.Provider value={{
+                                        img: this.state.photo,
+                                        setPhoto: this.setPhoto,
+                                        closeModal: () => this.setCurrentModalName(null)
                                     }}>
-                                        <RegisterQuestionaries/>
-                                    </PhotoContext.Provider>
-                                    <Footer/>
-                                </Route>
-                                <Route path='/userAgreement'>
-                                    <HeaderNew/>
-                                    <UserAgreement/>
-                                    <Footer/>
-                                </Route>
-                                <Route path='/advertMen'>
-                                    <HeaderNew/>
-                                    <AdvertMen/>
-                                    <Footer/>
-                                </Route>
-                                <Route path='/faq'>
-                                    <HeaderNew/>
-                                    <FAQ/>
-                                    <Footer/>
-                                </Route>
-                                <Route path='/vacancy'>
-                                    <HeaderAfterReg/>
-                                    <Vacancy/>
-                                    <Footer/>
-                                </Route>
-                                <Route path='/questionnaire'>
-                                    <HeaderAfterReg/>
-                                    <Questionnaire/>
-                                    <Footer/>
-                                </Route>
-                            </Switch>
-                            <PhotoContext.Provider value={{
-                                    img: this.state.photo,
-                                    setPhoto: this.setPhoto,
-                                    closeModal: () => this.setCurrentModalName(null)
-                                }}>
-                                    
-                                {this.currentModalExists && <Modal
-                                    closeModal={() => this.setCurrentModalName(null)}
-                                    ModalContent={modals[this.state.currentModalName]}/>}
-                            </PhotoContext.Provider>
-                        </div>
-                    </Router>
+                                        
+                                    {this.currentModalExists && <Modal
+                                        closeModal={() => this.setCurrentModalName(null)}
+                                        ModalContent={modals[this.state.currentModalName]}/>}
+                                </PhotoContext.Provider>
+                            </div>
+                        </Router>
+                    </SearchResultContext.Provider>
                 </UserContext.Provider>
             </ModalContext.Provider>
         );
