@@ -3,35 +3,72 @@ import './mainFilterSearchWork.css';
 import RangeSlider from "../rangeSlider";
 import Select from "../select";
 
-const testOptins = [
-    {
-        value: 1,
-        text: 'Test'
-    },
-    {
-        value: 2,
-        text: 'Test'
-    },
-    {
-        value: 3,
-        text: 'Test'
-    }
-]
+import { requestWithParams } from "../../api/exchangeLayer";
+import MenuButtonsDocs from "../menuButtonsDocs";
+import { SalaryTypes } from "../../common/consts";
 
 export default class MainFilterSearchWork extends Component {
 
     state = {
         experience: 0,
-        minAge: 18,
-        maxAge: 60,
+        professions: [],
+        country: '',
+        city: '',
+        salary: '',
+        typeSalary: '',
+        currentProffession: null,
+        categories: null,
+        selectedParameters: []
+    }
+
+    componentDidMount() {
+        requestWithParams('getProfessions').then(data => this.setState({ professions: data.options }));
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if ((prevState.currentProffession !== this.state.currentProffession) && (this.state.currentProffession !== null)) {
+            requestWithParams('getFiltersByProfession', { value: this.state.currentProffession })
+                .then(data => this.setState({ categories: data.category, selectedParameters: [] }));
+        }
+    }
+
+    onChangeProffession(newProfID) {
+        this.setState({ currentProffession: newProfID })
     }
 
     onChangeExperience = (value) => {
         this.setState({experience: value});
     }
 
+    onCheckChanged() {
+        return (newIDs) => this.setState({ selectedParameters: newIDs });
+    }
+
+    sendFilters() {
+        const { currentProffession, selectedParameters, salary, typeSalary, experience } = this.state;
+        console.log(this.state);
+
+        requestWithParams('getResumes', {
+            country: 'Ukraine',
+            city: 'Kiev',
+            category: currentProffession,
+            experience: experience,
+            salary: salary,
+            salary_type: typeSalary,
+            sub_category_list: selectedParameters
+
+        })
+    };
+
+    onSetTypeSalary(value){
+        this.setState({typeSalary: value});
+    };
+
+    onChangeSalary = (value) =>{
+        this.setState({salary: value});
+    }
+
     render() {
-        const {onChange} = this.props;
         return (
             <div className='main-filter'>
                 <div className='filter container'>
@@ -39,33 +76,28 @@ export default class MainFilterSearchWork extends Component {
                         <div className='main-filter-search-subBlock'>
                             <p className='bg-long-text'>Выберете страну</p>
                             <Select>
-                                {testOptins}
                             </Select>
                         </div>
                         <div className='main-filter-search-subBlock'>
                             <p className='bg-long-text'>Выберете город</p>
                             <Select>
-                                {testOptins}
                             </Select>
                         </div>
                     </div>
                     <div className='col-xs-12 col-md-4 col-lg-4'>
                         <div className='main-filter-search-subBlock'>
-                            <p className='bg-long-text'>Кого вы ищите?</p>
-                            <Select onItemClickCallback={(value) => onChange(value)}>
-                                {[
-                                    {value: 'nanny', text: 'Няня'},
-                                    {value: 'doctor', text: 'Врач'}
-                                ]}
+                            <p className='bg-long-text'>Вакансия</p>
+                            <Select onItemClickCallback={obj => this.onChangeProffession(obj.id)}>
+                                {this.state.professions}
                             </Select>
                         </div>
                         <div className='main-filter-search-subBlock'>
                             <p className='bg-long-text'>Предлагаемая заработная плата</p>
                             <div className='group-input'>
-                                <input className='col-4 select-mini-input' type='text'/>
+                                <input className='select-mini-input' type='text' onChange={(e)=>this.onChangeSalary(e.target.value)}/>
                                 <div className='select-mini-input-s'>
-                                    <Select>
-                                        {testOptins}
+                                    <Select onItemClickCallback={obj => this.onSetTypeSalary(obj.id) }>
+                                        {Object.entries(SalaryTypes).map(([id, name]) => ({ id, name }))}
                                     </Select>
                                 </div>
                             </div>
@@ -90,6 +122,18 @@ export default class MainFilterSearchWork extends Component {
                                    }}
                             />
                         </div>
+                    </div>
+                    {this.state.categories && <MenuButtonsDocs
+                        categories={this.state.categories}
+                        selectedParameters={this.state.selectedParameters}
+                        onCheckChanged={this.onCheckChanged()}/>}
+                    {/* Поміняти на норм кнопку */}
+                    <div className='container center margin-top-15'>
+                        <button
+                            className='img-reg-button'
+                            onClick={() => this.sendFilters()}>
+                            Подобрать вакансии
+                        </button>
                     </div>
                 </div>
             </div>

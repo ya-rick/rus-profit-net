@@ -150,7 +150,6 @@ export default class MainPage extends Component {
                                 <Route exact path='/'>
                                     <HeaderNew/>
                                     <ImgText/>
-                                    <Footer/>
                                 </Route>
                                 <Route path='/searchWorker'>
                                     <HeaderNew/>

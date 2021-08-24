@@ -40,7 +40,7 @@ export default class MenuButtonsDocs extends Component{
         const { categories, selectedParameters } = this.props;
 
         return (
-            <div>
+            <div className='margin-top-15'>
                 <div className='container wrap-box'>
                     {categories && categories.map((category, index) => (
                         <div className='col-xs-12 col-md-6 col-lg-4'>

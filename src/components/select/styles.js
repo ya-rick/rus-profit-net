@@ -43,6 +43,8 @@ export const SelectWrapper = styled.div`
     z-index: 5;
     top: 100%;
     width: 100%;
+    max-height: 100px;
+    overflow-y: auto;
 
     padding: 0;
     border: 2px solid ${props => props.theme.borderColor};
