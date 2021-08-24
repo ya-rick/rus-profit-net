@@ -60,7 +60,7 @@ class MainFilterSearchWork extends Component {
         const { currentProffession, selectedParameters, salary, typeSalary, experience } = this.state;
         console.log(this.state);
 
-        requestWithParams('getResumes', {
+        requestWithParams('getVacancies', {
             country: '',
             city: '',
             category: currentProffession || '',
@@ -71,7 +71,7 @@ class MainFilterSearchWork extends Component {
 
         })
         .then(data => {
-            this.context.setResults(data.resume);
+            this.context.setResults(data.vacancy);
             this.setRedirectToTrue();
         })
         .catch(e => console.error(e));
@@ -87,7 +87,7 @@ class MainFilterSearchWork extends Component {
 
     render() {
         if (this.state.isRedirecting) {
-            return <Redirect to={'/questionaries'}/>
+            return <Redirect to={'/vacancies'}/>
         }
 
         return (
