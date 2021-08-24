@@ -25,7 +25,7 @@ import UserAgreement from "../userAgreement/userAgreement";
 import QuestionModalContent from "../FAQ/QuestionModalContent";
 import FAQ from "../FAQ/FAQ";
 import { ModalVariants } from '../../common/consts';
-import { UserContext, ModalContext } from "./contexts";
+import { UserContext, ModalContext, PhotoContext } from "./contexts";
 
 const modals = {
     [ModalVariants.Authorization]: Authorization,
@@ -186,7 +186,13 @@ export default class MainPage extends Component {
                                 </Route>
                                 <Route path='/registerQuestionaries'>
                                     <HeaderNew/>
-                                    <RegisterQuestionaries photo={this.choosePhoto} img={this.state.photo} onGetId={this.openRedImgModal}/>
+                                    <PhotoContext.Provider value={{
+                                        onImgChanged: this.choosePhoto,
+                                        img: this.state.photo,
+                                        openRedImgModal: this.openRedImgModal
+                                    }}>
+                                        <RegisterQuestionaries/>
+                                    </PhotoContext.Provider>
                                     <Footer/>
                                 </Route>
                                 <Route path='/userAgreement'>
@@ -210,13 +216,17 @@ export default class MainPage extends Component {
                                     <Footer/>
                                 </Route>
                             </Switch>
-                            {this.currentModalExists && <Modal
-                                closeModal={() => this.setCurrentModalName(null)}
-                                ModalContent={modals[this.state.currentModalName]}
-                                payload={{
-                                    photo: this.state.photo,
-                                    setPhoto: this.setPhoto
-                                }}/>}
+                            <PhotoContext.Provider value={{
+                                    img: this.state.photo,
+                                    setPhoto: this.setPhoto,
+                                    closeModal: () => this.setCurrentModalName(null)
+                                }}>
+                                    
+                                {this.currentModalExists && <Modal
+                                    closeModal={() => this.setCurrentModalName(null)}
+                                    ModalContent={modals[this.state.currentModalName]}/>}
+                            </PhotoContext.Provider>
+                            
                         </div>
                     </Router>
                 </UserContext.Provider>

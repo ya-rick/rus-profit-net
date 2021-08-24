@@ -9,7 +9,7 @@ export default class MenuButtonsDocs extends Component{
     }
 
     componentDidMount() {
-        this.setState({ visible: this.props.categories.map(() => false) });
+        this.props.categories && this.setState({ visible: this.props.categories.map(() => false) });
     }
 
     onChangeCheck = (newID) => {
@@ -39,7 +39,6 @@ export default class MenuButtonsDocs extends Component{
     render() {
         const { categories, selectedParameters } = this.props;
 
-        console.log(this.state.visible)
         return (
             <div>
                 <div className='container wrap-box'>

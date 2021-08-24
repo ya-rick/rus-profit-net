@@ -2,23 +2,18 @@ import React, {Component} from "react";
 import Avatar from '../../images/avatar.png';
 import './generalInformation.css';
 import MyCalendar from "../myCalendar";
+import { PhotoContext } from '../mainPage/contexts';
 
-export default class GeneralInformation extends Component {
-
-    state = {
-        date: 'Дата рождения*',
-        photo: this.props.img || null
-    }
+class GeneralInformation extends Component {
 
     changeDate = (date)=>{
-        const longDate = date.toLocaleString();
-        const idx = longDate.indexOf(',');
-        const shortDate = longDate.slice(0,idx);
-        this.setState({date:shortDate});
+        const dateObj = new Date(date);
+        
+        this.props.onChangeDate(dateObj.getFullYear() + ' ' + dateObj.getMonth() + ' ' + dateObj.getDate());
     }
 
     render() {
-        const {date, photo} = this.state;
+        const {date, photo} = this.context;
         const myStyle = {
             display: 'none'
         }
@@ -26,7 +21,7 @@ export default class GeneralInformation extends Component {
             <div className='container wrap-box'>
                 <img className='reg-avatar col-xs-6 col-md-6 col-lg-3' src={photo || Avatar} alt='avatar'/>
                 <div className='container-sub col-xs-6 col-md-6 col-lg-3'>
-                    <input id='in' className='reg-dwn-img' type='file' style={myStyle} onChange={this.props.photo}/>
+                    <input id='in' className='reg-dwn-img' type='file' style={myStyle} onChange={this.context.onImgChanged}/>
                     <label for='in' className='reg-dwn-img'>Добавьте фотографию</label>
                     <p className='reg-subtext'>Размер файла не более 1 Мб</p>
                 </div>
@@ -42,3 +37,7 @@ export default class GeneralInformation extends Component {
         );
     };
 };
+
+GeneralInformation.contextType = PhotoContext;
+
+export default GeneralInformation;

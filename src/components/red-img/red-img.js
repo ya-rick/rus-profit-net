@@ -1,35 +1,36 @@
-import React, {useState, useCallback} from "react";
+import React, {useState, useCallback, useContext} from "react";
 import Cropper from "react-easy-crop";
 import './react-easy-crop.css';
 import './red-img.css';
 import getCroppedImg from "./cropImage";
 import RangeSlider from "../rangeSlider";
+import { PhotoContext } from "../mainPage/contexts";
+import { requestWithParams } from "../../api/exchangeLayer";
 
-const RedImg = ({image, setPhoto, payload}) => {
+const RedImg = () => {
     const [crop, setCrop] = useState({ x: 0, y: 0 })
     const [zoom, setZoom] = useState(1)
     const [croppedAreaPixels, setCroppedAreaPixels] = useState(null)
-    const [croppedImage, setCroppedImage] = useState(null)
+    const { img, setPhoto, closeModal } = useContext(PhotoContext);
 
     const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
         setCroppedAreaPixels(croppedAreaPixels)
     }, [])
 
-    const showCroppedImage =
-        useCallback(async () => {
-            try {
-                const croppedImage = await getCroppedImg(
-                    image,
-                    croppedAreaPixels,
-                )
-                console.log('donee', {croppedImage});
-                setCroppedImage(croppedImage);
-                setPhoto(croppedImage);
+    async function showCroppedImage() {
+        try {
+            const croppedImage = await getCroppedImg(
+                img,
+                croppedAreaPixels,
+            )
+            console.log('donee', {croppedImage});
+            setPhoto(croppedImage);
+            closeModal();
 
-            } catch (e) {
-                console.error(e)
-            }
-        }, [croppedAreaPixels]);
+        } catch (e) {
+            console.error(e)
+        }
+    }
 
     const onChange = (value)=>{
         setZoom(value);
@@ -40,7 +41,7 @@ const RedImg = ({image, setPhoto, payload}) => {
             <div className='modal-redact'>
                 <Cropper
                     disableAutomaticStylesInjection={true}
-                    image={payload.photo}
+                    image={img}
                     crop={crop}
                     zoom={zoom}
                     aspect={1}
@@ -62,4 +63,3 @@ const RedImg = ({image, setPhoto, payload}) => {
 };
 
 export default RedImg;
-

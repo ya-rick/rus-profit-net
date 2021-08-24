@@ -9,7 +9,7 @@ export const http = axios.create({
 http.interceptors.response.use(onSuccess => {
     const data = onSuccess.data[0];
 
-    if (data.error === true) throw new Error(data.description);
+    if (data?.error === true) throw new Error(data.description);
 
     return data;
 });

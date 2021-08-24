@@ -4,7 +4,7 @@ import './mainFilterSearch.css';
 import MultiRangeSlider from "../multiRangeSlider";
 import RangeSlider from "../rangeSlider";
 import Select from "../select";
-import { dataSerializer } from "../../api/exchangeLayer";
+import { requestWithParams } from "../../api/exchangeLayer";
 import MenuButtonsDocs from "../menuButtonsDocs";
 import { SalaryTypes } from "../../common/consts";
 
@@ -21,12 +21,12 @@ export default class MainFilterSearch extends Component {
     }
 
     componentDidMount() {
-        dataSerializer('getProfessions').then(data => this.setState({ professions: data.options }));
+        requestWithParams('getProfessions').then(data => this.setState({ professions: data.options }));
     }
 
     componentDidUpdate(prevProps, prevState) {
         if ((prevState.currentProffession !== this.state.currentProffession) && (this.state.currentProffession !== null)) {
-            dataSerializer('getFiltersByProfession', { value: this.state.currentProffession })
+            requestWithParams('getFiltersByProfession', { value: this.state.currentProffession })
                 .then(data => this.setState({ categories: data.category, selectedParameters: [] }));
         }
     }
@@ -80,7 +80,7 @@ export default class MainFilterSearch extends Component {
     sendFilters() {
         const { currentProffession, selectedParameters } = this.state;
 
-        dataSerializer('getVacancies', {
+        requestWithParams('getVacancies', {
             category: currentProffession,
             sub_category_list: selectedParameters
         })

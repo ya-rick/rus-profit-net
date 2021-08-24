@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import { Component, createContext } from 'react';
 import './registerQuestionaries.css';
 import NameContact from "../nameContact/nameContact";
 import WorkCluster from "../workCluster";
@@ -7,11 +7,24 @@ import TextArea from "../textArea";
 import CheckBox from "../checkbox";
 import RegisterFilterQuestionaries from "../registerFilterQuestionaries/registerFilterQuestionaries";
 import GeneralInformation from "../generalInformation";
+import { PhotoContext } from "../mainPage/contexts";
+import { requestWithFormData } from '../../api/exchangeLayer';
 
-export default class RegisterQuestionaries extends Component {
+class RegisterQuestionaries extends Component {
+
+    constructor() {
+        super();
+
+        this.onChangeDate = this.onChangeDate.bind(this);
+        this.sendData = this.sendData.bind(this);
+    }
 
     state = {
-        agree: false
+        agree: false,
+        generalInformation: {
+            birthday_r: '',
+            image_r: null
+        }
     }
 
     check = () => {
@@ -19,8 +32,12 @@ export default class RegisterQuestionaries extends Component {
         this.setState({agree: !agree});
     }
 
-    verify = ()=>{
-        this.props.onGetId(3);
+    onChangeDate(newDate) {
+        this.setState({ generalInformation: { birthday_r: newDate } })
+    }
+
+    sendData() {
+        requestWithFormData('registerQuestionary', {...this.state.generalInformation, image_r: this.context.img});
     }
 
     render() {
@@ -34,7 +51,7 @@ export default class RegisterQuestionaries extends Component {
                 <div className='container'>
                     <h2 className='contacts col-12'>Общие данные</h2>
                 </div>
-                <GeneralInformation photo={this.props.photo} img={this.props.img} getPhoto = {this.props.onGetId}/>
+                <GeneralInformation onChangeDate={this.onChangeDate}/>
                 <div className='container'>
                     <h2 className='contacts col-12'>Какую работу вы ищете</h2>
                 </div>
@@ -57,7 +74,7 @@ export default class RegisterQuestionaries extends Component {
                     </div>
                 </div>
                 <div className='container center margin-top-15'>
-                    <button className='img-reg-button' onClick={()=> this.verify()} >
+                    <button className='img-reg-button' onClick={this.sendData} >
                         Сохранить вакансию
                     </button>
                 </div>
@@ -68,3 +85,7 @@ export default class RegisterQuestionaries extends Component {
         )
     }
 }
+
+RegisterQuestionaries.contextType = PhotoContext;
+
+export default RegisterQuestionaries;
