@@ -9,6 +9,7 @@ import RegisterFilterQuestionaries from "../registerFilterQuestionaries/register
 import GeneralInformation from "../generalInformation";
 import { PhotoContext } from "../mainPage/contexts";
 import { requestWithFormData } from '../../api/exchangeLayer';
+import LinkedButton from "../../common/components/LinkedButton";
 
 class RegisterQuestionaries extends Component {
 
@@ -106,9 +107,9 @@ class RegisterQuestionaries extends Component {
                     </div>
                 </div>
                 <div className='container center margin-top-15'>
-                    <button className='img-reg-button' onClick={this.sendData} >
+                    <LinkedButton onClick={this.sendData} >
                         Сохранить вакансию
-                    </button>
+                    </LinkedButton>
                 </div>
                 <div className='container'>
                     <p className='reg-intro'>*Поля, обязательные для заполнения</p>

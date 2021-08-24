@@ -6,6 +6,7 @@ import RegisterFilterVacation from "../registerFilterVacation";
 import MenuButtonsDocs from "../menuButtonsDocs";
 import TextArea from "../textArea";
 import CheckBox from "../checkbox";
+import LinkedButton from "../../common/components/LinkedButton";
 
 export default class RegisterVacancies extends Component {
 
@@ -52,9 +53,9 @@ export default class RegisterVacancies extends Component {
                     </div>
                 </div>
                 <div className='container center margin-top-15'>
-                    <button className='img-reg-button'  >
+                    <LinkedButton>
                         Сохранить вакансию
-                    </button>
+                    </LinkedButton>
                 </div>
                 <div className='container'>
                     <p className='reg-intro'>*Поля, обязательные для заполнения</p>

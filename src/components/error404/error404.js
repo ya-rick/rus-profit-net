@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import './error404.css';
 import {useHistory} from 'react-router-dom';
 import { requestWithParams } from "../../api/exchangeLayer";
+import LinkedButton from "../../common/components/LinkedButton";
 
 const Error404 = () => {
     const [data, setData] = useState({error: false, description: '', title: '', image: '', subtitle: '', subtitle2: ''});
@@ -42,14 +43,14 @@ const Error404 = () => {
                     </p>
                 </div>
                 <div className='group-error-button'>
-                    <button className='img-button col-xs-5 col-md-5 col-lg-5'
+                    <LinkedButton className='img-button col-xs-5 col-md-5 col-lg-5'
                             onClick={() => history.push('/searchWorker')}>
                         Найти работника
-                    </button>
-                    <button className='img-button col-xs-5 col-md-5 col-lg-5'
+                    </LinkedButton>
+                    <LinkedButton className='img-button col-xs-5 col-md-5 col-lg-5'
                             onClick={() => history.push('/searchWork')}>
                         Найти работу
-                    </button>
+                    </LinkedButton>
                 </div>
             </div>
         </div>

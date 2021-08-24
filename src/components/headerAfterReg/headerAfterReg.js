@@ -4,6 +4,7 @@ import Login from '../../images/icon-avatar.svg';
 import Register from '../../images/exit.svg';
 import {useHistory} from 'react-router-dom';
 import './headerAfterReg.css';
+import HeaderButton from "../../common/components/HeaderButton";
 
 const HeaderAfterReg = ({onGetId}) => {
 
@@ -19,14 +20,14 @@ const HeaderAfterReg = ({onGetId}) => {
                 <div className='header-container'>
                     <img className='logo' onClick={() => history.push('/')} src={Logo} alt='logo'/>
                     <div className='button-group'>
-                        <button className='header-button-after' onClick={getFirstId}>
+                        <HeaderButton onClick={()=>history.push()}>
                             <img className='button-icon-after' src={Login} alt='login-icon'/>
                             Екатерина
-                        </button>
-                        <button className='header-button-after' onClick={()=>history.push('/register')}>
+                        </HeaderButton>
+                        <HeaderButton onClick={()=>history.push('/register')}>
                             <img className='button-icon-after' src={Register} alt='register-icon'/>
                             Выйти
-                        </button>
+                        </HeaderButton>
                     </div>
                 </div>
             </div>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import './imgText.css';
 import {useHistory} from 'react-router-dom';
 import { requestWithParams } from "../../api/exchangeLayer";
+import LinkedButton from "../../common/components/LinkedButton";
 
 
 const ImgText = () => {
@@ -27,14 +28,12 @@ const ImgText = () => {
         <div className='img-text' style={myStyle}>
             <div className='col-xs-12 col-md-12 col-lg-6 main-page-img'>
                 <div className='group-button'>
-                    <button className='img-button col-xs-5 col-md-5 col-lg-5'
-                            onClick={() => history.push('/searchWorker')}>
+                    <LinkedButton onClick={() => history.push('/searchWorker')}>
                         Найти работника
-                    </button>
-                    <button className='img-button col-xs-5 col-md-5 col-lg-5'
-                            onClick={() => history.push('/searchWork')}>
+                    </LinkedButton>
+                    <LinkedButton onClick={() => history.push('/searchWork')}>
                         Найти работу
-                    </button>
+                    </LinkedButton>
                 </div>
                 <div className='text-block'>
                     <p className='text-block-text'>

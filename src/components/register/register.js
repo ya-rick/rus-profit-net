@@ -3,6 +3,7 @@ import './register.css';
 import {useHistory} from 'react-router-dom';
 import MainPageService from "../../services/mainPageService";
 import HeaderRegister from "../header-reg";
+import LinkedButton from "../../common/components/LinkedButton";
 
 
 const Register = () => {
@@ -32,14 +33,14 @@ const Register = () => {
             <HeaderRegister/>
             <div className='col-xs-12 col-md-12 col-lg-6 main-page-img'>
                 <div className='group-button'>
-                    <button className='img-reg-button col-xs-5 col-md-5 col-lg-5'
+                    <LinkedButton className='img-reg-button col-xs-5 col-md-5 col-lg-5'
                             onClick={() => history.push('/registerVacancies')}>
                         Регистрация вакансии
-                    </button>
-                    <button className='img-reg-button col-xs-5 col-md-5 col-lg-5'
+                    </LinkedButton>
+                    <LinkedButton className='img-reg-button col-xs-5 col-md-5 col-lg-5'
                             onClick={() => history.push('/registerQuestionaries')}>
                         Регистрация анкеты
-                    </button>
+                    </LinkedButton>
                 </div>
                 <div className='text-block'>
                     <p className='text-block-text'>
