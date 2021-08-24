@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const http = axios.create({
     baseURL: (process.env.NODE_ENV === 'development' ?
-        'https://rusprofinet.dncompany.fun' : 'https://localhost') + '/api/api.php',
+        'https://rusprofinet.dncompany.fun' : window.location.origin) + '/api/api.php',
     method: 'post'
 });
 
