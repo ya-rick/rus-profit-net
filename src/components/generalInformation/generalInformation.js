@@ -13,13 +13,13 @@ class GeneralInformation extends Component {
     }
 
     render() {
-        const {date, photo} = this.context;
+        const {date, imgFile} = this.context;
         const myStyle = {
             display: 'none'
         }
         return (
             <div className='container wrap-box'>
-                <img className='reg-avatar col-xs-6 col-md-6 col-lg-3' src={photo || Avatar} alt='avatar'/>
+                <img className='reg-avatar col-xs-6 col-md-6 col-lg-3' src={imgFile ? URL.createObjectURL(imgFile) : Avatar} alt='avatar'/>
                 <div className='container-sub col-xs-6 col-md-6 col-lg-3'>
                     <input id='in' className='reg-dwn-img' type='file' style={myStyle} onChange={this.context.onImgChanged}/>
                     <label for='in' className='reg-dwn-img'>Добавьте фотографию</label>

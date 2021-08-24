@@ -2,36 +2,26 @@ import React, {Component} from 'react';
 import './nameContact.css';
 import Select from "../select";
 
-const testOptins = [
-    {
-        value: 1,
-        text: 'Test'
-    },
-    {
-        value: 2,
-        text: 'Test'
-    },
-    {
-        value: 3,
-        text: 'Test'
-    }
-]
-
 export default class NameContact extends Component {
 
     render() {
+        const { contacts, onChangeContacts } = this.props;
+
         return (
             <>
                 <div className='container'>
                     <div className='col-xs-12 col-md-6 col-lg-3'>
                         <div className='main-filter-search-subBlock'>
                             <p className='bg-reg-text'>Фамилия*</p>
-                            <input className='input-reg' type='text'/>
+                            <input
+                                className='input-reg'
+                                type='text'
+                                value={contacts.user_surname_r}
+                                onChange={onChangeContacts('user_surname_r')}/>
                         </div>
                         <div className='main-filter-search-subBlock'>
                             <p className='bg-reg-text'>Выберите страну*</p>
                             <Select>
-                                {testOptins}
                             </Select>
                             <p className='subtext'>Вы можете выбрать до 3 стран и/или городов</p>
                         </div>
@@ -39,19 +29,26 @@ export default class NameContact extends Component {
                     <div className='col-xs-12 col-md-6 col-lg-3'>
                         <div className='main-filter-search-subBlock'>
                             <p className='bg-reg-text'>Имя*</p>
-                            <input className='input-reg' type='text'/>
+                            <input
+                                className='input-reg'
+                                type='text'
+                                value={contacts.user_name_r}
+                                onChange={onChangeContacts('user_name_r')}/>
                         </div>
                         <div className='main-filter-search-subBlock'>
                             <p className='bg-reg-text'>Выберите город</p>
                             <Select>
-                                {testOptins}
                             </Select>
                         </div>
                     </div>
                     <div className='col-xs-12 col-md-6 col-lg-3'>
                         <div className='main-filter-search-subBlock'>
                             <p className='bg-reg-text'>E-mail*</p>
-                            <input className='input-reg' type='text'/>
+                            <input
+                                className='input-reg'
+                                type='text'
+                                value={contacts.user_email_r}
+                                onChange={onChangeContacts('user_email_r')}/>
                         </div>
                         <div className='main-filter-search-subBlock flex-center'>
                             <button className='combo-button-reg'>
@@ -63,11 +60,19 @@ export default class NameContact extends Component {
                     <div className='col-xs-12 col-md-6 col-lg-3'>
                         <div className='main-filter-search-subBlock'>
                             <p className='bg-reg-text'>Пароль*</p>
-                            <input className='input-reg' type='text'/>
+                            <input
+                                className='input-reg'
+                                type='text'
+                                value={contacts.user_password_r}
+                                onChange={onChangeContacts('user_password_r')}/>
                         </div>
                         <div className='main-filter-search-subBlock'>
                             <p className='bg-reg-text'>Подтвердите пароль*</p>
-                            <input className='input-reg' type='text'/>
+                            <input
+                                className='input-reg'
+                                type='text'
+                                value={contacts.user_password_confirm_r}
+                                onChange={onChangeContacts('user_password_confirm_r')}/>
                         </div>
                     </div>
                 </div>
@@ -76,25 +81,31 @@ export default class NameContact extends Component {
                     <div className='col-xs-12 col-md-6 col-lg-3'>
                         <div className='main-filter-search-subBlock'>
                             <p className='bg-reg-text'>Телефон*</p>
-                            <input className='input-reg' type='text'/>
-                        </div>
-                    </div>
-                    <div className='col-xs-12 col-md-6 col-lg-3'>
-                        <div className='main-filter-search-subBlock'>
-                            <p className='bg-reg-text'>E-mail</p>
-                            <input className='input-reg' type='text'/>
+                            <input
+                                className='input-reg'
+                                type='text'
+                                value={contacts.user_phone_r}
+                                onChange={onChangeContacts('user_phone_r')}/>
                         </div>
                     </div>
                     <div className='col-xs-12 col-md-6 col-lg-3'>
                         <div className='main-filter-search-subBlock'>
                             <p className='bg-reg-text'>WhatsApp</p>
-                            <input className='input-reg' type='text'/>
+                            <input
+                                className='input-reg'
+                                type='text'
+                                value={contacts.user_whatsapp_r}
+                                onChange={onChangeContacts('user_whatsapp_r')}/>
                         </div>
                     </div>
                     <div className='col-xs-12 col-md-6 col-lg-3'>
                         <div className='main-filter-search-subBlock'>
                             <p className='bg-reg-text'>Viber</p>
-                            <input className='input-reg' type='text'/>
+                            <input
+                                className='input-reg'
+                                type='text'
+                                value={contacts.user_viber_r}
+                                onChange={onChangeContacts('user_viber_r')}/>
                         </div>
                     </div>
                 </div>

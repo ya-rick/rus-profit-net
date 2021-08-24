@@ -17,14 +17,37 @@ class RegisterQuestionaries extends Component {
 
         this.onChangeDate = this.onChangeDate.bind(this);
         this.sendData = this.sendData.bind(this);
+        this.onChangeContacts = this.onChangeContacts.bind(this);
     }
 
     state = {
         agree: false,
+        nameContact: {
+            user_surname_r: '', 
+            user_name_r: '', 
+            user_email_r: '', 
+            user_password_r: '', 
+            user_password_confirm_r: '',
+            user_country_r: '',
+            user_city_r: '',
+            user_phone_r: '',
+            user_whatsapp_r: '',
+            user_viber_r: '',
+            user_telegram_r: '',
+        },
         generalInformation: {
             birthday_r: '',
             image_r: null
         }
+    }
+
+    onChangeContacts(key) {
+        return (e) => {
+            const value = e.target.value;
+            const newContacts = {...this.state.nameContact, [key]: value};
+            this.setState({ nameContact: newContacts });
+        }
+        
     }
 
     check = () => {
@@ -37,7 +60,12 @@ class RegisterQuestionaries extends Component {
     }
 
     sendData() {
-        requestWithFormData('registerQuestionary', {...this.state.generalInformation, image_r: this.context.img});
+        const { generalInformation, nameContact } = this.state;
+
+        requestWithFormData('registerQuestionary', {
+            ...generalInformation,
+            image_r: this.context.imgFile,
+            ...nameContact});
     }
 
     render() {
@@ -47,7 +75,9 @@ class RegisterQuestionaries extends Component {
                 <div className='container'>
                     <h1 className='vacancies'>Регистрация анкеты</h1>
                 </div>
-                <NameContact/>
+                <NameContact
+                    onChangeContacts={this.onChangeContacts}
+                    contacts={this.state.nameContact}/>
                 <div className='container'>
                     <h2 className='contacts col-12'>Общие данные</h2>
                 </div>

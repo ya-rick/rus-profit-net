@@ -54,6 +54,7 @@ export default class MainPage extends Component {
     state = {
         currentModalName: null,
         photo: null,
+        imgFile: null,
         user: {
             id: null
         },
@@ -63,8 +64,8 @@ export default class MainPage extends Component {
         return this.state.user.id !== null;
     }
 
-    setPhoto = (photo) => {
-        this.setState({photo});
+    setPhoto = (imgFile) => {
+        this.setState({imgFile});
     }
 
     get currentModalExists() {
@@ -188,7 +189,7 @@ export default class MainPage extends Component {
                                     <HeaderNew/>
                                     <PhotoContext.Provider value={{
                                         onImgChanged: this.choosePhoto,
-                                        img: this.state.photo,
+                                        imgFile: this.state.imgFile,
                                         openRedImgModal: this.openRedImgModal
                                     }}>
                                         <RegisterQuestionaries/>
