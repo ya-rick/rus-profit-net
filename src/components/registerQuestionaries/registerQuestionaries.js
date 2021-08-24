@@ -38,7 +38,8 @@ class RegisterQuestionaries extends Component {
         generalInformation: {
             birthday_r: '',
             image_r: null
-        }
+        },
+
     }
 
     onChangeContacts(key) {
@@ -82,7 +83,7 @@ class RegisterQuestionaries extends Component {
                 <div className='container'>
                     <h2 className='contacts col-12'>Общие данные</h2>
                 </div>
-                <GeneralInformation onChangeDate={this.onChangeDate}/>
+                <GeneralInformation onChangeDate={this.onChangeDate} />
                 <div className='container'>
                     <h2 className='contacts col-12'>Какую работу вы ищете</h2>
                 </div>

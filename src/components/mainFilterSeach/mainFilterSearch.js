@@ -15,6 +15,10 @@ export default class MainFilterSearch extends Component {
         minAge: 18,
         maxAge: 60,
         professions: [],
+        country: '',
+        city: '',
+        salary: '',
+        typeSalary: '',
         currentProffession: null,
         categories: null,
         selectedParameters: []
@@ -78,12 +82,29 @@ export default class MainFilterSearch extends Component {
     }
 
     sendFilters() {
-        const { currentProffession, selectedParameters } = this.state;
+        const { currentProffession, selectedParameters, salary, typeSalary, maxAge, minAge, experience } = this.state;
+        console.log(this.state);
 
         requestWithParams('getVacancies', {
+            country: 'Ukraine',
+            city: 'Kiev',
             category: currentProffession,
+            years_with: minAge,
+            years_to: maxAge,
+            experience: experience,
+            salary: salary,
+            salary_type: typeSalary,
             sub_category_list: selectedParameters
+
         })
+    };
+
+    onSetTypeSalary(value){
+        this.setState({typeSalary: value});
+    };
+
+    onChangeSalary = (value) =>{
+        this.setState({salary: value});
     }
 
     render() {
@@ -112,9 +133,9 @@ export default class MainFilterSearch extends Component {
                         <div className='main-filter-search-subBlock'>
                             <p className='bg-long-text'>Предлагаемая заработная плата</p>
                             <div className='group-input'>
-                                <input className='select-mini-input' type='text'/>
+                                <input className='select-mini-input' type='text' onChange={(e)=>this.onChangeSalary(e.target.value)}/>
                                 <div className='select-mini-input-s'>
-                                    <Select>
+                                    <Select onItemClickCallback={obj => this.onSetTypeSalary(obj.id) }>
                                         {Object.entries(SalaryTypes).map(([id, name]) => ({ id, name }))}
                                     </Select>
                                 </div>
@@ -175,14 +196,14 @@ export default class MainFilterSearch extends Component {
                             </div>
                         </div>
                     </div>
-                    
-                    {this.state.categories && <MenuButtonsDocs 
+
+                    {this.state.categories && <MenuButtonsDocs
                         categories={this.state.categories}
                         selectedParameters={this.state.selectedParameters}
                         onCheckChanged={this.onCheckChanged()}/>}
                     {/* Поміняти на норм кнопку */}
                     <div className='container center margin-top-15'>
-                        <button 
+                        <button
                             className='img-button'
                             onClick={() => this.sendFilters()}>
                             Подобрать анкеты
