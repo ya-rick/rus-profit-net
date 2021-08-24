@@ -7,6 +7,7 @@ import Select from "../select";
 import { requestWithParams } from "../../api/exchangeLayer";
 import MenuButtonsDocs from "../menuButtonsDocs";
 import { SalaryTypes } from "../../common/consts";
+import LinkedButton from "../../common/components/LinkedButton";
 
 export default class MainFilterSearch extends Component {
 
@@ -203,11 +204,10 @@ export default class MainFilterSearch extends Component {
                         onCheckChanged={this.onCheckChanged()}/>}
                     {/* Поміняти на норм кнопку */}
                     <div className='container center margin-top-15'>
-                        <button
-                            className='img-button'
+                        <LinkedButton
                             onClick={() => this.sendFilters()}>
                             Подобрать анкеты
-                        </button>
+                        </LinkedButton>
                     </div>
                 </div>
             </div>

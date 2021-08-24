@@ -6,6 +6,7 @@ import getCroppedImg from "./cropImage";
 import RangeSlider from "../rangeSlider";
 import { PhotoContext } from "../mainPage/contexts";
 import { requestWithParams } from "../../api/exchangeLayer";
+import LinkedButton from "../../common/components/LinkedButton";
 
 const RedImg = () => {
     const [crop, setCrop] = useState({ x: 0, y: 0 })
@@ -54,9 +55,9 @@ const RedImg = () => {
                 <RangeSlider min={1} max={10} onChange={onChange} value={zoom} />
             </div>
             <div className='center margin-top-15'>
-                <button className='img-button' onClick={showCroppedImage}>
+                <LinkedButton onClick={showCroppedImage}>
                     Сохранить
-                </button>
+                </LinkedButton>
             </div>
         </div>
     )

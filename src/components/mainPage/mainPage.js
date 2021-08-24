@@ -27,6 +27,7 @@ import QuestionModalContent from "../FAQ/QuestionModalContent";
 import FAQ from "../FAQ/FAQ";
 import { ModalVariants } from '../../common/consts';
 import { UserContext, ModalContext, PhotoContext } from "./contexts";
+import Header from "../header";
 
 const modals = {
     [ModalVariants.Authorization]: Authorization,
@@ -148,7 +149,7 @@ export default class MainPage extends Component {
                         <div className='main-page'>
                             <Switch>
                                 <Route exact path='/'>
-                                    <HeaderNew/>
+                                    <Header/>
                                     <ImgText/>
                                 </Route>
                                 <Route path='/searchWorker'>
@@ -232,7 +233,6 @@ export default class MainPage extends Component {
                                     closeModal={() => this.setCurrentModalName(null)}
                                     ModalContent={modals[this.state.currentModalName]}/>}
                             </PhotoContext.Provider>
-                            
                         </div>
                     </Router>
                 </UserContext.Provider>

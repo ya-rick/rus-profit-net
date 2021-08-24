@@ -7,6 +7,7 @@ import MenuButtonsDocs from "../menuButtonsDocs";
 import TextArea from "../textArea";
 import CheckBox from "../checkbox";
 import { requestWithFormData, requestWithParams } from '../../api/exchangeLayer';
+import LinkedButton from "../../common/components/LinkedButton";
 
 export default class RegisterVacancies extends Component {
 
@@ -144,12 +145,12 @@ export default class RegisterVacancies extends Component {
                     </div>
                 </div>
                 <div className='container center margin-top-15'>
-                    <button
+                    <LinkedButton
                         className='img-reg-button'
                         onClick={this.sendData}
                     >
                         Сохранить вакансию
-                    </button>
+                    </LinkedButton>
                 </div>
                 <div className='container'>
                     <p className='reg-intro'>*Поля, обязательные для заполнения</p>
