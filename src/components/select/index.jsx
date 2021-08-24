@@ -32,7 +32,6 @@ export default function Select ({ headerTitle, elements, children, onItemClickCa
     
     function onItemClick (element) {
         return () => {
-            console.log(element)
             toggleOpen(false);
             selectItem(element)
             onItemClickCallback(element);

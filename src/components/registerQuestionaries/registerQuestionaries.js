@@ -1,4 +1,4 @@
-import { Component, createContext } from 'react';
+import { Component } from 'react';
 import './registerQuestionaries.css';
 import NameContact from "../nameContact/nameContact";
 import WorkCluster from "../workCluster";
@@ -8,7 +8,7 @@ import CheckBox from "../checkbox";
 import RegisterFilterQuestionaries from "../registerFilterQuestionaries/registerFilterQuestionaries";
 import GeneralInformation from "../generalInformation";
 import { PhotoContext } from "../mainPage/contexts";
-import { requestWithFormData } from '../../api/exchangeLayer';
+import { requestWithFormData, requestWithParams } from '../../api/exchangeLayer';
 
 class RegisterQuestionaries extends Component {
 
@@ -18,28 +18,45 @@ class RegisterQuestionaries extends Component {
         this.onChangeDate = this.onChangeDate.bind(this);
         this.sendData = this.sendData.bind(this);
         this.onChangeContacts = this.onChangeContacts.bind(this);
+        this.onChangeRestData = this.onChangeRestData.bind(this);
+        this.validate = this.validate.bind(this);
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if ((prevState.restData.category_global !== this.state.restData.category_global) && (this.state.restData.category_global !== null)) {
+            requestWithParams('getFiltersByProfession', { value: this.state.restData.category_global })
+                .then(data => this.setState({ categories: data.category }));
+        }
     }
 
     state = {
         agree: false,
         nameContact: {
-            user_surname_r: '', 
-            user_name_r: '', 
-            user_email_r: '', 
-            user_password_r: '', 
-            user_password_confirm_r: '',
-            user_country_r: '',
-            user_city_r: '',
-            user_phone_r: '',
-            user_whatsapp_r: '',
-            user_viber_r: '',
-            user_telegram_r: '',
+            user_surname: '', 
+            user_name: '', 
+            user_email: '', 
+            user_password: '', 
+            user_password_confirm: '',
+            user_country: '',
+            user_city: '',
+            user_phone: '',
+            user_whatsapp: '',
+            user_viber: '',
+            user_telegram: '',
         },
         generalInformation: {
-            birthday_r: '',
-            image_r: null
+            birthday: '',
+            image: null
         },
-
+        restData: {
+            category_global: null,
+            experience: null,
+            salary: null,
+            salary_type: null,
+            description: '',
+            result_cat: []
+        },
+        categories: null
     }
 
     onChangeContacts(key) {
@@ -51,27 +68,47 @@ class RegisterQuestionaries extends Component {
         
     }
 
+    onChangeRestData(key) {
+        return (newValue) => {
+            let newRestData;
+            
+            newRestData = {...this.state.restData, [key]: newValue};
+
+            this.setState({ restData: newRestData });
+        }
+        
+    }
+
     check = () => {
         const {agree} = this.state;
         this.setState({agree: !agree});
     }
 
     onChangeDate(newDate) {
-        this.setState({ generalInformation: { birthday_r: newDate } })
+        this.setState({ generalInformation: { ...this.state.generalInformation, birthday: newDate } })
+    }
+
+    validate() {
+        return this.state.agree;
     }
 
     sendData() {
-        const { generalInformation, nameContact } = this.state;
+        const { generalInformation, nameContact, restData } = this.state;
 
-        requestWithFormData('registerQuestionary', {
-            ...generalInformation,
-            image_r: this.context.imgFile,
-            ...nameContact}
-        );
+        if (!this.validate()) return;
+
+        let requestData = Object.entries({...restData, ...nameContact, ...generalInformation, image: this.context.imgFile}).reduce((acc, [key, value]) => {
+            acc[key + '_r'] = value;
+            return acc;
+        }, {})
+
+        requestWithFormData('registerQuestionary', requestData)
+            .catch(e => console.error(e));
     }
 
     render() {
-        const {agree} = this.state;
+        const { agree } = this.state;
+
         return (
             <div className='container'>
                 <div className='container'>
@@ -87,13 +124,24 @@ class RegisterQuestionaries extends Component {
                 <div className='container'>
                     <h2 className='contacts col-12'>Какую работу вы ищете</h2>
                 </div>
-                <WorkCluster/>
-                <RegisterFilterQuestionaries/>
-                <MenuButtonsDocs/>
+                <WorkCluster
+                    onProfessionChanged={this.onChangeRestData('category_global')}
+                />
+                <RegisterFilterQuestionaries
+                    onChangeData={this.onChangeRestData}
+                    data={this.state.restData}
+                />
+                {this.state.categories && <MenuButtonsDocs
+                        categories={this.state.categories}
+                        selectedParameters={this.state.restData.result_cat}
+                        onCheckChanged={this.onChangeRestData('result_cat')}/>}
                 <div className='container'>
                     <h2 className='contacts col-12'>О себе*</h2>
                 </div>
-                <TextArea/>
+                <TextArea
+                    value={this.state.restData.description}
+                    onChange={this.onChangeRestData('description')}
+                />
                 <div className='container'>
                     <div className='display-right'>
                         <CheckBox isChecked={agree} check={this.check}>

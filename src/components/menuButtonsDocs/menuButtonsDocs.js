@@ -31,7 +31,7 @@ export default class MenuButtonsDocs extends Component{
     showDocList = (list, visible) =>{
         if(visible){
             return list;
-        }else {
+        } else {
             return [];
         }
     };

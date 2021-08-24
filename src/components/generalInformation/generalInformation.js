@@ -8,8 +8,8 @@ class GeneralInformation extends Component {
 
     changeDate = (date)=>{
         const dateObj = new Date(date);
-        
-        this.props.onChangeDate(dateObj.getFullYear() + ' ' + dateObj.getMonth() + ' ' + dateObj.getDate());
+
+        this.props.onChangeDate(dateObj.getUTCFullYear() + '-' + (dateObj.getUTCMonth() > 9 ? dateObj.getMonth() : '0' + dateObj.getMonth()) + '-' + dateObj.getDate());
     }
 
     render() {

@@ -57,7 +57,7 @@ export default class MainFilterSearchWork extends Component {
             salary_type: typeSalary,
             sub_category_list: selectedParameters
 
-        })
+        }).catch(e => console.error(e));
     };
 
     onSetTypeSalary(value){

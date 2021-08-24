@@ -16,13 +16,18 @@ export default class NameContact extends Component {
                             <input
                                 className='input-reg'
                                 type='text'
-                                value={contacts.user_surname_r}
-                                onChange={onChangeContacts('user_surname_r')}/>
+                                value={contacts.user_surname}
+                                onChange={onChangeContacts('user_surname')}/>
                         </div>
                         <div className='main-filter-search-subBlock'>
                             <p className='bg-reg-text'>Выберите страну*</p>
-                            <Select>
-                            </Select>
+                            {/* <Select>
+                            </Select> */}
+                            <input
+                                className='input-reg'
+                                type='text'
+                                value={contacts.user_country}
+                                onChange={onChangeContacts('user_country')}/>
                             <p className='subtext'>Вы можете выбрать до 3 стран и/или городов</p>
                         </div>
                     </div>
@@ -32,13 +37,18 @@ export default class NameContact extends Component {
                             <input
                                 className='input-reg'
                                 type='text'
-                                value={contacts.user_name_r}
-                                onChange={onChangeContacts('user_name_r')}/>
+                                value={contacts.user_name}
+                                onChange={onChangeContacts('user_name')}/>
                         </div>
                         <div className='main-filter-search-subBlock'>
                             <p className='bg-reg-text'>Выберите город</p>
-                            <Select>
-                            </Select>
+                            {/* <Select>
+                            </Select> */}
+                            <input
+                                className='input-reg'
+                                type='text'
+                                value={contacts.user_city}
+                                onChange={onChangeContacts('user_city')}/>
                         </div>
                     </div>
                     <div className='col-xs-12 col-md-6 col-lg-3'>
@@ -47,8 +57,8 @@ export default class NameContact extends Component {
                             <input
                                 className='input-reg'
                                 type='text'
-                                value={contacts.user_email_r}
-                                onChange={onChangeContacts('user_email_r')}/>
+                                value={contacts.user_email}
+                                onChange={onChangeContacts('user_email')}/>
                         </div>
                         <div className='main-filter-search-subBlock flex-center'>
                             <button className='combo-button-reg'>
@@ -63,16 +73,16 @@ export default class NameContact extends Component {
                             <input
                                 className='input-reg'
                                 type='text'
-                                value={contacts.user_password_r}
-                                onChange={onChangeContacts('user_password_r')}/>
+                                value={contacts.user_password}
+                                onChange={onChangeContacts('user_password')}/>
                         </div>
                         <div className='main-filter-search-subBlock'>
                             <p className='bg-reg-text'>Подтвердите пароль*</p>
                             <input
                                 className='input-reg'
                                 type='text'
-                                value={contacts.user_password_confirm_r}
-                                onChange={onChangeContacts('user_password_confirm_r')}/>
+                                value={contacts.user_password_confirm}
+                                onChange={onChangeContacts('user_password_confirm')}/>
                         </div>
                     </div>
                 </div>
@@ -84,8 +94,8 @@ export default class NameContact extends Component {
                             <input
                                 className='input-reg'
                                 type='text'
-                                value={contacts.user_phone_r}
-                                onChange={onChangeContacts('user_phone_r')}/>
+                                value={contacts.user_phone}
+                                onChange={onChangeContacts('user_phone')}/>
                         </div>
                     </div>
                     <div className='col-xs-12 col-md-6 col-lg-3'>
@@ -94,8 +104,8 @@ export default class NameContact extends Component {
                             <input
                                 className='input-reg'
                                 type='text'
-                                value={contacts.user_whatsapp_r}
-                                onChange={onChangeContacts('user_whatsapp_r')}/>
+                                value={contacts.user_whatsapp}
+                                onChange={onChangeContacts('user_whatsapp')}/>
                         </div>
                     </div>
                     <div className='col-xs-12 col-md-6 col-lg-3'>
@@ -104,8 +114,8 @@ export default class NameContact extends Component {
                             <input
                                 className='input-reg'
                                 type='text'
-                                value={contacts.user_viber_r}
-                                onChange={onChangeContacts('user_viber_r')}/>
+                                value={contacts.user_viber}
+                                onChange={onChangeContacts('user_viber')}/>
                         </div>
                     </div>
                 </div>

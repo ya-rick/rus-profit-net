@@ -86,9 +86,9 @@ export default class MainFilterSearch extends Component {
         console.log(this.state);
 
         requestWithParams('getVacancies', {
-            country: 'Ukraine',
-            city: 'Kiev',
-            category: currentProffession,
+            country: '',
+            city: '',
+            category: currentProffession || '',
             years_with: minAge,
             years_to: maxAge,
             experience: experience,
@@ -96,7 +96,7 @@ export default class MainFilterSearch extends Component {
             salary_type: typeSalary,
             sub_category_list: selectedParameters
 
-        })
+        }).catch(e => console.error(e));
     };
 
     onSetTypeSalary(value){

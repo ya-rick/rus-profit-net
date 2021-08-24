@@ -8,8 +8,6 @@ export default class Vacancies extends Component{
             <div className='container vac-contain'>
                 <h1 className='vacancies'>Вакансии</h1>
                 <VacanciesCard/>
-                <VacanciesCard/>
-                <VacanciesCard/>
             </div>
         );
     };
