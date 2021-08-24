@@ -1,14 +1,24 @@
 import React, {Component} from 'react';
 import './vacancies.css';
 import VacanciesCard from "../vacanciesCard";
+import { SearchResultContext } from '../mainPage/contexts';
 
-export default class Vacancies extends Component{
+class Vacancies extends Component{
     render() {
+        const { results: vacancies } = this.context;
+
         return(
             <div className='container vac-contain'>
                 <h1 className='vacancies'>Вакансии</h1>
-                <VacanciesCard/>
+                {vacancies && vacancies.map(vacancy => <VacanciesCard
+                    key={vacancy.id}
+                    vacancy={vacancy}
+                />)}
             </div>
         );
     };
 };
+
+Vacancies.contextType = SearchResultContext;
+
+export default Vacancies;

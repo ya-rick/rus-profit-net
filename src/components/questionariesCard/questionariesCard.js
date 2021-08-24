@@ -48,11 +48,15 @@ export default class QuestionariesCard extends Component {
 
     render() {
         const {mark, activeHand, like} = this.state;
+
+        const { resume: { category, city, country, experience, parameters,
+            salary, salary_type, description, name, avatar } } = this.props;
+
         const likes = this.getLikes(activeHand ? activeHand : mark);
         return (
             <div className='card'>
                 <div className='col-xs-12 col-md-4 col-lg-3'>
-                    <img className='avatar' src={Avatar} alt='аватар'/>
+                    <img className='avatar' src={avatar} alt='аватар'/>
                     <div className='wrap-box'>
                         {likes}
                     </div>
@@ -61,24 +65,20 @@ export default class QuestionariesCard extends Component {
                     <div className='header-card'>
                         <div className='card-name'>
                             <p className='name-text-q'>
-                                Анна, 34
+                                {name}
                             </p>
                             <Like clazz={like} click={this.onLike}/>
                         </div>
                         <Plus/>
                     </div>
                     <div className='wrap-box'>
-                        <p className='text-options'>Опыт 6 лет</p>
-                        <p className='text-options'>Паспорт ЕС</p>
-                        <p className='text-options'>10$ в час</p>
+                        <p className='text-options'>Опыт {experience} лет</p>
+                        <p className='text-options'>{parameters[0].name}</p>
+                        <p className='text-options'>{salary}$ {salary_type}</p>
                     </div>
                     <p className='name-text-block start-content'>О себе</p>
                     <div className='border-block-q'>
-                        <p className='main-text'>Добрый день,уважаемые родители! Я предлагаю свои услуги няни. 10 лет
-                            работала в семьях в Лондоне с детьми возраста от 5 мес.до 8 лет. По моим рекомендациям вы
-                            сможете увидеть,что я как правило, работаю в одной семье минимум 3 года. Добрый
-                            день,уважаемые родители! Я предлагаю свои услуги няни. 10 лет
-                            работала в семьях в Лондоне с детьми возраста от 5 ...</p>
+                        <p className='main-text'>{description}</p>
                     </div>
                 </div>
             </div>

@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 
 import './mainFilterSearch.css';
+
 import MultiRangeSlider from "../multiRangeSlider";
 import RangeSlider from "../rangeSlider";
 import Select from "../select";
@@ -8,21 +9,32 @@ import { requestWithParams } from "../../api/exchangeLayer";
 import MenuButtonsDocs from "../menuButtonsDocs";
 import { SalaryTypes } from "../../common/consts";
 import LinkedButton from "../../common/components/LinkedButton";
+import { SearchResultContext } from "../mainPage/contexts";
+import { Redirect } from "react-router-dom";
 
-export default class MainFilterSearch extends Component {
+class MainFilterSearch extends Component {
 
-    state = {
-        experience: 0,
-        minAge: 18,
-        maxAge: 60,
-        professions: [],
-        country: '',
-        city: '',
-        salary: '',
-        typeSalary: '',
-        currentProffession: null,
-        categories: null,
-        selectedParameters: []
+    constructor() {
+        super();
+
+        this.state = {
+            experience: 0,
+            minAge: 18,
+            maxAge: 60,
+            professions: [],
+            country: '',
+            city: '',
+            salary: '',
+            typeSalary: '',
+            currentProffession: null,
+            categories: null,
+            selectedParameters: [],
+            isRedirecting: false
+        }
+    }
+
+    setRedirectToTrue() {
+        this.setState({ isRedirecting: true })
     }
 
     componentDidMount() {
@@ -84,20 +96,24 @@ export default class MainFilterSearch extends Component {
 
     sendFilters() {
         const { currentProffession, selectedParameters, salary, typeSalary, maxAge, minAge, experience } = this.state;
-        console.log(this.state);
 
         requestWithParams('getVacancies', {
             country: '',
             city: '',
             category: currentProffession || '',
-            years_with: minAge,
-            years_to: maxAge,
-            experience: experience,
-            salary: salary,
-            salary_type: typeSalary,
+            years_with: minAge || '',
+            years_to: maxAge || '',
+            experience: experience || '',
+            salary: salary || '',
+            salary_type: typeSalary || '',
             sub_category_list: selectedParameters
 
-        }).catch(e => console.error(e));
+        })
+        .then(data => {
+            this.context.setResults(data.vacancy);
+            this.setRedirectToTrue();
+        })
+        .catch(e => console.error(e));
     };
 
     onSetTypeSalary(value){
@@ -109,6 +125,10 @@ export default class MainFilterSearch extends Component {
     }
 
     render() {
+        if (this.state.isRedirecting) {
+            return <Redirect to={'/vacancies'}/>
+        }
+
         return (
             <div className='main-filter'>
                 <div className='filter container'>
@@ -214,3 +234,7 @@ export default class MainFilterSearch extends Component {
         );
     }
 };
+
+MainFilterSearch.contextType = SearchResultContext;
+
+export default MainFilterSearch;

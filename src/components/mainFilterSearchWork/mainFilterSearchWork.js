@@ -6,19 +6,26 @@ import Select from "../select";
 import { requestWithParams } from "../../api/exchangeLayer";
 import MenuButtonsDocs from "../menuButtonsDocs";
 import { SalaryTypes } from "../../common/consts";
+import { Redirect } from "react-router-dom";
+import { SearchResultContext } from "../mainPage/contexts";
 
-export default class MainFilterSearchWork extends Component {
+class MainFilterSearchWork extends Component {
 
-    state = {
-        experience: 0,
-        professions: [],
-        country: '',
-        city: '',
-        salary: '',
-        typeSalary: '',
-        currentProffession: null,
-        categories: null,
-        selectedParameters: []
+    constructor() {
+        super();
+
+        this.state = {
+            experience: 0,
+            professions: [],
+            country: '',
+            city: '',
+            salary: '',
+            typeSalary: '',
+            currentProffession: null,
+            categories: null,
+            selectedParameters: [],
+            isRedirecting: false
+        }
     }
 
     componentDidMount() {
@@ -30,6 +37,11 @@ export default class MainFilterSearchWork extends Component {
             requestWithParams('getFiltersByProfession', { value: this.state.currentProffession })
                 .then(data => this.setState({ categories: data.category, selectedParameters: [] }));
         }
+    }
+
+    setRedirectToTrue() {
+        this.setState({ isRedirecting: true });
+        console.log(this.state.isRedirecting)
     }
 
     onChangeProffession(newProfID) {
@@ -49,15 +61,20 @@ export default class MainFilterSearchWork extends Component {
         console.log(this.state);
 
         requestWithParams('getResumes', {
-            country: 'Ukraine',
-            city: 'Kiev',
-            category: currentProffession,
-            experience: experience,
-            salary: salary,
-            salary_type: typeSalary,
+            country: '',
+            city: '',
+            category: currentProffession || '',
+            experience: experience || '',
+            salary: salary || '',
+            salary_type: typeSalary || '',
             sub_category_list: selectedParameters
 
-        }).catch(e => console.error(e));
+        })
+        .then(data => {
+            this.context.setResults(data.resume);
+            this.setRedirectToTrue();
+        })
+        .catch(e => console.error(e));
     };
 
     onSetTypeSalary(value){
@@ -69,6 +86,10 @@ export default class MainFilterSearchWork extends Component {
     }
 
     render() {
+        if (this.state.isRedirecting) {
+            return <Redirect to={'/questionaries'}/>
+        }
+
         return (
             <div className='main-filter'>
                 <div className='filter container'>
@@ -140,3 +161,7 @@ export default class MainFilterSearchWork extends Component {
         );
     }
 };
+
+MainFilterSearchWork.contextType = SearchResultContext;
+
+export default MainFilterSearchWork;

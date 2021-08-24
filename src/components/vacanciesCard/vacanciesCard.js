@@ -16,16 +16,17 @@ export default class VacanciesCard extends Component {
 
     render() {
         const {like} = this.state;
+        const { vacancy: { category, city, country, experience, parameters, salary, salary_type, description } } = this.props;
         return (
             <div className='card-v'>
                 <div className='header-card'>
                     <div className='card-name'>
                         <div className='name-text'>
                             <p className='text-job'>
-                                Няня
+                                {category}
                             </p>
                             <p className='text-city'>
-                                Австрия, Вена
+                                { `${country}, ${city}` }
                             </p>
                         </div>
                         <Like clazz={like} click={this.onLike}/>
@@ -33,17 +34,13 @@ export default class VacanciesCard extends Component {
                     <Plus/>
                 </div>
                 <div className='wrap-box'>
-                    <p className='text-options'>Опыт 6 лет</p>
-                    <p className='text-options'>Паспорт ЕС</p>
-                    <p className='text-options'>10$ в час</p>
+                    <p className='text-options'>Опыт {experience} лет</p>
+                    <p className='text-options'>{parameters[0].name}</p>
+                    <p className='text-options'>{salary} {salary_type}</p>
                 </div>
                 <p className='name-text-block start-content'>Описание вакансии</p>
                 <div className='border-block'>
-                    <p className='main-text'>Здравствуйте, мы ищем добрую няню и одновременно помощницу по дому. Нашим
-                        дочкам 1.6 года и 4 месяца. Вы должны очень любить детей, и иметь опыт работы с малышами либо
-                        иметь своих собственных детей. Нам очень важно найти человека который будет со всей любовью
-                        относиться к нашим девочкам. Здравствуйте, мы ищем добрую няню и одновременно помощницу по дому.
-                        Нашим дочкам 1.6 года и 4 месяца......</p>
+                    <p className='main-text'>{description}</p>
                 </div>
             </div>
         );

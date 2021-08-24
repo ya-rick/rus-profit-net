@@ -26,7 +26,7 @@ import AdvertMen from "../advertMen/advertMen";
 import QuestionModalContent from "../FAQ/QuestionModalContent";
 import FAQ from "../FAQ/FAQ";
 import { ModalVariants } from '../../common/consts';
-import { UserContext, ModalContext, PhotoContext } from "./contexts";
+import { UserContext, ModalContext, PhotoContext, SearchResultContext } from "./contexts";
 import Header from "../header";
 
 const modals = {
@@ -51,6 +51,7 @@ export default class MainPage extends Component {
         this.openFAQModal = this.openFAQModal.bind(this);
         this.openRedImgModal = this.openRedImgModal.bind(this);
         this.setPhoto = this.setPhoto.bind(this);
+        this.setResults = this.setResults.bind(this);
     }
 
     state = {
@@ -60,6 +61,7 @@ export default class MainPage extends Component {
         user: {
             id: null
         },
+        results: []
     };
 
     get isLoggedIn() {
@@ -68,6 +70,10 @@ export default class MainPage extends Component {
 
     setPhoto = (imgFile) => {
         this.setState({imgFile});
+    }
+
+    setResults(results) {
+        this.setState({ results })
     }
 
     get currentModalExists() {
@@ -152,28 +158,37 @@ export default class MainPage extends Component {
                                     <Header/>
                                     <ImgText/>
                                 </Route>
-                                <Route path='/searchWorker'>
-                                    <HeaderNew/>
-                                    <ImgText/>
-                                    <MainFilterSearch onChange = {this.onChangeProfession}/>
-                                    <Footer/>
-                                </Route>
-                                <Route path='/searchWork'>
-                                    <HeaderNew/>
-                                    <ImgText/>
-                                    <MainFilterSearchWork onChange = {this.onChangeProfession}/>
-                                    <Footer/>
-                                </Route>
-                                <Route path='/questionaries'>
-                                    <HeaderNew/>
-                                    <Questionnaires/>
-                                    <Footer/>
-                                </Route>
-                                <Route path='/vacancies'>
-                                    <HeaderNew/>
-                                    <Vacancies/>
-                                    <Footer/>
-                                </Route>
+
+                                <SearchResultContext.Provider value={{
+                                    results: this.state.results,
+                                    setResults: this.setResults
+                                }}>
+                                    <Route path='/searchWorker'>
+                                        <HeaderNew/>
+                                        <ImgText/>
+                                        <MainFilterSearch onChange = {this.onChangeProfession}/>
+                                        <Footer/>
+                                    </Route>
+                                    <Route path='/searchWork'>
+                                        <HeaderNew/>
+                                        <ImgText/>
+                                        <MainFilterSearchWork onChange = {this.onChangeProfession}/>
+                                        <Footer/>
+                                    </Route>
+
+                               
+                                    <Route path='/questionaries'>
+                                        <HeaderNew/>
+                                        <Questionnaires/>
+                                        <Footer/>
+                                    </Route>
+                                    <Route path='/vacancies'>
+                                        <HeaderNew/>
+                                        <Vacancies/>
+                                        <Footer/>
+                                    </Route>
+                                </SearchResultContext.Provider>
+                                
                                 <Route path='/404'>
                                     <HeaderNew/>
                                     <Error404/>
