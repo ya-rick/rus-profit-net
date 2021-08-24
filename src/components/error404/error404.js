@@ -1,24 +1,21 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import './error404.css';
 import {useHistory} from 'react-router-dom';
-import MainPageService from "../../services/mainPageService";
-
+import { requestWithParams } from "../../api/exchangeLayer";
 
 const Error404 = () => {
-    const service = new MainPageService();
     const [data, setData] = useState({error: false, description: '', title: '', image: '', subtitle: '', subtitle2: ''});
-    const [loaded, setLoaded] = useState(false);
-    if (!loaded) {
-        service.getErrorPage().then((res) => setData({
-            description : res.data[0].description,
-            error : res.data[0].error,
-            image : res.data[0].options[0].block1_image,
-            title : res.data[0].options[1].block1_title,
-            subtitle : res.data[0].options[2].block1_subtitle,
-            subtitle2 : res.data[0].options[3].block1_subtitle2
-        }));
-        setLoaded(true);
-    }
+
+    useEffect(() => {
+        requestWithParams('get404PageData')
+            .then(data => setData({
+                image : data.options[0].block1_image,
+                title : data.options[1].block1_title,
+                subtitle : data.options[2].block1_subtitle,
+                subtitle2 : data.options[3].block1_subtitle2
+            }))
+    }, []);
+
     const history = useHistory();
 
     const myStyle = {

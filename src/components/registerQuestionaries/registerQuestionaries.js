@@ -65,7 +65,8 @@ class RegisterQuestionaries extends Component {
         requestWithFormData('registerQuestionary', {
             ...generalInformation,
             image_r: this.context.imgFile,
-            ...nameContact});
+            ...nameContact}
+        );
     }
 
     render() {

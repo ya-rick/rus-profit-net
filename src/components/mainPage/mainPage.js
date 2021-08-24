@@ -22,6 +22,7 @@ import HeaderAfterReg from "../headerAfterReg";
 import Vacancy from "../vacancy";
 import Questionnaire from "../questionnaire";
 import UserAgreement from "../userAgreement/userAgreement";
+import AdvertMen from "../advertMen/advertMen";
 import QuestionModalContent from "../FAQ/QuestionModalContent";
 import FAQ from "../FAQ/FAQ";
 import { ModalVariants } from '../../common/consts';
@@ -199,6 +200,11 @@ export default class MainPage extends Component {
                                 <Route path='/userAgreement'>
                                     <HeaderNew/>
                                     <UserAgreement/>
+                                    <Footer/>
+                                </Route>
+                                <Route path='/advertMen'>
+                                    <HeaderNew/>
+                                    <AdvertMen/>
                                     <Footer/>
                                 </Route>
                                 <Route path='/faq'>

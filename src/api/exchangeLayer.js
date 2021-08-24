@@ -7,6 +7,9 @@ const httpMethodsTypes = {
     getVacancies: 'search_vacancy',
     getResumes: 'search_resume',
     registerQuestionary: 'registration_resume',
+    get404PageData: 'get_page_404',
+    getPageLicense: 'get_page_license',
+    getPageAdvert: 'get_page_ad',
     sendImg: 'test_img'
 }
 

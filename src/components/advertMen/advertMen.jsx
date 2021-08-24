@@ -11,21 +11,17 @@ export default function UserAgreement () {
     const [data, setData] = useState({});
 
     useEffect(() => {
-        requestWithParams('getPageLicense')
+        requestWithParams('getPageAdvert')
             .then(data => {
                 const [
+                    { block_title },
                     { block1_title },
                     { block1_subtitle },
-                    { block2_title },
-                    { block2_subtitle },
-                    { block_title },
                 ] = data.options;
 
                 setData({
                     block1_title,
                     block1_subtitle,
-                    block2_title,
-                    block2_subtitle,
                     block_title
                 })
             });
@@ -39,10 +35,6 @@ export default function UserAgreement () {
         <div className={'borderedTitle'}>{data.block1_title}</div>
 
         <div>{data.block1_subtitle}</div>
-
-        <div className={'borderedTitle'}>{data.block2_title}</div>
-
-        <div>{data.block2_subtitle}</div>
 
         <TwoLinkedButtonGroup>
             <LinkedButton to={'/vacancies'}>Найти работника</LinkedButton>
