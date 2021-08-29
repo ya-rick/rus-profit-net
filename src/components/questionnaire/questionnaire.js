@@ -17,22 +17,7 @@ export default function Questionnaire() {
         like: false
     });
 
-    const [resume, setResume] = useState({
-        category: '',
-        description: '',
-        experience: '',
-        docs: '',
-        avatar: Avatar,
-        schedule: '',
-        native_language: '',
-        foreign_language: '',
-        education: '',
-        responsibilities: '',
-        salary: '',
-        salary_type: '',
-        places: '',
-        resume: {}
-    });
+    const [resume, setResume] = useState(null);
 
     const {id} = useParams();
 
@@ -41,27 +26,28 @@ export default function Questionnaire() {
                 resume_id: id
             })
                 .then(res=> {
+                    const fromServerResume = res.resume[0];
+
                     setResume({
-                        category: res.resume[0].name || '',
-                        description: res.resume[0].description || '',
-                        experience: res.resume[0].experience || '',
-                        avatar: res.resume[0].avatar || Avatar,
-                        docs: res.resume[0].parameters[0].options || [],
-                        schedule:  res.resume[0].parameters[1].options || [],
-                        native_language: res.resume[0].parameters[2].options[0].name || [],
-                        foreign_language: res.resume[0].parameters[3].options || [],
-                        education: res.resume[0].parameters[4].options || '',
-                        responsibilities: res.resume[0].parameters[5].options || [],
-                        salary: res.resume[0].salary,
-                        salary_type: res.resume[0].salary_type || '',
-                        places: [`${res.vacancy[0].places[0].country_name}, ${res.vacancy[0].places[0].cities[0].name}` || '',
-                            `${res.vacancy[0].places[1].country_name}, ${res.vacancy[0].places[1].cities[0].name}` || '',
-                            `${res.vacancy[0].places[2].country_name}, ${res.vacancy[0].places[2].cities[0].name}` || '',]
+                        category: fromServerResume.name || '',
+                        description: fromServerResume.description || '',
+                        experience: fromServerResume.experience || '',
+                        avatar: fromServerResume.avatar || Avatar,
+                        docs: fromServerResume.parameters[0].options || [],
+                        schedule:  fromServerResume.parameters[1].options || [],
+                        native_language: fromServerResume.parameters[2].options[0].name || [],
+                        foreign_language: fromServerResume.parameters[3].options || [],
+                        education: fromServerResume.parameters[4].options || '',
+                        responsibilities: fromServerResume.parameters[5].options || [],
+                        salary: fromServerResume.salary,
+                        salary_type: fromServerResume.salary_type || '',
+                        places: [`${fromServerResume.places[0].country_name}, ${fromServerResume.places[0].cities[0].name}` || '',
+                            `${fromServerResume.places[1].country_name}, ${fromServerResume.places[1].cities[0].name}` || '',
+                            `${fromServerResume.places[2].country_name}, ${fromServerResume.places[2].cities[0].name}` || '',]
                     });
-                }).then()
+                })
                 .catch(e=>console.error(e));
-        }
-        ,[]);
+        }, []);
 
     console.log(resume);
 
@@ -99,7 +85,7 @@ export default function Questionnaire() {
     const likes = getLikes(activeHand ? activeHand : mark);
 
     return (
-        <div className='container'>
+        resume ? <div className='container'>
             <div className='vacancy-head'>
                 <div className='vacancy-head-left'>
                     <h1>{resume.category}</h1>
@@ -126,7 +112,7 @@ export default function Questionnaire() {
                         </div>
                         <div className='col-xs-12 col-md-12 col-lg-12'>
                             <p className='bold-text-info container row margin-bottom'>{resume.salary} {resume.salary_type}</p>
-                            <p className='bold-text-info container row margin-bottom'>{resume.schedule.map(item=> item)}</p>
+                            <p className='bold-text-info container row margin-bottom'>{resume.schedule.map(item => item.name)}</p>
                             <div className='row flex margin-bottom'>
                                 <p className='bold-text-info col-xs-6 col-md-6 col-lg-6'>Город:</p>
                                 <p className='light-text-info col-xs-6 col-md-6 col-lg-6'>Австрия, Вена</p>
@@ -165,5 +151,6 @@ export default function Questionnaire() {
             </div>
             <MoreDetails authorized={true}/>
         </div>
+        : 'Загрузка...'
     );
 };
