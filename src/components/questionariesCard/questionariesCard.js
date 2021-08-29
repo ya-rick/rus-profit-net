@@ -4,14 +4,21 @@ import './questionariesCard.css';
 import Hand from "../hand";
 import Like from "../like";
 import Plus from "../plus";
+import {Redirect} from "react-router-dom";
 
 export default class QuestionariesCard extends Component {
 
     state = {
         mark: 3,
         activeHand: null,
-        like: false
+        like: false,
+        isRedirecting: false
     };
+
+    setRedirectingTrue=()=>{
+        this.setState({isRedirecting: true})
+    }
+
 
     getLikes = (numb) => {
         const likes = [];
@@ -49,12 +56,16 @@ export default class QuestionariesCard extends Component {
     render() {
         const {mark, activeHand, like} = this.state;
 
-        const { resume: { category, city, country, experience, parameters,
+        const { resume: {id, category, city, country, experience, parameters,
             salary, salary_type, description, name, avatar } } = this.props;
+
+        if (this.state.isRedirecting) {
+            return <Redirect to={`/questionnaire/${id}`}/>
+        }
 
         const likes = this.getLikes(activeHand ? activeHand : mark);
         return (
-            <div className='card'>
+            <div className='card' onClick={this.setRedirectingTrue}>
                 <div className='col-xs-12 col-md-4 col-lg-3'>
                     <img className='avatar' src={avatar} alt='аватар'/>
                     <div className='wrap-box'>

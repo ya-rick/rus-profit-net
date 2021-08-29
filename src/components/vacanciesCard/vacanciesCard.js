@@ -2,11 +2,19 @@ import React, {Component} from 'react';
 import './vacanciesCard.css';
 import Like from "../like";
 import Plus from "../plus";
+import {Redirect, useHistory} from "react-router-dom";
+
+const openCard = () => {
+    console.log('.');
+    const history = new useHistory();
+    history.push('/vacancy');
+};
 
 export default class VacanciesCard extends Component {
 
     state = {
-        like: false
+        like: false,
+        isRedirecting: false
     }
 
     onLike = () => {
@@ -14,11 +22,18 @@ export default class VacanciesCard extends Component {
         this.setState({like: !like});
     };
 
+    setRedirectToTrue() {
+        this.setState({ isRedirecting: true });
+    }
+
     render() {
         const {like} = this.state;
-        const { vacancy: { category, city, country, experience, parameters, salary, salary_type, description } } = this.props;
+        const { vacancy: { id, category, city, country, experience, parameters, salary, salary_type, description } } = this.props;
+        if (this.state.isRedirecting) {
+            return <Redirect to={`/vacancy/${id}`}/>
+        }
         return (
-            <div className='card-v'>
+            <div className='card-v' onClick={()=> this.setRedirectToTrue()}>
                 <div className='header-card'>
                     <div className='card-name'>
                         <div className='name-text'>

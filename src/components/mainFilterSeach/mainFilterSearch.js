@@ -107,7 +107,6 @@ class MainFilterSearch extends Component {
             salary: salary || '',
             salary_type: typeSalary || '',
             sub_category_list: selectedParameters
-
         })
         .then(data => {
             this.context.setResults(data.resume);

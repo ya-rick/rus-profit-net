@@ -26,10 +26,16 @@ export const buttonStylesMixin = css`
   
   box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.8);
 
-  :hover, :active {
+  :hover {
     box-shadow: inset 0 6px 10px rgba(0, 0, 0, 0.8);
     background: #E9F0FF;
   }
+  
+  :link, :visited{
+    text-decoration: none;
+    color: #000000;
+  }
+  
 `;
 
 export const inputMixins = css`

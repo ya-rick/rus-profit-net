@@ -222,12 +222,12 @@ export default class MainPage extends Component {
                                         <FAQ/>
                                         <Footer/>
                                     </Route>
-                                    <Route path='/vacancy'>
+                                    <Route path='/vacancy/:id'>
                                         <HeaderAfterReg/>
                                         <Vacancy/>
                                         <Footer/>
                                     </Route>
-                                    <Route path='/questionnaire'>
+                                    <Route path='/questionnaire/:id'>
                                         <HeaderAfterReg/>
                                         <Questionnaire/>
                                         <Footer/>
