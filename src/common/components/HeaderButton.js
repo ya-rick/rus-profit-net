@@ -17,6 +17,10 @@ export default styled(Link)`
 
   color: #000000;
 
+
+  font-style: normal;
+  font-weight: 700;
+  
   display: flex;
   align-items: center;
   gap: 5px;

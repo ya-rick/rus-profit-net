@@ -9,7 +9,7 @@ const MenuNannyItem = ({ listsData, chek, selectedIDs })=>{
         return (
             <div key={id} className="input-list col-xs-12 col-md-12 col-lg-6">
                 <CheckBox isChecked={selectedIDs.includes(id)} check={()=>chek(id)}>
-                    <p className='p-item'>{name}</p>
+                    <h3  className='p-item'>{name}</h3>
                 </CheckBox>
             </div>
         );

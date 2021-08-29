@@ -11,7 +11,9 @@ const httpMethodsTypes = {
     get404PageData: 'get_page_404',
     getPageLicense: 'get_page_license',
     getPageAdvert: 'get_page_ad',
-    sendImg: 'test_img'
+    sendImg: 'test_img',
+    getVacancyByID: 'get_vacancy_data',
+    getResumeByID: 'get_resume_data'
 }
 
 export const requestWithParams = (method, dataToServer = {}) => {
