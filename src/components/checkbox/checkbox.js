@@ -4,7 +4,7 @@ import './checkbox.css';
 
 const CheckBox = ({isChecked, check, children}) =>{
     return(
-        <div className='checkbox' onClick={()=>check()}>
+        <div className='checkbox' onClick={()=>check && check({ target: { value: !isChecked } })}>
             <div className='check'>
                 {isChecked? <img src={Check} alt=''/>: <></> }
             </div>

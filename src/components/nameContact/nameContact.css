@@ -4,10 +4,8 @@
     border-radius: 15px;
     background: #FFFFFF;
     border: 2px solid #6f80a5;
-    box-sizing: border-box;
     padding: 11px 20px;
 
-    font-family: 'Raleway', sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 15px;
@@ -41,46 +39,60 @@
     color: #000000;
 }
 
-.subtext{
-    font-family: 'Raleway', sans-serif;
-    margin-top: 10px;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 13px;
-    line-height: 18px;
-
-    color: #4C5E8B;
-}
-
 .bg-reg-text{
-    font-family: 'Raleway', sans-serif;
-    font-style: normal;
     font-weight: normal;
-    text-align: left;
     font-size: 17px;
     line-height: 23px;
 
-    margin-bottom: 20px;
-    margin-top: 30px;
-
-    color: #000000;
+    margin-left: 20px;
+    margin-right: auto;
 }
 
-.contacts{
-    font-family: 'Raleway', sans-serif;
-    font-weight: 700;
-    margin: 50px 18px;
+.name-info-text {
+    font-weight: normal;
+    font-size: 17px;
+    line-height: 23px;
+
+    margin-bottom: 30px;
 }
 
-.subtext-new{
-    font-family: 'Raleway', sans-serif;
+.name-info-block {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 100px;
+    row-gap: 70px;
+}
+
+.name-info-subblock {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.contacts-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 100px;
+    row-gap: 30px;
+}
+
+.contacts-subblock {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.contacts-subblock > input {
+    width: 320px;
+}
+
+.subtext-new {
     margin-top: 10px;
-    font-style: normal;
     font-weight: normal;
     font-size: 13px;
     line-height: 18px;
     text-align: left;
-    margin-left: 18px;
 
     color: #4C5E8B;
 }
