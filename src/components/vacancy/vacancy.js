@@ -17,13 +17,15 @@ const Vacancy = () => {
             })
                 .then(res => {
                     const fromServerVacancy = res.vacancy[0]
-
+                    console.log(res);
                     setVacancy({
                         category: fromServerVacancy.category || '',
+                        create_date: fromServerVacancy.create_date || '',
+                        employer: fromServerVacancy.employer || '',
                         description: fromServerVacancy.description || '',
                         experience: fromServerVacancy.experience || '',
                         docs: fromServerVacancy.parameters[0].options || '',
-                        schedule:  fromServerVacancy.parameters[1].options || '',
+                        schedule:  fromServerVacancy.parameters[1].options || [{name: ''},{name: ''}, {name: ''}],
                         native_language: fromServerVacancy.parameters[2].options[0].name || '',
                         foreign_language: fromServerVacancy.parameters[3].options || '',
                         education: fromServerVacancy.parameters[4].options || '',
@@ -38,7 +40,6 @@ const Vacancy = () => {
                 .catch(e=>console.error(e));
         }
     , []);
-
     console.log(vacancy);
     return (
         vacancy ? <div className='container'>
@@ -56,21 +57,23 @@ const Vacancy = () => {
             </div>
             <div className='card-va'>
                 <div className='col-xs-12 col-md-12 col-lg-6'>
-                    <p className='bold-text-info container row'>{vacancy.salary} {vacancy.salary_type}</p>
-                    <p className='bold-text-info container row'>Без проживания, частичная занятость</p>
+                    <div>
+                        <p className='bold-text-info container row'>{vacancy.salary} {vacancy.salary_type}</p>
+                        <p className='bold-text-info container row'>{vacancy.schedule.map((item)=><span className='bold-text-info'>{`${item.name}. `}</span>)}</p>
+                    </div>
                     <div className='row flex'>
                         <p className='bold-text-info col-xs-6 col-md-6 col-lg-6'>Работодатель:</p>
-                        <p className='light-text-info col-xs-6 col-md-6 col-lg-6'>Екатерина</p>
+                        <p className='light-text-info col-xs-6 col-md-6 col-lg-6'>{vacancy.employer}</p>
                     </div>
                     <div className='row flex'>
                         <p className='bold-text-info col-xs-6 col-md-6 col-lg-6'>Дата публикации:</p>
-                        <p className='light-text-info col-xs-6 col-md-6 col-lg-6'>23.06.2020</p>
+                        <p className='light-text-info col-xs-6 col-md-6 col-lg-6'>{vacancy.create_date}</p>
                     </div>
                 </div>
                 <div className='col-xs-12 col-md-12 col-lg-6'>
                     <div className='row flex'>
                         <p className='bold-text-info col-xs-6 col-md-6 col-lg-6'>Город:</p>
-                        <p className='light-text-info col-xs-6 col-md-6 col-lg-6'>{
+                        <p className='light-text-info col-xs-6 col-md-6 col-lg-6 flex-row'>{
                             vacancy.places && vacancy.places.map((item)=><p className='light-text-info col-xs-12 col-md-12 col-lg-12'>{item}</p>)
                         }</p>
                     </div>
@@ -80,7 +83,9 @@ const Vacancy = () => {
                     </div>
                     <div className='row flex'>
                         <p className='bold-text-info col-xs-6 col-md-6 col-lg-6'>Документы:</p>
-                        {vacancy.docs && vacancy.docs.map((item)=><p className='light-text-info col-xs-12 col-md-12 col-lg-12'>{item.name}</p>)}
+                        <p className='light-text-info col-xs-6 col-md-6 col-lg-6 flex-row'>
+                            {vacancy.docs && vacancy.docs.map((item)=><p className='light-text-info col-xs-12 col-md-12 col-lg-12'>{item.name}</p>)}
+                        </p>
                     </div>
                     <div className='row flex'>
                         <p className='bold-text-info col-xs-6 col-md-6 col-lg-6'>Опыт работы:</p>
@@ -94,7 +99,7 @@ const Vacancy = () => {
                     {vacancy.description}
                 </div>
             </div>
-            <MoreDetails authorized={false}/>
+            <MoreDetails foreign_language={vacancy.foreign_language} education={vacancy.education} responsibilities={vacancy.responsibilities} authorized={false}/>
         </div>
         : 'Загрузка...'
     );

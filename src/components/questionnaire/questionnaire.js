@@ -27,7 +27,7 @@ export default function Questionnaire() {
             })
                 .then(res=> {
                     const fromServerResume = res.resume[0];
-
+                    console.log(res);
                     setResume({
                         category: fromServerResume.name || '',
                         description: fromServerResume.description || '',
@@ -101,7 +101,7 @@ export default function Questionnaire() {
             <div className='card-va'>
                 <div className='container'>
                     <div className='col-xs-12 col-md-6 col-lg-6 center-img'>
-                        <img className='col-xs-8 col-md-8 col-lg-8' src={resume.avatar} alt='аватар'/>
+                        <img className='col-xs-8 col-md-8 col-lg-8 image' src={resume.avatar} alt='аватар'/>
                         <div className='wrap-box margin-bottom'>
                             {likes}
                         </div>
@@ -115,41 +115,34 @@ export default function Questionnaire() {
                             <p className='bold-text-info container row margin-bottom'>{resume.schedule.map(item => item.name)}</p>
                             <div className='row flex margin-bottom'>
                                 <p className='bold-text-info col-xs-6 col-md-6 col-lg-6'>Город:</p>
-                                <p className='light-text-info col-xs-6 col-md-6 col-lg-6'>Австрия, Вена</p>
+                                <p className='light-text-info col-xs-6 col-md-6 col-lg-6 flex-row'>{
+                                    resume.places && resume.places.map((item)=><p className='light-text-info col-xs-12 col-md-12 col-lg-12'>{item}</p>)
+                                }</p>
                             </div>
                             <div className='row flex margin-bottom'>
                                 <p className='bold-text-info col-xs-6 col-md-6 col-lg-6'>Родной язык:</p>
-                                <p className='light-text-info col-xs-6 col-md-6 col-lg-6'>Русский</p>
+                                <p className='light-text-info col-xs-6 col-md-6 col-lg-6'>{resume.native_language}</p>
                             </div>
                             <div className='row flex margin-bottom'>
                                 <p className='bold-text-info col-xs-6 col-md-6 col-lg-6'>Документы:</p>
-                                <p className='light-text-info col-xs-6 col-md-6 col-lg-6'>{'parameters[0].name'}</p>
+                                <p className='light-text-info col-xs-6 col-md-6 col-lg-6 flex-row'>{
+                                    resume.docs && resume.docs.map((item)=><p className='light-text-info col-xs-12 col-md-12 col-lg-12'>{item.name}</p>)
+                                }</p>
                             </div>
                             <div className='row flex margin-bottom'>
                                 <p className='bold-text-info col-xs-6 col-md-6 col-lg-6'>Опыт работы:</p>
-                                <p className='light-text-info col-xs-6 col-md-6 col-lg-6'>{'experience'} лет</p>
+                                <p className='light-text-info col-xs-6 col-md-6 col-lg-6'>{resume.experience}</p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div>
+                <div className='container'>
                     <div className='text-description'>
-                        Здравствуйте, мы ищем добрую няню и одновременно помощницу по дому.
-                        Нашим дочкам 1.6 года и 4 месяца.
-                        Вы должны очень любить детей, и иметь опыт работы с малышами либо иметь своих собственных детей.
-                        Нам очень важно найти человека который будет со всей любовью относиться к нашим девочкам.
-                        Здравствуйте, мы ищем добрую няню и одновременно помощницу по дому.
-                        Нашим дочкам 1.6 года и 4 месяца.
-                        Вы должны очень любить детей, и иметь опыт работы с малышами либо иметь своих собственных детей.
-                        Нам очень важно найти человека который будет со всей любовью относиться к нашим девочкам.
-                        Здравствуйте, мы ищем добрую няню и одновременно помощницу по дому.
-                        Нашим дочкам 1.6 года и 4 месяца.
-                        Вы должны очень любить детей, и иметь опыт работы с малышами либо иметь своих собственных детей.
-                        Нам очень важно найти человека который будет со всей любовью относиться к нашим девочкам.
+                        {resume.description}
                     </div>
                 </div>
             </div>
-            <MoreDetails authorized={true}/>
+            <MoreDetails education={resume.education} foreign_language={resume.foreign_language} responsibilities={resume.responsibilities} authorized={true}/>
         </div>
         : 'Загрузка...'
     );

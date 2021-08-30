@@ -1,7 +1,7 @@
 import React from 'react';
 import './moreDetails.css';
 
-const MoreDetails = ({authorized})=>{
+const MoreDetails = ({authorized, education, foreign_language, responsibilities})=>{
 
     return(
         <div className='card-va container'>
@@ -9,21 +9,16 @@ const MoreDetails = ({authorized})=>{
             <div className='container'>
                 <div className='row flex col-xs-12 col-md-12 col-lg-12'>
                     <p className='bold-text-info col-xs-6 col-md-6 col-lg-3'>Знание языков:</p>
-                    <p className='light-text-info col-xs-6 col-md-6 col-lg-9'>Английский, Немецкий</p>
+                    <p className='light-text-info col-xs-6 col-md-6 col-lg-9'>{foreign_language.map((item)=><span className='light-text-info'>{`${item.name}. `}</span>)}</p>
                 </div>
                 <div className='row flex col-xs-12 col-md-12 col-lg-12'>
                     <p className='bold-text-info col-xs-6 col-md-6 col-lg-3'>Образование:</p>
-                    <p className='light-text-info col-xs-6 col-md-6 col-lg-9'>Высшее, Медицинское</p>
+                    <p className='light-text-info col-xs-6 col-md-6 col-lg-9'>{education.map((item)=><span className='light-text-info'>{`${item.name}. `}</span>)}</p>
                 </div>
                 <div className='row flex col-xs-12 col-md-12 col-lg-12'>
                     <p className='bold-text-info col-xs-6 col-md-6 col-lg-3'>Обязанности:</p>
                     <div className='col-xs-6 col-md-6 col-lg-6 margin-left-10'>
-                        <p className='light-text-info col-xs-6 col-md-6 col-lg-6'>Купание детей</p>
-                        <p className='light-text-info col-xs-6 col-md-6 col-lg-6'>Приготовление пищи</p>
-                        <p className='light-text-info col-xs-6 col-md-6 col-lg-6'>Детская гигиена</p>
-                        <p className='light-text-info col-xs-6 col-md-6 col-lg-6'>Сопровождение детей</p>
-                        <p className='light-text-info col-xs-6 col-md-6 col-lg-6'>Поддержание порядка</p>
-                        <p className='light-text-info col-xs-6 col-md-6 col-lg-6'>Стирка и глажка детской одежды</p>
+                        {responsibilities.map((item)=> <p className='light-text-info col-xs-12 col-md-12 col-lg-6'>{item.name}</p>)}
                     </div>
                 </div>
                 <div className='row empty col-xs-12 col-md-12 col-lg-12 '>

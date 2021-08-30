@@ -1,3 +1,10 @@
 .app{
     width: 100%;
 }
+
+.flex-row{
+    margin-left: -15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+}
