@@ -10,6 +10,7 @@ import { requestWithFormData, requestWithParams } from '../../api/exchangeLayer'
 import CommonButton from "../../common/components/CommonButton";
 import { bindValidator, getErrorMessage, validateAll, validationTypes } from '../../common/validate';
 import ErrorMessage from '../../common/components/ErrorMessage';
+import { clamp } from '../../common/utils';
 
 export default class RegisterVacancies extends Component {
 
@@ -19,6 +20,10 @@ export default class RegisterVacancies extends Component {
         this.onChangeContacts = this.onChangeContacts.bind(this);
         this.onChangeRestData = this.onChangeRestData.bind(this);
         this.sendData = this.sendData.bind(this);
+        this.validate = this.validate.bind(this);
+        this.onChangeCountries = this.onChangeCountries.bind(this);
+        this.onChangeCities = this.onChangeCities.bind(this);
+        this.onChangeActiveEditableCountry = this.onChangeActiveEditableCountry.bind(this);
 
         this.state = {
             nameContact: {
@@ -27,14 +32,19 @@ export default class RegisterVacancies extends Component {
                 user_email: '', 
                 user_password: '', 
                 user_password_confirm: '',
-                user_country: '',
-                user_city: '',
                 user_second_email: '',
                 user_skype: '',
-                user_phone: '',
-                user_whatsapp: '',
                 user_viber: '',
                 user_telegram: '',
+                user_phone_prefered: false,
+                user_whatsapp_prefered: false,
+                user_second_email_prefered: false,
+                user_skype_prefered: false,
+                user_viber_prefered: false,
+                user_telegram_prefered: false,
+                user_country: [],
+                user_city: [],
+                currentEditCountry: null
             },
             restData: {
                 category_global: null,
@@ -105,9 +115,88 @@ export default class RegisterVacancies extends Component {
         }
     }
 
-    Check = () => {
+    onChangeCountries(newCountry, operationType) {
+        let newCountries = [...this.state.nameContact.user_country];
+        let newActiveEditableCountry = null;
+
+        if (this.state.nameContact.user_country.length === 3  && operationType !== 'delete') {
+            return;
+        }
+
+        if (operationType === 'delete') {
+
+            const countryIndex = this.state.nameContact.user_country
+                .findIndex(country => country.id === newCountry.id);
+            newCountries
+                .splice(countryIndex, 1);
+
+            if (this.state.nameContact.user_city[countryIndex]) {
+                this.state.nameContact.user_city.splice(countryIndex);
+            }
+            
+            if (newCountries.length === 0) {
+                newActiveEditableCountry = null;
+            } else {
+                newActiveEditableCountry = clamp(0, countryIndex, newCountries.length - 2);
+            }
+        } else if (operationType === 'add') {
+            newCountries.push(newCountry);
+
+            newActiveEditableCountry = newCountry;
+        }
+
+        this.setState({ 
+            nameContact: {
+                ...this.state.nameContact, 
+                user_country: [...newCountries],
+                currentEditCountry: newActiveEditableCountry
+            }
+        });
+    }
+
+    onChangeCities(newCity, operationType) {
+
+        const { user_country, user_city, currentEditCountry } = this.state.nameContact;
+
+        if (user_city?.flat().length === 3 && operationType !== 'delete') {
+            return;
+        }
+
+        const editableIndex = user_country.findIndex(country => 
+            country.id === currentEditCountry.id);
+
+        let editableCitiesArray = null;
+
+        if (user_city[editableIndex]) {
+            editableCitiesArray = user_city[editableIndex];
+        } else {
+            editableCitiesArray = [];
+            user_city.push(editableCitiesArray);
+        }
+
+        if (operationType === 'delete') {
+            editableCitiesArray.splice(editableCitiesArray.findIndex(city => city.id === newCity.id), 1);
+
+            if (editableCitiesArray.length === 0) {
+                user_city.splice(editableIndex, 1);
+            }
+        } else if (operationType === 'add') {
+            editableCitiesArray.push(newCity);
+        }
+
+        this.setState({ nameContact: {
+            ...this.state.nameContact,
+            user_city: [...this.state.nameContact.user_city]}
+        })
+    }
+
+    onChangeActiveEditableCountry(newCountry) {
+        this.setState({ nameContact: {...this.state.nameContact, currentEditCountry: newCountry } });
+    }
+
+    check = () => {
         const {agree} = this.state.restData;
-        this.setState({restData: {...this.state.restData, agree: !agree}});
+        this.setState({restData: {...this.state.restData, agree: !agree }});
     }
 
     onChangeContacts(key) {
@@ -147,9 +236,17 @@ export default class RegisterVacancies extends Component {
     sendData() {
         const { restData, nameContact } = this.state;
 
+        console.log(nameContact.user_country)
+
         if (!this.validate()) return;
 
-        let requestData = Object.entries({...restData, ...nameContact}).reduce((acc, [key, value]) => {
+        let requestData = Object.entries({
+                ...restData,
+                ...nameContact,
+                user_country: nameContact.user_country?.map(country => country.name).join(','),
+                user_city: nameContact.user_city?.reduce((acc, cities) => (acc.push(cities.map(city => city.name).join(',')), acc), [])
+                    .join(';')
+            }).reduce((acc, [key, value]) => {
             acc[key + '_v'] = value;
             return acc;
         }, {})
@@ -164,6 +261,8 @@ export default class RegisterVacancies extends Component {
         const { userInfoError, passwordError, userContactsError, findOptionsError,
         descriptionError } = getErrorMessage.apply(this);
 
+        const { nameContact } = this.state;
+
         return (
             <div className='container'>
                 <div className='container'>
@@ -174,8 +273,15 @@ export default class RegisterVacancies extends Component {
                 </div>
                 <NameContact
                     onChangeContacts={this.onChangeContacts}
-                    contacts={this.state.nameContact}
+                    contacts={nameContact}
                     contactError={userContactsError}
+
+                    onChangeCountries={this.onChangeCountries}
+                    onChangeCities={this.onChangeCities}
+                    onChangeActiveEditableCountry={this.onChangeActiveEditableCountry}
+                    chosenCountries={nameContact.user_country}
+                    chosenCities={nameContact.user_city?.flat()}
+                    activeCountry={this.state.nameContact.currentEditCountry}
                 />
                 <div className='container'>
                     <h2 className='register-title'>Кого вы ищете

@@ -1,13 +1,15 @@
 import React, {Component} from 'react';
 import './nameContact.css';
-import Select from "../select";
 import ErrorMessage from '../../common/components/ErrorMessage';
 import CheckBox from "../checkbox";
+import { SearchableMultiSelect } from './searchableMultiSelect';
+import PasswordInput from '../../common/components/PasswordInput';
 
 export default class NameContact extends Component {
 
     render() {
-        const { contacts, onChangeContacts, contactError } = this.props;
+        const { contacts, onChangeContacts, contactError, onChangeCountries, onChangeCities,
+            onChangeActiveEditableCountry, chosenCountries, chosenCities, activeCountry } = this.props;
 
         return (
             <>
@@ -42,40 +44,42 @@ export default class NameContact extends Component {
 
                         <div className='name-info-subblock'>
                             <p className='name-info-text'>Пароль*</p>
-                            <input
-                                className='input-reg'
-                                type='text'
+                            <PasswordInput
                                 value={contacts.user_password}
                                 onChange={onChangeContacts('user_password')}/>
                         </div>
 
                         <div className='name-info-subblock'>
                             <p className='name-info-text'>Выберите страну*</p>
-                            {/* <Select>
-                            </Select> */}
-                            <input
-                                className='input-reg'
-                                type='text'
-                                value={contacts.user_country}
-                                onChange={onChangeContacts('user_country')}/>
+                            <SearchableMultiSelect
+                                onTagClick={(tag) => onChangeActiveEditableCountry(tag)}
+                                onTagDelete={(tag) => onChangeCountries(tag, 'delete')}
+                                chosenOptions={chosenCountries}
+                                requestType={'get_countries'}
+                                isCountry={true}
+                                onItemSelected={(tag) => onChangeCountries(tag, 'add')}
+                                editableCountryID={activeCountry?.id}
+                            />
                         </div>
 
                         <div className='name-info-subblock'>
                             <p className='name-info-text'>Выберите город</p>
-                            {/* <Select>
-                            </Select> */}
-                            <input
-                                className='input-reg'
-                                type='text'
-                                value={contacts.user_city}
-                                onChange={onChangeContacts('user_city')}/>
+                            <SearchableMultiSelect
+                                onTagClick={(tag) => {}}
+                                onTagDelete={(tag) => onChangeCities(tag, 'delete')}
+                                chosenOptions={chosenCities}
+                                requestType={'get_cities'}
+                                isCountry={false}
+                                onItemSelected={(tag) => onChangeCities(tag, 'add')}
+                                editableCountryID={activeCountry?.id}
+                            />
                         </div>
+
+                        <div></div>
 
                         <div className='name-info-subblock'>
                             <p className='name-info-text'>Подтвердите пароль*</p>
-                            <input
-                                className='input-reg'
-                                type='text'
+                            <PasswordInput
                                 value={contacts.user_password_confirm}
                                 onChange={onChangeContacts('user_password_confirm')}/>
                         </div>

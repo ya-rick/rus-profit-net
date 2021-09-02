@@ -11,6 +11,7 @@ import { SalaryTypes } from "../../common/consts";
 import LinkedButton from "../../common/components/LinkedButton";
 import { SearchResultContext } from "../mainPage/contexts";
 import { Redirect } from "react-router-dom";
+import Input from "../../common/components/Input";
 
 class MainFilterSearch extends Component {
 
@@ -153,12 +154,16 @@ class MainFilterSearch extends Component {
                         <div className='main-filter-search-subBlock'>
                             <p className='bg-long-text'>Предлагаемая заработная плата</p>
                             <div className='group-input'>
-                                <input className='select-mini-input' type='text' onChange={(e)=>this.onChangeSalary(e.target.value)}/>
-                                <div className='select-mini-input-s'>
-                                    <Select onItemClickCallback={obj => this.onSetTypeSalary(obj.id) }>
-                                        {Object.entries(SalaryTypes).map(([id, name]) => ({ id, name }))}
-                                    </Select>
-                                </div>
+                                <Select
+                                    onItemClickCallback={obj => this.onSetTypeSalary(obj.id) }
+                                    leftHeaderItem={
+                                        <Input
+                                            onChange={(e)=>this.onChangeSalary(e.target.value)}
+                                        />
+                                    }
+                                >
+                                    {Object.entries(SalaryTypes).map(([id, name]) => ({ id, name }))}
+                                </Select>
                             </div>
                         </div>
                     </div>

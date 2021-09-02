@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { SelectWrapper, SelectHeader, SelectDropdownList, SelectDropdownItem,
-    ArrowWrapper, SelectTitle, SelectedItem, SelectHeaderLayout } from './styles';
+    ArrowWrapper, SelectLayout, SelectedItem, LeftItemWrapper } from './styles';
 import { arrow_down } from '../../common/svgElements';
 
 function ArrowDown ({ isInverted = false }) {
@@ -46,21 +46,21 @@ export default function Select ({ headerTitle, elements, children, onItemClickCa
     
     return (
         <SelectWrapper>
-            {headerTitle && <SelectTitle>
-                {headerTitle}
-            </SelectTitle>}
 
-            <SelectHeaderLayout>
-                {leftHeaderItem && leftHeaderItem}
+            {leftHeaderItem && leftHeaderItem}
+
+            <SelectLayout>
                 <SelectHeader onClick={toggleOpen}>
                     <SelectedItem>{selectedItem?.name}</SelectedItem>
                     <ArrowDown isInverted={isOpen}/>    
                 </SelectHeader>
-            </SelectHeaderLayout>
+
+                {isOpen && <SelectDropdownList>
+                    {renderChildren()}
+                </SelectDropdownList>}
+            </SelectLayout>
             
-            {isOpen && <SelectDropdownList>
-                {renderChildren()}
-            </SelectDropdownList>}
+            
         </SelectWrapper>
     )
 }

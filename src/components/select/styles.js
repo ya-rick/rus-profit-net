@@ -1,21 +1,30 @@
 import styled from 'styled-components';
 
 export const SelectWrapper = styled.div`
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+
+    > input:first-child {
+        width: 120%;
+    }
+  `;
+
+export const LeftItemWrapper = styled.div`
+    width: 100%;
+    `;
+
+export const SelectLayout = styled.div`
     position: relative;
     width: 100%;
   `;
 
-  export const SelectHeaderLayout = styled.div`
+export const SelectHeader = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-  `;
-
-  export const SelectHeader = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex: 1;
 
     padding: 9px 16px 9px 20px;
     border: 2px solid ${props => props.theme.borderColor};
@@ -28,17 +37,17 @@ export const SelectWrapper = styled.div`
     cursor: pointer;
   `;
 
-  export const SelectTitle = styled.div`
+export const SelectTitle = styled.div`
     margin-bottom: 30px;
   `;
 
-  export const SelectedItem = styled.div`
+export const SelectedItem = styled.div`
     height: 18px;
     font-size: 13px;
     line-height: 23px;
   `;
 
-  export const SelectDropdownList = styled.ul`
+export const SelectDropdownList = styled.ul`
     position: absolute;
     z-index: 5;
     top: 100%;
@@ -58,14 +67,14 @@ export const SelectWrapper = styled.div`
     cursor: pointer;
   `;
 
-  export const SelectDropdownItem = styled.li`
+export const SelectDropdownItem = styled.li`
     padding: 11px 16px 11px 20px;
     list-style: none;
     font-size: 13px;
     line-height: 23px;
   `;
 
-  export const ArrowWrapper = styled.span`
+export const ArrowWrapper = styled.span`
     display: flex;
     justify-content: center;
     align-items: center;

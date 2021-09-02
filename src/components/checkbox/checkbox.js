@@ -8,9 +8,9 @@ const CheckBox = ({isChecked, check, children}) =>{
             <div className='check'>
                 {isChecked? <img src={Check} alt=''/>: <></> }
             </div>
-            <div className='col-xs-6 col-md-6 col-lg-10'>
+            {children && <div className='col-xs-6 col-md-6 col-lg-10'>
                 {children}
-            </div>
+            </div>}
         </div>
     );
 };

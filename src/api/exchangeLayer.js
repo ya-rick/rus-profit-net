@@ -13,7 +13,9 @@ const httpMethodsTypes = {
     getPageAdvert: 'get_page_ad',
     sendImg: 'test_img',
     getVacancyByID: 'get_vacancy_data',
-    getResumeByID: 'get_resume_data'
+    getResumeByID: 'get_resume_data',
+    getCountries: 'get_countries',
+    getCities: 'get_cities'
 }
 
 export const requestWithParams = (method, dataToServer = {}) => {
@@ -30,7 +32,7 @@ export const requestWithParams = (method, dataToServer = {}) => {
     });
 }
 
-export const requestWithFormData = (method, dataToServer = {}) => {
+export const requestWithFormData = (method, dataToServer = {}) => { 
     const data = new FormData();
 
     for (let [key, value] of Object.entries(dataToServer)) {

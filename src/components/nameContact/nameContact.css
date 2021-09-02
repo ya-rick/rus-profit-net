@@ -61,6 +61,7 @@
     grid-template-columns: repeat(4, 1fr);
     column-gap: 100px;
     row-gap: 70px;
+    align-items: center;
 }
 
 .name-info-subblock {
@@ -68,6 +69,12 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
+}
+
+.name-info-subblock-country {
+    display: grid;
+    grid-auto-columns: auto;
+    column-gap: 30px;
 }
 
 .contacts-block {

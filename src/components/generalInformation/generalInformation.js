@@ -3,37 +3,52 @@ import Avatar from '../../images/avatar.png';
 import './generalInformation.css';
 import MyCalendar from "../myCalendar";
 import { PhotoContext } from '../mainPage/contexts';
+import { GeneralInfoWrapper, Image, InfoWrapper } from "./styles";
 
 class GeneralInformation extends Component {
+
+    constructor() {
+        super();
+
+        this.state = {
+            date: null
+        }
+    }
 
     changeDate = (date)=>{
         const dateObj = new Date(date);
 
-        this.props.onChangeDate(dateObj.getUTCFullYear() + '-' + (dateObj.getUTCMonth() > 9 ? dateObj.getMonth() : '0' + dateObj.getMonth()) + '-' + dateObj.getDate());
+        const formatedDate = dateObj.getUTCFullYear() + '-' + (dateObj.getUTCMonth() > 9 ? dateObj.getMonth() : '0' + dateObj.getMonth()) + '-' + dateObj.getDate();
+
+        this.setState({ date: formatedDate })
+        this.props.onChangeDate(formatedDate);
     }
 
     render() {
-        const {date, imgFile} = this.context;
+        const { imgFile } = this.context;
         const myStyle = {
             display: 'none'
         }
         return (
-            <div className='container wrap-box'>
-                <img className='reg-avatar col-xs-6 col-md-6 col-lg-3' src={imgFile ? URL.createObjectURL(imgFile) : Avatar} alt='avatar'/>
-                <div className='container-sub col-xs-6 col-md-6 col-lg-3'>
+            <GeneralInfoWrapper>
+                <Image
+                    src={imgFile ? URL.createObjectURL(imgFile) : Avatar}
+                    alt='avatar'
+                />
+
+                <InfoWrapper>
                     <input id='in' className='reg-dwn-img' type='file' style={myStyle} onChange={this.context.onImgChanged}/>
                     <label for='in' className='reg-dwn-img'>Добавьте фотографию</label>
-                    <p className='reg-subtext'>Размер файла не более 1 Мб</p>
-                </div>
-                <div className='col-xs-6 col-md-6 col-lg-3'>
-                    <MyCalendar changeDate={this.changeDate}/>
-                </div>
-                <div className='container-sub col-xs-6 col-md-6 col-lg-3'>
-                    <button className='reg-date'>
-                        {date}
-                    </button>
-                </div>
-            </div>
+                    <p className='reg-subtext'>Размер файла не более 5 Мб</p>
+                </InfoWrapper>
+                
+                <MyCalendar changeDate={this.changeDate}/>
+
+                <InfoWrapper>
+                    <p for='in' className='reg-dwn-img'>{this.state.date}</p>
+                </InfoWrapper>
+                
+            </GeneralInfoWrapper>
         );
     };
 };

@@ -6,6 +6,7 @@ import CommonButton from "../../common/components/CommonButton";
 import Input from "../../common/components/Input";
 import ErrorBlock from "../../common/components/ErrorBlock";
 import { UserContext } from "../mainPage/contexts";
+import PasswordInput from "../../common/components/PasswordInput";
 
 class Authorization extends Component {
 
@@ -62,14 +63,13 @@ class Authorization extends Component {
 
                     <ModalSubtitle>E-mail</ModalSubtitle>
                     <Input
-                        placeholder={'maria@mail.ru'}
+                        placeholder={'example@example.ru'}
                         onChange={this.onLoginChange}
                     />
                     {this.state.exception && <ErrorBlock>{this.state.description}</ErrorBlock>}
 
                     <ModalSubtitle>Пароль</ModalSubtitle>
-                    <Input
-                        type={'password'}
+                    <PasswordInput
                         onChange={this.onPasswordChange}
                     />
                     {this.state.exception && <ErrorBlock>{this.state.description}</ErrorBlock>}

@@ -14,7 +14,6 @@ export const buttonStylesMixin = css`
   font-size: 17px;
   line-height: 25px;
 
-  width: 240px;
   height: 60px;
 
   color: #000000;
@@ -45,6 +44,7 @@ export const inputMixins = css`
   border: 2px solid #6F80A5;
   border-radius: 15px;
   outline: none;
+  width: 100%;
 
   ::placeholder {
     color: #4C5E8B;
