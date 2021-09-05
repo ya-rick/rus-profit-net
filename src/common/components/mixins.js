@@ -8,20 +8,13 @@ export const buttonStylesMixin = css`
   border-radius: 15px;
   margin: 0 20px;
 
-  font-family: 'Raleway', sans-serif;
-  font-style: normal;
   font-weight: 700;
   font-size: 17px;
   line-height: 25px;
 
-  height: 60px;
-
-  color: #000000;
-
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: space-around;
+  justify-content: center;
   
   box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.8);
 
@@ -35,6 +28,13 @@ export const buttonStylesMixin = css`
     color: #000000;
   }
   
+`;
+
+export const activeButtonStyleMixin = css`
+  ${props => props.active && `
+    box-shadow: inset 0 6px 10px rgba(0, 0, 0, 0.8);
+    background: #E9F0FF;
+  `}
 `;
 
 export const inputMixins = css`

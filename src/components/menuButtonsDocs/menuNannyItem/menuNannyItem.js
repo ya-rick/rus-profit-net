@@ -1,6 +1,6 @@
 import React from "react";
 import './menuNannyItem.css';
-import CheckBox from "../checkbox";
+import CheckBox from "../../checkbox";
 
 const MenuNannyItem = ({ listsData, chek, selectedIDs })=>{
 

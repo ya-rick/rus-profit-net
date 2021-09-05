@@ -1,5 +1,4 @@
 import React from "react";
-import './multiRangeSlider.css';
 import ReactSlider from "react-slider";
 
 const MultiRangeSlider = ( { min, max, minAge, maxAge, onChange } ) =>{

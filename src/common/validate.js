@@ -48,7 +48,6 @@ export function bindValidator({stateScope, validationType, errorByKey, fieldKeys
 }
 
 export function getErrorMessage(errorByKey) {
-    console.log(this)
     if (!errorByKey) return this.state.errors || {};
 
     return this.state.errors ? 

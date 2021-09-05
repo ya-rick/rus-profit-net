@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { requestWithParams } from '../../api/exchangeLayer';
-import { ArrowDown } from '../../components/select';
+import { ArrowDown } from './select';
 
 export default function CurrencySelect({ onChange, ...props }) {
     const [currencies, setCurrencies] = useState([]);
@@ -78,7 +78,7 @@ const CurrencySelectDropdown = styled.div`
     top: 155%;
     left: 50%;
     width: 100%;
-    overflow-y: auto;
+    overflow-y: scroll;
     max-height: 100px;
     transform: translateX(-50%);
     border: 2px solid #6F80A5;

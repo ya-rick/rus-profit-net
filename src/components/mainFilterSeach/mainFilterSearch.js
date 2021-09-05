@@ -2,7 +2,7 @@ import React, {Component} from "react";
 
 import './mainFilterSearch.css';
 
-import Select from "../select";
+import Select from "../../common/components/select";
 import { requestWithParams } from "../../api/exchangeLayer";
 import MenuButtonsDocs from "../menuButtonsDocs";
 import LinkedButton from "../../common/components/LinkedButton";

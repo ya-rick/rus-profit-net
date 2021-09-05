@@ -11,14 +11,11 @@ import ThanksForm from "../thanks-form";
 import Vacancies from "../vacancies/vacancies";
 import ImgText from "../imgText";
 import MainFilterSearchWork from "../mainFilterSearchWork";
-import HeaderNew from "../header2";
+import HeaderNew from "../header";
 import Error404 from "../error404";
 import Register from "../register";
-import RegisterVacancies from "../registerVacancies";
-import RegisterQuestionaries from "../registerQuestionaries";
 import VerifyWithSms from "../verifyWithSms";
-import RedImg from "../red-img";
-import HeaderAfterReg from "../headerAfterReg";
+import RedImg from "../../common/components/red-img";
 import Vacancy from "../vacancy";
 import Questionnaire from "../questionnaire";
 import UserAgreement from "../userAgreement/userAgreement";
@@ -156,82 +153,54 @@ export default class MainPage extends Component {
                                 }}>
                         <Router>
                             <div className='main-page'>
+                                <HeaderNew/>
                                 <Switch>
                                     <Route exact path='/'>
-                                        <HeaderNew/>
                                         <ImgText/>
                                     </Route>
                                     <Route path='/searchWorker'>
-                                        <HeaderNew/>
                                         <ImgText/>
                                         <MainFilterSearch onChange = {this.onChangeProfession}/>
-                                        <Footer/>
                                     </Route>
                                     <Route path='/searchWork'>
-                                        <HeaderNew/>
                                         <ImgText/>
                                         <MainFilterSearchWork onChange = {this.onChangeProfession}/>
-                                        <Footer/>
                                     </Route>
                                     <Route path='/questionaries'>
-                                        <HeaderNew/>
                                         <Questionnaires/>
-                                        <Footer/>
                                     </Route>
                                     <Route path='/vacancies'>
-                                        <HeaderNew/>
                                         <Vacancies/>
-                                        <Footer/>
                                     </Route>
                                     <Route path='/404'>
-                                        <HeaderNew/>
                                         <Error404/>
                                     </Route>
                                     <Route path='/register'>
-                                        <Register/>
-                                    </Route>
-                                    <Route path='/registerVacancies'>
-                                        <HeaderNew/>
-                                        <RegisterVacancies/>
-                                        <Footer/>
-                                    </Route>
-                                    <Route path='/registerQuestionaries'>
-                                        <HeaderNew/>
                                         <PhotoContext.Provider value={{
                                             onImgChanged: this.choosePhoto,
                                             imgFile: this.state.imgFile,
                                             openRedImgModal: this.openRedImgModal
                                         }}>
-                                            <RegisterQuestionaries/>
+                                            <Register/>
                                         </PhotoContext.Provider>
-                                        <Footer/>
                                     </Route>
                                     <Route path='/userAgreement'>
-                                        <HeaderNew/>
                                         <UserAgreement/>
-                                        <Footer/>
                                     </Route>
                                     <Route path='/advertMen'>
-                                        <HeaderNew/>
                                         <AdvertMen/>
-                                        <Footer/>
                                     </Route>
                                     <Route path='/faq'>
-                                        <HeaderNew/>
                                         <FAQ/>
-                                        <Footer/>
                                     </Route>
                                     <Route path='/vacancy/:id'>
-                                        <HeaderAfterReg/>
                                         <Vacancy/>
-                                        <Footer/>
                                     </Route>
                                     <Route path='/questionnaire/:id'>
-                                        <HeaderAfterReg/>
                                         <Questionnaire/>
-                                        <Footer/>
                                     </Route>
                                 </Switch>
+                                <Footer/>
                                 <PhotoContext.Provider value={{
                                         img: this.state.photo,
                                         setPhoto: this.setPhoto,

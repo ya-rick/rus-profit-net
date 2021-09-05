@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { SelectWrapper, SelectHeader, SelectDropdownList, SelectDropdownItem,
     ArrowWrapper, SelectLayout, SelectedItem, LeftItemWrapper } from './styles';
-import { arrow_down } from '../../common/svgElements';
+import { arrow_down } from '../../svgElements';
 
 export function ArrowDown ({ isInverted = false }) {
     return (

@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
-import MultiRangeSlider from '../../components/multiRangeSlider'
+import MultiRangeSlider from './multiRangeSlider'
 import { clamp } from '../utils'
 import { Centerer } from './Layouts'
 import NumberInput from './NumberInput'
+import { observer } from 'mobx-react'
 
-export default function AgeChooser({ min, max, currentMinValue,
-    currentMaxValue, onChangeAge }) {
+export default observer(function AgeChooser({ min, max, currentMinValue,
+    currentMaxValue, onChangeMin, onChangeMax }) {
 
     const [fromTo, setFromTo] = useState([min || 0,  max || min || 0])
 
     function onChangeMinMax(value) {
         let [newFrom, newTo] = value;
 
-        console.log(value)
-
         newFrom = clamp(0, newFrom, newTo)
         newTo = clamp(newFrom, newTo, max)
 
-        onChangeAge([newFrom, newTo]);
+        onChangeMin(newFrom);
+        onChangeMax(newTo);
     }
 
     function onChangeInput(which) {
@@ -76,4 +76,4 @@ export default function AgeChooser({ min, max, currentMinValue,
             </div>
         </Centerer>
     </div>
-}
+})

@@ -17,7 +17,6 @@ export default class ForgotPassword extends Component {
         if(!error && description !== ''){
             const {onGetID} = this.props;
             onGetID(2);
-            console.log('1')
         }
     };
 

@@ -1,10 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import RangeSlider from '../../components/rangeSlider'
+import RangeSlider from './rangeSlider'
 import NumberInput from './NumberInput'
 
 export default function WorkExperience({ min, max, value, onChange }) {
+
     return <div>
         <p className='bg-long-text'>Опыт работы</p>
         <div>

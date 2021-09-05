@@ -1,8 +1,9 @@
 import React, {Component} from "react";
-import './menuButtonsDocs.css';
-import MenuNannyItem from "../menuNannyItem";
-import { Centerer } from "../../common/components/Layouts";
 import styled from "styled-components";
+
+import './menuButtonsDocs.css';
+import MenuNannyItem from "./menuNannyItem";
+import { Centerer } from "../../common/components/Layouts";
 
 export default class MenuButtonsDocs extends Component{
 
@@ -15,9 +16,14 @@ export default class MenuButtonsDocs extends Component{
     }
 
     onChangeCheck = (newID) => {
-        let newChecked = this.props.selectedParameters.includes(newID) ?
-            this.props.selectedParameters.filter( id => id !== newID ) :
-            (this.props.selectedParameters.push(newID), this.props.selectedParameters);
+        let newChecked = [...this.props.selectedParameters];
+        
+        if (newChecked.includes(newID)) {
+            newChecked = newChecked.filter( id => id !== newID );
+        } else {
+            newChecked.push(newID)
+        }
+
         this.props.onCheckChanged(newChecked)
     }
 
@@ -40,6 +46,8 @@ export default class MenuButtonsDocs extends Component{
 
     render() {
         const { categories, selectedParameters } = this.props;
+
+        console.log(selectedParameters)
 
         return (
             <ColumnsCenterer>

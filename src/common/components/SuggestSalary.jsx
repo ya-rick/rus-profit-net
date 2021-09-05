@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Select from '../../components/select'
+import Select from './select'
 import { SalaryTypes } from '../consts'
 import CurrencyInput from './CurrencyInput'
 

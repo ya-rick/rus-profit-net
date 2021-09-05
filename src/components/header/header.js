@@ -5,7 +5,7 @@ import {useHistory} from 'react-router-dom';
 import Logo from '../../images/logo_outcome_Artboard_6_1.png';
 import Login from '../../images/login-icon.svg';
 import Register from '../../images/register-icon.svg';
-import './header2.css';
+import './header.css';
 import { ModalContext } from "../mainPage/contexts";
 import HeaderButton from "../../common/components/HeaderButton";
 import { PageContentWrapper } from "../../common/components/Layouts";

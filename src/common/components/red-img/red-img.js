@@ -1,12 +1,13 @@
 import React, {useState, useCallback, useContext} from "react";
 import Cropper from "react-easy-crop";
+
 import './react-easy-crop.css';
 import './red-img.css';
+
 import getCroppedImg from "./cropImage";
 import RangeSlider from "../rangeSlider";
-import { PhotoContext } from "../mainPage/contexts";
-import { requestWithParams } from "../../api/exchangeLayer";
-import LinkedButton from "../../common/components/LinkedButton";
+import { PhotoContext } from "../../../components/mainPage/contexts";
+import LinkedButton from "../LinkedButton";
 
 const RedImg = () => {
     const [crop, setCrop] = useState({ x: 0, y: 0 })
@@ -24,7 +25,6 @@ const RedImg = () => {
                 img,
                 croppedAreaPixels,
             )
-            console.log('donee', {croppedImage});
             setPhoto(croppedImage);
             closeModal();
 

@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import './mainFilterSearchWork.css';
-import Select from "../select";
+import Select from "../../common/components/select";
 
 import { requestWithParams } from "../../api/exchangeLayer";
 import MenuButtonsDocs from "../menuButtonsDocs";

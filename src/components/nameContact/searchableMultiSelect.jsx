@@ -1,11 +1,12 @@
+import { observer } from 'mobx-react';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { requestWithParams } from '../../api/exchangeLayer';
 import Icon from '../../common/components/Icon';
 
-export function SearchableMultiSelect({ requestType, isCountry = false, onTagClick, onTagDelete,
-    editableCountryID, chosenOptions, onItemSelected }) {
+export const SearchableMultiSelect = observer(({ isCountry = false, onTagClick, onTagDelete,
+    editableCountryID, chosenOptions, onItemSelected }) => {
 
     const disabled = !editableCountryID && !isCountry;
     
@@ -122,7 +123,7 @@ export function SearchableMultiSelect({ requestType, isCountry = false, onTagCli
 
         </SelectWrapper>
     )
-}
+})
 
 const SelectWrapper = styled.div`
     position: relative;
@@ -203,7 +204,7 @@ const SelectSearchField = styled.input`
 `;
 
 const SelectDropdownList = styled.div`
-    overflow-y: auto;
+    overflow-y: scroll;
     max-height: 200px;
     padding: 5px 10px;
 
