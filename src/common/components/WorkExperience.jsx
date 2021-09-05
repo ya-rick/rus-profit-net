@@ -23,6 +23,7 @@ export default function WorkExperience({ min, max, value, onChange }) {
         <NumberInputCenterer>
             <NumberInputStyled
                 value={value}
+                className={'input-number'}
                 max={max}
                 onChange={onChange}
             />

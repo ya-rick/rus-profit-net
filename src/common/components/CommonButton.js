@@ -5,5 +5,4 @@ export default styled.button`
     ${buttonStylesMixin};
     ${activeButtonStyleMixin};
     outline: none;
-
 `;
