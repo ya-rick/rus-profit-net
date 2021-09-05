@@ -27,7 +27,6 @@ import QuestionModalContent from "../FAQ/QuestionModalContent";
 import FAQ from "../FAQ/FAQ";
 import { ModalVariants } from '../../common/consts';
 import { UserContext, ModalContext, PhotoContext, SearchResultContext } from "./contexts";
-import Header from "../header";
 
 const modals = {
     [ModalVariants.Authorization]: Authorization,
@@ -159,7 +158,7 @@ export default class MainPage extends Component {
                             <div className='main-page'>
                                 <Switch>
                                     <Route exact path='/'>
-                                        <Header/>
+                                        <HeaderNew/>
                                         <ImgText/>
                                     </Route>
                                     <Route path='/searchWorker'>

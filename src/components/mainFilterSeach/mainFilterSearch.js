@@ -2,16 +2,20 @@ import React, {Component} from "react";
 
 import './mainFilterSearch.css';
 
-import MultiRangeSlider from "../multiRangeSlider";
-import RangeSlider from "../rangeSlider";
 import Select from "../select";
 import { requestWithParams } from "../../api/exchangeLayer";
 import MenuButtonsDocs from "../menuButtonsDocs";
-import { SalaryTypes } from "../../common/consts";
 import LinkedButton from "../../common/components/LinkedButton";
 import { SearchResultContext } from "../mainPage/contexts";
 import { Redirect } from "react-router-dom";
-import Input from "../../common/components/Input";
+import { Centerer, GapedAdaptiveCenterer, PageContentWrapper } from "../../common/components/Layouts";
+import AgeChooser from "../../common/components/AgeChooser";
+import WorkExperience from "../../common/components/WorkExperience";
+import SuggestSalary from "../../common/components/SuggestSalary";
+import { SearchableMultiSelect } from "../nameContact/searchableMultiSelect";
+import { clamp } from "../../common/utils";
+import ErrorMessage from "../../common/components/ErrorMessage";
+import styled from "styled-components";
 
 class MainFilterSearch extends Component {
 
@@ -23,14 +27,18 @@ class MainFilterSearch extends Component {
             minAge: 18,
             maxAge: 60,
             professions: [],
-            country: '',
-            city: '',
-            salary: '',
+            country: [],
+            city: [],
+            salary: 0,
             typeSalary: '',
             currentProffession: null,
             categories: null,
             selectedParameters: [],
-            isRedirecting: false
+            isRedirecting: false,
+            currency: '',
+            currentEditCountry: null,
+
+            error: ''
         }
     }
 
@@ -49,46 +57,99 @@ class MainFilterSearch extends Component {
         }
     }
 
-    onChangeProffession(newProfID) {
-        this.setState({ currentProffession: newProfID })
+    onChangeCountries = (newCountry, operationType) => {
+        let newCountries = [...this.state.country];
+        let newActiveEditableCountry = null;
+
+        if (this.state.country.length === 3  && operationType !== 'delete') {
+            return;
+        }
+
+        if (operationType === 'delete') {
+
+            const countryIndex = this.state.country
+                .findIndex(country => country.id === newCountry.id);
+            newCountries
+                .splice(countryIndex, 1);
+
+            if (this.state.city[countryIndex]) {
+                this.state.city.splice(countryIndex);
+            }
+            
+            if (newCountries.length === 0) {
+                newActiveEditableCountry = null;
+            } else {
+                newActiveEditableCountry = clamp(0, countryIndex, newCountries.length - 2);
+            }
+        } else if (operationType === 'add') {
+            newCountries.push(newCountry);
+
+            newActiveEditableCountry = newCountry;
+        }
+
+        this.setState({ 
+            ...this.state, 
+            country: [...newCountries],
+            currentEditCountry: newActiveEditableCountry
+        });
+    }
+
+    onChangeCities = (newCity, operationType) => {
+
+        const { country, city, currentEditCountry } = this.state;
+
+        if (city?.flat().length === 3 && operationType !== 'delete') {
+            return;
+        }
+
+        const editableIndex = country.findIndex(country => 
+            country.id === currentEditCountry.id);
+
+        let editableCitiesArray = null;
+
+        if (city[editableIndex]) {
+            editableCitiesArray = city[editableIndex];
+        } else {
+            editableCitiesArray = [];
+            city.push(editableCitiesArray);
+        }
+
+        if (operationType === 'delete') {
+            editableCitiesArray.splice(editableCitiesArray.findIndex(city => city.id === newCity.id), 1);
+
+            if (editableCitiesArray.length === 0) {
+                city.splice(editableIndex, 1);
+            }
+        } else if (operationType === 'add') {
+            editableCitiesArray.push(newCity);
+        }
+
+        this.setState({ 
+            ...this.state,
+            city: [...this.state.city]
+        })
+    }
+
+    onChangeActiveEditableCountry =(newCountry) => {
+        this.setState({ ...this.state, currentEditCountry: newCountry });
+    }
+
+    onChangeProffession = (value) => {
+        this.setState({ currentProffession: value });
     }
 
     onChangeExperience = (value) => {
         this.setState({experience: value});
     }
 
-    onChangeMultiRange = (value, index) => {
-        const {minAge, maxAge} = this.state;
-        if (index === 0) {
-            if (value[index] > maxAge) {
-                this.setState({minAge: maxAge - 1});
-            } else {
-                this.setState({minAge: value[index]});
-            }
-        } else {
-            if (value[index] < minAge) {
-                this.setState({maxAge: minAge + 1});
-            } else {
-                this.setState({maxAge: value[index]});
-            }
-        }
+    onChangeExperience = (value) => {
+        this.setState({experience: value});
     }
 
-    onChangeMultiRangeFromText = (value, index) => {
-        const {minAge, maxAge} = this.state;
-        if (index === 0) {
-            if (value > maxAge) {
-                this.setState({minAge: maxAge - 1});
-            } else {
-                this.setState({minAge: value});
-            }
-        } else {
-            if (value < minAge) {
-                this.setState({maxAge: minAge + 1});
-            } else {
-                this.setState({maxAge: value});
-            }
-        }
+    onChangeAge = (value) => {
+        let [newFrom, newTo] = value;
+
+        this.setState({ maxAge: newTo, minAge: newFrom });
     }
 
     onCheckChanged() {
@@ -96,32 +157,48 @@ class MainFilterSearch extends Component {
     }
 
     sendFilters() {
-        const { currentProffession, selectedParameters, salary, typeSalary, maxAge, minAge, experience } = this.state;
+        const { currentProffession, selectedParameters,
+            salary, typeSalary, maxAge, minAge, experience,
+            currency, country, city } = this.state;
+
+            if (city.length === 0 || !currentProffession) {
+                this.setState({ ...this.state,
+                    error: 'Необходимо выбрать хотя бы 1 город и профессию' })
+                
+                return;
+            }
 
         requestWithParams('getResumes', {
-            country: '',
-            city: '',
+            country: country.map(country => country.name).join(','),
+            city: city.reduce((acc, cities) => (acc.push(cities.map(city => city.name).join(',')), acc), [])
+            .join(';'),
             category: currentProffession || '',
             years_with: minAge || '',
             years_to: maxAge || '',
             experience: experience || '',
             salary: salary || '',
             salary_type: typeSalary || '',
-            sub_category_list: selectedParameters
+            sub_category_list: selectedParameters,
+            currency
         })
         .then(data => {
             this.context.setResults(data.resume);
             this.setRedirectToTrue();
         })
-        .catch(e => console.error(e));
+        .catch(e => this.setState({ ...this.state,
+            error: 'Нет данных' }));
     };
 
-    onSetTypeSalary(value){
+    onSetTypeSalary = (value) =>{
         this.setState({typeSalary: value});
-    };
+    }
 
     onChangeSalary = (value) =>{
         this.setState({salary: value});
+    }
+
+    onChangeCurrency = (currency) => {
+        this.setState({currency});
     }
 
     render() {
@@ -130,111 +207,81 @@ class MainFilterSearch extends Component {
         }
 
         return (
-            <div className='main-filter'>
-                <div className='filter container'>
-                    <div className='col-xs-12 col-md-6 col-lg-3'>
-                        <div className='main-filter-search-subBlock'>
-                            <p className='bg-long-text'>Выберите страну</p>
-                            <Select>
-                            </Select>
+            <PageContentWrapper>
+                <GapedAdaptiveCenterer>
+                    <VerticalCenterer>
+                        <div className='name-info-subblock'>
+                            <p className='bg-long-text'>Выберите страну*</p>
+                            <SearchableMultiSelect
+                                onTagClick={(tag) => this.onChangeActiveEditableCountry(tag)}
+                                onTagDelete={(tag) => this.onChangeCountries(tag, 'delete')}
+                                chosenOptions={this.state.country}
+                                requestType={'get_countries'}
+                                isCountry={true}
+                                onItemSelected={(tag) => this.onChangeCountries(tag, 'add')}
+                                editableCountryID={this.state.currentEditCountry?.id}
+                            />
                         </div>
-                        <div className='main-filter-search-subBlock'>
+
+                        <div className='name-info-subblock'>
                             <p className='bg-long-text'>Выберите город</p>
-                            <Select>
-                            </Select>
+                            <SearchableMultiSelect
+                                onTagClick={(tag) => {}}
+                                onTagDelete={(tag) => this.onChangeCities(tag, 'delete')}
+                                chosenOptions={this.state.city?.flat()}
+                                requestType={'get_cities'}
+                                isCountry={false}
+                                onItemSelected={(tag) => this.onChangeCities(tag, 'add')}
+                                editableCountryID={this.state.currentEditCountry?.id}
+                            />
                         </div>
-                    </div>
-                    <div className='col-xs-12 col-md-6 col-lg-3'>
+                    </VerticalCenterer>
+                
+                    <div>
                         <div className='main-filter-search-subBlock'>
-                            <p className='bg-long-text'>Кого вы ищите?</p>
+                            <p className='bg-long-text'>Кого вы ищете?</p>
                             <Select onItemClickCallback={obj => this.onChangeProffession(obj.id)}>
                                 {this.state.professions}
                             </Select>
                         </div>
-                        <div className='main-filter-search-subBlock'>
-                            <p className='bg-long-text'>Предлагаемая заработная плата</p>
-                            <div className='group-input'>
-                                <Select
-                                    onItemClickCallback={obj => this.onSetTypeSalary(obj.id) }
-                                    leftHeaderItem={
-                                        <Input
-                                            onChange={(e)=>this.onChangeSalary(e.target.value)}
-                                        />
-                                    }
-                                >
-                                    {Object.entries(SalaryTypes).map(([id, name]) => ({ id, name }))}
-                                </Select>
-                            </div>
-                        </div>
-                    </div>
-                    <div className='col-xs-12 col-md-6 col-lg-3'>
-                        <p className='bg-long-text'>Опыт работы</p>
-                        <div>
-                            <RangeSlider min={0} max={10} value={this.state.experience}
-                                         onChange={this.onChangeExperience}/>
-                            <div className='text-slider'>
-                                <p>без опыта</p>
-                                <p>более 10 лет</p>
-                            </div>
-                        </div>
-                        <div className='col-12 input-center'>
-                            <input className='input-number'
-                                   type='text'
-                                   value={this.state.experience}
-                                   onChange={(e) => {
-                                       this.onChangeExperience(e.target.value)
-                                   }}
-                            />
-                        </div>
-                    </div>
-                    <div className='col-xs-12 col-md-6 col-lg-3'>
-                        <p className='bg-long-text'>Возраст</p>
-                        <div>
-                            <MultiRangeSlider min={18} max={60} minAge={this.state.minAge} maxAge={this.state.maxAge}
-                                              onChange={this.onChangeMultiRange}/>
-                            <div className='text-slider'>
-                                <p>до 18 лет</p>
-                                <p>60+ лет</p>
-                            </div>
-                        </div>
-                        <div className='group-mini-input '>
-                            <div className='box-inputs-labels'>
-                                <p className='labels sml-text'>от</p>
-                                <input className='input-mini-number'
-                                       type='text'
-                                       value={this.state.minAge}
-                                       onChange={(e) => {
-                                           console.log(e.target.value);
-                                           this.onChangeMultiRangeFromText(e.target.value, 0)
-                                       }}
-                                />
-                            </div>
-                            <div className='box-inputs-labels'>
-                                <p className='labels sml-text'>до</p>
-                                <input className='input-mini-number'
-                                       type='text'
-                                       value={this.state.maxAge}
-                                       onChange={(e) => {
-                                           this.onChangeMultiRangeFromText(e.target.value, 1)
-                                       }}
-                                />
-                            </div>
-                        </div>
+                        <SuggestSalary
+                            onSelectChanged={this.onSetTypeSalary}
+                            onSalaryChanged={this.onChangeSalary}
+                            onCurrencyChanged={this.onChangeCurrency}
+                            currencyValue={this.state.salary}
+                        />
                     </div>
 
-                    {this.state.categories && <MenuButtonsDocs
-                        categories={this.state.categories}
-                        selectedParameters={this.state.selectedParameters}
-                        onCheckChanged={this.onCheckChanged()}/>}
-                    {/* Поміняти на норм кнопку */}
-                    <div className='container center margin-top-15'>
-                        <LinkedButton
-                            onClick={() => this.sendFilters()}>
-                            Подобрать анкеты
-                        </LinkedButton>
-                    </div>
-                </div>
-            </div>
+                    <WorkExperience
+                        min={0}
+                        max={10}
+                        onChange={this.onChangeExperience}
+                        value={this.state.experience}
+                    />
+
+                    <AgeChooser
+                        min={18}
+                        max={60}
+                        currentMinValue={this.state.minAge}
+                        currentMaxValue={this.state.maxAge}
+                        onChangeAge={this.onChangeAge}
+                    />
+                </GapedAdaptiveCenterer>
+
+                {this.state.categories && <MenuButtonsDocs
+                    categories={this.state.categories}
+                    selectedParameters={this.state.selectedParameters}
+                    onCheckChanged={this.onCheckChanged()}/>}
+                
+                {this.state.error && <ErrorMessage>{this.state.error}</ErrorMessage>}
+
+                <VerticalCenterer style={{ marginTop: '70px' }}>
+                    <LinkedButton
+                        onClick={() => this.sendFilters()}>
+                        Подобрать анкеты
+                    </LinkedButton>
+                </VerticalCenterer>
+            </PageContentWrapper>
         );
     }
 };
@@ -242,3 +289,7 @@ class MainFilterSearch extends Component {
 MainFilterSearch.contextType = SearchResultContext;
 
 export default MainFilterSearch;
+
+const VerticalCenterer = styled(Centerer)`
+    flex-direction: column;
+`;

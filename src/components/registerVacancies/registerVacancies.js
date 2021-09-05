@@ -1,16 +1,19 @@
 import React, {Component} from 'react';
+
 import './registerVacancies.css';
 import NameContact from "../nameContact/nameContact";
 import WorkCluster from "../workCluster";
 import RegisterFilterVacation from "../registerFilterVacation";
 import MenuButtonsDocs from "../menuButtonsDocs";
-import TextArea from "../textArea";
 import CheckBox from "../checkbox";
 import { requestWithFormData, requestWithParams } from '../../api/exchangeLayer';
 import CommonButton from "../../common/components/CommonButton";
 import { bindValidator, getErrorMessage, validateAll, validationTypes } from '../../common/validate';
 import ErrorMessage from '../../common/components/ErrorMessage';
 import { clamp } from '../../common/utils';
+import TextArea from '../../common/components/TextArea';
+import { PageContentWrapper } from '../../common/components/Layouts';
+import PageTitle from '../../common/components/PageTitle';
 
 export default class RegisterVacancies extends Component {
 
@@ -48,8 +51,8 @@ export default class RegisterVacancies extends Component {
             },
             restData: {
                 category_global: null,
-                experience: null,
-                salary: null,
+                experience: 0,
+                salary: 0,
                 salary_type: null,
                 description: '',
                 result_cat: [],
@@ -70,7 +73,13 @@ export default class RegisterVacancies extends Component {
                     validationType: validationTypes.allNotNull,
                     errorByKey: 'userInfoError',
                     fieldKeys: ['user_surname', 'user_name', 'user_email', 'user_password', 
-                    'user_password_confirm', 'user_country', 'user_city']
+                    'user_password_confirm']
+                },
+                {
+                    stateScope: 'nameContact', 
+                    validationType: validationTypes.arrayLength,
+                    errorByKey: 'userInfoError',
+                    fieldKeys: ['user_city']
                 },
                 {
                     stateScope: 'nameContact', 
@@ -264,13 +273,11 @@ export default class RegisterVacancies extends Component {
         const { nameContact } = this.state;
 
         return (
-            <div className='container'>
-                <div className='container'>
-                    <h1 className='register-title'>Регистрация вакансии
-                        {(userInfoError || passwordError) && 
-                            <ErrorMessage>{userInfoError || passwordError}</ErrorMessage>}
-                    </h1>
-                </div>
+            <PageContentWrapper>
+                <PageTitle>Регистрация вакансии
+                    {(userInfoError || passwordError) && 
+                        <ErrorMessage>{userInfoError || passwordError}</ErrorMessage>}
+                </PageTitle>
                 <NameContact
                     onChangeContacts={this.onChangeContacts}
                     contacts={nameContact}
@@ -283,7 +290,7 @@ export default class RegisterVacancies extends Component {
                     chosenCities={nameContact.user_city?.flat()}
                     activeCountry={this.state.nameContact.currentEditCountry}
                 />
-                <div className='container'>
+                <div>
                     <h2 className='register-title'>Кого вы ищете
                         {findOptionsError && 
                             <ErrorMessage>{findOptionsError}</ErrorMessage>}
@@ -300,7 +307,7 @@ export default class RegisterVacancies extends Component {
                         categories={this.state.categories}
                         selectedParameters={this.state.restData.result_cat}
                         onCheckChanged={this.onChangeRestData('result_cat')}/>}
-                <div className='container'>
+                <div>
                     <h2 className='register-title'>Описание вакансии*
                         {descriptionError && 
                             <ErrorMessage>{descriptionError}</ErrorMessage>}
@@ -308,11 +315,11 @@ export default class RegisterVacancies extends Component {
                 </div>
                 <TextArea
                     value={this.state.restData.description}
-                    onChange={this.onChangeRestData('description')}
+                    onChange={e => this.onChangeRestData('description')(e.target.value)}
                 />
-                <div className='container'>
+                <div>
                     <div className='display-right'>
-                        <CheckBox isChecked={agree} check={this.Check}>
+                        <CheckBox isChecked={agree} check={this.check}>
                             <p className='agree'>
                                 Я согласен с условиями оказания услуг и с политикой <br/>
                                 конфиденциальности в отношении обработки персональных<br/>
@@ -329,10 +336,10 @@ export default class RegisterVacancies extends Component {
                         Сохранить вакансию
                     </CommonButton>
                 </div>
-                <div className='container'>
+                <div>
                     <p className='reg-intro'>*Поля, обязательные для заполнения</p>
                 </div>
-            </div>
+            </PageContentWrapper>
         )
     }
 }

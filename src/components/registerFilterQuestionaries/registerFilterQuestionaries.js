@@ -1,8 +1,9 @@
-import React, {Component} from "react";
-import './registerFilterQuestionaries.css';
-import RangeSlider from "../rangeSlider";
-import Select from "../select";
-import { SalaryTypes } from "../../common/consts";
+import React, {Component} from 'react';
+import styled from 'styled-components'
+
+import SuggestSalary from '../../common/components/SuggestSalary';
+import { PageContentWrapper, Centerer } from '../../common/components/Layouts';
+import WorkExperience from '../../common/components/WorkExperience';
 
 export default class RegisterFilterQuestionaries extends Component {
 
@@ -10,44 +11,39 @@ export default class RegisterFilterQuestionaries extends Component {
         const { onChangeData, data: { salary, experience } } = this.props;
 
         return (
-            <div className='main-reg-filter'>
-                <div className='filter container row center'>
-                    <div className='col-xs-12 col-md-6 col-lg-3'>
-                        <p className='bg-reg-text'>Опыт работы</p>
-                        <div>
-                            <RangeSlider min={0} max={10} value={experience}
-                                         onChange={onChangeData('experience')}/>
-                            <div className='text-slider'>
-                                <p>без опыта</p>
-                                <p>более 10 лет</p>
-                            </div>
-                        </div>
-                        <div className='col-12 input-center'>
-                            <input className='input-number'
-                                   type='text'
-                                   value={experience}
-                                   onChange={e => onChangeData('experience')(Number(e.target.value))}
-                            />
-                        </div>
-                    </div>
-                    <div className='col-xs-12 col-md-6 col-lg-3'>
-                        <p className='bg-reg-text'>Желаемая заработная плата</p>
-                        <div className='group-input'>
-                            <input
-                                className='col-4 select-mini-input'
-                                type='text'
-                                value={salary}
-                                onChange={e => onChangeData('salary')(Number(e.target.value))}/>
-                            <div className='select-mini-input-s'>
-                                <Select onItemClickCallback={el => onChangeData('salary_type')(el.id)}>
-                                    {Object.entries(SalaryTypes).map(([id, name]) => ({ id, name }))}
-                                </Select>
-                            </div>
-                        </div>
+            <PageContentWrapper>
+                <TwoColumnsCenterer>
+                    <WorkExperience
+                        min={0}
+                        max={10}
+                        onChange={onChangeData('experience')}
+                        value={experience}
+                    />
 
-                    </div>
-                </div>
-            </div>
+                    <SuggestSalary
+                        onSelectChanged={onChangeData('salary_type')}
+                        onSalaryChanged={onChangeData('salary')}
+                        onCurrencyChanged={onChangeData('currency')}
+                        currencyValue={salary}
+                    />
+                </TwoColumnsCenterer>
+            </PageContentWrapper>
         )
     }
 }
+
+const TwoColumnsCenterer = styled(Centerer)`
+    gap: 100px;
+
+    > * {
+        flex-basis: 35%;
+    }
+
+    @media (max-width: 650px) {
+        flex-wrap: wrap;
+
+        > * {
+            flex-basis: 100%;
+        }
+    }
+`;

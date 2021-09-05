@@ -2,7 +2,7 @@ import './styles.css';
 
 import LinkedButton from "../../common/components/LinkedButton";
 import PageTitle from "../../common/components/PageTitle";
-import PageContentWrapper from "../../common/components/PageContentWrapper";
+import { PageContentWrapper } from "../../common/components/Layouts";
 import TwoLinkedButtonGroup from "../../common/components/TwoLinkedButtonGroup";
 import { useEffect, useState } from "react";
 import { requestWithParams } from "../../api/exchangeLayer";

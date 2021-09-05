@@ -9,7 +9,7 @@ const MultiRangeSlider = ( { min, max, minAge, maxAge, onChange } ) =>{
             className="horizontal-slider"
             thumbClassName="example-thumb"
             trackClassName="example-track"
-            defaultValue={[18, 60]}
+            defaultValue={[min, max]}
             value={[minAge, maxAge]}
             onChange={(value, index) => onChange(value,index)}
             min={min}

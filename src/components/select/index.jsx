@@ -4,7 +4,7 @@ import { SelectWrapper, SelectHeader, SelectDropdownList, SelectDropdownItem,
     ArrowWrapper, SelectLayout, SelectedItem, LeftItemWrapper } from './styles';
 import { arrow_down } from '../../common/svgElements';
 
-function ArrowDown ({ isInverted = false }) {
+export function ArrowDown ({ isInverted = false }) {
     return (
         <ArrowWrapper isInverted={isInverted}>
             {arrow_down}
@@ -16,7 +16,7 @@ function ArrowDown ({ isInverted = false }) {
  * @param {array} elements - Array of elements { value: <some value>, text: <some text> } 
  */
 
-export default function Select ({ headerTitle, elements, children, onItemClickCallback = () => {}, leftHeaderItem }) {
+export default function Select ({ noHeaderBorders, elements, children, onItemClickCallback = () => {}, leftHeaderItem }) {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedItem, selectItem] = useState(null)
 
@@ -50,7 +50,10 @@ export default function Select ({ headerTitle, elements, children, onItemClickCa
             {leftHeaderItem && leftHeaderItem}
 
             <SelectLayout>
-                <SelectHeader onClick={toggleOpen}>
+                <SelectHeader
+                    onClick={toggleOpen}
+                    noBorders={noHeaderBorders}
+                >
                     <SelectedItem>{selectedItem?.name}</SelectedItem>
                     <ArrowDown isInverted={isOpen}/>    
                 </SelectHeader>

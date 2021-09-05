@@ -1,14 +1,5 @@
 .header{
     background: #B9C3D8;
-    height: 63px;
-}
-
-.header-container{
-    display: flex;
-    justify-content: space-between;
-    align-content: center;
-
-    padding: 10px 0;
 }
 
 .logo{

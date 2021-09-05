@@ -8,13 +8,13 @@ export const SelectWrapper = styled.div`
     gap: 20px;
 
     > input:first-child {
-        width: 120%;
+        width: 200%;
     }
   `;
 
 export const LeftItemWrapper = styled.div`
     width: 100%;
-    `;
+`;
 
 export const SelectLayout = styled.div`
     position: relative;
@@ -26,13 +26,12 @@ export const SelectHeader = styled.div`
     align-items: center;
     justify-content: space-between;
 
-    padding: 9px 16px 9px 20px;
-    border: 2px solid ${props => props.theme.borderColor};
+    padding: 0.8em 1.3em 0.8em 1.5em;
     border-radius: ${props => props.theme.borderRadius};
     height: 40px;
     border-radius: 15px;
     background: #FFFFFF;
-    border: 2px solid #6F80A5;
+    ${props => !props.noBorders && 'border: 2px solid #6F80A5;'}
     
     cursor: pointer;
   `;
@@ -68,7 +67,7 @@ export const SelectDropdownList = styled.ul`
   `;
 
 export const SelectDropdownItem = styled.li`
-    padding: 11px 16px 11px 20px;
+    padding: 0.9em 1.3em 0.9em 1.5em;
     list-style: none;
     font-size: 13px;
     line-height: 23px;

@@ -3,7 +3,7 @@ import CommonButton from '../../common/components/CommonButton';
 
 import Dropdown from "../../common/components/Dropdown";
 import LinkedButton from "../../common/components/LinkedButton";
-import PageContentWrapper from "../../common/components/PageContentWrapper";
+import { PageContentWrapper } from "../../common/components/Layouts";
 import PageTitle from "../../common/components/PageTitle";
 import TwoLinkedButtonGroup from "../../common/components/TwoLinkedButtonGroup";
 import { ModalContext } from '../mainPage/contexts';

@@ -4,5 +4,5 @@ import { inputMixins } from './mixins';
 export default styled.textarea`
     ${inputMixins}
     resize: vertical;
-    min-height: 100px;
+    min-height: 200px;
 `;

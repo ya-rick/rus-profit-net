@@ -1,9 +1,8 @@
 import { Component } from 'react';
-import './registerQuestionaries.css';
 import NameContact from "../nameContact/nameContact";
 import WorkCluster from "../workCluster";
 import MenuButtonsDocs from "../menuButtonsDocs";
-import TextArea from "../textArea";
+import TextArea from '../../common/components/TextArea';
 import CheckBox from "../checkbox";
 import RegisterFilterQuestionaries from "../registerFilterQuestionaries/registerFilterQuestionaries";
 import GeneralInformation from "../generalInformation";
@@ -13,6 +12,8 @@ import CommonButton from "../../common/components/CommonButton";
 import { bindValidator, getErrorMessage, validateAll, validationTypes } from '../../common/validate';
 import ErrorMessage from '../../common/components/ErrorMessage';
 import { clamp } from '../../common/utils';
+import { PageContentWrapper } from '../../common/components/Layouts';
+import PageTitle from '../../common/components/PageTitle';
 
 class RegisterQuestionaries extends Component {
 
@@ -57,9 +58,9 @@ class RegisterQuestionaries extends Component {
             },
             restData: {
                 category_global: null,
-                experience: null,
-                salary: null,
-                salary_type: null,
+                experience: 0,
+                salary: 0,
+                salary_type: 1,
                 description: '',
                 result_cat: [],
                 agree: false,
@@ -76,7 +77,13 @@ class RegisterQuestionaries extends Component {
                     validationType: validationTypes.allNotNull,
                     errorByKey: 'userInfoError',
                     fieldKeys: ['user_surname', 'user_name', 'user_email', 'user_password', 
-                    'user_password_confirm', 'user_country', 'user_city']
+                    'user_password_confirm']
+                },
+                {
+                    stateScope: 'nameContact', 
+                    validationType: validationTypes.arrayLength,
+                    errorByKey: 'userInfoError',
+                    fieldKeys: ['user_city']
                 },
                 {
                     stateScope: 'nameContact', 
@@ -141,6 +148,7 @@ class RegisterQuestionaries extends Component {
             return;
         }
 
+
         if (operationType === 'delete') {
 
             const countryIndex = this.state.nameContact.user_country
@@ -179,6 +187,10 @@ class RegisterQuestionaries extends Component {
         if (user_city?.flat().length === 3 && operationType !== 'delete') {
             return;
         }
+        
+        console.log(newCity)
+        console.log(user_city)
+
 
         const editableIndex = user_country.findIndex(country => 
             country.id === currentEditCountry.id);
@@ -284,13 +296,11 @@ class RegisterQuestionaries extends Component {
         const { nameContact } = this.state;
 
         return (
-            <div className='container'>
-                <div className='container'>
-                    <h1 className='register-title'>Регистрация анкеты
-                        {(userInfoError || passwordError) && 
-                            <ErrorMessage>{userInfoError || passwordError}</ErrorMessage>}
-                    </h1>
-                </div>
+            <PageContentWrapper>
+                <PageTitle>Регистрация анкеты
+                    {(userInfoError || passwordError) && 
+                        <ErrorMessage>{userInfoError || passwordError}</ErrorMessage>}
+                </PageTitle>
                 <NameContact
                     onChangeContacts={this.onChangeContacts}
                     contacts={nameContact}
@@ -335,7 +345,7 @@ class RegisterQuestionaries extends Component {
                 </div>
                 <TextArea
                     value={this.state.restData.description}
-                    onChange={this.onChangeRestData('description')}
+                    onChange={e => this.onChangeRestData('description')(e.target.value)}
                 />
                 <div className='container'>
                     <div className='display-right'>
@@ -356,7 +366,7 @@ class RegisterQuestionaries extends Component {
                 <div className='container'>
                     <p className='reg-intro'>*Поля, обязательные для заполнения</p>
                 </div>
-            </div>
+            </PageContentWrapper>
         )
     }
 }

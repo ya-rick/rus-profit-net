@@ -1,6 +1,8 @@
 import React, {Component} from "react";
 import './menuButtonsDocs.css';
 import MenuNannyItem from "../menuNannyItem";
+import { Centerer } from "../../common/components/Layouts";
+import styled from "styled-components";
 
 export default class MenuButtonsDocs extends Component{
 
@@ -40,18 +42,34 @@ export default class MenuButtonsDocs extends Component{
         const { categories, selectedParameters } = this.props;
 
         return (
-            <div className='margin-top-15'>
-                <div className='container wrap-box'>
-                    {categories && categories.map((category, index) => (
-                        <div className='col-xs-12 col-md-6 col-lg-4'>
-                            <button className='combo-button' onClick={this.onVisibleChange(index)}>
-                                {category.name}
-                            </button>
-                            {this.state.visible[index] && <MenuNannyItem listsData={category.parameters} selectedIDs={selectedParameters} chek={this.onChangeCheck}/>}
-                        </div>
-                    ))}
-                </div>
-            </div>
+            <ColumnsCenterer>
+                {categories && categories.map((category, index) => (
+                    <div>
+                        <button className='combo-button' onClick={this.onVisibleChange(index)}>
+                            {category.name}
+                        </button>
+                        {this.state.visible[index] && <MenuNannyItem listsData={category.parameters} selectedIDs={selectedParameters} chek={this.onChangeCheck}/>}
+                    </div>
+                ))}
+            </ColumnsCenterer>
         );
     };
 };
+
+const ColumnsCenterer = styled(Centerer)`
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: start;
+    margin-top: 30px;
+    row-gap: 40px;
+
+    > * {
+        flex-basis: 30%;
+    }
+
+    @media (max-width: 650px) {
+        > * {
+            flex-basis: 100%;
+        }
+    }
+`;

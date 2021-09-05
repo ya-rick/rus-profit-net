@@ -4,7 +4,7 @@ import registrationService from '../../services/registrationService';
 import { ModalButtonWapper, ModalContent, ModalLink, ModalSubtitle, ModalTitle } from "../../common/components/ModalStyles";
 import CommonButton from "../../common/components/CommonButton";
 import Input from "../../common/components/Input";
-import ErrorBlock from "../../common/components/ErrorBlock";
+import ErrorMessage from "../../common/components/ErrorMessage";
 import { UserContext } from "../mainPage/contexts";
 import PasswordInput from "../../common/components/PasswordInput";
 
@@ -66,13 +66,13 @@ class Authorization extends Component {
                         placeholder={'example@example.ru'}
                         onChange={this.onLoginChange}
                     />
-                    {this.state.exception && <ErrorBlock>{this.state.description}</ErrorBlock>}
+                    {this.state.exception && <ErrorMessage>{this.state.description}</ErrorMessage>}
 
                     <ModalSubtitle>Пароль</ModalSubtitle>
                     <PasswordInput
                         onChange={this.onPasswordChange}
                     />
-                    {this.state.exception && <ErrorBlock>{this.state.description}</ErrorBlock>}
+                    {this.state.exception && <ErrorMessage>{this.state.description}</ErrorMessage>}
 
                     <ModalLink onClick-={this.onClickForgot}>Забыли логин или пароль?</ModalLink>
 

@@ -3,13 +3,18 @@ export const validationTypes = {
     oneTrueOf: 'oneTrueOf',
     oneNotNullOf: 'oneNotNullOf',
     allNotNull: 'allNotNull',
-    toBeEqual: 'toBeEqual'
+    toBeEqual: 'toBeEqual',
+    arrayLength: 'arrayLength'
 }
 
 const validationPredicates = {
     [validationTypes.length]: {
-        validate: (testables) => (console.log(testables), /^.{6,}$/.test(testables[0])),
+        validate: (testables) => /^.{6,}$/.test(testables[0]),
         errorMessage: 'Допустимо не менее 6-ти символов в пароле'
+    },
+    [validationTypes.arrayLength]: {
+        validate: (testables) => testables.length > 0,
+        errorMessage: 'Необходимо выбрать хотя бы 1 город и профессию'
     },
     [validationTypes.oneTrueOf]: {
         validate: (testables) => testables.some(el => el === true),
