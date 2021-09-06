@@ -5,16 +5,9 @@ import MyCalendar from "../myCalendar";
 import { PhotoContext } from '../mainPage/contexts';
 import { GeneralInfoWrapper, Image, InfoWrapper } from "./styles";
 import { inject, observer } from "mobx-react";
+import ErrorMessage from "../../common/components/ErrorMessage";
 
 class GeneralInformation extends Component {
-
-    constructor() {
-        super();
-
-        this.state = {
-            date: null
-        }
-    }
 
     changeDate = (date)=>{
         const dateObj = new Date(date);
@@ -27,15 +20,15 @@ class GeneralInformation extends Component {
 
     render() {
         const { imgFile } = this.context;
-        const { commonInfo: { birthday, image }, setField } = this.props.registrationStore;
+        const { commonInfo: { birthday, image }, error: { contactInfo } } = this.props.registrationStore;
         const myStyle = {
             display: 'none'
         }
+
         return (
             <>
                 <h2 className='register-title'>Общие данные
                     <p className='subtext-new'>Необходимо указать хотя бы один дополнительный способ связи</p>
-                    {/* {nameContact && <ErrorMessage>{nameContact}</ErrorMessage>} */}
                 </h2>
                 <GeneralInfoWrapper>
                     <Image

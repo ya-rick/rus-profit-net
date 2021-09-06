@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { SelectWrapper, SelectHeader, SelectDropdownList, SelectDropdownItem,
     ArrowWrapper, SelectLayout, SelectedItem, LeftItemWrapper } from './styles';
@@ -19,6 +19,13 @@ export function ArrowDown ({ isInverted = false }) {
 export default function Select ({ noHeaderBorders, elements, children, onItemClickCallback = () => {}, leftHeaderItem }) {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedItem, selectItem] = useState(null)
+
+    useEffect(() => {
+
+        selectItem(children[0])
+        onItemClickCallback(children[0])
+
+    }, [])
 
     function toggleOpen (isOpen) {
         if (isOpen === true) {

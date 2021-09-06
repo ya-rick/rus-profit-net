@@ -9,10 +9,10 @@ const ImgText = () => {
     const [data, setData] = useState({error: false, description: '', title: '', image: ''});
     
     useEffect(() => {
-        requestWithParams('getMainPageData').then(data => (console.log(data),setData({    
+        requestWithParams('getMainPageData').then(data => setData({    
             title: data.options[0].block1_title,
             image: data.options[1].block1_image
-        })));
+        }));
     }, [])
     
 

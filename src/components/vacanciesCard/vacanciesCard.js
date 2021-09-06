@@ -5,7 +5,6 @@ import Plus from "../plus";
 import {Redirect, useHistory} from "react-router-dom";
 
 const openCard = () => {
-    console.log('.');
     const history = new useHistory();
     history.push('/vacancy');
 };

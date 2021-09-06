@@ -7,8 +7,6 @@ class Questionnaires extends Component{
     render() {
         const { results: resumes } = this.context;
 
-        console.log(resumes)
-
         return(
             <div className='container'>
                 <h1 className='questionaries'>Анкеты</h1>

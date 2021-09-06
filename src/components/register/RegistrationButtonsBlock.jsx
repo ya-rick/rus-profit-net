@@ -1,11 +1,12 @@
 import CommonButton from "../../common/components/CommonButton";
+import ErrorMessage from "../../common/components/ErrorMessage";
 import { Centerer } from "../../common/components/Layouts";
 
-export default function RegistrationButtonsBlock({ onClickLeft, onClickRight, current }) {
+export default function RegistrationButtonsBlock({ onClickLeft, onClickRight, current, creationInfo }) {
     return <>
         <h2 className='register-title'>Создание вакансии/анкеты
             <p className='subtext-new'>Для продолжения работы с сайтом, необходимо создать вакансию или анкету работника</p>
-            {/* {nameContact && <ErrorMessage>{nameContact}</ErrorMessage>} */}
+            {creationInfo && <ErrorMessage>{creationInfo}</ErrorMessage>}
         </h2>
 
         <Centerer>

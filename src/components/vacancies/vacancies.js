@@ -6,8 +6,6 @@ import { SearchResultContext } from '../mainPage/contexts';
 class Vacancies extends Component{
     render() {
         const { results: vacancies } = this.context;
-        console.log(vacancies);
-
         return(
             <div className='container vac-contain'>
                 <h1 className='vacancies'>Вакансии</h1>

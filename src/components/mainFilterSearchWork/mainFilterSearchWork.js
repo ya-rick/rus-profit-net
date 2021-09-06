@@ -128,7 +128,6 @@ class MainFilterSearchWork extends Component {
 
     setRedirectToTrue() {
         this.setState({ isRedirecting: true });
-        console.log(this.state.isRedirecting)
     }
 
     onChangeProffession = (value) => {

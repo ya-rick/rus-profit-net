@@ -47,8 +47,6 @@ export default class MenuButtonsDocs extends Component{
     render() {
         const { categories, selectedParameters } = this.props;
 
-        console.log(selectedParameters)
-
         return (
             <ColumnsCenterer>
                 {categories && categories.map((category, index) => (

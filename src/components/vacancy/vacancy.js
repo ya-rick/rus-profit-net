@@ -17,7 +17,6 @@ const Vacancy = () => {
             })
                 .then(res => {
                     const fromServerVacancy = res.vacancy[0]
-                    console.log(res);
                     setVacancy({
                         category: fromServerVacancy.category || '',
                         create_date: fromServerVacancy.create_date || '',
@@ -40,7 +39,6 @@ const Vacancy = () => {
                 .catch(e=>console.error(e));
         }
     , []);
-    console.log(vacancy);
     return (
         vacancy ? <div className='container'>
             <div className='vacancy-head'>

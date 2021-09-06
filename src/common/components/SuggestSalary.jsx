@@ -13,7 +13,7 @@ export default function SuggestSalary({ currencyValue, onSelectChanged, onSalary
                 leftHeaderItem={
                     <CurrencyInput
                         onChangeValue={onSalaryChanged}
-                        onChangeCurrency={currency => onCurrencyChanged(currency.id)}
+                        onChangeCurrency={onCurrencyChanged}
                         noHeaderBorders
                         currencyValue={currencyValue}
                     />

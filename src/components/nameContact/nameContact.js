@@ -12,7 +12,7 @@ import Input from '../../common/components/Input';
 export default inject('registrationStore')(observer(function NameContact({
     registrationStore }) {
 
-    const { setField, error: { nameContact } } = registrationStore;
+    const { setField, error: { contactInfo } } = registrationStore;
     
     const {
         user_surname, user_name, user_email, getUserCities, user_country,
@@ -22,8 +22,6 @@ export default inject('registrationStore')(observer(function NameContact({
         user_telegram, user_skype_prefered, user_viber, user_skype, currentEditCountry,
         onChangeActiveEditableCountry, onChangeCities, onChangeCountries
     } = registrationStore.commonInfo;
-
-    console.log(registrationStore.commonInfo)
 
     return (
         <>
@@ -100,7 +98,7 @@ export default inject('registrationStore')(observer(function NameContact({
             <div>
                 <h2 className='register-title'>Предпочитаемый способ связи
                     <p className='subtext-new'>Необходимо указать хотя бы один дополнительный способ связи</p>
-                    {nameContact && <ErrorMessage>{nameContact}</ErrorMessage>}
+                    {contactInfo && <ErrorMessage>{contactInfo}</ErrorMessage>}
                 </h2>
                 <div className='contacts-block'>
                     <div className='contacts-subblock'>

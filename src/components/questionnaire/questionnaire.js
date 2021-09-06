@@ -27,7 +27,6 @@ export default function Questionnaire() {
             })
                 .then(res=> {
                     const fromServerResume = res.resume[0];
-                    console.log(res);
                     setResume({
                         category: fromServerResume.name || '',
                         description: fromServerResume.description || '',
@@ -48,8 +47,6 @@ export default function Questionnaire() {
                 })
                 .catch(e=>console.error(e));
         }, []);
-
-    console.log(resume);
 
     const getLikes = (numb) => {
         const likes = [];

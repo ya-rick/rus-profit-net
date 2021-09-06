@@ -7,12 +7,16 @@ import GeneralInformation from '../generalInformation';
 import NameContact from '../nameContact/nameContact';
 import RegisterVacancy from '../registerVacancies'
 import RegistrationButtonsBlock from './RegistrationButtonsBlock';
+import ErrorMessage from '../../common/components/ErrorMessage';
 
 export default inject('registrationStore')(observer(function RegisterPage({ 
-    registrationStore: { commonInfo: { registration_type }, setField } }) {
+    registrationStore: { commonInfo: { registration_type }, setField, error: { mainInfo, creationInfo } } }) {
 
     return <PageContentWrapper>
-        <PageTitle>Регистрация</PageTitle>
+        <PageTitle>
+            Регистрация
+            {mainInfo && <ErrorMessage>{mainInfo}</ErrorMessage>}
+        </PageTitle>
 
         <NameContact/>
 
@@ -22,6 +26,7 @@ export default inject('registrationStore')(observer(function RegisterPage({
             onClickLeft={() => setField('registration_type')('vacancy')}
             onClickRight={() => setField('registration_type')('resume')}
             current={registration_type}
+            creationError={creationInfo}
         />
 
         {registration_type && <RegisterVacancy/>}
