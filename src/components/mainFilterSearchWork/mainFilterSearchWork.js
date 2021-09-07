@@ -223,9 +223,9 @@ class MainFilterSearchWork extends Component {
                     <div>
                         <div className='main-filter-search-subBlock'>
                             <p className='bg-long-text'>Вакансия</p>
-                            <Select onItemClickCallback={obj => this.onChangeProffession(obj.id)}>
+                            {this.state.professions.length && <Select onItemClickCallback={obj => this.onChangeProffession(obj.id)}>
                                 {this.state.professions}
-                            </Select>
+                            </Select>}
                         </div>
                         <SuggestSalary
                             onSelectChanged={this.onSetTypeSalary}
