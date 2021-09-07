@@ -6,10 +6,12 @@ import './app.css';
 import MainPage from "../mainPage";
 import { defaultStyles } from '../../common/consts';
 import RegistrationStore from '../../stores/RegistrationStore'
+import UIStore from "../../stores/UIStore";
 
 
 const stores = {
-    registrationStore: new RegistrationStore()
+    registrationStore: new RegistrationStore(),
+    uiStore: new UIStore(),
 }
 
 const App = () =>{

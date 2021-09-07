@@ -6,26 +6,29 @@ import './red-img.css';
 
 import getCroppedImg from "./cropImage";
 import RangeSlider from "../rangeSlider";
-import { PhotoContext } from "../../../components/mainPage/contexts";
 import LinkedButton from "../LinkedButton";
+import { inject, observer } from "mobx-react";
 
-const RedImg = () => {
+const RedImg = inject('uiStore', 'registrationStore')(observer(({
+        uiStore: { modalPayload: { photo }, closeModal }, registrationStore: { setField }
+    }) => {
     const [crop, setCrop] = useState({ x: 0, y: 0 })
     const [zoom, setZoom] = useState(1)
     const [croppedAreaPixels, setCroppedAreaPixels] = useState(null)
-    const { img, setPhoto, closeModal } = useContext(PhotoContext);
 
     const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
         setCroppedAreaPixels(croppedAreaPixels)
     }, [])
 
+    console.log(photo)
+
     async function showCroppedImage() {
         try {
             const croppedImage = await getCroppedImg(
-                img,
+                photo,
                 croppedAreaPixels,
             )
-            setPhoto(croppedImage);
+            setField('image')(croppedImage);
             closeModal();
 
         } catch (e) {
@@ -42,7 +45,7 @@ const RedImg = () => {
             <div className='modal-redact'>
                 <Cropper
                     disableAutomaticStylesInjection={true}
-                    image={img}
+                    image={photo}
                     crop={crop}
                     zoom={zoom}
                     aspect={1}
@@ -61,6 +64,6 @@ const RedImg = () => {
             </div>
         </div>
     )
-};
+}));
 
 export default RedImg;

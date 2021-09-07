@@ -8,6 +8,8 @@ import CheckBox from "../checkbox";
 import { SearchableMultiSelect } from './searchableMultiSelect';
 import PasswordInput from '../../common/components/PasswordInput';
 import Input from '../../common/components/Input';
+import { AdaptiveCenterer, Centerer, GapedAdaptiveCenterer } from '../../common/components/Layouts';
+import styled from 'styled-components';
 
 export default inject('registrationStore')(observer(function NameContact({
     registrationStore }) {
@@ -26,7 +28,7 @@ export default inject('registrationStore')(observer(function NameContact({
     return (
         <>
             <div>
-                <div className='name-info-block'>
+                <Contact4Grid>
                     <div className='name-info-subblock'>
                         <p className='name-info-text'>Фамилия*</p>
                         <Input
@@ -69,6 +71,7 @@ export default inject('registrationStore')(observer(function NameContact({
                             onItemSelected={(tag) => onChangeCountries(tag, 'add')}
                             editableCountryID={currentEditCountry?.id}
                         />
+                        <p className='subtext-new'>Вы можете выбрать до 3 стран и/или городов</p>
                     </div>
 
                     <div className='name-info-subblock'>
@@ -84,23 +87,20 @@ export default inject('registrationStore')(observer(function NameContact({
                         />
                     </div>
 
-                    <div></div>
-
                     <div className='name-info-subblock'>
                         <p className='name-info-text'>Подтвердите пароль*</p>
                         <PasswordInput
                             value={user_password_confirm}
                             onChange={e => setField('user_password_confirm')(e.target.value)}/>
                     </div>
-                </div>
-                <p className='subtext-new'>Вы можете выбрать до 3 стран и/или городов</p>
+                </Contact4Grid>
             </div>
             <div>
                 <h2 className='register-title'>Предпочитаемый способ связи
                     <p className='subtext-new'>Необходимо указать хотя бы один дополнительный способ связи</p>
                     {contactInfo && <ErrorMessage>{contactInfo}</ErrorMessage>}
                 </h2>
-                <div className='contacts-block'>
+                <Contact2Grid className='contacts-block'>
                     <div className='contacts-subblock'>
                         <CheckBox
                             isChecked={user_second_email_prefered}
@@ -172,8 +172,44 @@ export default inject('registrationStore')(observer(function NameContact({
                             value={user_skype}
                             onChange={e => setField('user_skype')(e.target.value)}/>
                     </div>
-                </div>
+                </Contact2Grid>
             </div>
         </>
     );
 }))
+
+const Contact2Grid = styled(Centerer)`
+    flex-wrap: wrap;
+
+    > * {
+        flex: 1 1 40%;
+    }
+
+    @media (max-width: 1100px) {
+
+        > * {
+            flex-basis: 50%;
+            min-width: 470px;
+        }
+    }
+`;
+
+const Contact4Grid = styled(Centerer)`
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: baseline;
+
+    gap: 30px;
+    
+    > * {
+        flex: 1 1 20%;
+        min-width: 100px;
+    }
+
+    @media (max-width: 700px) {
+        > * {
+            flex-basis: 45%;
+            max-width: 50%;
+        }
+    }
+`;

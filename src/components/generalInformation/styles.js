@@ -1,13 +1,19 @@
 import styled from 'styled-components';
 
 export const GeneralInfoWrapper = styled.div`
-    width: 100%;
     display: flex;
-    justify-content: space-between;
-    height: 300px;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    gap: 50px;
 
     > * {
-        width: 100%;
+        flex: 1 1 50%;
+        max-width: 300px;
+    }
+
+    @media (max-width: 1020px) {
+        flex-wrap: wrap;
     }
 `;
 

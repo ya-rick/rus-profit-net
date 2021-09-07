@@ -5,7 +5,7 @@ import MyCalendar from "../myCalendar";
 import { PhotoContext } from '../mainPage/contexts';
 import { GeneralInfoWrapper, Image, InfoWrapper } from "./styles";
 import { inject, observer } from "mobx-react";
-import ErrorMessage from "../../common/components/ErrorMessage";
+import { ModalVariants } from "../../common/consts";
 
 class GeneralInformation extends Component {
 
@@ -18,8 +18,20 @@ class GeneralInformation extends Component {
         this.props.registrationStore.setField('birthday')(formatedDate);
     }
 
+    choosePhoto = (e) => {
+        const reader = new FileReader();
+        const file = e.target.files[0];
+
+        reader.onloadend = () => {
+            this.props.uiStore.openModal(ModalVariants.RedImg, { photo: reader.result });
+        };
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    }
+
     render() {
-        const { imgFile } = this.context;
         const { commonInfo: { birthday, image }, error: { contactInfo } } = this.props.registrationStore;
         const myStyle = {
             display: 'none'
@@ -32,12 +44,12 @@ class GeneralInformation extends Component {
                 </h2>
                 <GeneralInfoWrapper>
                     <Image
-                        src={imgFile ? URL.createObjectURL(imgFile) : Avatar}
+                        src={image ? URL.createObjectURL(image) : Avatar}
                         alt='avatar'
                     />
 
                     <InfoWrapper>
-                        <input id='in' className='reg-dwn-img' type='file' style={myStyle} onChange={this.context.onImgChanged}/>
+                        <input id='in' className='reg-dwn-img' type='file' style={myStyle} onChange={this.choosePhoto}/>
                         <label for='in' className='reg-dwn-img'>Добавьте фотографию</label>
                         <p className='reg-subtext'>Размер файла не более 5 Мб</p>
                     </InfoWrapper>
@@ -56,4 +68,4 @@ class GeneralInformation extends Component {
 
 GeneralInformation.contextType = PhotoContext;
 
-export default inject('registrationStore')(observer(GeneralInformation));
+export default inject('registrationStore', 'uiStore')(observer(GeneralInformation));

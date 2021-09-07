@@ -1,10 +1,15 @@
-import React from "react";
-import Background from "../../common/components/Background";
-import Icon from "../../common/components/Icon";
-import { ModalCloseImgWrapper, ModalContainer, ModalLayout } from "../../common/components/ModalStyles";
+import { inject, observer } from 'mobx-react';
+import React from 'react';
+
+import Background from '../../common/components/Background';
+import Icon from '../../common/components/Icon';
+import { ModalCloseImgWrapper, ModalContainer, ModalLayout } from '../../common/components/ModalStyles';
 import './modal.css';
 
-const Modal = ({closeModal, ModalContent})=> {
+const Modal = inject('uiStore')(observer(({ 
+        uiStore: { closeModal, currentModal: ModalContent }
+    }) => {
+
     let backgroundRef = null;
 
     return(
@@ -18,11 +23,11 @@ const Modal = ({closeModal, ModalContent})=> {
                         <Icon iconName={'exit'}/>
                     </ModalCloseImgWrapper>
                     
-                    <ModalContent closeModal={closeModal}/>
+                    {ModalContent}
                 </ModalLayout>
             </ModalContainer>
         </Background>
     );
-};
+}));
 
 export default Modal;

@@ -19,9 +19,10 @@ export default function PasswordInput(props) {
     </InputWithIconWrapper>;
 }
 
-const InputWithIconWrapper = styled.span`
+const InputWithIconWrapper = styled.div`
     position: relative;
     display: flex;
+    width: 100%;
 
     > input {
         padding-right: 60px;

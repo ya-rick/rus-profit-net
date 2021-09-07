@@ -10,8 +10,9 @@ import CommonButton from "../../common/components/CommonButton";
 import ErrorMessage from '../../common/components/ErrorMessage';
 import TextArea from '../../common/components/TextArea';
 import { inject, observer } from 'mobx-react';
+import { ModalVariants } from '../../common/consts';
 
-function RegisterVacancies({ registrationStore }) {
+function RegisterVacancies({ registrationStore, uiStore: { openModal } }) {
 
     const [categories, setCategories] = useState(null);
 
@@ -20,8 +21,22 @@ function RegisterVacancies({ registrationStore }) {
         commonInfo: { registration_type },
         targetedInfo: {  
             category_global, description, result_cat, agree
-        }
+        },
     } = registrationStore;
+    
+    async function finishRegistration() {
+        try {
+            await sendData();
+
+            openModal(ModalVariants.ThanksForm, {
+                title: 'Поздравляю!',
+                description: 'Для завершения регистрация на Ваш почтовый ящик было отправлена ссылка, по которой необходимо перейти.'
+            })
+        } catch(e) {
+            console.error(e)
+        }
+            
+    }
 
     useEffect(() => {
 
@@ -79,7 +94,7 @@ function RegisterVacancies({ registrationStore }) {
             <div className='container center margin-top-15'>
                 <CommonButton
                     className='img-reg-button'
-                    onClick={sendData}
+                    onClick={finishRegistration}
                 >
                     Сохранить {registration_type === 'vacancy' ? 'вакансию' : 'анкету'}
                 </CommonButton>
@@ -91,4 +106,4 @@ function RegisterVacancies({ registrationStore }) {
     )
 }
 
-export default inject('registrationStore')(observer(RegisterVacancies));
+export default inject('registrationStore', 'uiStore')(observer(RegisterVacancies));

@@ -1,4 +1,6 @@
 .main-page{
     background: #F1F3F6;
     height: 100%;
+    display: grid;
+    grid-template-rows: 65px minmax(max-content, 1fr) 300px;
 }

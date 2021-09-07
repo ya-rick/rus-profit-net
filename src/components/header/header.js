@@ -1,18 +1,16 @@
-import { useContext } from "react";
 import styled from 'styled-components'
 import {useHistory} from 'react-router-dom';
+import { inject, observer } from 'mobx-react';
 
 import Logo from '../../images/logo_outcome_Artboard_6_1.png';
 import Login from '../../images/login-icon.svg';
 import Register from '../../images/register-icon.svg';
 import './header.css';
-import { ModalContext } from "../mainPage/contexts";
 import HeaderButton from "../../common/components/HeaderButton";
 import { PageContentWrapper } from "../../common/components/Layouts";
+import { ModalVariants } from '../../common/consts';
 
-const HeaderNew = () => {
-
-    const { openAuthModal } = useContext(ModalContext);
+const HeaderNew = inject('uiStore')(observer(({ uiStore: { openModal } }) => {
 
     const history = useHistory();
 
@@ -21,7 +19,7 @@ const HeaderNew = () => {
             <HeaderContainer>
                 <img className='logo' onClick={() => history.push('/')} src={Logo} alt='logo'/>
                 <div className='button-group'>
-                    <HeaderButton onClick={openAuthModal}>
+                    <HeaderButton onClick={() => openModal(ModalVariants.Authorization)}>
                         <img className='button-icon' src={Login} alt='login-icon'/>
                         Авторизация
                     </HeaderButton>
@@ -33,7 +31,7 @@ const HeaderNew = () => {
             </HeaderContainer>
         </div>
     );
-};
+}));
 
 export default HeaderNew;
 

@@ -15,7 +15,8 @@ const httpMethodsTypes = {
     getResumeByID: 'get_resume_data',
     getCountries: 'get_countries',
     getCities: 'get_cities',
-    getCurrencies: 'get_currencies'
+    getCurrencies: 'get_currencies',
+    setAccess: 'set_access_code'
 }
 
 export const requestWithParams = (method, dataToServer = {}) => {

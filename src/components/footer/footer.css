@@ -1,31 +1,12 @@
-.footer {
-    width: 100%;
-    background: #B9C3D8;
-    min-height: 200px;
 
-}
 
 .footer a {
-    margin-top: 30px;
 }
 
 .big-logo{
-    margin-top: 50px;
-    width: 284px;
+    max-width: 284px;
+    min-width: 284px;
     height: 70px;
-}
-
-.column{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-.box-row{
-    width: 60%;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
 }
 
 .roles{

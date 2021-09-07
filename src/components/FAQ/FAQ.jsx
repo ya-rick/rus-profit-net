@@ -1,4 +1,3 @@
-import { useContext } from 'react';
 import CommonButton from '../../common/components/CommonButton';
 
 import Dropdown from "../../common/components/Dropdown";
@@ -6,11 +5,11 @@ import LinkedButton from "../../common/components/LinkedButton";
 import { PageContentWrapper } from "../../common/components/Layouts";
 import PageTitle from "../../common/components/PageTitle";
 import TwoLinkedButtonGroup from "../../common/components/TwoLinkedButtonGroup";
-import { ModalContext } from '../mainPage/contexts';
 import { Col, DropdownContainer } from "./styles";
+import { inject, observer } from 'mobx-react';
+import { ModalVariants } from '../../common/consts';
 
-export default function FAQ () {
-    const { openFAQModal } = useContext(ModalContext);
+export default inject('uiStore')(observer(function FAQ ({ uiStore: { openModal } }) {
 
     return <PageContentWrapper>
         <PageTitle>Вопросы и ответы</PageTitle>
@@ -40,7 +39,7 @@ export default function FAQ () {
                 <Dropdown 
                     title={'Как мне обновить/деактивировать свою учетную запись?'}
                     content={'Являясь всего лишь частью общей картины, стремящиеся вытеснить традиционное производство, нанотехнологии формируют глобальную экономическую сеть и при этом - разоблачены. В частности, новая модель организационной деятельности напрямую зависит от кластеризации усилий. Не следует, однако, забывать, что укрепление и развитие внутренней структуры в значительной степени обусловливает важность экспериментов, поражающих по своей масштабности и грандиозности. Не следует, однако, забывать, что укрепление и развитие внутренней.'}/>
-                <CommonButton onClick={openFAQModal}>Задать вопрос</CommonButton>
+                <CommonButton onClick={() => openModal(ModalVariants.FAQ)}>Задать вопрос</CommonButton>
             </Col>
         </DropdownContainer>
 
@@ -50,4 +49,4 @@ export default function FAQ () {
         </TwoLinkedButtonGroup>
 
     </PageContentWrapper>
-}
+}))

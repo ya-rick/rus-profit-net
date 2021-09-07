@@ -146,9 +146,9 @@ class MainFilterSearchWork extends Component {
         const { currentProffession, selectedParameters, salary, typeSalary, experience,
             currency, country, city } = this.state;
 
-        if (city.length === 0 || !currentProffession) {
+        if (country.length === 0 || !currentProffession) {
             this.setState({ ...this.state,
-                error: 'Необходимо выбрать хотя бы 1 город и профессию' })
+                error: 'Необходимо выбрать хотя бы 1 страну и профессию' })
             
             return;
         }

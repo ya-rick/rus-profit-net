@@ -76,11 +76,10 @@ export default class RegistrationStore {
         const targetedInfoServerContract = {...this.targetedInfo.toServerContract()};
 
 
-        requestWithFormData('registration', {
+        return requestWithFormData('registration', {
             ...commoninfoServerContract,
             ...targetedInfoServerContract
         })
-            .catch(e => console.error(e));
     }
 
 }
