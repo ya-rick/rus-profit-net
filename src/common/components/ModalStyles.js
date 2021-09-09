@@ -6,6 +6,8 @@ export const ModalContainer = styled.div`
     position: relative;
     margin: 10px 0;
     max-height: calc(100vh - 20px);
+    max-width: 760px;
+    width: 100%;
     overflow-y: auto;
     pointer-events: all;
 `;
@@ -22,10 +24,6 @@ export const ModalCloseImgWrapper = styled.div`
 
 export const ModalContent = styled.div`
     margin: 70px 0;
-
-    > input, textarea {
-        width: 460px;
-    }
 
     > h2 {
         margin-bottom: 30px;

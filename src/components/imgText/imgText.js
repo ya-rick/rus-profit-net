@@ -20,7 +20,14 @@ const ImgText = () => {
         backgroundSize: 'recover',
         backgroundPositionX: 'center',
         width: '100%',
+        minHeight: '100%',
         backgroundImage: `url(${data.image})`
+    }
+
+    function bindOnClickWithPath(pathTo) {
+        return () => {
+            history.push(pathTo);
+        }
     }
 
     const history = useHistory();
@@ -28,10 +35,10 @@ const ImgText = () => {
         <div className='img-text' style={myStyle}>
             <div className='col-xs-12 col-md-12 col-lg-6 main-page-img'>
                 <div className='group-button'>
-                    <LinkedButton onClick={() => history.push('/searchWorker')}>
+                    <LinkedButton onClick={bindOnClickWithPath('/searchWorker')}>
                         Найти работника
                     </LinkedButton>
-                    <LinkedButton onClick={() => history.push('/searchWork')}>
+                    <LinkedButton onClick={bindOnClickWithPath('/searchWork')}>
                         Найти работу
                     </LinkedButton>
                 </div>

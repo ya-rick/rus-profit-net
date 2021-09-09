@@ -1,6 +1,8 @@
 .work-cluster{
-    padding: 0 10%;
     display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
     flex-wrap: wrap;
 }
 

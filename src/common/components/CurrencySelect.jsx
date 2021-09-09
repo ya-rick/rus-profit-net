@@ -78,7 +78,7 @@ const CurrencySelectDropdown = styled.div`
     top: 155%;
     left: 50%;
     width: 100%;
-    overflow-y: scroll;
+    overflow-y: auto;
     max-height: 100px;
     transform: translateX(-50%);
     border: 2px solid #6F80A5;

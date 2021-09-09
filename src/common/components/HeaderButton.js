@@ -4,7 +4,6 @@ import {Link} from 'react-router-dom';
 
 export default styled(Link)`
   box-shadow: none;
-  height: 40px;
   font-size: 15px;
   line-height: 20px;
   
@@ -15,10 +14,6 @@ export default styled(Link)`
   
   padding: 10px 15px;
 
-  color: #000000;
-
-
-  font-style: normal;
   font-weight: 700;
   
   display: flex;

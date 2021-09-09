@@ -22,14 +22,19 @@ export default inject('uiStore')(observer(function EmailConfirmation({ uiStore: 
                         access_token: id
                     })
     
-                    openModal(ModalVariants.ThanksForm, {
+                    openModal(ModalVariants.InfoModal, {
                         title: 'Поздравляем!!!',
                         description: 'Вы успешно завершили регистрацию. Ваша заявка будет рассмотрена и подтверждена модерацией в течении 24 часов'
                     })
     
                     timeOut = setTimeout(() => setIsRedirecting(true), 3000)
                 } catch (e) {
-                    setIsRedirecting(true)
+                    setIsRedirecting(true);
+
+                    openModal(ModalVariants.InfoModal, {
+                        title: 'Произошла ошибка!',
+                        description: 'Пользователь с таким почтовым ящиком уже существует в системе.'
+                    })
                 }
             }
         })()

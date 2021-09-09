@@ -8,7 +8,7 @@ export const defaultStyles = {
 export const ModalVariants = {
     Authorization: 'Authorization',
     ForgotPassword: 'ForgotPassword',
-    ThanksForm: 'ThanksForm',
+    InfoModal: 'InfoModal',
     VerifyWithSms: 'VerifyWithSms',
     FAQ: 'FAQ',
     RedImg: 'RedImg'

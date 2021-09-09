@@ -48,6 +48,8 @@ class MainFilterSearch extends Component {
 
     componentDidMount() {
         requestWithParams('getProfessions').then(data => this.setState({ professions: data.options }));
+
+        this.el.scrollIntoView();
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -209,7 +211,9 @@ class MainFilterSearch extends Component {
         return (
             <PageContentWrapper>
                 <GapedAdaptiveCenterer>
-                    <VerticalCenterer>
+                    <VerticalCenterer
+                        ref={(el => this.el = el)}
+                    >
                         <div className='name-info-subblock'>
                             <p className='bg-long-text'>Выберите страну*</p>
                             <SearchableMultiSelect

@@ -28,12 +28,19 @@ function RegisterVacancies({ registrationStore, uiStore: { openModal } }) {
         try {
             await sendData();
 
-            openModal(ModalVariants.ThanksForm, {
+            openModal(ModalVariants.InfoModal, {
                 title: 'Поздравляю!',
                 description: 'Для завершения регистрация на Ваш почтовый ящик было отправлена ссылка, по которой необходимо перейти.'
             })
         } catch(e) {
-            console.error(e)
+            if (e === false) return;
+
+            console.log(e)
+
+            openModal(ModalVariants.InfoModal, {
+                title: 'Произошла ошибка!',
+                description: 'Пользователь с таким почтовым ящиком уже существует в системе.'
+            })
         }
             
     }
@@ -46,9 +53,6 @@ function RegisterVacancies({ registrationStore, uiStore: { openModal } }) {
         }
 
     },[category_global])
-
-    // const { findOptionsError,
-    // descriptionError } = getErrorMessage.apply(this);
 
     return (
         <>

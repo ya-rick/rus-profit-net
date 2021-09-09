@@ -13,7 +13,8 @@ export default class RegistrationStore {
         contactInfo: null,
         descriptionBlock: null,
         targetedInfo: null,
-        creationInfo: null
+        creationInfo: null,
+        generalInfo: null
     };
 
     error = {...this.initialErrorState};
@@ -58,6 +59,8 @@ export default class RegistrationStore {
         this.commonInfo.validateContact(this.setError('contactInfo'));
         this.commonInfo.validateCreation(this.setError('creationInfo'));
 
+        this.commonInfo.validateBirthday(this.setError('generalInfo'))
+
         this.targetedInfo.validateDescriptionBlock(this.setError('descriptionBlock'));
         this.targetedInfo.validateCategory(this.setError('targetedInfo'));
 
@@ -70,7 +73,7 @@ export default class RegistrationStore {
 
     sendData() {
 
-        if (!this.validateAll()) return;
+        if (!this.validateAll()) return Promise.reject(false);
 
         const commoninfoServerContract = {...this.commonInfo.toServerContract()};
         const targetedInfoServerContract = {...this.targetedInfo.toServerContract()};

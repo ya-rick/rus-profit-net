@@ -2,7 +2,6 @@ import { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
-import './mainPage.css';
 import Footer from '../footer';
 import Questionnaires from '../questionnaires';
 import Modal from '../modal';
@@ -21,6 +20,7 @@ import EmailConfirmation from '../emailConfirmation';
 import FAQ from '../FAQ/FAQ';
 
 import { UserContext, PhotoContext, SearchResultContext } from './contexts';
+import styled from 'styled-components';
 
 class MainPage extends Component {
 
@@ -67,8 +67,10 @@ class MainPage extends Component {
                                 setResults: this.setResults
                             }}>
                     <Router>
-                        <div className='main-page'>
-                            <HeaderNew/>
+                        <MainPageLayout>
+                            <HeaderNew
+                                pathName={(new URL(window.location.href)).pathname}
+                            />
                             <Switch>
                                 <Route exact path='/'>
                                     <ImgText/>
@@ -128,7 +130,7 @@ class MainPage extends Component {
                                     
                                 {this.props.uiStore.isModalOpened && <Modal/>}
                             </PhotoContext.Provider>
-                        </div>
+                        </MainPageLayout>
                     </Router>
                 </SearchResultContext.Provider>
             </UserContext.Provider>
@@ -137,3 +139,10 @@ class MainPage extends Component {
 };
 
 export default inject('uiStore')(observer(MainPage));
+
+const MainPageLayout = styled.div`
+    background: #F1F3F6;
+    height: 100%;
+    display: grid;
+    grid-template-rows: 65px minmax(max-content, 1fr) auto;
+`;

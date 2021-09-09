@@ -4,13 +4,13 @@ import { ModalVariants } from '../common/consts';
 import QuestionModalContent from '../components/FAQ/QuestionModalContent';
 import Authorization from '../components/authorization';
 import ForgotPassword from '../components/forgot-password';
-import ThanksForm from '../components/modal/thanks-form';
+import InfoModal from '../components/modal/info-form';
 import RedImg from '../common/components/red-img';
 
 const modals = {
     [ModalVariants.Authorization]: <Authorization/>,
     [ModalVariants.ForgotPassword]: <ForgotPassword/>,
-    [ModalVariants.ThanksForm]: <ThanksForm/>,
+    [ModalVariants.InfoModal]: <InfoModal/>,
     [ModalVariants.FAQ]: <QuestionModalContent/>,
     [ModalVariants.RedImg]: <RedImg/>
 };

@@ -8,7 +8,7 @@ import CheckBox from "../checkbox";
 import { SearchableMultiSelect } from './searchableMultiSelect';
 import PasswordInput from '../../common/components/PasswordInput';
 import Input from '../../common/components/Input';
-import { AdaptiveCenterer, Centerer, GapedAdaptiveCenterer } from '../../common/components/Layouts';
+import { Centerer } from '../../common/components/Layouts';
 import styled from 'styled-components';
 
 export default inject('registrationStore')(observer(function NameContact({
@@ -17,12 +17,15 @@ export default inject('registrationStore')(observer(function NameContact({
     const { setField, error: { contactInfo } } = registrationStore;
     
     const {
-        user_surname, user_name, user_email, getUserCities, user_country,
-        user_password_confirm, user_password, user_second_email_prefered,
+        user_surname, user_name, user_email,user_password_confirm,
+        user_password, user_second_email_prefered, user_viber, user_skype,
         user_second_email, user_telegram_prefered, user_phone_prefered,
         user_phone, user_whatsapp_prefered, user_whatsapp, user_viber_prefered,
-        user_telegram, user_skype_prefered, user_viber, user_skype, currentEditCountry,
-        onChangeActiveEditableCountry, onChangeCities, onChangeCountries
+        user_telegram, user_skype_prefered,
+        cityCountryModel: {
+            onChangeCities, onChangeCountries, chosenCountries, chosenCities, onChangeActiveEditableCountry,
+            currentEditCountry
+        }
     } = registrationStore.commonInfo;
 
     return (
@@ -65,7 +68,7 @@ export default inject('registrationStore')(observer(function NameContact({
                         <SearchableMultiSelect
                             onTagClick={(tag) => onChangeActiveEditableCountry(tag)}
                             onTagDelete={(tag) => onChangeCountries(tag, 'delete')}
-                            chosenOptions={user_country}
+                            chosenOptions={chosenCountries}
                             requestType={'get_countries'}
                             isCountry={true}
                             onItemSelected={(tag) => onChangeCountries(tag, 'add')}
@@ -77,9 +80,9 @@ export default inject('registrationStore')(observer(function NameContact({
                     <div className='name-info-subblock'>
                         <p className='name-info-text'>Выберите город</p>
                         <SearchableMultiSelect
-                            onTagClick={(tag) => {}}
+                            onTagClick={() => {}}
                             onTagDelete={(tag) => onChangeCities(tag, 'delete')}
-                            chosenOptions={getUserCities}
+                            chosenOptions={chosenCities}
                             requestType={'get_cities'}
                             isCountry={false}
                             onItemSelected={(tag) => onChangeCities(tag, 'add')}

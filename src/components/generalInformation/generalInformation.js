@@ -6,6 +6,7 @@ import { PhotoContext } from '../mainPage/contexts';
 import { GeneralInfoWrapper, Image, InfoWrapper } from "./styles";
 import { inject, observer } from "mobx-react";
 import { ModalVariants } from "../../common/consts";
+import ErrorMessage from "../../common/components/ErrorMessage";
 
 class GeneralInformation extends Component {
 
@@ -32,7 +33,7 @@ class GeneralInformation extends Component {
     }
 
     render() {
-        const { commonInfo: { birthday, image }, error: { contactInfo } } = this.props.registrationStore;
+        const { commonInfo: { birthday, image }, error: { generalInfo } } = this.props.registrationStore;
         const myStyle = {
             display: 'none'
         }
@@ -40,7 +41,7 @@ class GeneralInformation extends Component {
         return (
             <>
                 <h2 className='register-title'>Общие данные
-                    <p className='subtext-new'>Необходимо указать хотя бы один дополнительный способ связи</p>
+                    {generalInfo && <ErrorMessage>{generalInfo}</ErrorMessage>}
                 </h2>
                 <GeneralInfoWrapper>
                     <Image

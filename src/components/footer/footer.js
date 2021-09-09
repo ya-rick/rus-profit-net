@@ -1,13 +1,20 @@
 import React from "react";
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import styled from "styled-components";
 
 import BigLogo from '../../images/2021RusProfiNetFooterLogo.svg';
 import './footer.css';
 
 const Footer = () => {
+    const { pathname } = useLocation();
+
+    function isRoot() {
+        return pathname === '/'
+    }
+
     return (
-        <FooterWrapper>
+        isRoot() ? null
+        :   <FooterWrapper>
             <FooterInfoWrapper>
                 <div>
                     <FooterLinkAsBlock href='/#'>+7 916 500 50 50</FooterLinkAsBlock>
