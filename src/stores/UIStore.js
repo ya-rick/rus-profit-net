@@ -17,6 +17,8 @@ const modals = {
 
 export default class UIStore {
 
+    user = null;
+
     currentModal = null;
     modalPayload = null;
     onCloseCallback = null;
@@ -26,6 +28,10 @@ export default class UIStore {
             openModal: action.bound,
             closeModal: action.bound
         });
+    }
+
+    get isUserAuthenticated() {
+        return this.user !== null;
     }
 
     get isModalOpened() {

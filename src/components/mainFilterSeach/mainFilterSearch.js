@@ -1,298 +1,202 @@
-import React, {Component} from "react";
+import React, { useEffect, useState } from 'react';
+import { Redirect, useLocation } from 'react-router-dom';
+import { inject, observer } from 'mobx-react';
+import { autorun } from 'mobx';
+import styled from 'styled-components';
 
 import './mainFilterSearch.css';
 
-import Select from "../../common/components/select";
-import { requestWithParams } from "../../api/exchangeLayer";
-import MenuButtonsDocs from "../menuButtonsDocs";
-import LinkedButton from "../../common/components/LinkedButton";
-import { SearchResultContext } from "../mainPage/contexts";
-import { Redirect } from "react-router-dom";
-import { Centerer, GapedAdaptiveCenterer, PageContentWrapper } from "../../common/components/Layouts";
-import AgeChooser from "../../common/components/AgeChooser";
-import WorkExperience from "../../common/components/WorkExperience";
-import SuggestSalary from "../../common/components/SuggestSalary";
-import { SearchableMultiSelect } from "../nameContact/searchableMultiSelect";
-import { clamp } from "../../common/utils";
-import ErrorMessage from "../../common/components/ErrorMessage";
-import styled from "styled-components";
+import Select from '../../common/components/select';
+import MenuButtonsDocs from '../menuButtonsDocs';
+import LinkedButton from '../../common/components/LinkedButton';
+import { Centerer, GapedAdaptiveCenterer, PageContentWrapper } from '../../common/components/Layouts';
+import AgeChooser from '../../common/components/AgeChooser';
+import WorkExperience from '../../common/components/WorkExperience';
+import SuggestSalary from '../../common/components/SuggestSalary';
+import { SearchableMultiSelect } from '../nameContact/searchableMultiSelect';
+import ErrorMessage from '../../common/components/ErrorMessage';
+import { useCategoryFilters } from '../../common/hooks';
 
-class MainFilterSearch extends Component {
 
-    constructor() {
-        super();
+function MainFilterSearch({ mainFiltersStore, registrationStore, searchStore }) {
+    const [scrollToEl, setScrollToEl] = useState(null);
+    const [redirect, setRedirect] = useState(false);
 
-        this.state = {
-            experience: 0,
-            minAge: 18,
-            maxAge: 60,
-            professions: [],
-            country: [],
-            city: [],
-            salary: 0,
-            typeSalary: '',
-            currentProffession: null,
-            categories: null,
-            selectedParameters: [],
-            isRedirecting: false,
-            currency: '',
-            currentEditCountry: null,
+    const { categories, setCurrentCategory, filtersByCategory } = useCategoryFilters();
 
-            error: ''
+    const { pathname } = useLocation();
+
+    function getSearchType(pathname) {
+        return pathname === '/searchWorker' ? 'getResumes' : 'getVacancies';
+    }
+
+    useEffect(() => {
+        if (scrollToEl) {
+            scrollToEl.scrollIntoView();
+        }
+
+        setField('filterType')(getSearchType(pathname));
+    }, [scrollToEl, pathname]);
+
+    const { setField, result_cat, years_with, years_to, error: { noFullInfo },
+        experience, salary, category,
+        cityCountryModel: {
+            onChangeCities, onChangeCountries, chosenCountries, chosenCities, onChangeActiveEditableCountry,
+            currentEditCountry, countries
+        }, sendFilters, isSearchWorker, setError } = mainFiltersStore;
+
+    useEffect(() => {
+        // Copying filters to registrations form
+        const { commonInfo: { cityCountryModel }, targetedInfo } = registrationStore;
+
+        const disposers = [];
+        
+        disposers.push(autorun(() => {
+            cityCountryModel.countries = countries;
+        }))
+
+        disposers.push(autorun(() => {
+            targetedInfo.result_cat = result_cat;
+        }))
+
+        disposers.push(autorun(() => {
+            cityCountryModel.currentEditCountry = currentEditCountry;
+        }))
+
+        disposers.push(autorun(() => {
+            targetedInfo.years_to = years_to;
+        }))
+
+        disposers.push(autorun(() => {
+            targetedInfo.years_with = years_with;
+        }))
+
+        disposers.push(autorun(() => {
+            targetedInfo.experience = experience;
+        }))
+
+        disposers.push(autorun(() => {
+            targetedInfo.salary = salary;
+        }))
+
+        disposers.push(autorun(() => {
+            targetedInfo.category = category;
+        }))
+
+        return () => disposers.forEach(disposer => disposer());
+    })
+
+    function onChangeCategory({ id }) {
+        setField('category')(id);
+        setCurrentCategory(id)
+    }
+
+    async function makeSearch() {
+        const { setResults, setResultsType } = searchStore;
+
+        try{
+            const results = await sendFilters();
+
+            setResults(results.resume || results.vacancy);
+            setResultsType(getSearchType(pathname));
+
+            setRedirect(true);
+        } catch (e) {
+            console.log(e)
+            if (e.message === 'false') return;
+
+            setError('Нет данных');
         }
     }
 
-    setRedirectToTrue() {
-        this.setState({ isRedirecting: true })
+    if (redirect) {
+        return <Redirect to={'/searchResults'}/>
     }
 
-    componentDidMount() {
-        requestWithParams('getProfessions').then(data => this.setState({ professions: data.options }));
-
-        this.el.scrollIntoView();
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        if ((prevState.currentProffession !== this.state.currentProffession) && (this.state.currentProffession !== null)) {
-            requestWithParams('getFiltersByProfession', { value: this.state.currentProffession })
-                .then(data => this.setState({ categories: data.category, selectedParameters: [] }));
-        }
-    }
-
-    onChangeCountries = (newCountry, operationType) => {
-        let newCountries = [...this.state.country];
-        let newActiveEditableCountry = null;
-
-        if (this.state.country.length === 3  && operationType !== 'delete') {
-            return;
-        }
-
-        if (operationType === 'delete') {
-
-            const countryIndex = this.state.country
-                .findIndex(country => country.id === newCountry.id);
-            newCountries
-                .splice(countryIndex, 1);
-
-            if (this.state.city[countryIndex]) {
-                this.state.city.splice(countryIndex);
-            }
-            
-            if (newCountries.length === 0) {
-                newActiveEditableCountry = null;
-            } else {
-                newActiveEditableCountry = clamp(0, countryIndex, newCountries.length - 2);
-            }
-        } else if (operationType === 'add') {
-            newCountries.push(newCountry);
-
-            newActiveEditableCountry = newCountry;
-        }
-
-        this.setState({ 
-            ...this.state, 
-            country: [...newCountries],
-            currentEditCountry: newActiveEditableCountry
-        });
-    }
-
-    onChangeCities = (newCity, operationType) => {
-
-        const { country, city, currentEditCountry } = this.state;
-
-        if (city?.flat().length === 3 && operationType !== 'delete') {
-            return;
-        }
-
-        const editableIndex = country.findIndex(country => 
-            country.id === currentEditCountry.id);
-
-        let editableCitiesArray = null;
-
-        if (city[editableIndex]) {
-            editableCitiesArray = city[editableIndex];
-        } else {
-            editableCitiesArray = [];
-            city.push(editableCitiesArray);
-        }
-
-        if (operationType === 'delete') {
-            editableCitiesArray.splice(editableCitiesArray.findIndex(city => city.id === newCity.id), 1);
-
-            if (editableCitiesArray.length === 0) {
-                city.splice(editableIndex, 1);
-            }
-        } else if (operationType === 'add') {
-            editableCitiesArray.push(newCity);
-        }
-
-        this.setState({ 
-            ...this.state,
-            city: [...this.state.city]
-        })
-    }
-
-    onChangeActiveEditableCountry =(newCountry) => {
-        this.setState({ ...this.state, currentEditCountry: newCountry });
-    }
-
-    onChangeProffession = (value) => {
-        this.setState({ currentProffession: value });
-    }
-
-    onChangeExperience = (value) => {
-        this.setState({experience: value});
-    }
-
-    onChangeExperience = (value) => {
-        this.setState({experience: value});
-    }
-
-    onChangeAge = (value) => {
-        let [newFrom, newTo] = value;
-
-        this.setState({ maxAge: newTo, minAge: newFrom });
-    }
-
-    onCheckChanged() {
-        return (newIDs) => this.setState({ selectedParameters: newIDs });
-    }
-
-    sendFilters() {
-        const { currentProffession, selectedParameters,
-            salary, typeSalary, maxAge, minAge, experience,
-            currency, country, city } = this.state;
-
-            if (country.length === 0 || !currentProffession) {
-                this.setState({ ...this.state,
-                    error: 'Необходимо выбрать хотя бы 1 страну и профессию' })
-                
-                return;
-            }
-
-        requestWithParams('getResumes', {
-            country: country.map(country => country.name).join(','),
-            city: city.reduce((acc, cities) => (acc.push(cities.map(city => city.name).join(',')), acc), [])
-            .join(';'),
-            category: currentProffession || '',
-            years_with: minAge || '',
-            years_to: maxAge || '',
-            experience: experience || '',
-            salary: salary || '',
-            salary_type: typeSalary || '',
-            sub_category_list: selectedParameters,
-            currency
-        })
-        .then(data => {
-            this.context.setResults(data.resume);
-            this.setRedirectToTrue();
-        })
-        .catch(e => this.setState({ ...this.state,
-            error: 'Нет данных' }));
-    };
-
-    onSetTypeSalary = (value) =>{
-        this.setState({typeSalary: value});
-    }
-
-    onChangeSalary = (value) =>{
-        this.setState({salary: value});
-    }
-
-    onChangeCurrency = (currency) => {
-        this.setState({currency});
-    }
-
-    render() {
-        if (this.state.isRedirecting) {
-            return <Redirect to={'/questionaries'}/>
-        }
-
-        return (
+    return (
             <PageContentWrapper>
                 <GapedAdaptiveCenterer>
                     <VerticalCenterer
-                        ref={(el => this.el = el)}
+                        ref={el => setScrollToEl(el)}
                     >
                         <div className='name-info-subblock'>
                             <p className='bg-long-text'>Выберите страну*</p>
                             <SearchableMultiSelect
-                                onTagClick={(tag) => this.onChangeActiveEditableCountry(tag)}
-                                onTagDelete={(tag) => this.onChangeCountries(tag, 'delete')}
-                                chosenOptions={this.state.country}
+                                onTagClick={(tag) => onChangeActiveEditableCountry(tag)}
+                                onTagDelete={(tag) => onChangeCountries(tag, 'delete')}
+                                chosenOptions={chosenCountries}
                                 requestType={'get_countries'}
                                 isCountry={true}
-                                onItemSelected={(tag) => this.onChangeCountries(tag, 'add')}
-                                editableCountryID={this.state.currentEditCountry?.id}
+                                onItemSelected={(tag) => onChangeCountries(tag, 'add')}
+                                editableCountryID={currentEditCountry?.id}
                             />
                         </div>
 
                         <div className='name-info-subblock'>
                             <p className='bg-long-text'>Выберите город</p>
                             <SearchableMultiSelect
-                                onTagClick={(tag) => {}}
-                                onTagDelete={(tag) => this.onChangeCities(tag, 'delete')}
-                                chosenOptions={this.state.city?.flat()}
+                                onTagClick={() => {}}
+                                onTagDelete={(tag) => onChangeCities(tag, 'delete')}
+                                chosenOptions={chosenCities}
                                 requestType={'get_cities'}
                                 isCountry={false}
-                                onItemSelected={(tag) => this.onChangeCities(tag, 'add')}
-                                editableCountryID={this.state.currentEditCountry?.id}
+                                onItemSelected={(tag) => onChangeCities(tag, 'add')}
+                                editableCountryID={currentEditCountry?.id}
                             />
                         </div>
                     </VerticalCenterer>
                 
                     <div>
                         <div className='main-filter-search-subBlock'>
-                            <p className='bg-long-text'>Кого вы ищете?</p>
-                            {this.state.professions.length && <Select onItemClickCallback={obj => this.onChangeProffession(obj.id)}>
-                                {this.state.professions}
+                            <p className='bg-long-text'>{!isSearchWorker ? 'Кого вы ищете?'
+                                : 'Вакансия'}</p>
+                            {categories && <Select onItemClickCallback={onChangeCategory}>
+                                {categories}
                             </Select>}
                         </div>
                         <SuggestSalary
-                            onSelectChanged={this.onSetTypeSalary}
-                            onSalaryChanged={this.onChangeSalary}
-                            onCurrencyChanged={this.onChangeCurrency}
-                            currencyValue={this.state.salary}
+                            onSelectChanged={setField('salary_type')}
+                            onSalaryChanged={setField('salary')}
+                            onCurrencyChanged={setField('currency')}
+                            currencyValue={salary}
                         />
                     </div>
 
                     <WorkExperience
                         min={0}
                         max={10}
-                        onChange={this.onChangeExperience}
-                        value={this.state.experience}
+                        onChange={setField('experience')}
+                        value={experience}
                     />
 
-                    <AgeChooser
+                    {!isSearchWorker && <AgeChooser
                         min={18}
                         max={60}
-                        currentMinValue={this.state.minAge}
-                        currentMaxValue={this.state.maxAge}
-                        onChangeAge={this.onChangeAge}
-                    />
+                        currentMinValue={years_with}
+                        currentMaxValue={years_to}
+                        onChangeMin={setField('years_with')}
+                        onChangeMax={setField('years_to')}
+                    />}
                 </GapedAdaptiveCenterer>
 
-                {this.state.categories && <MenuButtonsDocs
-                    categories={this.state.categories}
-                    selectedParameters={this.state.selectedParameters}
-                    onCheckChanged={this.onCheckChanged()}/>}
-                
-                {this.state.error && <ErrorMessage>{this.state.error}</ErrorMessage>}
+                {filtersByCategory && <MenuButtonsDocs
+                    categories={filtersByCategory}
+                    selectedParameters={result_cat}
+                    onCheckChanged={setField('result_cat')}/>}
+
+                {noFullInfo && <ErrorMessage>{noFullInfo}</ErrorMessage>}
 
                 <VerticalCenterer style={{ marginTop: '70px' }}>
                     <LinkedButton
-                        onClick={() => this.sendFilters()}>
-                        Подобрать анкеты
+                        onClick={makeSearch}>
+                        Подобрать {isSearchWorker ? 'вакансии' : 'анкеты'}
                     </LinkedButton>
                 </VerticalCenterer>
             </PageContentWrapper>
         );
-    }
 };
 
-MainFilterSearch.contextType = SearchResultContext;
-
-export default MainFilterSearch;
+export default inject('mainFiltersStore', 'registrationStore', 'searchStore')(observer(MainFilterSearch));
 
 const VerticalCenterer = styled(Centerer)`
     flex-direction: column;

@@ -40,7 +40,7 @@ export default inject('uiStore')(observer(function EmailConfirmation({ uiStore: 
         })()
 
         return () => timeOut && clearTimeout(timeOut)
-    })
+    }, [id])
 
     return isRedirecting && <Redirect to={'/'}/>;
 }))

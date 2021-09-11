@@ -39,6 +39,8 @@ export default class RegistrationStore {
                 this.commonInfo[fieldKey] = value;
             } else if (this.targetedInfo.hasOwnProperty(fieldKey)) {
                 this.targetedInfo[fieldKey] = value;
+            } else {
+                throw new Error(`No such key ${fieldKey}`);
             }
         })
     }
@@ -68,12 +70,12 @@ export default class RegistrationStore {
             this.targetedInfo.validateName(this.setError('targetedInfo'));
         }
 
-        return !this.isError;
+        return this.isError;
     }
 
     sendData() {
 
-        if (!this.validateAll()) return Promise.reject(false);
+        if (this.validateAll()) return Promise.reject(false);
 
         const commoninfoServerContract = {...this.commonInfo.toServerContract()};
         const targetedInfoServerContract = {...this.targetedInfo.toServerContract()};

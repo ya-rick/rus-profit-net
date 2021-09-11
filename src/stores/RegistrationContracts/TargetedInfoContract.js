@@ -2,7 +2,7 @@ import { makeAutoObservable } from 'mobx';
 
 export default class TargetedInfoContract {
 
-    category_global = null;
+    category = null;
     experience = 0;
     salary = 0;
     salary_type = null;
@@ -27,7 +27,7 @@ export default class TargetedInfoContract {
     }
 
     validateCategory(callback) {
-        if (!this.category_global) callback('Нужно выбрать хотя бы одну категорию')
+        if (!this.category) callback('Нужно выбрать хотя бы одну категорию')
     }
 
     validateName(callback) {
@@ -40,12 +40,12 @@ export default class TargetedInfoContract {
     }
 
     toServerContract() {
-        const { category_global, experience, salary, 
+        const { category, experience, salary, 
             salary_type, description, result_cat, years_with,
             years_to, name, currency } = this;
         
         return {
-            category_global, experience, salary, 
+            category, experience, salary, 
             salary_type, description, years_with,
             years_to, name, currency,
             result_cat: result_cat.map(result => result)

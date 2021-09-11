@@ -50,3 +50,8 @@ export const inputMixins = css`
     color: #4C5E8B;
   }
 `;
+export const flexAlignCenter = css`
+  display: flex;
+  align-items: center;
+  align-content: center;
+`;

@@ -26,7 +26,7 @@ export const SelectHeader = styled.div`
     align-items: center;
     justify-content: space-between;
 
-    padding: 0.8em 1.3em 0.8em 1.5em;
+    padding: 10px 12px;
     border-radius: ${props => props.theme.borderRadius};
     height: 40px;
     border-radius: 15px;
@@ -43,7 +43,6 @@ export const SelectTitle = styled.div`
 export const SelectedItem = styled.div`
     height: 18px;
     font-size: 13px;
-    line-height: 23px;
   `;
 
 export const SelectDropdownList = styled.ul`
@@ -67,10 +66,9 @@ export const SelectDropdownList = styled.ul`
   `;
 
 export const SelectDropdownItem = styled.li`
-    padding: 0.9em 1.3em 0.9em 1.5em;
+    padding: 10px 12px;
     list-style: none;
     font-size: 13px;
-    line-height: 23px;
   `;
 
 export const ArrowWrapper = styled.span`

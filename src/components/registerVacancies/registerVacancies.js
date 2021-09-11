@@ -11,18 +11,20 @@ import ErrorMessage from '../../common/components/ErrorMessage';
 import TextArea from '../../common/components/TextArea';
 import { inject, observer } from 'mobx-react';
 import { ModalVariants } from '../../common/consts';
+import { useCategoryFilters } from '../../common/hooks';
 
 function RegisterVacancies({ registrationStore, uiStore: { openModal } }) {
-
-    const [categories, setCategories] = useState(null);
 
     const {
         setField, sendData, error: { targetedInfo, descriptionBlock },
         commonInfo: { registration_type },
         targetedInfo: {  
-            category_global, description, result_cat, agree
+            description, result_cat, agree, category
         },
     } = registrationStore;
+
+    const { categories, setCurrentCategory, filtersByCategory } = useCategoryFilters(category);
+
     
     async function finishRegistration() {
         try {
@@ -41,18 +43,13 @@ function RegisterVacancies({ registrationStore, uiStore: { openModal } }) {
                 title: 'Произошла ошибка!',
                 description: 'Пользователь с таким почтовым ящиком уже существует в системе.'
             })
-        }
-            
+        } 
     }
 
-    useEffect(() => {
-
-        if (category_global) {
-            requestWithParams('getFiltersByProfession', { value: category_global })
-                .then(data => setCategories(data.category));
-        }
-
-    },[category_global])
+    function onChangeCategory(id) {
+        setField('category')(id);
+        setCurrentCategory(id)
+    }
 
     return (
         <>
@@ -65,13 +62,15 @@ function RegisterVacancies({ registrationStore, uiStore: { openModal } }) {
                 </h2>
             </div>
             <WorkCluster
-                onProfessionChanged={setField('category_global')}
+                onCategoryChanged={onChangeCategory}
+                currentCategory={category}
+                categories={categories}
             />
 
             <RegisterFilterVacation/>
             
-            {categories && <MenuButtonsDocs
-                    categories={categories}
+            {filtersByCategory && <MenuButtonsDocs
+                    categories={filtersByCategory}
                     selectedParameters={result_cat}
                     onCheckChanged={setField('result_cat')}/>}
             <div>

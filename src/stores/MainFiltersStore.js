@@ -1,12 +1,21 @@
 import { makeAutoObservable, action } from 'mobx';
+import { requestWithParams } from '../api/exchangeLayer';
 
-import { requestWithFormData } from '../api/exchangeLayer';
-import TargetedInfoContract from './RegistrationContracts/TargetedInfoContract';
+import CityCountryModel from './Models/CityCountryModel';
 
 export default class MainFiltersStore {
 
     cityCountryModel = new CityCountryModel();
-    name = '';
+    result_cat = [];
+    years_with = 18;
+    years_to = 60;
+    category = null;
+    experience = 0;
+    salary = 0;
+    salary_type = null;
+    currency = null;
+
+    filterType = null;
 
     initialErrorState = {
         noFullInfo: null
@@ -15,10 +24,19 @@ export default class MainFiltersStore {
     error = {...this.initialErrorState};
 
     constructor() {
-        makeAutoObservable(this);
+        makeAutoObservable(this, {
+            setField: action.bound,
+            clearError: action.bound,
+            setError: action.bound,
+            sendFilters: action.bound
+        });
     }
 
-    isError() {
+    get isSearchWorker() {
+        return this.filterType === 'getVacancies';
+    }
+
+    get isError() {
         return !!this.error.noFullInfo;
     }
 
@@ -32,14 +50,36 @@ export default class MainFiltersStore {
 
     setField(fieldKey) {
         return action((value) => {
-            if (this.targetedInfo.hasOwnProperty(fieldKey)) {
-                this.targetedInfo[fieldKey] = value;
+            if (this.hasOwnProperty(fieldKey)) {
+                this[fieldKey] = value;
+            } else {
+                throw new Error(`No such key ${fieldKey}`);
             }
         })
     }
 
     validateFullInfo() {
-        if (this.targetedInfo)
+        this.clearError();
+
+        this.cityCountryModel.validateCountry(this.setError);
+        if (!this.category) this.setError('Необходимо выбрать хотя бы одну категорию');
+
+        return this.isError;
+    }
+
+    async sendFilters() {
+        if (this.validateFullInfo()) throw new Error(false);
+
+        const { cityCountryModel, result_cat, years_with, years_to, category,
+            experience, salary, salary_type, currency, filterType } = this;
+
+        return await requestWithParams(filterType, {
+            places: cityCountryModel.toServerContract(),
+            result_cat, years_with, years_to, category, experience,
+            salary, salary_type, currency
+        });
+        
+        
     }
 
 }

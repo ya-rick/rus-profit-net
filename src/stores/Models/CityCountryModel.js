@@ -84,7 +84,7 @@ export default class CityCountryModel {
         this.currentEditCountry = newCountry;
      }
 
-    toServerFormat() {
+    toServerContract() {
         let retVal = [];
 
         for (let [countryID, { cities }] of this.countries) {
@@ -94,7 +94,7 @@ export default class CityCountryModel {
             })
         }
 
-        return retVal;
+        return JSON.stringify(retVal);
     }
 
 }

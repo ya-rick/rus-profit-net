@@ -1,35 +1,18 @@
-import React, {Component} from "react";
-import { requestWithParams } from "../../api/exchangeLayer";
+import React from "react";
 import './workCluster.css';
 
-export default class WorkCluster extends Component{
+export default function WorkCluster({ currentCategory, categories = [], onCategoryChanged }) {
 
-    state = {
-        professions: [],
-        activeProfession: null
-    }
+    console.log(currentCategory)
+    console.log(categories)
 
-    componentDidMount() {
-        requestWithParams('getProfessions')
-            .then(data => this.setState({ professions: data.options }));
-    }
-
-    onProfessionChanged(newProfessionID) {
-        this.setState({ activeProfession: newProfessionID });
-
-        this.props.onProfessionChanged(newProfessionID);
-    }
-
-    render() {
-
-        return(
-            <div className='work-cluster'>
-                {this.state.professions && this.state.professions.map(profession => <button 
-                    className={`col-xs-6 col-md-6 col-lg-4 button-work${(profession.id === this.state.activeProfession ? ' button-work-active' : '')}`}
-                    onClick={() => this.onProfessionChanged(profession.id)}>
-                    {profession.name}
-                </button>)}
-            </div>
-        );
-    };
+    return(
+        <div className='work-cluster'>
+            {categories && categories.map(category => <button 
+                className={`col-xs-6 col-md-6 col-lg-4 button-work${(category.id === currentCategory ? ' button-work-active' : '')}`}
+                onClick={() => onCategoryChanged(category.id)}>
+                {category.name}
+            </button>)}
+        </div>
+    );
 }

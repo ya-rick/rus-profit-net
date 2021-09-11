@@ -1,5 +1,5 @@
 import { action, computed, makeAutoObservable, reaction } from 'mobx';
-import CityCountryModel from '../CityCountryModel';
+import CityCountryModel from '../Models/CityCountryModel';
 
 export default class CommonInfoContract {
 
@@ -112,7 +112,7 @@ export default class CommonInfoContract {
             user_whatsapp, user_whatsapp_prefered, user_second_email,
             user_second_email_prefered, user_skype, user_skype_prefered, user_viber, 
             user_viber_prefered, user_telegram, user_telegram_prefered,
-            image, birthday, registration_type, places: JSON.stringify(cityCountryModel.toServerFormat())
+            image, birthday, registration_type, places: JSON.stringify(cityCountryModel.toServerContract())
         }
     }
 

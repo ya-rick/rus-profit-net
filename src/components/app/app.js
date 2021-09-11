@@ -6,11 +6,15 @@ import MainPage from "../mainPage";
 import { defaultStyles } from '../../common/consts';
 import RegistrationStore from '../../stores/RegistrationStore'
 import UIStore from "../../stores/UIStore";
+import MainFiltersStore from "../../stores/MainFiltersStore";
+import SearchStore from "../../stores/SearchStore";
 
 
 const stores = {
     registrationStore: new RegistrationStore(),
     uiStore: new UIStore(),
+    mainFiltersStore: new MainFiltersStore(),
+    searchStore: new SearchStore(),
 }
 
 const App = () =>{
