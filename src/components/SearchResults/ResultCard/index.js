@@ -14,9 +14,11 @@ function ResultCard({ result, resultType, searchStore, uiStore: { isUserAuthenti
     const [redirectToID, setRedirectID] = useState(null);
 
     const { category, city, country, experience, parameters, salary,
-        salary_type, description, name, avatar } = result;
+        salary_type, description, name, avatar, id, mark, isFavourite } = result;
         
     const isResume = resultType === 'getResumes';
+
+    const { onLikeClicked, onFavouriteClicked } = searchStore;
 
     if (redirectToID) {
         return <Redirect to={`/searchResults/${isResume ? 'getResumeByID' : 'getVacancyByID'}/${redirectToID}`}/>
@@ -36,8 +38,8 @@ function ResultCard({ result, resultType, searchStore, uiStore: { isUserAuthenti
                 <CardImage src={avatar || DefaultAvatar}/>
 
                 {isUserAuthenticated && <HandsLike
-                    currentMark
-                    onHandClick
+                    currentMark={mark}
+                    onHandClick={onLikeClicked(isResume ? 'resume' : 'vacancy', id)}
                 />}
 
             </CardImageBlock>}
@@ -51,8 +53,8 @@ function ResultCard({ result, resultType, searchStore, uiStore: { isUserAuthenti
                     </CardTitle>
                     {isUserAuthenticated && <FavouriteIcon
                         iconName={'favourite'}
-                        onClick={() => {}}
-                        isActive={false}
+                        onClick={onFavouriteClicked(isResume ? 'resumeToFavourites' : 'vacancyToFavourites', id)}
+                        isActive={isFavourite}
                     />}
                     <PlusIcon
                         iconName={'plus'}
@@ -62,7 +64,7 @@ function ResultCard({ result, resultType, searchStore, uiStore: { isUserAuthenti
 
                 <CardOptionalInfoBlock>
                     <div>Опыт {experience} лет</div>
-                    <div>{parameters[0].options[0].name}</div>
+                    <div>{parameters[0]?.options[0]?.name}</div>
                     <div>{salary} {salary_type}</div>
                 </CardOptionalInfoBlock>
 

@@ -16,7 +16,13 @@ const httpMethodsTypes = {
     getCountries: 'get_countries',
     getCities: 'get_cities',
     getCurrencies: 'get_currencies',
-    setAccess: 'set_access_code'
+    setAccess: 'set_access_code',
+    getUserData: 'get_user_data',
+    login: 'login',
+    logout: 'logout',
+    setMark: 'set_mark',
+    vacancyToFavourites: 'add_vacancy_to_favorites',
+    resumeToFavourites: 'add_resume_to_favorites',
 }
 
 export const requestWithParams = (method, dataToServer = {}) => {

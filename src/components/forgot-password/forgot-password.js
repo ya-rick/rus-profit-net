@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import './forgot-password.css';
-import registrationService from "../../services/registrationService";
 import { ModalButtonWapper, ModalContent, ModalSubtitle, ModalTitle } from "../../common/components/ModalStyles";
 import Input from "../../common/components/Input";
 import CommonButton from "../../common/components/CommonButton";
@@ -26,7 +25,7 @@ export default class ForgotPassword extends Component {
 
     onSubmit = () => {
         const {login} = this.state;
-        const authorization = new registrationService();
+        const authorization = {} ;// new registrationService();
         const data = {
             error: false,
             description: ''

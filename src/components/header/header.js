@@ -10,8 +10,9 @@ import './header.css';
 import HeaderButton from "../../common/components/HeaderButton";
 import { PageContentWrapper } from "../../common/components/Layouts";
 import { ModalVariants } from '../../common/consts';
+import Icon from '../../common/components/Icon';
 
-const HeaderNew = inject('uiStore')(observer(({ uiStore: { openModal } }) => {
+const HeaderNew = inject('uiStore')(observer(({ uiStore: { openModal, isUserAuthenticated, user, userLogout } }) => {
 
     const history = useHistory();
 
@@ -28,14 +29,34 @@ const HeaderNew = inject('uiStore')(observer(({ uiStore: { openModal } }) => {
                 : <img className='logo' onClick={() => history.push('/')} src={Logo} alt='logo'/>}
                 
                 <div className='button-group'>
-                    <HeaderButton onClick={() => openModal(ModalVariants.Authorization)}>
-                        <img className='button-icon' src={Login} alt='login-icon'/>
-                        Авторизация
-                    </HeaderButton>
-                    <HeaderButton onClick={()=>history.push('/register')}>
-                        <img className='button-icon-people' src={Register} alt='register-icon'/>
-                        Регистрация
-                    </HeaderButton>
+                    {isUserAuthenticated ? <>
+                        <HeaderButton>
+                            <Icon
+                                iconName={'man'}
+                            />
+                            {user.name}
+                        </HeaderButton>
+                        <HeaderButton onClick={userLogout}>
+                            <Icon
+                                iconName={'logout'}
+                            />
+                            Выйти
+                        </HeaderButton>
+                    </>
+                    :<>
+                        <HeaderButton onClick={() => openModal(ModalVariants.Authorization)}>
+                            <Icon
+                                iconName={'logout'}
+                            />
+                            Авторизация
+                        </HeaderButton>
+                        <HeaderButton onClick={()=>history.push('/register')}>
+                            <Icon
+                                iconName={'people'}
+                            />
+                            Регистрация
+                        </HeaderButton>
+                    </>}
                 </div>
             </HeaderContainer>
         </div>

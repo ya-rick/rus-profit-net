@@ -14,12 +14,14 @@ import Icon from '../../../common/components/Icon';
 import { flexAlignCenter } from '../../../common/components/mixins';
 
 function Vacancy({ searchStore, uiStore: { isUserAuthenticated } }) {
-    const { 
-        isCurrentSearchResult, setCurrentResult } = searchStore;
+    const {
+        isCurrentSearchResult, setCurrentResult, onFavouriteClicked, onLikeClicked,
+        mainInfoSearchResult, secondaryInfoSearchResult
+    } = searchStore;
 
     const { name, description, experience, avatar, parameters, salary, salary_type,
         places, category, employer, contacts_info, mark, isFavourite, vacancy_name,
-        create_date, currency } = searchStore.currentChosenResult || {};
+        create_date, currency, id: result_id } = searchStore.currentChosenResult || {};
 
     const { id, searchType } = useParams();
 
@@ -47,8 +49,8 @@ function Vacancy({ searchStore, uiStore: { isUserAuthenticated } }) {
                         <FullInfoTitle>{isResume ? name : vacancy_name}</FullInfoTitle>
                         {isUserAuthenticated && <FavouriteIcon
                             iconName={'favourite'}
-                            onClick={() => {}}
-                            isActive={false}
+                            onClick={onFavouriteClicked(isResume ? 'resumeToFavourites' : 'vacancyToFavourites', result_id)}
+                            isActive={isFavourite}
                         />}
                         
                         <ShareIcon
@@ -69,8 +71,8 @@ function Vacancy({ searchStore, uiStore: { isUserAuthenticated } }) {
                             <FullInfoImage src={avatar || DefaultAvatar}/>
 
                             {isUserAuthenticated && <HandsLike
-                                currentMark
-                                onHandClick
+                                currentMark={mark}
+                                onHandClick={onLikeClicked(isResume ? 'resume' : 'vacancy', id)}
                             />}
 
                         </FullInfoImageBlock>}
@@ -96,6 +98,11 @@ function Vacancy({ searchStore, uiStore: { isUserAuthenticated } }) {
                                     <FullInfoBolderText>Опыт работы:</FullInfoBolderText>
                                     <div>{experience} лет</div>
                                 </MainInfoBlockItem>
+
+                                {mainInfoSearchResult.map(param => <MainInfoBlockItem>
+                                    <FullInfoBolderText>{param.name}</FullInfoBolderText>
+                                    <div>{param.options?.map(option => option.name).join(', ')}</div>
+                                </MainInfoBlockItem>)}
                             </MainInfoBlock>
 
                         </FullInfoTextBlock>
@@ -107,20 +114,19 @@ function Vacancy({ searchStore, uiStore: { isUserAuthenticated } }) {
                         <FullInfoDescrption>{description}</FullInfoDescrption>
                     </DescriptionBlock>
 
-                    <SecondaryBlock>
+                    {secondaryInfoSearchResult.length > 0 && <SecondaryBlock>
                         <FullInfoSubtitle>Подробнее</FullInfoSubtitle>
 
-                        <SecondaryBlockLayout>
-                            {parameters.map(parameter => <MainInfoBlockItem
-                                key={parameter.name}
+                         <SecondaryBlockLayout>
+                            {secondaryInfoSearchResult.map(param => <MainInfoBlockItem
+                                key={param.name}
                             >
-                                <FullInfoBolderText>{parameter.name}:</FullInfoBolderText>
-                                <div>{parameter.options.map(option => option.name).join(', ')}</div>
+                                <FullInfoBolderText>{param.name}:</FullInfoBolderText>
+                                <div>{param.options?.map(option => option.name).join(', ')}</div>
                             </MainInfoBlockItem>)}
                         </SecondaryBlockLayout>
                         
-                        
-                    </SecondaryBlock>
+                    </SecondaryBlock>}
                     
                 </ContentLayout>
 

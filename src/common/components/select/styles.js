@@ -28,7 +28,6 @@ export const SelectHeader = styled.div`
 
     padding: 10px 12px;
     border-radius: ${props => props.theme.borderRadius};
-    height: 40px;
     border-radius: 15px;
     background: #FFFFFF;
     ${props => !props.noBorders && 'border: 2px solid #6F80A5;'}

@@ -2,21 +2,20 @@ import React, {Component} from 'react';
 import { inject, observer } from 'mobx-react';
 
 import './authorization.css';
-import registrationService from '../../services/registrationService';
+
 import { ModalButtonWapper, ModalContent, ModalLink, ModalSubtitle, ModalTitle } from '../../common/components/ModalStyles';
 import CommonButton from '../../common/components/CommonButton';
 import Input from '../../common/components/Input';
 import ErrorMessage from '../../common/components/ErrorMessage';
-import { UserContext } from '../mainPage/contexts';
 import PasswordInput from '../../common/components/PasswordInput';
 
 class Authorization extends Component {
 
     state = {
-        login: '',
-        password: '',
         exception: false,
-        description: ''
+        description: '',
+        email: '',
+        password: ''
     };
 
     onClickForgot = () => {
@@ -25,36 +24,27 @@ class Authorization extends Component {
     }
 
     onLoginChange = (e) => {
-        this.setState({login: e.target.value});
+        this.setState({ email: e.target.value });
     }
 
     onPasswordChange = (e)=>{
-        this.setState({password: e.target.value});
+        this.setState({ password: e.target.value });
     }
 
-    setLogin = (error, description, userID) =>{
-        if(error){
-            this.setState({exception:error, description: description});
-        }else{
-            this.context.setUserId(userID);
+    onSubmit = async () => {
+        try {
+            const { email, password } = this.state;
+
+            console.log(email, password)
+
+            await this.props.uiStore.userLogin(email, password);
+
             this.props.uiStore.closeModal();
+        } catch (e) {
+            console.log(e)
+            this.setState({ exception: true, description: e.message});
         }
     }
-
-    onSubmit = () => {
-        const {login, password} = this.state;
-        const authorization = new  registrationService();
-
-        authorization.login(login,password).then((res)=> ({
-            error: res.data[0].error === true ? true : false,
-            description: res.data[0].description,
-            userID: res.data[0].id
-        })).then(({ error, description, userID }) => {
-            this.setLogin(error, description, userID);
-        });
-    }
-
-
 
     render() {
         return (
@@ -87,7 +77,5 @@ class Authorization extends Component {
         )
     }
 }
-
-Authorization.contextType = UserContext;
 
 export default inject('uiStore')(observer(Authorization));

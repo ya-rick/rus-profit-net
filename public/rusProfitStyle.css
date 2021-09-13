@@ -16,6 +16,10 @@ html, body, #root{
     font-weight: 400;
 }
 
+*, *::after, *::after {
+    box-sizing: border-box;
+}
+
 a {
     font-style: normal;
     font-weight: normal;
