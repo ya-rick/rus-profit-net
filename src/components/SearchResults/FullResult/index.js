@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useParams} from 'react-router';
 import { inject, observer } from 'mobx-react';
 import styled from 'styled-components';
@@ -12,16 +12,31 @@ import HandsLike from '../HandsLike';
 import PageTitle from '../../../common/components/PageTitle';
 import Icon from '../../../common/components/Icon';
 import { flexAlignCenter } from '../../../common/components/mixins';
+import CommonButton from '../../../common/components/CommonButton';
+import { ModalVariants } from '../../../common/consts';
 
-function Vacancy({ searchStore, uiStore: { isUserAuthenticated } }) {
+function Vacancy({ searchStore, uiStore: { isUserAuthenticated, openModal } }) {
+    const [isContactsShown, setContactsHown] = useState(false);
+
+    function onContactsClick() {
+        if (isUserAuthenticated) {
+            setContactsHown(true);
+        } else {
+            openModal(ModalVariants.InfoModal, {
+                title: 'Извините,',
+                description: 'но для получения списка контактов необходимо войти в систему.'
+            })
+        }
+    }
+
     const {
         isCurrentSearchResult, setCurrentResult, onFavouriteClicked, onLikeClicked,
         mainInfoSearchResult, secondaryInfoSearchResult
     } = searchStore;
 
-    const { name, description, experience, avatar, parameters, salary, salary_type,
+    const { name, description, experience, avatar, salary, salary_type,
         places, category, employer, contacts_info, mark, isFavourite, vacancy_name,
-        create_date, currency, id: result_id } = searchStore.currentChosenResult || {};
+        create_date, currency, id: result_id, files_images } = searchStore.currentChosenResult || {};
 
     const { id, searchType } = useParams();
 
@@ -99,8 +114,15 @@ function Vacancy({ searchStore, uiStore: { isUserAuthenticated } }) {
                                     <div>{experience} лет</div>
                                 </MainInfoBlockItem>
 
+                                <MainInfoBlockItem>
+                                    <FullInfoBolderText>Города:</FullInfoBolderText>
+                                    <div>
+                                        {places.map(place => <div>{`${place.country_name}: ${place.cities.map(city => city.name).join(',')}`}</div>)}
+                                    </div>    
+                                </MainInfoBlockItem>
+
                                 {mainInfoSearchResult.map(param => <MainInfoBlockItem>
-                                    <FullInfoBolderText>{param.name}</FullInfoBolderText>
+                                    <FullInfoBolderText>{param.name}:</FullInfoBolderText>
                                     <div>{param.options?.map(option => option.name).join(', ')}</div>
                                 </MainInfoBlockItem>)}
                             </MainInfoBlock>
@@ -125,9 +147,25 @@ function Vacancy({ searchStore, uiStore: { isUserAuthenticated } }) {
                                 <div>{param.options?.map(option => option.name).join(', ')}</div>
                             </MainInfoBlockItem>)}
                         </SecondaryBlockLayout>
+
+                        {isContactsShown && isUserAuthenticated ? <SecondaryBlockLayout>
+                            {contacts_info.map(contact=> <MainInfoBlockItem>
+                                <FullInfoBolderText>{contact.name}</FullInfoBolderText>
+                                <FullInfoBolderText>{contact.value}</FullInfoBolderText>
+                            </MainInfoBlockItem>)}
+                        </SecondaryBlockLayout>
+                        : <ContactsButton
+                            onClick={onContactsClick}
+                        >Получить контакты</ContactsButton>}
                         
                     </SecondaryBlock>}
                     
+                    {files_images.length > 0 && <ExamplesContainer>
+                        <ExamplesImageLayout>
+                            {files_images.map(image => <StyledImage src={URL.createObjectURL(image)}/>)}
+                        </ExamplesImageLayout>
+                    </ExamplesContainer>}
+
                 </ContentLayout>
 
 
@@ -278,4 +316,22 @@ const FullInfoDescrption = styled.div`
     padding: 20px;
     font-size: 20px;
     border: 1px solid #6F80A5;
+`;
+
+const ContactsButton = styled(CommonButton)`
+    align-self: flex-end;
+`;
+
+const ExamplesContainer = styled.div``;
+
+const ExamplesImageLayout = styled.div`
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 140px));
+    grid-template-rows: 140px;
+    grid-gap: 15px;
+`;
+
+const StyledImage = styled.img`
+    width: 100%;
+    height: 100%;
 `;

@@ -20,11 +20,12 @@ export default class SearchResultModel {
     mark = 0;
     isFavourite = false;
     create_date = null;
+    example = [];
 
     constructor(fromServerData) {
         const { name, description, experience, avatar, parameters, salary, salary_type,
             places, category, employer, id, contacts_info, mark, isFavourite, vacancy_name,
-            create_date, currency } = fromServerData;
+            create_date, currency, example } = fromServerData;
 
         this.id = id;
         this.name = name;
@@ -43,6 +44,7 @@ export default class SearchResultModel {
         this.vacancy_name = vacancy_name;
         this.create_date = create_date;
         this.currency = currency;
+        this.example = example;
 
         makeAutoObservable(this);
     }

@@ -8,6 +8,7 @@ import CommonButton from '../../common/components/CommonButton';
 import Input from '../../common/components/Input';
 import ErrorMessage from '../../common/components/ErrorMessage';
 import PasswordInput from '../../common/components/PasswordInput';
+import { ModalVariants } from '../../common/consts';
 
 class Authorization extends Component {
 
@@ -19,8 +20,8 @@ class Authorization extends Component {
     };
 
     onClickForgot = () => {
-        const {onGetID} = this.props;
-        onGetID(1);
+        console.log('clicked')
+        this.props.uiStore.openModal(ModalVariants.ForgotPassword);
     }
 
     onLoginChange = (e) => {
@@ -35,13 +36,10 @@ class Authorization extends Component {
         try {
             const { email, password } = this.state;
 
-            console.log(email, password)
-
             await this.props.uiStore.userLogin(email, password);
 
             this.props.uiStore.closeModal();
         } catch (e) {
-            console.log(e)
             this.setState({ exception: true, description: e.message});
         }
     }
@@ -66,7 +64,7 @@ class Authorization extends Component {
                     />
                     {this.state.exception && <ErrorMessage>{this.state.description}</ErrorMessage>}
 
-                    <ModalLink onClick-={this.onClickForgot}>Забыли логин или пароль?</ModalLink>
+                    <ModalLink onClick={this.onClickForgot}>Забыли логин или пароль?</ModalLink>
 
                 </ModalContent>
 

@@ -23,6 +23,8 @@ const httpMethodsTypes = {
     setMark: 'set_mark',
     vacancyToFavourites: 'add_vacancy_to_favorites',
     resumeToFavourites: 'add_resume_to_favorites',
+    changePassword: 'change_password_recovery',
+    forgotPassword: 'recovery'
 }
 
 export const requestWithParams = (method, dataToServer = {}) => {
@@ -43,7 +45,11 @@ export const requestWithFormData = (method, dataToServer = {}) => {
     const data = new FormData();
 
     for (let [key, value] of Object.entries(dataToServer)) {
-        data.append(key, value);
+        if (key.endsWith('[]')) {
+            value.forEach((oneVal) => data.append(key, oneVal))
+        } else {
+            data.append(key, value);
+        }
     }
 
     data.append('type', httpMethodsTypes[method]);

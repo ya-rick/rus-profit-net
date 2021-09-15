@@ -59,19 +59,14 @@ export default async function getCroppedImg(imageSrc, pixelCrop, rotation = 0) {
     // As a blob
     return new Promise(resolve => {
         canvas.toBlob(blob => {
-            const fR = new FileReader();
             
-            fR.addEventListener("loadend", function() {
-                function blobToFile(theBlob, fileName){
-                    theBlob.lastModifiedDate = new Date();
-                    theBlob.name = fileName;
-                    return theBlob;
-                }
+            function blobToFile(theBlob, fileName){
+                theBlob.lastModifiedDate = new Date();
+                theBlob.name = fileName;
+                return theBlob;
+            }
 
-                resolve(blobToFile(blob, 'img.jpeg'));
-             });
-
-            fR.readAsArrayBuffer(blob);
+            resolve(blobToFile(blob, 'img.jpeg'));
 
         }, 'image/jpeg')
     })

@@ -1,8 +1,8 @@
-import { makeAutoObservable } from 'mobx';
+import { action, makeAutoObservable } from 'mobx';
 
 export default class TargetedInfoContract {
 
-    category = null;
+    category_global = null;
     experience = 0;
     salary = 0;
     salary_type = null;
@@ -13,9 +13,25 @@ export default class TargetedInfoContract {
     name = '';
     agree = false;
     currency = null;
+    files_images = [];
 
     constructor() {
-        makeAutoObservable(this);
+        makeAutoObservable(this, {
+            addImage: action.bound,
+            removeImage: action.bound,
+        });
+    }
+
+    get isWorksAddable() {
+        return this.category_global?.example === true;
+    }
+
+    addImage(image) {
+        this.files_images.push(image);
+    }
+
+    removeImage(image) {
+        this.files_images.splice(this.files_images.indexOf(image), 1);
     }
 
     validateAgree(callback) {
@@ -27,7 +43,7 @@ export default class TargetedInfoContract {
     }
 
     validateCategory(callback) {
-        if (!this.category) callback('Нужно выбрать хотя бы одну категорию')
+        if (!this.category_global) callback('Нужно выбрать хотя бы одну категорию')
     }
 
     validateName(callback) {
@@ -40,15 +56,16 @@ export default class TargetedInfoContract {
     }
 
     toServerContract() {
-        const { category, experience, salary, 
+        const { category_global: { id: category_global }, experience, salary, 
             salary_type, description, result_cat, years_with,
-            years_to, name, currency } = this;
-        
+            years_to, name, currency, files_images } = this;
+
         return {
-            category, experience, salary, 
+            category_global, experience, salary, 
             salary_type, description, years_with,
             years_to, name, currency,
-            result_cat: result_cat.map(result => result)
+            result_cat,
+            'files_images[]': files_images
         }
     }
 

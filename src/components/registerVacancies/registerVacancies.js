@@ -12,6 +12,7 @@ import TextArea from '../../common/components/TextArea';
 import { inject, observer } from 'mobx-react';
 import { ModalVariants } from '../../common/consts';
 import { useCategoryFilters } from '../../common/hooks';
+import WorkExamples from './WorkExamples';
 
 function RegisterVacancies({ registrationStore, uiStore: { openModal } }) {
 
@@ -19,7 +20,7 @@ function RegisterVacancies({ registrationStore, uiStore: { openModal } }) {
         setField, sendData, error: { targetedInfo, descriptionBlock },
         commonInfo: { registration_type },
         targetedInfo: {  
-            description, result_cat, agree, category
+            description, result_cat, agree, category, isWorksAddable
         },
     } = registrationStore;
 
@@ -35,9 +36,9 @@ function RegisterVacancies({ registrationStore, uiStore: { openModal } }) {
                 description: 'Для завершения регистрация на Ваш почтовый ящик было отправлена ссылка, по которой необходимо перейти.'
             })
         } catch(e) {
+            console.error(e);
+            
             if (e === false) return;
-
-            console.log(e)
 
             openModal(ModalVariants.InfoModal, {
                 title: 'Произошла ошибка!',
@@ -46,9 +47,9 @@ function RegisterVacancies({ registrationStore, uiStore: { openModal } }) {
         } 
     }
 
-    function onChangeCategory(id) {
-        setField('category')(id);
-        setCurrentCategory(id)
+    function onChangeCategory(category) {
+        setField('category_global')(category);
+        setCurrentCategory(category.id);
     }
 
     return (
@@ -83,6 +84,7 @@ function RegisterVacancies({ registrationStore, uiStore: { openModal } }) {
                 value={description}
                 onChange={e => setField('description')(e.target.value)}
             />
+            {registration_type === 'resume' && isWorksAddable && <WorkExamples/>}
             <div>
                 <div className='display-right'>
                     <CheckBox isChecked={agree} check={setField('agree')}>

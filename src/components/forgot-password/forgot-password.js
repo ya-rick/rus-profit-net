@@ -1,81 +1,70 @@
-import React, {Component} from "react";
+import React, { useState } from 'react';
+
 import './forgot-password.css';
-import { ModalButtonWapper, ModalContent, ModalSubtitle, ModalTitle } from "../../common/components/ModalStyles";
-import Input from "../../common/components/Input";
-import CommonButton from "../../common/components/CommonButton";
 
-export default class ForgotPassword extends Component {
-    state = {
-        login: '',
-        error: false,
-        description: ''
+import { ModalButtonWapper, ModalContent, ModalSubtitle, ModalTitle } from '../../common/components/ModalStyles';
+import Input from '../../common/components/Input';
+import CommonButton from '../../common/components/CommonButton';
+import ErrorMessage from '../../common/components/ErrorMessage';
+import { requestWithParams } from '../../api/exchangeLayer';
+import { inject, observer } from 'mobx-react';
+import { ModalVariants } from '../../common/consts';
+
+
+function ForgotPassword ({ uiStore: { openModal } }) {
+    const [email, setEmail] = useState('');
+    const [error, setError] = useState(null);
+
+    function onChange(e) {
+        setEmail(e.target.value);
     };
 
-    onClickForgot = () => {
-        const {error, description} = this.state;
-        if(!error && description !== ''){
-            const {onGetID} = this.props;
-            onGetID(2);
-        }
-    };
+    function validate() {
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            setError('Неправильный формат почты')
+            return false;
+        };
 
-    onChange = (e) => {
-        this.setState({login: e.target.value});
-    };
-
-    onSubmit = () => {
-        const {login} = this.state;
-        const authorization = {} ;// new registrationService();
-        const data = {
-            error: false,
-            description: ''
-        }
-        authorization.recovery(login).then((res) => {
-            data.error = res.data[0].error;
-            data.description = res.data[0].description;
-        }).then(() => {
-                this.setState({error: data.error, description: data.description});
-            }
-        ).then(()=> this.onClickForgot());
-    };
-
-    onException = () => {
-        const {error, description} = this.state;
-        if (error) {
-            return (
-                <p className='exception-message'>{description}</p>
-            );
-        } else {
-            return (
-                <></>
-            );
-        }
-    };
-
-
-    render() {
-        this.onClickForgot();
-        const exception = this.onException();
-        return (
-            <>
-            
-                <ModalTitle>Забыли логин или пароль?</ModalTitle>
-
-                <ModalContent>
-
-                    <ModalSubtitle>Введите ваш e-mail</ModalSubtitle>
-                    <Input
-                        placeholder={'maria@mail.ru'}
-                        onChange={this.onChange}
-                    />
-
-                </ModalContent>
-
-                <ModalButtonWapper>
-                    <CommonButton onClick={this.onSubmit}>Отправить</CommonButton>
-                </ModalButtonWapper>
-
-            </>
-        )
+        return true;
     }
+
+    function onSubmit() {
+        if (validate()) {
+            requestWithParams('forgotPassword', {email})
+                .then(() => {
+                    openModal(ModalVariants.InfoModal, {
+                        title: 'Получилось!',
+                        description: 'На Ваш почтовый ящик было отправлена ссылка, по которой вы сможете установить новый пароль.'
+                    })
+                })
+        }
+    };
+
+    return (
+        <>
+        
+            <ModalTitle>Забыли логин или пароль?</ModalTitle>
+
+            <ModalContent>
+
+                <ModalSubtitle>Введите ваш e-mail</ModalSubtitle>
+                <Input
+                    placeholder={'example@example.ru'}
+                    onChange={onChange}
+                    value={email}
+                />
+
+                {error && <ErrorMessage>{error}</ErrorMessage>}
+
+            </ModalContent>
+
+            <ModalButtonWapper>
+                <CommonButton onClick={onSubmit}>Отправить</CommonButton>
+            </ModalButtonWapper>
+
+        </>
+    )
 }
+
+
+export default inject('uiStore')(observer(ForgotPassword));

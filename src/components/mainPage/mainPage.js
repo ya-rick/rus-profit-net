@@ -18,6 +18,7 @@ import FAQ from '../FAQ/FAQ';
 import { UserContext, PhotoContext, SearchResultContext } from './contexts';
 import styled from 'styled-components';
 import FullResult from '../SearchResults/FullResult';
+import PasswordReset from '../passwordReset';
 
 class MainPage extends Component {
 
@@ -90,19 +91,15 @@ class MainPage extends Component {
                                 <Route path='/email-confirmation/:id'>
                                     <EmailConfirmation/>
                                 </Route>
+                                <Route path='/password-reset/:id'>
+                                    <PasswordReset/>
+                                </Route>
                                 <Route path='*'>
                                     <Error404/>
                                 </Route>
                             </Switch>
                             <Footer/>
-                            <PhotoContext.Provider value={{
-                                    img: this.state.photo,
-                                    setPhoto: this.setPhoto,
-                                    closeModal: () => this.setCurrentModalName(null)
-                                }}>
-                                    
-                                {this.props.uiStore.isModalOpened && <Modal/>}
-                            </PhotoContext.Provider>
+                            {this.props.uiStore.isModalOpened && <Modal/>}
                         </MainPageLayout>
                     </Router>
                 </SearchResultContext.Provider>

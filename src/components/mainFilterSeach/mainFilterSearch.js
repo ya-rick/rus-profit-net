@@ -87,8 +87,8 @@ function MainFilterSearch({ mainFiltersStore, registrationStore, searchStore }) 
     })
 
     function onChangeCategory({ id }) {
-        setField('category')(id);
-        setCurrentCategory(id)
+        setField('category_global')(id);
+        setCurrentCategory(id);
     }
 
     async function makeSearch() {
@@ -102,7 +102,6 @@ function MainFilterSearch({ mainFiltersStore, registrationStore, searchStore }) 
 
             setRedirect(true);
         } catch (e) {
-            console.log(e)
             if (e.message === 'false') return;
 
             setError('Нет данных');

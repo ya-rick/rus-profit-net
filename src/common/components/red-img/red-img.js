@@ -20,8 +20,6 @@ const RedImg = inject('uiStore', 'registrationStore')(observer(({
         setCroppedAreaPixels(croppedAreaPixels)
     }, [])
 
-    console.log(photo)
-
     async function showCroppedImage() {
         try {
             const croppedImage = await getCroppedImg(

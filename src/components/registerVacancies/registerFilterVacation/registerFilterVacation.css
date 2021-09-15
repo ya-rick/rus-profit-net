@@ -80,9 +80,10 @@
 .text-slider{
     display: flex;
     justify-content: space-between;
+    gap: 50px;
 }
 
-.text-slider>p{
+.text-slider > p{
     font-family: 'Raleway', sans-serif;
     font-style: normal;
     font-weight: normal;

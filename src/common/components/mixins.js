@@ -2,6 +2,7 @@ import {css} from 'styled-components';
 
 export const buttonStylesMixin = css`
 
+  min-width: 300px;
   background: #F7FBFC;
   padding: 13px 22px 14px 23px;
   border: 2px solid #6F80A5;

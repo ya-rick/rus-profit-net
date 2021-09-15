@@ -7,13 +7,15 @@ import ForgotPassword from '../components/forgot-password';
 import InfoModal from '../components/modal/info-form';
 import RedImg from '../common/components/red-img';
 import { requestWithParams } from '../api/exchangeLayer';
+import PasswordResetModal from '../components/modal/password-reset';
 
 const modals = {
     [ModalVariants.Authorization]: <Authorization/>,
     [ModalVariants.ForgotPassword]: <ForgotPassword/>,
     [ModalVariants.InfoModal]: <InfoModal/>,
     [ModalVariants.FAQ]: <QuestionModalContent/>,
-    [ModalVariants.RedImg]: <RedImg/>
+    [ModalVariants.RedImg]: <RedImg/>,
+    [ModalVariants.PasswordResetModal]: <PasswordResetModal/>
 };
 
 export default class UIStore {
@@ -43,6 +45,7 @@ export default class UIStore {
     }
 
     openModal(modalType, modalPayload = null, onCloseCallback) {
+        console.log(modalType)
         this.currentModal = modals[modalType];
         this.modalPayload = modalPayload;
         this.onCloseCallback = onCloseCallback;
