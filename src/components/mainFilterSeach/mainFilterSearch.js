@@ -86,9 +86,9 @@ function MainFilterSearch({ mainFiltersStore, registrationStore, searchStore }) 
         return () => disposers.forEach(disposer => disposer());
     })
 
-    function onChangeCategory({ id }) {
-        setField('category_global')(id);
-        setCurrentCategory(id);
+    function onChangeCategory(category) {
+        setField('category')(category);
+        setCurrentCategory(category.id);
     }
 
     async function makeSearch() {

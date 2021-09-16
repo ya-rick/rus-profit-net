@@ -20,11 +20,11 @@ function RegisterVacancies({ registrationStore, uiStore: { openModal } }) {
         setField, sendData, error: { targetedInfo, descriptionBlock },
         commonInfo: { registration_type },
         targetedInfo: {  
-            description, result_cat, agree, category, isWorksAddable
+            description, result_cat, agree, category_global, isWorksAddable
         },
     } = registrationStore;
 
-    const { categories, setCurrentCategory, filtersByCategory } = useCategoryFilters(category);
+    const { categories, setCurrentCategory, filtersByCategory } = useCategoryFilters(category_global?.id);
 
     
     async function finishRegistration() {
@@ -64,7 +64,7 @@ function RegisterVacancies({ registrationStore, uiStore: { openModal } }) {
             </div>
             <WorkCluster
                 onCategoryChanged={onChangeCategory}
-                currentCategory={category}
+                currentCategory={category_global}
                 categories={categories}
             />
 

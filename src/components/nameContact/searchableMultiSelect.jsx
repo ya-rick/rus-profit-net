@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import { requestWithParams } from '../../api/exchangeLayer';
 import Icon from '../../common/components/Icon';
+import OutsideClickWrapper from '../../common/components/OutsideClickWrapper';
 
 export const SearchableMultiSelect = observer(({ isCountry = false, onTagClick, onTagDelete,
     editableCountryID, chosenOptions, onItemSelected }) => {
@@ -73,55 +74,57 @@ export const SearchableMultiSelect = observer(({ isCountry = false, onTagClick, 
     }, [searchParam, editableCountryID])
 
     return (
-        <SelectWrapper>
+        <OutsideClickWrapper onOutsideClickHandler={() => toggleOpen(false)}>
+            {elRef => <SelectWrapper ref={elRef}>
 
-            <SelectTagedHeader
-                onClick={toggleOpen}
-                disabled={disabled}
-            >
+                <SelectTagedHeader
+                    onClick={toggleOpen}
+                    disabled={disabled}
+                >
 
-                <SelectTagsContainer>
-                    {chosenOptions?.map(tag => <SelectTag
-                        active={tag.id === editableCountryID}
-                        onClick={onSomethingClicked(tag, onTagClick)}
-                    >
-                        {tag.name}
-                        <Icon
-                            iconName={'exit'}
-                            onClick={onSomethingClicked(tag, onTagDelete)}
-                            key={tag.id}
-                        />
-                    </SelectTag>)}
-                </SelectTagsContainer>
-
-                <Icon
-                    iconName={'arrow_down'}
-                />
-
-            </SelectTagedHeader>
-
-            {isOpen && <SelectDropdown>
-
-                <SelectSearchField
-                    onChange={e => setSearchParam(e.target.value)}
-                    value={searchParam}
-                />
-
-                <SelectDropdownList>
-                    {resultExcept(filterBySearch(searchParam), chosenOptions)?.map(tag => (
-                        <SelectDropdownItem 
-                            onClick={onSomethingClicked(tag, onItemSelected)}
-                            key={tag.id}
+                    <SelectTagsContainer>
+                        {chosenOptions?.map(tag => <SelectTag
+                            active={tag.id === editableCountryID}
+                            onClick={onSomethingClicked(tag, onTagClick)}
                         >
                             {tag.name}
-                        </SelectDropdownItem>
-                    )) || <NoResults>Нет результатов. Для начала поиска выберите страну поиска и введите 3 или больше символов</NoResults>}
-                </SelectDropdownList>
-                
+                            <Icon
+                                iconName={'exit'}
+                                onClick={onSomethingClicked(tag, onTagDelete)}
+                                key={tag.id}
+                            />
+                        </SelectTag>)}
+                    </SelectTagsContainer>
 
-            </SelectDropdown>}
+                    <Icon
+                        iconName={'arrow_down'}
+                    />
 
-        </SelectWrapper>
+                </SelectTagedHeader>
+
+                {isOpen && <SelectDropdown>
+
+                    <SelectSearchField
+                        onChange={e => setSearchParam(e.target.value)}
+                        value={searchParam}
+                    />
+
+                    <SelectDropdownList>
+                        {resultExcept(filterBySearch(searchParam), chosenOptions)?.map(tag => (
+                            <SelectDropdownItem 
+                                onClick={onSomethingClicked(tag, onItemSelected)}
+                                key={tag.id}
+                            >
+                                {tag.name}
+                            </SelectDropdownItem>
+                        )) || <NoResults>Нет результатов. Для начала поиска выберите страну поиска и введите 3 или больше символов</NoResults>}
+                    </SelectDropdownList>
+                    
+
+                </SelectDropdown>}
+
+            </SelectWrapper>}
+        </OutsideClickWrapper>
     )
 })
 

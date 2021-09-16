@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { requestWithParams } from '../../api/exchangeLayer';
+import OutsideClickWrapper from './OutsideClickWrapper';
 import { ArrowDown } from './select';
 
 export default function CurrencySelect({ onChange, ...props }) {
@@ -39,22 +40,25 @@ export default function CurrencySelect({ onChange, ...props }) {
         }
     }
 
-    return <CurrencySelectWrapper>
-        <CurrencySelectHeader onClick={toggleOpen}>
-            {currentCurrency}
-            <ArrowDown isInverted={isOpen}/> 
-        </CurrencySelectHeader>
+    return <OutsideClickWrapper onOutsideClickHandler={() => toggleOpen(false)}>
+        {elRef => <CurrencySelectWrapper ref={elRef}>
+            <CurrencySelectHeader onClick={toggleOpen}>
+                {currentCurrency}
+                <ArrowDown isInverted={isOpen}/> 
+            </CurrencySelectHeader>
 
-        {isOpen && <CurrencySelectDropdown>
-            {currencies.map(currency => <CurrencySelectDropdownItem 
-                key={currency.id}
-                onClick={onItemClick(currency)}
-            >
-                {currency.symbol}
-            </CurrencySelectDropdownItem>)}
-        </CurrencySelectDropdown>}
-        
-    </CurrencySelectWrapper>
+
+            {isOpen && <CurrencySelectDropdown>
+                {currencies.map(currency => <CurrencySelectDropdownItem 
+                    key={currency.id}
+                    onClick={onItemClick(currency)}
+                >
+                    {currency.symbol}
+                </CurrencySelectDropdownItem>)}
+            </CurrencySelectDropdown>}
+            
+        </CurrencySelectWrapper>}
+    </OutsideClickWrapper>
 }
 
 const CurrencySelectWrapper = styled.div`

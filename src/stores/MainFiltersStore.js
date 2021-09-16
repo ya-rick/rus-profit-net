@@ -70,7 +70,7 @@ export default class MainFiltersStore {
     async sendFilters() {
         if (this.validateFullInfo()) throw new Error(false);
 
-        const { cityCountryModel, result_cat, years_with, years_to, category,
+        const { cityCountryModel, result_cat, years_with, years_to, category: { id: category },
             experience, salary, salary_type, currency, filterType } = this;
 
         return await requestWithParams(filterType, {

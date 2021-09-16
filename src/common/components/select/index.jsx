@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { SelectWrapper, SelectHeader, SelectDropdownList, SelectDropdownItem,
     ArrowWrapper, SelectLayout, SelectedItem, LeftItemWrapper } from './styles';
 import { arrow_down } from '../../svgElements';
+import OutsideClickWrapper from '../OutsideClickWrapper';
 
 export function ArrowDown ({ isInverted = false }) {
     return (
@@ -52,25 +53,27 @@ export default function Select ({ noHeaderBorders, elements, children, onItemCli
     }
     
     return (
-        <SelectWrapper>
+        <OutsideClickWrapper onOutsideClickHandler={() => setIsOpen(false)}>
+            {(elRef) => <SelectWrapper ref={elRef}>
 
-            {leftHeaderItem && leftHeaderItem}
+                {leftHeaderItem && leftHeaderItem}
 
-            <SelectLayout>
-                <SelectHeader
-                    onClick={toggleOpen}
-                    noBorders={noHeaderBorders}
-                >
-                    <SelectedItem>{selectedItem?.name}</SelectedItem>
-                    <ArrowDown isInverted={isOpen}/>    
-                </SelectHeader>
+                <SelectLayout>
+                    <SelectHeader
+                        onClick={toggleOpen}
+                        noBorders={noHeaderBorders}
+                    >
+                        <SelectedItem>{selectedItem?.name}</SelectedItem>
+                        <ArrowDown isInverted={isOpen}/>    
+                    </SelectHeader>
 
-                {isOpen && <SelectDropdownList>
-                    {renderChildren()}
-                </SelectDropdownList>}
-            </SelectLayout>
-            
-            
-        </SelectWrapper>
+                    {isOpen && <SelectDropdownList>
+                        {renderChildren()}
+                    </SelectDropdownList>}
+                </SelectLayout>
+
+
+            </SelectWrapper>}
+        </OutsideClickWrapper>
     )
 }
