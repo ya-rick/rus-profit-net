@@ -90,6 +90,10 @@ const CardWrapper = styled.div`
     :hover {
         box-shadow: 4px 4px 10px #4C5E8B;
     }
+
+    @media (max-width: 1000px) {
+        flex-wrap: wrap;
+    }
 `;
 
 const CardImageBlock = styled.div`
@@ -124,7 +128,6 @@ const PlusIcon = styled(Icon)`
 
 const CardImage = styled.img`
     width: 100%;
-    max-height: 300px;
 `;
 
 const CardInfoBlock = styled.div`

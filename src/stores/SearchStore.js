@@ -1,8 +1,13 @@
 import { action, computed, makeAutoObservable } from 'mobx';
+
 import { requestWithParams } from '../api/exchangeLayer';
 import SearchResultModel from './Models/SearchResultModel';
 
+
 export default class SearchStore {
+
+    page = 1;
+    last_page = 1;
 
     results = [];
 
@@ -18,6 +23,8 @@ export default class SearchStore {
             setResultsType: action.bound,
             onLikeClicked: action.bound,
             onFavouriteClicked: action.bound,
+            setTotalPage: action.bound,
+            scrollDown: action.bound,
             mainInfoSearchResult: computed,
             secondaryInfoSearchResult: computed
         });
@@ -25,6 +32,10 @@ export default class SearchStore {
 
     get isResultsPresent() {
         return this.results.length > 0;
+    }
+
+    get isLastPage() {
+        return this.page === this.last_page;
     }
 
     get isCurrentSearchResult() {
@@ -41,6 +52,15 @@ export default class SearchStore {
 
     setResults(results = []) {
         this.results = results.map(result => SearchResultModel.createFromServerContract(result));
+    }
+
+    setTotalPage(maxPages) {
+        this.last_page = maxPages;
+        this.page = 1;
+    }
+
+    scrollDown() {
+        if (!this.isLastPage) this.page += 1;
     }
     
     setCurrentResult(result) {

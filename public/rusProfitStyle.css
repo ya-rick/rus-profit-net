@@ -4,6 +4,7 @@ html, body, #root{
     margin: 0;
     background: #f1f3f6;
     scroll-behavior: smooth;
+    overflow-x: hidden;
 }
 
 * :focus{

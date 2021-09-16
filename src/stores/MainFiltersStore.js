@@ -67,17 +67,19 @@ export default class MainFiltersStore {
         return this.isError;
     }
 
-    async sendFilters() {
+    async sendFilters(page) {
         if (this.validateFullInfo()) throw new Error(false);
 
         const { cityCountryModel, result_cat, years_with, years_to, category: { id: category },
             experience, salary, salary_type, currency, filterType } = this;
 
-        return await requestWithParams(filterType, {
+        const retFilters = {
             places: cityCountryModel.toServerContract(),
             result_cat, years_with, years_to, category, experience,
-            salary, salary_type, currency
-        });
+            salary, salary_type, currency, page: page || 1
+        };
+
+        return await requestWithParams(filterType, retFilters);
         
         
     }

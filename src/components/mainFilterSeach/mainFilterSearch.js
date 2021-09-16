@@ -16,9 +16,10 @@ import SuggestSalary from '../../common/components/SuggestSalary';
 import { SearchableMultiSelect } from '../nameContact/searchableMultiSelect';
 import ErrorMessage from '../../common/components/ErrorMessage';
 import { useCategoryFilters } from '../../common/hooks';
+import { ModalVariants } from '../../common/consts';
 
 
-function MainFilterSearch({ mainFiltersStore, registrationStore, searchStore }) {
+function MainFilterSearch({ mainFiltersStore, registrationStore, searchStore, uiStore: { openModal } }) {
     const [scrollToEl, setScrollToEl] = useState(null);
     const [redirect, setRedirect] = useState(false);
 
@@ -92,10 +93,12 @@ function MainFilterSearch({ mainFiltersStore, registrationStore, searchStore }) 
     }
 
     async function makeSearch() {
-        const { setResults, setResultsType } = searchStore;
+        const { setResults, setResultsType, setTotalPage } = searchStore;
 
         try{
             const results = await sendFilters();
+
+            setTotalPage(results.last_page);
 
             setResults(results.resume || results.vacancy);
             setResultsType(getSearchType(pathname));
@@ -104,7 +107,9 @@ function MainFilterSearch({ mainFiltersStore, registrationStore, searchStore }) 
         } catch (e) {
             if (e.message === 'false') return;
 
-            setError('Нет данных');
+            openModal(ModalVariants.InfoModal, {
+                title: 'Нет данных'
+            });
         }
     }
 
@@ -195,7 +200,7 @@ function MainFilterSearch({ mainFiltersStore, registrationStore, searchStore }) 
         );
 };
 
-export default inject('mainFiltersStore', 'registrationStore', 'searchStore')(observer(MainFilterSearch));
+export default inject('mainFiltersStore', 'registrationStore', 'searchStore', 'uiStore')(observer(MainFilterSearch));
 
 const VerticalCenterer = styled(Centerer)`
     flex-direction: column;
