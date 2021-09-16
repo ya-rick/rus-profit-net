@@ -1,13 +1,19 @@
 import { action, computed, makeAutoObservable } from 'mobx';
 
 import { requestWithParams } from '../api/exchangeLayer';
+import MainFiltersStore from './MainFiltersStore';
 import SearchResultModel from './Models/SearchResultModel';
 
 
 export default class SearchStore {
 
-    page = 1;
-    last_page = 1;
+    mainFiltersStore = new MainFiltersStore();
+
+    resultsRestInfo = {
+        page: 1,
+        last_page: 1,
+        currentFiltersContract: null
+    }
 
     results = [];
 
@@ -25,6 +31,7 @@ export default class SearchStore {
             onFavouriteClicked: action.bound,
             setTotalPage: action.bound,
             scrollDown: action.bound,
+            sendFilters: action.bound,
             mainInfoSearchResult: computed,
             secondaryInfoSearchResult: computed
         });
@@ -101,6 +108,19 @@ export default class SearchStore {
                 })
                 .catch(err => console.error(err))
         }
+    }
+
+    async sendFilters() {
+        const { validateFullInfo, filtersToServerContract } = this.mainFiltersStore;
+
+        if (validateFullInfo()) throw new Error(false);
+
+        const { filterType } = this.resultsRestInfo.currentFiltersContract ||
+            (this.resultsRestInfo.currentFiltersContract = filtersToServerContract());
+
+        return await requestWithParams(filterType, this.resultsRestInfo.currentFiltersContract);
+        
+        
     }
 
 }

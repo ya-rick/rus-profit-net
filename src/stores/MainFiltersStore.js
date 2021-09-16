@@ -24,11 +24,14 @@ export default class MainFiltersStore {
     error = {...this.initialErrorState};
 
     constructor() {
+        this.validateFullInfo = this.validateFullInfo.bind(this);
+        this.filtersToServerContract = this.filtersToServerContract.bind(this);
+
         makeAutoObservable(this, {
             setField: action.bound,
             clearError: action.bound,
             setError: action.bound,
-            sendFilters: action.bound
+            filtersToServerContract: action.bound,
         });
     }
 
@@ -67,21 +70,16 @@ export default class MainFiltersStore {
         return this.isError;
     }
 
-    async sendFilters(page) {
-        if (this.validateFullInfo()) throw new Error(false);
-
+    filtersToServerContract() {
         const { cityCountryModel, result_cat, years_with, years_to, category: { id: category },
             experience, salary, salary_type, currency, filterType } = this;
 
-        const retFilters = {
+        return {
             places: cityCountryModel.toServerContract(),
             result_cat, years_with, years_to, category, experience,
-            salary, salary_type, currency, page: page || 1
+            salary, salary_type, currency,
+            filterType
         };
-
-        return await requestWithParams(filterType, retFilters);
-        
-        
     }
 
 }

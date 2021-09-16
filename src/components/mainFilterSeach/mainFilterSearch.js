@@ -19,11 +19,13 @@ import { useCategoryFilters } from '../../common/hooks';
 import { ModalVariants } from '../../common/consts';
 
 
-function MainFilterSearch({ mainFiltersStore, registrationStore, searchStore, uiStore: { openModal } }) {
+function MainFilterSearch({ registrationStore, searchStore, uiStore: { openModal } }) {
     const [scrollToEl, setScrollToEl] = useState(null);
     const [redirect, setRedirect] = useState(false);
 
     const { categories, setCurrentCategory, filtersByCategory } = useCategoryFilters();
+
+    const { mainFiltersStore, sendFilters } = searchStore;
 
     const { pathname } = useLocation();
 
@@ -44,7 +46,7 @@ function MainFilterSearch({ mainFiltersStore, registrationStore, searchStore, ui
         cityCountryModel: {
             onChangeCities, onChangeCountries, chosenCountries, chosenCities, onChangeActiveEditableCountry,
             currentEditCountry, countries
-        }, sendFilters, isSearchWorker, setError } = mainFiltersStore;
+        }, isSearchWorker, setError } = mainFiltersStore;
 
     useEffect(() => {
         // Copying filters to registrations form
@@ -200,7 +202,7 @@ function MainFilterSearch({ mainFiltersStore, registrationStore, searchStore, ui
         );
 };
 
-export default inject('mainFiltersStore', 'registrationStore', 'searchStore', 'uiStore')(observer(MainFilterSearch));
+export default inject('registrationStore', 'searchStore', 'uiStore')(observer(MainFilterSearch));
 
 const VerticalCenterer = styled(Centerer)`
     flex-direction: column;

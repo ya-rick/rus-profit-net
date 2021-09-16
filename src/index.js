@@ -4,7 +4,6 @@ import { ThemeProvider } from 'styled-components';
 import { Provider as StoreProvider } from 'mobx-react';
 
 import App from './components/app';
-import MainFiltersStore from './stores/MainFiltersStore';
 import RegistrationStore from './stores/RegistrationStore';
 import SearchStore from './stores/SearchStore';
 import UIStore from './stores/UIStore';
@@ -13,7 +12,6 @@ import { defaultStyles } from './common/consts';
 const stores = {
   registrationStore: new RegistrationStore(),
   uiStore: new UIStore(),
-  mainFiltersStore: new MainFiltersStore(),
   searchStore: new SearchStore(),
 }
 

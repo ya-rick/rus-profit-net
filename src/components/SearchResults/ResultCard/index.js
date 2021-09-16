@@ -131,6 +131,10 @@ const CardImage = styled.img`
 `;
 
 const CardInfoBlock = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
     flex: 1 1 70%;
 
     > * {
