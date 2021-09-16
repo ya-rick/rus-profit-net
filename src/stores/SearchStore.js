@@ -1,4 +1,4 @@
-import { action, makeAutoObservable } from 'mobx';
+import { action, computed, makeAutoObservable } from 'mobx';
 import { requestWithParams } from '../api/exchangeLayer';
 import SearchResultModel from './Models/SearchResultModel';
 
@@ -18,6 +18,8 @@ export default class SearchStore {
             setResultsType: action.bound,
             onLikeClicked: action.bound,
             onFavouriteClicked: action.bound,
+            mainInfoSearchResult: computed,
+            secondaryInfoSearchResult: computed
         });
     }
 

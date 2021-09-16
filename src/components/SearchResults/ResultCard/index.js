@@ -183,4 +183,7 @@ const CardDescrption = styled.div`
     padding: 20px;
     font-size: 20px;
     border: 1px solid #6F80A5;
+    max-height: calc(23px * 4);
+    word-break: break-all;
+    overflow-y: auto;
 `;

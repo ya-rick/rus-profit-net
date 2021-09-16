@@ -31,12 +31,12 @@ function Vacancy({ searchStore, uiStore: { isUserAuthenticated, openModal } }) {
 
     const {
         isCurrentSearchResult, setCurrentResult, onFavouriteClicked, onLikeClicked,
-        mainInfoSearchResult, secondaryInfoSearchResult
+        mainInfoSearchResult, secondaryInfoSearchResult, isResultsPresent
     } = searchStore;
 
     const { name, description, experience, avatar, salary, salary_type,
         places, category, employer, contacts_info, mark, isFavourite, vacancy_name,
-        create_date, currency, id: result_id, files_images } = searchStore.currentChosenResult || {};
+        create_date, currency, id: result_id, example } = searchStore.currentChosenResult || {};
 
     const { id, searchType } = useParams();
 
@@ -72,9 +72,9 @@ function Vacancy({ searchStore, uiStore: { isUserAuthenticated, openModal } }) {
                             iconName={'share'}
                             onClick={() => {}}
                         />
-                        <LinkedButton to={'/searchResults'}>
+                        {isResultsPresent && <LinkedButton to={'/searchResults'}>
                             Вернуться к списку
-                        </LinkedButton>
+                        </LinkedButton>}
                     </FullInfoHeader>
                 </PageTitle>
 
@@ -136,10 +136,10 @@ function Vacancy({ searchStore, uiStore: { isUserAuthenticated, openModal } }) {
                         <FullInfoDescrption>{description}</FullInfoDescrption>
                     </DescriptionBlock>
 
-                    {secondaryInfoSearchResult.length > 0 && <SecondaryBlock>
+                    {secondaryInfoSearchResult?.length > 0 && <SecondaryBlock>
                         <FullInfoSubtitle>Подробнее</FullInfoSubtitle>
 
-                         <SecondaryBlockLayout>
+                        <SecondaryBlockLayout>
                             {secondaryInfoSearchResult.map(param => <MainInfoBlockItem
                                 key={param.name}
                             >
@@ -147,8 +147,11 @@ function Vacancy({ searchStore, uiStore: { isUserAuthenticated, openModal } }) {
                                 <div>{param.options?.map(option => option.name).join(', ')}</div>
                             </MainInfoBlockItem>)}
                         </SecondaryBlockLayout>
+                        
+                    </SecondaryBlock>}
 
-                        {isContactsShown && isUserAuthenticated ? <SecondaryBlockLayout>
+                    <SecondaryBlock>
+                        {isContactsShown ? <SecondaryBlockLayout>
                             {contacts_info.map(contact=> <MainInfoBlockItem>
                                 <FullInfoBolderText>{contact.name}</FullInfoBolderText>
                                 <FullInfoBolderText>{contact.value}</FullInfoBolderText>
@@ -157,12 +160,11 @@ function Vacancy({ searchStore, uiStore: { isUserAuthenticated, openModal } }) {
                         : <ContactsButton
                             onClick={onContactsClick}
                         >Получить контакты</ContactsButton>}
-                        
-                    </SecondaryBlock>}
+                    </SecondaryBlock>
                     
-                    {files_images.length > 0 && <ExamplesContainer>
+                    {example?.length > 0 && <ExamplesContainer>
                         <ExamplesImageLayout>
-                            {files_images.map(image => <StyledImage src={URL.createObjectURL(image)}/>)}
+                            {example.map(image => <StyledImage src={URL.createObjectURL(image)}/>)}
                         </ExamplesImageLayout>
                     </ExamplesContainer>}
 
@@ -185,7 +187,7 @@ const FullInfoHeader = styled.div`
         margin-right: 40px;
     }
 
-    > *:last-child {
+    > a:last-child {
         margin-right: 0;
         margin-left: auto;
     }
