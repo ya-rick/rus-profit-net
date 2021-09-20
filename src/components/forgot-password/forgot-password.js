@@ -34,7 +34,7 @@ function ForgotPassword ({ uiStore: { openModal } }) {
                 .then(() => {
                     openModal(ModalVariants.InfoModal, {
                         title: 'Получилось!',
-                        description: 'На Ваш почтовый ящик было отправлена ссылка, по которой вы сможете установить новый пароль.'
+                        description: 'На Ваш почтовый ящик было отправлена ссылка, по которой вы сможете установить новый пароль'
                     })
                 })
         }

@@ -3,7 +3,6 @@ import { Link, useLocation } from 'react-router-dom';
 import styled from "styled-components";
 
 import BigLogo from '../../images/2021RusProfiNetFooterLogo.svg';
-import './footer.css';
 
 const Footer = () => {
     const { pathname } = useLocation();
@@ -33,7 +32,7 @@ const Footer = () => {
                 </div>
             </FooterInfoWrapper>
 
-            <div style={{ textAlign: 'center', color: '#153D70' }}>
+            <div style={{ textAlign: 'center', color: '#153D70', fontSize: '15px' }}>
                 2021 RusProfiNet. Все права защищены
             </div>
         </FooterWrapper>
@@ -53,7 +52,7 @@ const FooterWrapper = styled.div`
 const FooterInfoWrapper = styled.div`
     display: flex;    
     justify-content: space-between;
-    align-items: baseline;
+    align-items: flex-start;
     align-content: center;
     gap: 30px;
 
@@ -65,7 +64,11 @@ const FooterInfoWrapper = styled.div`
     }
 
     > div a {
-        margin-bottom: 30px;
+        margin-bottom: 20px;
+
+        :hover {
+            text-decoration: underline;
+        }
     }
 
     > div img {

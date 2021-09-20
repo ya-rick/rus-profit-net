@@ -14,12 +14,16 @@ const Modal = inject('uiStore')(observer(({
 
     let backgroundRef = null;
 
-    console.log(ModalContent)
+    function backgroundClicked(e) {
+        e.stopPropagation();
+
+        e.target === backgroundRef && closeModal();
+    }
 
     return(
         <Background
             ref={el => backgroundRef = el}
-            onClick={e => e.target === backgroundRef && closeModal()}
+            onClick={backgroundClicked}
         >
             <ModalContainer>
                 <ModalLayout>

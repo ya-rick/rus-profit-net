@@ -45,16 +45,17 @@ export const SelectedItem = styled.div`
   `;
 
 export const SelectDropdownList = styled.ul`
+    background: #FFFFFF;
     position: absolute;
     z-index: 5;
     top: 100%;
     width: 100%;
     max-height: 100px;
     overflow-y: auto;
+    margin-top: 0;
 
     padding: 0;
     border: 2px solid ${props => props.theme.borderColor};
-    border-top: none;
     border-radius: ${props => `${props.theme.borderRadius} ${props.theme.borderRadius}`};
     background-color: white;
     border-radius: 15px;
@@ -74,8 +75,7 @@ export const ArrowWrapper = styled.span`
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 16px;
-    height: 15px;
+    flex-shrink: 0;
 
     ${props => props.isInverted && `transform: rotateX(180deg);`}
 `;

@@ -6,6 +6,7 @@ export default styled.div`
     width: 100vw;
     height: 100vh;
     top: 0;
+    left: 0;
     z-index: 15;
 
     display: flex;

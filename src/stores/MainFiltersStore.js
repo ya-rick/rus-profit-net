@@ -1,5 +1,4 @@
 import { makeAutoObservable, action } from 'mobx';
-import { requestWithParams } from '../api/exchangeLayer';
 
 import CityCountryModel from './Models/CityCountryModel';
 
@@ -9,11 +8,11 @@ export default class MainFiltersStore {
     result_cat = [];
     years_with = 18;
     years_to = 60;
-    category = null;
-    experience = 0;
-    salary = 0;
-    salary_type = null;
-    currency = null;
+    category = '';
+    experience = '';
+    salary = '';
+    salary_type = '';
+    currency = '';
 
     filterType = null;
 

@@ -5,10 +5,10 @@
 }
 
 .input-list {
-    margin-top: 10px;
+    margin-top: 20px;
     display: flex;
     flex-direction: column;
-    row-gap: 10px;
+    row-gap: 20px;
 }
 
 .input-item{
@@ -19,9 +19,11 @@
 }
 
 .spread-button-wrapper {
-    margin-left: 20px;
     display: flex;
     align-items: center;
+    padding: 10px 20px;
+    background-color: #F7FBFC;
+    border-radius: 15px;
 
     cursor: pointer;
 }
@@ -42,6 +44,6 @@ input[type=checkbox]{
 }
 
 .p-item{
-    font-size: 20px;
+    font-size: 17px;
     line-height: 23px;
 }

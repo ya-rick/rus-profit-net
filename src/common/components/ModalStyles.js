@@ -4,12 +4,10 @@ import { Link } from 'react-router-dom';
 export const ModalContainer = styled.div`
     background-color: #f1f3f6;
     position: relative;
-    margin: 10px 0;
-    max-height: calc(100vh - 20px);
-    max-width: 760px;
-    width: 100%;
     overflow-y: auto;
     pointer-events: all;
+    border-radius: 15px;
+    width: 600px;
 `;
 
 export const ModalLayout = styled.div`

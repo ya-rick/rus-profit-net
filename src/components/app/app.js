@@ -1,11 +1,13 @@
-import React from "react";
+import React from 'react';
 
-import MainPage from "../mainPage";
+import MainPage from '../mainPage';
 
 
 const App = () =>{
     return (
-        <MainPage/>
+        <>
+            <MainPage/>
+        </>
     );
 };
 

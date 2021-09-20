@@ -33,7 +33,7 @@ function RegisterVacancies({ registrationStore, uiStore: { openModal } }) {
 
             openModal(ModalVariants.InfoModal, {
                 title: 'Поздравляю!',
-                description: 'Для завершения регистрация на Ваш почтовый ящик было отправлена ссылка, по которой необходимо перейти.'
+                description: 'Для завершения регистрация на Ваш почтовый ящик было отправлена ссылка, по которой необходимо перейти'
             })
         } catch(e) {
             console.error(e);
@@ -42,7 +42,7 @@ function RegisterVacancies({ registrationStore, uiStore: { openModal } }) {
 
             openModal(ModalVariants.InfoModal, {
                 title: 'Произошла ошибка!',
-                description: 'Пользователь с таким почтовым ящиком уже существует в системе.'
+                description: 'Пользователь с таким почтовым ящиком уже существует в системе'
             })
         } 
     }
@@ -75,7 +75,7 @@ function RegisterVacancies({ registrationStore, uiStore: { openModal } }) {
                     selectedParameters={result_cat}
                     onCheckChanged={setField('result_cat')}/>}
             <div>
-                <h2 className='register-title'>Описание {registration_type === 'vacancy' ? 'вакансии' : 'анкеты'}*
+                <h2 className='register-title'>{registration_type === 'vacancy' ? 'Описание вакансии' : 'О себе'}*
                     {descriptionBlock && 
                         <ErrorMessage>{descriptionBlock}</ErrorMessage>}
                 </h2>

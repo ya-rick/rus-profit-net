@@ -5,7 +5,7 @@ import Input from './Input'
 export default function NumberInput ({onChange, min, max, value = 0, ...props}) {
 
     function setNumber(e) {
-        let value = e.target.value
+        let value = e.target.value;
 
         if (/^\d*$/.test(value)) {
             value = Number(value)
@@ -20,7 +20,7 @@ export default function NumberInput ({onChange, min, max, value = 0, ...props}) 
         }
     }
 
-    return <Input 
+    return <Input
         {...props}
         onChange={setNumber}
         value={value}

@@ -11,12 +11,22 @@ import HeaderButton from "../../common/components/HeaderButton";
 import { PageContentWrapper } from "../../common/components/Layouts";
 import { ModalVariants } from '../../common/consts';
 import Icon from '../../common/components/Icon';
+import { useEffect, useRef } from 'react';
 
 const HeaderNew = inject('uiStore')(observer(({ uiStore: { openModal, isUserAuthenticated, user, userLogout } }) => {
 
+    const headerRef = useRef(null);
     const history = useHistory();
 
     const { pathname } = useLocation();
+
+    useEffect(() => {
+        if (!['/searchWorker', '/searchWork'].includes(pathname)) {
+            setTimeout(() => {
+                headerRef.current.scrollIntoView();
+            }, 1)
+        }
+    }, [pathname])
 
     function isRoot() {
         return pathname === '/'
@@ -24,7 +34,7 @@ const HeaderNew = inject('uiStore')(observer(({ uiStore: { openModal, isUserAuth
 
     return (
         <div className='header'>
-            <HeaderContainer>
+            <HeaderContainer ref={headerRef}>
                 {isRoot() ? <img className='logo' onClick={() => history.push('/')} src={FullLogo} alt='logo'/>
                 : <img className='logo' onClick={() => history.push('/')} src={Logo} alt='logo'/>}
                 

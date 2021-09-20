@@ -6,11 +6,10 @@ import NumberInput from './NumberInput'
 
 export default function WorkExperience({ min, max, value, onChange }) {
 
-    return <div>
+    return <Wrapper>
         <p className='bg-long-text'>Опыт работы</p>
         <div>
             <RangeSlider
-                min={min}
                 max={max}
                 value={value}
                 onChange={onChange}
@@ -28,8 +27,12 @@ export default function WorkExperience({ min, max, value, onChange }) {
                 onChange={onChange}
             />
         </NumberInputCenterer>
-    </div>
+    </Wrapper>
 }
+
+const Wrapper = styled.div`
+    min-width: 200px;
+`;
 
 const NumberInputCenterer = styled.div`
     display: flex;

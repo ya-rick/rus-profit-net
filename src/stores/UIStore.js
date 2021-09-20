@@ -26,6 +26,9 @@ export default class UIStore {
     modalPayload = null;
     onCloseCallback = null;
 
+    currentImageIndex = null;
+    allImagesLinks = [];
+
     constructor() {
         makeAutoObservable(this, {
             openModal: action.bound,
@@ -33,7 +36,48 @@ export default class UIStore {
             userLogin: action.bound,
             getUserData: action.bound,
             userLogout: action.bound,
+            hideImage: action.bound,
+            openImage: action.bound,
+            setImages: action.bound,
+            goToNextImage: action.bound,
+            goToPreviousImage: action.bound,
         });
+    }
+
+    get isImageShown() {
+        return this.currentImageIndex !== null;
+    }
+
+    get currentImage() {
+        return this.isImageShown && this.allImagesLinks[this.currentImageIndex];
+    }
+
+    get hasPreviousImage() {
+        return this.currentImageIndex > 0;
+    }
+
+    get hasNextImage() {
+        return this.currentImageIndex < this.allImagesLinks.length - 1;
+    }
+
+    goToNextImage() {
+        if (this.hasNextImage) this.currentImageIndex += 1;
+    }
+
+    goToPreviousImage() {
+        if (this.hasPreviousImage) this.currentImageIndex -= 1;
+    }
+
+    setImages(images) {
+        this.allImagesLinks = images;
+    }
+
+    hideImage() {
+        this.currentImageIndex = null;
+    }
+
+    openImage(index) {
+        this.currentImageIndex = index;
     }
 
     get isUserAuthenticated() {
@@ -45,7 +89,6 @@ export default class UIStore {
     }
 
     openModal(modalType, modalPayload = null, onCloseCallback) {
-        console.log(modalType)
         this.currentModal = modals[modalType];
         this.modalPayload = modalPayload;
         this.onCloseCallback = onCloseCallback;

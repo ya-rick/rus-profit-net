@@ -17,14 +17,15 @@ export function ArrowDown ({ isInverted = false }) {
  * @param {array} elements - Array of elements { value: <some value>, text: <some text> } 
  */
 
-export default function Select ({ noHeaderBorders, elements, children, onItemClickCallback = () => {}, leftHeaderItem }) {
+export default function Select ({
+    noHeaderBorders, elements, children, onItemClickCallback = () => {}, leftHeaderItem, value
+}) {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedItem, selectItem] = useState(null)
 
     useEffect(() => {
 
-        selectItem(children[0])
-        onItemClickCallback(children[0])
+        selectItem(children.find(child => child.id === value?.id) || '');
 
     }, [])
 

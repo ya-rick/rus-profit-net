@@ -58,7 +58,7 @@ class GeneralInformation extends Component {
                     <MyCalendar changeDate={this.changeDate}/>
 
                     <InfoWrapper>
-                        <p for='in' className='reg-dwn-img'>{birthday}</p>
+                        <p for='in' className='reg-dwn-img'>{birthday?.split('-').reverse().join('-')}</p>
                     </InfoWrapper>
                     
                 </GeneralInfoWrapper>

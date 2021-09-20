@@ -20,7 +20,6 @@ class Authorization extends Component {
     };
 
     onClickForgot = () => {
-        console.log('clicked')
         this.props.uiStore.openModal(ModalVariants.ForgotPassword);
     }
 

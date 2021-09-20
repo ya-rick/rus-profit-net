@@ -7,21 +7,37 @@ import DefaultAvatar from '../../../images/avatar.png'
 
 import HandsLike from '../HandsLike';
 import Icon from '../../../common/components/Icon';
+import { mapAge } from '../../../common/utils';
+import {  } from '../../../api/exchangeLayer';
+import { ModalVariants } from '../../../common/consts';
 
 
-function ResultCard({ result, resultType, searchStore, uiStore: { isUserAuthenticated } }) {
+function ResultCard({ result, searchStore, uiStore: { isUserAuthenticated, openModal } }) {
 
     const [redirectToID, setRedirectID] = useState(null);
 
-    const { category, city, country, experience, parameters, salary,
+    const { category, places, experience, parameters, salary,
         salary_type, description, name, avatar, id, mark, isFavourite } = result;
-        
-    const isResume = resultType === 'getResumes';
 
-    const { onLikeClicked, onFavouriteClicked } = searchStore;
+    const { onLikeClicked, onFavouriteClicked, mainFiltersStore: { filterType } } = searchStore;
+
+    const isResume = filterType === 'getResumes';
 
     if (redirectToID) {
         return <Redirect to={`/searchResults/${isResume ? 'getResumeByID' : 'getVacancyByID'}/${redirectToID}`}/>
+    }
+
+    function likeClicked(type_mark, id) {
+        return onLikeClicked(type_mark, id, () => {
+            if (!isUserAuthenticated) {
+                openModal(ModalVariants.InfoModal, {
+                    title: 'Для оценки',
+                    description: 'необходимо авторизироваться в системе'
+                });
+    
+                return;
+            }
+        });
     }
 
     function onPlusClicked(result) {
@@ -32,15 +48,15 @@ function ResultCard({ result, resultType, searchStore, uiStore: { isUserAuthenti
     }
 
     return (
-        <CardWrapper>
+        <CardWrapper onClick={onPlusClicked(result)}>
             {isResume && <CardImageBlock>
 
                 <CardImage src={avatar || DefaultAvatar}/>
 
-                {isUserAuthenticated && <HandsLike
+                <HandsLike
                     currentMark={mark}
-                    onHandClick={onLikeClicked(isResume ? 'resume' : 'vacancy', id)}
-                />}
+                    onHandClick={likeClicked(isResume ? 'resume' : 'vacancy', id)}
+                />
 
             </CardImageBlock>}
 
@@ -49,7 +65,9 @@ function ResultCard({ result, resultType, searchStore, uiStore: { isUserAuthenti
                 <CardHeader>
                     <CardTitle>
                         {isResume ? name : category}
-                        {!isResume && <CardSubtitle>{`${country}, ${city}`}</CardSubtitle>}
+                        {!isResume && <CardSubtitle>{places[0].country_name}: {places[0].cities.length > 0 ?
+                            places[0].cities.map(city => city.name).join(',')
+                            : 'Все города'}</CardSubtitle>}
                     </CardTitle>
                     {isUserAuthenticated && <FavouriteIcon
                         iconName={'favourite'}
@@ -63,7 +81,7 @@ function ResultCard({ result, resultType, searchStore, uiStore: { isUserAuthenti
                 </CardHeader>
 
                 <CardOptionalInfoBlock>
-                    <div>Опыт {experience} лет</div>
+                    <div>Опыт: {mapAge(experience)}</div>
                     <div>{parameters[0]?.options[0]?.name}</div>
                     <div>{salary} {salary_type}</div>
                 </CardOptionalInfoBlock>
@@ -83,6 +101,12 @@ export default inject('searchStore', 'uiStore')(observer(ResultCard));
 const CardWrapper = styled.div`
     padding: 50px;
     border-radius: 15px;
+    background-color: #F7FBFC;
+    margin-bottom: 30px;
+
+    > :last-child {
+        margin-bottom: 0;
+    }
 
     display: flex;
     gap: 40px;

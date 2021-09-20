@@ -12,29 +12,36 @@ export default class SearchStore {
     resultsRestInfo = {
         page: 1,
         last_page: 1,
-        currentFiltersContract: null
+        currentFiltersContract: null,
+        isLoading: false
     }
 
     results = [];
 
     currentChosenResult = null;
 
-    // getVacancies || getResumes
-    resultsType = null;
-
     constructor() {
         makeAutoObservable(this, {
             setResults: action.bound,
             setCurrentResult: action.bound,
-            setResultsType: action.bound,
             onLikeClicked: action.bound,
             onFavouriteClicked: action.bound,
             setTotalPage: action.bound,
             scrollDown: action.bound,
             sendFilters: action.bound,
+            getInfoByFilters: action.bound,
+            showMoreInfo: action.bound,
             mainInfoSearchResult: computed,
             secondaryInfoSearchResult: computed
         });
+    }
+
+    get isLoading() {
+        return this.resultsRestInfo.isLoading === true;
+    }
+
+    setIsLoading(value = false) {
+        this.resultsRestInfo.isLoading = value;
     }
 
     get isResultsPresent() {
@@ -42,7 +49,8 @@ export default class SearchStore {
     }
 
     get isLastPage() {
-        return this.page === this.last_page;
+        console.trace(this.resultsRestInfo.page >= this.resultsRestInfo.last_page)
+        return this.resultsRestInfo.page >= this.resultsRestInfo.last_page;
     }
 
     get isCurrentSearchResult() {
@@ -50,11 +58,11 @@ export default class SearchStore {
     }
 
     get mainInfoSearchResult() {
-        return this.currentChosenResult?.parameters.filter(param => param.isMainInfo);
+        return this.currentChosenResult?.parameters.filter(param => param.isMainInfo) || [];
     }
 
     get secondaryInfoSearchResult() {
-        return this.currentChosenResult?.parameters.filter(param => !param.isMainInfo);
+        return this.currentChosenResult?.parameters.filter(param => !param.isMainInfo) || [];
     }
 
     setResults(results = []) {
@@ -62,12 +70,13 @@ export default class SearchStore {
     }
 
     setTotalPage(maxPages) {
-        this.last_page = maxPages;
-        this.page = 1;
+        console.trace(maxPages);
+        this.resultsRestInfo.last_page = maxPages;
+        this.resultsRestInfo.page = 1;
     }
 
     scrollDown() {
-        if (!this.isLastPage) this.page += 1;
+        this.resultsRestInfo.page += 1;
     }
     
     setCurrentResult(result) {
@@ -75,12 +84,10 @@ export default class SearchStore {
             : SearchResultModel.createFromServerContract(result);
     }
 
-    setResultsType(resultsType) {
-        this.resultsType = resultsType;
-    }
-
-    onLikeClicked(type_mark, id) {
+    onLikeClicked(type_mark, id, callbackBefore) {
         return (mark) => {
+            callbackBefore && callbackBefore();
+
             requestWithParams('setMark', {
                 type_mark, id, value: mark
             })
@@ -110,17 +117,52 @@ export default class SearchStore {
         }
     }
 
-    async sendFilters() {
-        const { validateFullInfo, filtersToServerContract } = this.mainFiltersStore;
+    async showMoreInfo() {
+        if (this.isLastPage) return;
 
-        if (validateFullInfo()) throw new Error(false);
+        const { filterType } = this.resultsRestInfo.currentFiltersContract;
 
-        const { filterType } = this.resultsRestInfo.currentFiltersContract ||
-            (this.resultsRestInfo.currentFiltersContract = filtersToServerContract());
+        this.scrollDown();
 
-        return await requestWithParams(filterType, this.resultsRestInfo.currentFiltersContract);
-        
-        
+        const results = await this.sendFilters(
+            filterType,
+            {
+                ...this.resultsRestInfo.currentFiltersContract,
+                page: this.resultsRestInfo.page
+            },
+            true
+        );
+
+        this.results = [...this.results, ...(results.resume || results.vacancy || [])];
+
+        this.setIsLoading(false);
+    }
+
+    async getInfoByFilters() {
+        const { filterType } = 
+            this.resultsRestInfo.currentFiltersContract =
+            this.mainFiltersStore.filtersToServerContract();
+
+            console.log(filterType)
+
+        try {
+            if (this.mainFiltersStore.validateFullInfo()) throw new Error(false);
+
+            const results = await this.sendFilters(filterType, this.resultsRestInfo.currentFiltersContract);
+    
+            this.setResults(results.resume || results.vacancy || []);
+            this.setTotalPage(results.last_page);
+        } catch(e) {
+            throw new Error(e.message);
+        } finally {
+            this.setIsLoading(false);
+        }
+    }
+
+    async sendFilters(searchType, filters) {
+        this.setIsLoading(true);
+
+        return await requestWithParams(searchType, filters);
     }
 
 }

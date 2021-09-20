@@ -25,7 +25,7 @@ function MainFilterSearch({ registrationStore, searchStore, uiStore: { openModal
 
     const { categories, setCurrentCategory, filtersByCategory } = useCategoryFilters();
 
-    const { mainFiltersStore, sendFilters } = searchStore;
+    const { mainFiltersStore, getInfoByFilters } = searchStore;
 
     const { pathname } = useLocation();
 
@@ -95,22 +95,22 @@ function MainFilterSearch({ registrationStore, searchStore, uiStore: { openModal
     }
 
     async function makeSearch() {
-        const { setResults, setResultsType, setTotalPage } = searchStore;
+        try {
+            await getInfoByFilters();
 
-        try{
-            const results = await sendFilters();
-
-            setTotalPage(results.last_page);
-
-            setResults(results.resume || results.vacancy);
-            setResultsType(getSearchType(pathname));
+            window.scroll(0,0);
 
             setRedirect(true);
         } catch (e) {
-            if (e.message === 'false') return;
+            if (e.message === 'false') {
+                return;
+            } else {
+                console.error(e);
+            }
 
             openModal(ModalVariants.InfoModal, {
-                title: 'Нет данных'
+                title: 'К сожалению,',
+                description: 'по Вашему запросу ничего не найдено. Попробуйте изменить параметры поиска'
             });
         }
     }
@@ -156,7 +156,10 @@ function MainFilterSearch({ registrationStore, searchStore, uiStore: { openModal
                         <div className='main-filter-search-subBlock'>
                             <p className='bg-long-text'>{!isSearchWorker ? 'Кого вы ищете?'
                                 : 'Вакансия'}</p>
-                            {categories && <Select onItemClickCallback={onChangeCategory}>
+                            {categories && <Select
+                                onItemClickCallback={onChangeCategory}
+                                value={category}
+                            >
                                 {categories}
                             </Select>}
                         </div>

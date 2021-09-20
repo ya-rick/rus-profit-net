@@ -22,6 +22,7 @@ export const Image = styled.img`
 `;
 
 export const InfoWrapper = styled.div`
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;

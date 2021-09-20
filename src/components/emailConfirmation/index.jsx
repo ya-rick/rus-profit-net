@@ -33,7 +33,7 @@ export default inject('uiStore')(observer(function EmailConfirmation({ uiStore: 
 
                     openModal(ModalVariants.InfoModal, {
                         title: 'Произошла ошибка!',
-                        description: 'Пользователь с таким почтовым ящиком уже существует в системе.'
+                        description: 'Пользователь с таким почтовым ящиком уже существует в системе'
                     })
                 }
             }

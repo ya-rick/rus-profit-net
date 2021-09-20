@@ -14,8 +14,9 @@ import Icon from '../../../common/components/Icon';
 import { flexAlignCenter } from '../../../common/components/mixins';
 import CommonButton from '../../../common/components/CommonButton';
 import { ModalVariants } from '../../../common/consts';
+import FullSizedImage from '../../../common/components/fullsizedImage';
 
-function Vacancy({ searchStore, uiStore: { isUserAuthenticated, openModal } }) {
+function Vacancy({ searchStore, uiStore: { isUserAuthenticated, openModal, openImage, setImages,isImageShown } }) {
     const [isContactsShown, setContactsHown] = useState(false);
 
     function onContactsClick() {
@@ -24,7 +25,7 @@ function Vacancy({ searchStore, uiStore: { isUserAuthenticated, openModal } }) {
         } else {
             openModal(ModalVariants.InfoModal, {
                 title: 'Извините,',
-                description: 'но для получения списка контактов необходимо войти в систему.'
+                description: 'но для получения списка контактов необходимо войти в систему'
             })
         }
     }
@@ -54,7 +55,9 @@ function Vacancy({ searchStore, uiStore: { isUserAuthenticated, openModal } }) {
                 })
                 .catch(e => console.error(e));
         }
-    }, []);
+
+        setImages(example?.map(el => el.photo));
+    }, [example]);
 
     return (
         <PageContentWrapper>
@@ -131,46 +134,54 @@ function Vacancy({ searchStore, uiStore: { isUserAuthenticated, openModal } }) {
                     </MainBlock>
 
                     <DescriptionBlock>
-                        <FullInfoSubtitle>Описание вакансии</FullInfoSubtitle>
+                        <FullInfoSubtitle>{isResume ? 'О себе' : 'Описание вакансии'}</FullInfoSubtitle>
 
                         <FullInfoDescrption>{description}</FullInfoDescrption>
                     </DescriptionBlock>
 
-                    {secondaryInfoSearchResult?.length > 0 && <SecondaryBlock>
-                        <FullInfoSubtitle>Подробнее</FullInfoSubtitle>
+                    <DescriptionBlock>
+                            <FullInfoSubtitle>Подробнее</FullInfoSubtitle>
 
-                        <SecondaryBlockLayout>
-                            {secondaryInfoSearchResult.map(param => <MainInfoBlockItem
-                                key={param.name}
-                            >
-                                <FullInfoBolderText>{param.name}:</FullInfoBolderText>
-                                <div>{param.options?.map(option => option.name).join(', ')}</div>
-                            </MainInfoBlockItem>)}
-                        </SecondaryBlockLayout>
-                        
-                    </SecondaryBlock>}
+                            <SecondaryBlockLayout>
+                                {secondaryInfoSearchResult.map(param => <MainInfoBlockItem
+                                    key={param.name}
+                                >
+                                    <FullInfoBolderText>{param.name}:</FullInfoBolderText>
+                                    <div>{param.options?.map(option => option.name).join(', ')}</div>
+                                </MainInfoBlockItem>)}
+                                
+                            </SecondaryBlockLayout>
 
-                    <SecondaryBlock>
-                        {isContactsShown ? <SecondaryBlockLayout>
-                            {contacts_info.map(contact=> <MainInfoBlockItem>
-                                <FullInfoBolderText>{contact.name}</FullInfoBolderText>
-                                <FullInfoBolderText>{contact.value}</FullInfoBolderText>
-                            </MainInfoBlockItem>)}
-                        </SecondaryBlockLayout>
-                        : <ContactsButton
-                            onClick={onContactsClick}
-                        >Получить контакты</ContactsButton>}
-                    </SecondaryBlock>
-                    
+                            <div style={{ display: 'flex' }}>
+                                {isContactsShown ? <SecondaryBlockLayout>
+                                    {contacts_info?.map(contact => <MainContactBlockItem>
+                                        <FullInfoBolderText>{contact.value}</FullInfoBolderText>
+                                    </MainContactBlockItem>)}
+                                </SecondaryBlockLayout>
+                                : <ContactsButton
+                                    style={{ marginLeft: 'auto', marginRight: 'o' }}
+                                    onClick={onContactsClick}
+                                >Получить контакты</ContactsButton>}
+                            </div>
+                            
+                    </DescriptionBlock>
+
                     {example?.length > 0 && <ExamplesContainer>
+                        <FullInfoSubtitle>Примеры работ</FullInfoSubtitle>
+
                         <ExamplesImageLayout>
-                            {example.map(image => <StyledImage src={URL.createObjectURL(image)}/>)}
+                            {example.map((image, index) => <StyledImage
+                                src={image.photo}
+                                onClick={() => openImage(index)}
+                            />)}
                         </ExamplesImageLayout>
+
+                        
                     </ExamplesContainer>}
-
+                    
                 </ContentLayout>
-
-
+                
+                {isImageShown && <FullSizedImage/>}
             </>
             : 'Загрузка...'}
         </PageContentWrapper>
@@ -198,14 +209,17 @@ const ContentLayout = styled.div`
     flex-direction: column;
     align-items: stretch;
     gap: 70px;
-
-    padding: 0 50px;
 `;
 
 const MainBlock = styled.div`
-    ${flexAlignCenter}
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-    justify-content: space-evenly;
+    padding: 50px;
+    border-radius: 15px;
+    background-color: #F7FBFC;
+
     gap: 50px;
 `;
 
@@ -224,17 +238,27 @@ const MainInfoBlockItem = styled.div`
     grid-template-columns: repeat(2, 45%);
 `;
 
+const MainContactBlockItem = styled(MainInfoBlockItem)`
+    grid-template-columns: 22.5%;
+`;
+
 const DescriptionBlock = styled.div`
     display: flex;
     flex-direction: column;
     align-items: stretch;
     gap: 30px;
+    padding: 50px;
+    background-color: #F7FBFC;
+    border-radius: 15px;
 `;
 
 const SecondaryBlock = styled.div`
     display: flex;
     flex-direction: column;
     row-gap: 30px;
+    padding: 50px;
+    background-color: #F7FBFC;
+    border-radius: 15px;
 `;
 
 const SecondaryBlockLayout = styled.div`
@@ -242,10 +266,6 @@ const SecondaryBlockLayout = styled.div`
     gap: 30px;
     align-items: flex-start;
     flex-wrap: wrap;
-
-    > * {
-        flex: 1 1 45%;
-    }
 `;
 
 const FullInfoImageBlock = styled.div`
@@ -324,12 +344,20 @@ const ContactsButton = styled(CommonButton)`
     align-self: flex-end;
 `;
 
-const ExamplesContainer = styled.div``;
+const ExamplesContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    padding: 50px;
+    background-color: #F7FBFC;
+    border-radius: 15px;
+`;
 
 const ExamplesImageLayout = styled.div`
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(100px, 140px));
-    grid-template-rows: 140px;
+    grid-template-rows: 130px;
     grid-gap: 15px;
 `;
 

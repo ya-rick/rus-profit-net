@@ -50,7 +50,7 @@ const PasswordResetModal = ({ uiStore: { openModal, modalPayload: { id } } }) =>
                     setRedirect(true);
                     openModal(ModalVariants.InfoModal, {
                         title: 'Ваш пароль успешно изменён!',
-                        description: 'Теперь вы можете войти в систему с новым.'
+                        description: 'Теперь вы можете войти в систему с новым'
                     });
                 });
         }

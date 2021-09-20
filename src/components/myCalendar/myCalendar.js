@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
-import './myCalendar.css';
-import Calendar from "react-calendar";
+import React, { useState, useEffect } from 'react';
+import Calendar from 'react-calendar';
+
 import './Calendar.css';
 
-const MyCalendar = ({changeDate}) =>{
+
+const MyCalendar = ({ changeDate }) =>{
 
     const [date, setDate] = useState(new Date());
 
@@ -12,11 +13,14 @@ const MyCalendar = ({changeDate}) =>{
         changeDate(date);
     };
 
-    return(
-        <>
-            <Calendar onChange={onChange} value={date}/>
-        </>
-    );
+    useEffect(() => {
+        onChange(new Date(1990, 1, 1));
+    }, [])
+
+    return(<Calendar
+        onChange={onChange}
+        value={date}
+    />);
 };
 
 export default MyCalendar;

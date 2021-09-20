@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const PageContentWrapper = styled.div`
-    padding: 70px 15px 100px;
+    padding: 70px 15px 20px;
 
     @media (min-width: 1320px) {
         width: 1320px;

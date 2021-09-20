@@ -71,17 +71,15 @@
     color: #000000;
 }
 
-.text-slider{
+.text-slider {
     display: flex;
     justify-content: space-between;
 }
 
-.text-slider>p{
-    font-style: normal;
-    font-weight: normal;
+.text-slider > p {
     text-align: left;
-    font-size: 15px;
     line-height: 18px;
+    margin-top: 8px;
 
     color: #000000;
 }

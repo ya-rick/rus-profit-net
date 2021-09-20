@@ -77,23 +77,6 @@
     color: #000000;
 }
 
-.text-slider{
-    display: flex;
-    justify-content: space-between;
-    gap: 50px;
-}
-
-.text-slider > p{
-    font-family: 'Raleway', sans-serif;
-    font-style: normal;
-    font-weight: normal;
-    text-align: left;
-    font-size: 15px;
-    line-height: 18px;
-
-    color: #000000;
-}
-
 .sml-text{
     font-family: 'Raleway', sans-serif;
     font-style: normal;

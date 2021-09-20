@@ -14,7 +14,6 @@ export default function CurrencySelect({ onChange, ...props }) {
         requestWithParams('getCurrencies')
             .then(data => {
                 setCurrencies(data.currencies)
-                setCurrentCurrency(data.currencies[0].symbol)
                 onChange(data.currencies[0])
             })
 
@@ -79,14 +78,13 @@ const CurrencySelectHeader = styled.div`
 const CurrencySelectDropdown = styled.div`
     position: absolute;
     z-index: 5;
-    top: 155%;
+    top: 160%;
     left: 50%;
     width: 100%;
     overflow-y: auto;
     max-height: 100px;
     transform: translateX(-50%);
     border: 2px solid #6F80A5;
-    border-top: none;
     border-radius: 15px;
 `;
 

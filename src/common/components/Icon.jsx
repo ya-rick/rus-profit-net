@@ -12,7 +12,7 @@ const Wrapper = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    width: min(40px, 100%);
-    height: min(40px, 100%);
+    max-width: 40px;
+    max-height: 40px;
     cursor: pointer;
 `;

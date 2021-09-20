@@ -6,12 +6,18 @@ import Icon from '../../../common/components/Icon';
 const HandsLike = ({ currentMark, onHandClick }) => {
     const [hoveredMark, setHoveredMark] = useState(null);
 
+    function onClick(e, mark) {
+        e.stopPropagation();
+
+        onHandClick(mark);
+    }
+
     return (
         <HandsLikeContainer>
             {[1, 2, 3, 4, 5].map(mark => (
                 <HandLike
                     iconName={'like'}
-                    onClick={() => onHandClick(mark)}
+                    onClick={e => onClick(e, mark)}
                     onMouseEnter={() => setHoveredMark(mark)}
                     onMouseLeave={() => setHoveredMark(null)}
                     active={(mark <= currentMark) || (mark <= hoveredMark)}

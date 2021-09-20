@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { requestWithParams } from '../api/exchangeLayer';
 
 export function useCategoryFilters(initialCategory = null) {

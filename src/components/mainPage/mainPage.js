@@ -1,6 +1,6 @@
-import { Component } from 'react';
+import { Component, useEffect } from 'react';
 import { inject, observer } from 'mobx-react';
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Switch, Route, useLocation} from 'react-router-dom';
 
 import Footer from '../footer';
 import SearchResults from '../SearchResults';

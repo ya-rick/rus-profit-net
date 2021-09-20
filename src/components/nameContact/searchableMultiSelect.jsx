@@ -139,6 +139,7 @@ const SelectTagedHeader = styled.div`
     padding: 4px 8px;
     align-items: center;
     border: 2px solid #6F80A5;
+    background: #FFFFFF;
     border-radius: 15px;
     min-height: 40px;
 
@@ -189,10 +190,10 @@ const SelectTag = styled.div`
 const SelectDropdown = styled.div`
     position: absolute;
     width: 100%;
-    background-color: #f1f3f6;
-    border: 1px solid #6F80A5;;
+    border: 2px solid #6F80A5;;
     border-top: none;
     border-radius: 15px;
+    background: #FFFFFF;
     z-index: 10;
 `;
 
