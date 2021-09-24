@@ -102,9 +102,13 @@ export default class UIStore {
 
     async getUserData() {
         try {
-            this.user = await requestWithParams('getUserData', {
-                user_id: null
-            });
+            // this.user = await requestWithParams('getUserData', {
+            //     user_id: null
+            // });
+
+            this.user = {
+                name: 'testing only'
+            }
         } catch(e) {
             this.user = null;
         }

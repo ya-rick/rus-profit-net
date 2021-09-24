@@ -1,7 +1,7 @@
-import CommonButton from '../../common/components/CommonButton';
+import { CommonButton } from '../../common/components/Buttons';
 
 import Dropdown from "../../common/components/Dropdown";
-import LinkedButton from "../../common/components/LinkedButton";
+import { LinkedButton } from "../../common/components/Buttons";
 import { PageContentWrapper } from "../../common/components/Layouts";
 import PageTitle from "../../common/components/PageTitle";
 import TwoLinkedButtonGroup from "../../common/components/TwoLinkedButtonGroup";

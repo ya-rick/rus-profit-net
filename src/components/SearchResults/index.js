@@ -19,7 +19,8 @@ function SearchResults({ searchStore }) {
         const listener = window.addEventListener('scroll', e => {
             const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
 
-            if (!isLastPage && !isLoading && (scrollTop + clientHeight >= scrollHeight - 100)) {
+            if (!isLastPage && !isLoading && (scrollTop + clientHeight >= scrollHeight - clientHeight / 2)) {
+                console.log('fetching')
                 showMoreInfo();
             }
         })

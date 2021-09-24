@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import './error404.css';
 import {useHistory} from 'react-router-dom';
 import { requestWithParams } from "../../api/exchangeLayer";
-import LinkedButton from "../../common/components/LinkedButton";
+import { LinkedButton } from "../../common/components/Buttons";
 
 const Error404 = () => {
     const [data, setData] = useState({error: false, description: '', title: '', image: '', subtitle: '', subtitle2: ''});

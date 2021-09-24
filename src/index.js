@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { ThemeProvider } from 'styled-components';
 import { Provider as StoreProvider } from 'mobx-react';
 
-import App from './components/app';
+import App from './components/mainPage';
 import RegistrationStore from './stores/RegistrationStore';
 import SearchStore from './stores/SearchStore';
 import UIStore from './stores/UIStore';

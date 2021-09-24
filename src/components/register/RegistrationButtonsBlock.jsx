@@ -1,4 +1,4 @@
-import CommonButton from "../../common/components/CommonButton";
+import { CommonButton } from "../../common/components/Buttons";
 import ErrorMessage from "../../common/components/ErrorMessage";
 import { Centerer } from "../../common/components/Layouts";
 

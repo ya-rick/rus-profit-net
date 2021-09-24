@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import './imgText.css';
 import {useHistory} from 'react-router-dom';
 import { requestWithParams } from "../../api/exchangeLayer";
-import LinkedButton from "../../common/components/LinkedButton";
+import { LinkedButton } from "../../common/components/Buttons";
 
 
 const ImgText = () => {

@@ -7,12 +7,12 @@ import DefaultAvatar from '../../../images/avatar.png';
 
 import { requestWithParams } from '../../../api/exchangeLayer';
 import { PageContentWrapper } from '../../../common/components/Layouts';
-import LinkedButton from '../../../common/components/LinkedButton';
+import { LinkedButton } from "../../../common/components/Buttons";
 import HandsLike from '../HandsLike';
 import PageTitle from '../../../common/components/PageTitle';
 import Icon from '../../../common/components/Icon';
 import { flexAlignCenter } from '../../../common/components/mixins';
-import CommonButton from '../../../common/components/CommonButton';
+import { CommonButton } from '../../../common/components/Buttons';
 import { ModalVariants } from '../../../common/consts';
 import FullSizedImage from '../../../common/components/fullsizedImage';
 
@@ -59,6 +59,14 @@ function Vacancy({ searchStore, uiStore: { isUserAuthenticated, openModal, openI
         setImages(example?.map(el => el.photo));
     }, [example]);
 
+    function favouriteClickHandler(type, id) {
+        return e => {
+            e.stopPropagation();
+
+            onFavouriteClicked(type, id)
+        }
+    }
+
     return (
         <PageContentWrapper>
             {isCurrentSearchResult ? <>
@@ -67,7 +75,7 @@ function Vacancy({ searchStore, uiStore: { isUserAuthenticated, openModal, openI
                         <FullInfoTitle>{isResume ? name : vacancy_name}</FullInfoTitle>
                         {isUserAuthenticated && <FavouriteIcon
                             iconName={'favourite'}
-                            onClick={onFavouriteClicked(isResume ? 'resumeToFavourites' : 'vacancyToFavourites', result_id)}
+                            onClick={favouriteClickHandler(isResume ? 'resumeToFavourites' : 'vacancyToFavourites', result_id)}
                             isActive={isFavourite}
                         />}
                         
@@ -265,7 +273,14 @@ const SecondaryBlockLayout = styled.div`
     display: flex;
     gap: 30px;
     align-items: flex-start;
-    flex-wrap: wrap;
+
+    > * {
+        width: 45%;
+    }
+
+    @media (max-width: 1000px) {
+        flex-wrap: wrap;
+    }
 `;
 
 const FullInfoImageBlock = styled.div`

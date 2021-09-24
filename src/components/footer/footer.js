@@ -44,7 +44,7 @@ export default Footer;
 const FooterWrapper = styled.div`
     background: #B9C3D8;
     
-    padding: 50px 170px 20px;
+    padding: 50px 70px 20px;
 
     
 `;

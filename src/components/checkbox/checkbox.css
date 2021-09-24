@@ -16,4 +16,5 @@
     align-items: center;
     background: #FFFFFF;
     flex-shrink: 0;
+    align-self: flex-start;
 }

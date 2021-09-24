@@ -181,38 +181,28 @@ export default inject('registrationStore')(observer(function NameContact({
     );
 }))
 
-const Contact2Grid = styled(Centerer)`
+const Contact2Grid = styled.div`
+    display: flex;
     flex-wrap: wrap;
+    align-content: center;
+    justify-content: space-between;
 
     > * {
-        flex: 1 1 40%;
-    }
-
-    @media (max-width: 1100px) {
-
-        > * {
-            flex-basis: 50%;
-            min-width: 470px;
-        }
+        flex: 1 0 400px;
     }
 `;
 
 const Contact4Grid = styled(Centerer)`
     flex-wrap: wrap;
-    align-content: center;
     align-items: baseline;
+    justify-content: space-between;
 
     gap: 30px;
     
     > * {
-        flex: 1 1 20%;
-        min-width: 100px;
+        flex: 1 1 30%;
+        min-width: 300px;
+        max-width: 45%;
     }
 
-    @media (max-width: 700px) {
-        > * {
-            flex-basis: 45%;
-            max-width: 50%;
-        }
-    }
 `;

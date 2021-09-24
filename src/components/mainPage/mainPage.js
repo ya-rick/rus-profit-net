@@ -1,6 +1,7 @@
 import { Component, useEffect } from 'react';
 import { inject, observer } from 'mobx-react';
 import {BrowserRouter as Router, Switch, Route, useLocation} from 'react-router-dom';
+import styled from 'styled-components';
 
 import Footer from '../footer';
 import SearchResults from '../SearchResults';
@@ -14,11 +15,11 @@ import UserAgreement from '../userAgreement/userAgreement';
 import AdvertMen from '../advertMen/advertMen';
 import EmailConfirmation from '../emailConfirmation';
 import FAQ from '../FAQ/FAQ';
+import UserProfile from '../userProfile';
 
-import { UserContext, PhotoContext, SearchResultContext } from './contexts';
-import styled from 'styled-components';
 import FullResult from '../SearchResults/FullResult';
 import PasswordReset from '../passwordReset';
+import PrivateRoute from '../../common/components/PrivateRoute';
 
 class MainPage extends Component {
 
@@ -39,71 +40,58 @@ class MainPage extends Component {
 
     render() {
         return (
-            <UserContext.Provider value={{
-                isLoggedIn: this.isLoggedIn,
-                setUserId: (id) => this.setState({ user: { id } })
-            }}>
-                <SearchResultContext.Provider value={{
-                                results: this.state.results,
-                                setResults: this.setResults
-                            }}>
-                    <Router>
-                        <MainPageLayout>
-                            <HeaderNew
-                                pathName={(new URL(window.location.href)).pathname}
-                            />
-                            <Switch>
-                                <Route exact path='/'>
-                                    <ImgText/>
-                                </Route>
-                                <Route path='/searchWorker'>
-                                    <ImgText/>
-                                    <MainFilterSearch/>
-                                </Route>
-                                <Route path='/searchWork'>
-                                    <ImgText/>
-                                    <MainFilterSearch/>
-                                </Route>
-                                <Route path='/searchResults/:searchType/:id'>
-                                    <FullResult/>
-                                </Route>
-                                <Route path='/searchResults'>
-                                    <SearchResults/>
-                                </Route>
-                                <Route path='/register'>
-                                    <PhotoContext.Provider value={{
-                                        onImgChanged: this.choosePhoto,
-                                        imgFile: this.state.imgFile,
-                                        openRedImgModal: this.openRedImgModal
-                                    }}>
-                                        <Register/>
-                                    </PhotoContext.Provider>
-                                </Route>
-                                <Route path='/userAgreement'>
-                                    <UserAgreement/>
-                                </Route>
-                                <Route path='/advertMen'>
-                                    <AdvertMen/>
-                                </Route>
-                                <Route path='/faq'>
-                                    <FAQ/>
-                                </Route>
-                                <Route path='/email-confirmation/:id'>
-                                    <EmailConfirmation/>
-                                </Route>
-                                <Route path='/password-reset/:id'>
-                                    <PasswordReset/>
-                                </Route>
-                                <Route path='*'>
-                                    <Error404/>
-                                </Route>
-                            </Switch>
-                            <Footer/>
-                            {this.props.uiStore.isModalOpened && <Modal/>}
-                        </MainPageLayout>
-                    </Router>
-                </SearchResultContext.Provider>
-            </UserContext.Provider>
+            <Router>
+                <MainPageLayout>
+                    <HeaderNew
+                        pathName={(new URL(window.location.href)).pathname}
+                    />
+                    <Switch>
+                        <Route exact path={'/'}>
+                            <ImgText/>
+                        </Route>
+                        <Route path={'/searchWorker'}>
+                            <ImgText/>
+                            <MainFilterSearch/>
+                        </Route>
+                        <Route path={'/searchWork'}>
+                            <ImgText/>
+                            <MainFilterSearch/>
+                        </Route>
+                        <Route path={'/searchResults/:searchType/:id'}>
+                            <FullResult/>
+                        </Route>
+                        <Route path={'/searchResults'}>
+                            <SearchResults/>
+                        </Route>
+                        <Route path={'/register'}>
+                            <Register/>
+                        </Route>
+                        <PrivateRoute path={'/profile/:page'}>
+                            <UserProfile/>
+                        </PrivateRoute>
+                        <Route path={'/userAgreement'}>
+                            <UserAgreement/>
+                        </Route>
+                        <Route path={'/advertMen'}>
+                            <AdvertMen/>
+                        </Route>
+                        <Route path={'/faq'}>
+                            <FAQ/>
+                        </Route>
+                        <Route path={'/email-confirmation/:id'}>
+                            <EmailConfirmation/>
+                        </Route>
+                        <Route path={'/password-reset/:id'}>
+                            <PasswordReset/>
+                        </Route>
+                        <Route path={'*'}>
+                            <Error404/>
+                        </Route>
+                    </Switch>
+                    <Footer/>
+                    {this.props.uiStore.isModalOpened && <Modal/>}
+                </MainPageLayout>
+            </Router>
         );
     }
 };

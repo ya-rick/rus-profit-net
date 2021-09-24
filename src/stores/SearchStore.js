@@ -49,7 +49,6 @@ export default class SearchStore {
     }
 
     get isLastPage() {
-        console.trace(this.resultsRestInfo.page >= this.resultsRestInfo.last_page)
         return this.resultsRestInfo.page >= this.resultsRestInfo.last_page;
     }
 
@@ -70,7 +69,6 @@ export default class SearchStore {
     }
 
     setTotalPage(maxPages) {
-        console.trace(maxPages);
         this.resultsRestInfo.last_page = maxPages;
         this.resultsRestInfo.page = 1;
     }
@@ -96,25 +94,23 @@ export default class SearchStore {
     }
 
     onFavouriteClicked(type, id) {
-        return () => {
-            requestWithParams(type, {
-                id,
+        requestWithParams(type, {
+            id,
+        })
+            .then(() => {
+                if (this.results.length) {
+                    this.results.forEach(result => {
+                        if (result.id === id) {
+                            result.isFavourite = !result.isFavourite;
+                        }
+                    })
+                } else {
+                    // case of exact loading from route of vacncy/resume
+                    this.currentChosenResult.isFavourite = !this.currentChosenResult.isFavourite;
+                }
+                
             })
-                .then(() => {
-                    if (this.results.length) {
-                        this.results.forEach(result => {
-                            if (result.id === id) {
-                                result.isFavourite = !result.isFavourite;
-                            }
-                        })
-                    } else {
-                        // case of exact loading from route of vacncy/resume
-                        this.currentChosenResult.isFavourite = !this.currentChosenResult.isFavourite;
-                    }
-                    
-                })
-                .catch(err => console.error(err))
-        }
+            .catch(err => console.error(err))
     }
 
     async showMoreInfo() {
@@ -142,9 +138,6 @@ export default class SearchStore {
         const { filterType } = 
             this.resultsRestInfo.currentFiltersContract =
             this.mainFiltersStore.filtersToServerContract();
-
-            console.log(filterType)
-
         try {
             if (this.mainFiltersStore.validateFullInfo()) throw new Error(false);
 

@@ -27,6 +27,14 @@ function ResultCard({ result, searchStore, uiStore: { isUserAuthenticated, openM
         return <Redirect to={`/searchResults/${isResume ? 'getResumeByID' : 'getVacancyByID'}/${redirectToID}`}/>
     }
 
+    function favouriteClickHandler(type, id) {
+        return e => {
+            e.stopPropagation();
+
+            onFavouriteClicked(type, id)
+        }
+    }
+
     function likeClicked(type_mark, id) {
         return onLikeClicked(type_mark, id, () => {
             if (!isUserAuthenticated) {
@@ -71,7 +79,7 @@ function ResultCard({ result, searchStore, uiStore: { isUserAuthenticated, openM
                     </CardTitle>
                     {isUserAuthenticated && <FavouriteIcon
                         iconName={'favourite'}
-                        onClick={onFavouriteClicked(isResume ? 'resumeToFavourites' : 'vacancyToFavourites', id)}
+                        onClick={favouriteClickHandler(isResume ? 'resumeToFavourites' : 'vacancyToFavourites', id)}
                         isActive={isFavourite}
                     />}
                     <PlusIcon

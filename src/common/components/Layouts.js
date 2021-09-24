@@ -12,6 +12,7 @@ export const PageContentWrapper = styled.div`
 export const Centerer = styled.div`
     display: flex;
     align-items: center;
+    align-content: center;
     justify-content: center;
 `;
 

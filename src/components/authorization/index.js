@@ -4,7 +4,7 @@ import { inject, observer } from 'mobx-react';
 import './authorization.css';
 
 import { ModalButtonWapper, ModalContent, ModalLink, ModalSubtitle, ModalTitle } from '../../common/components/ModalStyles';
-import CommonButton from '../../common/components/CommonButton';
+import { CommonButton } from '../../common/components/Buttons';
 import Input from '../../common/components/Input';
 import ErrorMessage from '../../common/components/ErrorMessage';
 import PasswordInput from '../../common/components/PasswordInput';

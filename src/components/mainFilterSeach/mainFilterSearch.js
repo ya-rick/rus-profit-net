@@ -8,7 +8,7 @@ import './mainFilterSearch.css';
 
 import Select from '../../common/components/select';
 import MenuButtonsDocs from '../menuButtonsDocs';
-import LinkedButton from '../../common/components/LinkedButton';
+import { LinkedButton } from "../../common/components/Buttons";
 import { Centerer, GapedAdaptiveCenterer, PageContentWrapper } from '../../common/components/Layouts';
 import AgeChooser from '../../common/components/AgeChooser';
 import WorkExperience from '../../common/components/WorkExperience';

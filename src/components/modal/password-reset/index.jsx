@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { ModalContent, ModalSubtitle, ModalTitle } from '../../../common/components/ModalStyles';
 import PasswordInput from '../../../common/components/PasswordInput';
-import CommonButton from '../../../common/components/CommonButton';
+import { CommonButton } from '../../../common/components/Buttons';
 import ErrorMessage from '../../../common/components/ErrorMessage';
 import { requestWithParams } from '../../../api/exchangeLayer';
 import { Redirect } from 'react-router';

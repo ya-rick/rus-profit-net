@@ -1,5 +1,5 @@
 import Input from '../../common/components/Input';
-import CommonButton from '../../common/components/CommonButton';
+import { CommonButton } from '../../common/components/Buttons';
 import { ModalButtonWapper, ModalContent, ModalSubtitle, ModalTitle } from '../../common/components/ModalStyles';
 import TextArea from '../../common/components/TextArea';
 

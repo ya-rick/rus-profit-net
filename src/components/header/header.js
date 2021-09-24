@@ -40,7 +40,7 @@ const HeaderNew = inject('uiStore')(observer(({ uiStore: { openModal, isUserAuth
                 
                 <div className='button-group'>
                     {isUserAuthenticated ? <>
-                        <HeaderButton>
+                        <HeaderButton onClick={() => history.push('/profile/userInfo')}>
                             <Icon
                                 iconName={'man'}
                             />
@@ -60,7 +60,7 @@ const HeaderNew = inject('uiStore')(observer(({ uiStore: { openModal, isUserAuth
                             />
                             Авторизация
                         </HeaderButton>
-                        <HeaderButton onClick={()=>history.push('/register')}>
+                        <HeaderButton onClick={() => history.push('/register')}>
                             <Icon
                                 iconName={'people'}
                             />

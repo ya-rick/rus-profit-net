@@ -15,7 +15,9 @@ export const buttonStylesMixin = css`
 
   display: flex;
   align-items: center;
+  align-content: center;
   justify-content: center;
+  text-align: center;
   
   box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.8);
 

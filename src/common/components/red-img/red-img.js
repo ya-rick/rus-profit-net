@@ -6,7 +6,7 @@ import './red-img.css';
 
 import getCroppedImg from "./cropImage";
 import RangeSlider from "../rangeSlider";
-import LinkedButton from "../LinkedButton";
+import { LinkedButton } from "../Buttons";
 import { inject, observer } from "mobx-react";
 
 const RedImg = inject('uiStore', 'registrationStore')(observer(({

@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import Avatar from '../../images/avatar.png';
 import './generalInformation.css';
 import MyCalendar from "../myCalendar";
-import { PhotoContext } from '../mainPage/contexts';
 import { GeneralInfoWrapper, Image, InfoWrapper } from "./styles";
 import { inject, observer } from "mobx-react";
 import { ModalVariants } from "../../common/consts";
@@ -66,7 +65,5 @@ class GeneralInformation extends Component {
         );
     };
 };
-
-GeneralInformation.contextType = PhotoContext;
 
 export default inject('registrationStore', 'uiStore')(observer(GeneralInformation));

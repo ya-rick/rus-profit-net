@@ -1,6 +1,6 @@
 import './styles.css';
 
-import LinkedButton from "../../common/components/LinkedButton";
+import { LinkedButton } from "../../common/components/Buttons";
 import PageTitle from "../../common/components/PageTitle";
 import { PageContentWrapper } from "../../common/components/Layouts";
 import TwoLinkedButtonGroup from "../../common/components/TwoLinkedButtonGroup";

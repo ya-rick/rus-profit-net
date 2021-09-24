@@ -4,7 +4,7 @@ import './forgot-password.css';
 
 import { ModalButtonWapper, ModalContent, ModalSubtitle, ModalTitle } from '../../common/components/ModalStyles';
 import Input from '../../common/components/Input';
-import CommonButton from '../../common/components/CommonButton';
+import { CommonButton } from '../../common/components/Buttons';
 import ErrorMessage from '../../common/components/ErrorMessage';
 import { requestWithParams } from '../../api/exchangeLayer';
 import { inject, observer } from 'mobx-react';
