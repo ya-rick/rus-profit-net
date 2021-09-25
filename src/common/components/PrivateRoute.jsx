@@ -1,7 +1,7 @@
 import { inject, observer } from 'mobx-react';
 import { Redirect, Route } from 'react-router-dom';
 
-function PrivateRoute({ uiStore: { isUserAuthenticated } , ...rest }) {
+function PrivateRoute({ uiStore: { userModel: { isUserAuthenticated } } , ...rest }) {
     if (!isUserAuthenticated) return <Redirect to={'/'}/>
 
     return <Route {...rest}/>

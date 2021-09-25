@@ -6,8 +6,8 @@ import Authorization from '../components/authorization';
 import ForgotPassword from '../components/forgot-password';
 import InfoModal from '../components/modal/info-form';
 import RedImg from '../common/components/red-img';
-import { requestWithParams } from '../api/exchangeLayer';
 import PasswordResetModal from '../components/modal/password-reset';
+import UserModel from './Models/UserModel'
 
 const modals = {
     [ModalVariants.Authorization]: <Authorization/>,
@@ -20,7 +20,7 @@ const modals = {
 
 export default class UIStore {
 
-    user = null;
+    userModel = null;
 
     currentModal = null;
     modalPayload = null;
@@ -30,12 +30,11 @@ export default class UIStore {
     allImagesLinks = [];
 
     constructor() {
+        this.userModel = new UserModel();
+
         makeAutoObservable(this, {
             openModal: action.bound,
             closeModal: action.bound,
-            userLogin: action.bound,
-            getUserData: action.bound,
-            userLogout: action.bound,
             hideImage: action.bound,
             openImage: action.bound,
             setImages: action.bound,
@@ -80,10 +79,6 @@ export default class UIStore {
         this.currentImageIndex = index;
     }
 
-    get isUserAuthenticated() {
-        return this.user !== null;
-    }
-
     get isModalOpened() {
         return Boolean(this.currentModal);
     }
@@ -98,40 +93,6 @@ export default class UIStore {
         this.currentModal = null;
         this.modalPayload = null;
         this.onCloseCallback = null;
-    }
-
-    async getUserData() {
-        try {
-            // this.user = await requestWithParams('getUserData', {
-            //     user_id: null
-            // });
-
-            this.user = {
-                name: 'testing only'
-            }
-        } catch(e) {
-            this.user = null;
-        }
-    }
-
-    async userLogin(email, password) {
-
-        await requestWithParams('login', {
-            email, password
-        });
-
-        await this.getUserData();
-    }
-
-    async userLogout() {
-        try {
-            await requestWithParams('logout');
-        } catch(e) {
-            console.error(e);
-        } finally {
-            this.user = null;
-        }
-
     }
 
 }

@@ -1,12 +1,16 @@
 import styled from 'styled-components'
 
 export const PageContentWrapper = styled.div`
-    padding: 70px 15px 20px;
+    padding: 5% 2% 3%;
 
     @media (min-width: 1320px) {
         width: 1320px;
         margin: 0 auto;
     }
+`;
+
+export const PageInfoBlockWithTitle = styled.div`
+    
 `;
 
 export const Centerer = styled.div`

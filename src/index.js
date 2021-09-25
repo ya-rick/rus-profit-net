@@ -15,7 +15,7 @@ const stores = {
   searchStore: new SearchStore(),
 }
 
-stores.uiStore.getUserData()
+stores.uiStore.userModel.getUserData()
   .finally(() => {
     ReactDOM.render( 
       <StoreProvider {...stores}>

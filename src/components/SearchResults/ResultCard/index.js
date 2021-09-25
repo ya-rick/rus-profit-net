@@ -12,7 +12,7 @@ import {  } from '../../../api/exchangeLayer';
 import { ModalVariants } from '../../../common/consts';
 
 
-function ResultCard({ result, searchStore, uiStore: { isUserAuthenticated, openModal } }) {
+function ResultCard({ result, searchStore, uiStore: { userModel: { isUserAuthenticated }, openModal } }) {
 
     const [redirectToID, setRedirectID] = useState(null);
 

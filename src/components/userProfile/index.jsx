@@ -1,12 +1,11 @@
 import { inject, observer } from 'mobx-react';
-import { Redirect, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import styled from 'styled-components';
 
 import { PageContentWrapper } from '../../common/components/Layouts';
 import PageTitle from '../../common/components/PageTitle';
-import GeneralInformation from '../generalInformation';
-import NameContact from '../nameContact/nameContact';
 import SideBar from './SideBar';
+import UserInfoPage from './UserInfoPage';
 
 
 const tabs = [
@@ -24,23 +23,17 @@ const tabs = [
     }
 ]
 
-function UserProfile({ uiStore }) {
+function UserProfile({ uiStore: { userModel: { editInfo } } }) {
 
     const { page } = useParams();
 
-    function renderPage() {
+    function renderTab() {
         switch(page) {
-            case 'userInfo': return <>
-                <ContentTitle>Личная информация</ContentTitle>
+            case 'userInfo': return <UserInfoPage/>
 
-                <NameContact/>
+            case 'myVacancies': return <ContentTitle>Мои вакансии</ContentTitle>
 
-                <GeneralInformation/>
-            </>
-
-            case 'myVacancies': return <div>Temporary empty vacancies</div>
-
-            case 'myResumes': return <div>Temporary empty resumes</div>
+            case 'myResumes': return <ContentTitle>Мои анкеты</ContentTitle>
 
             default: return null;
         }
@@ -56,9 +49,9 @@ function UserProfile({ uiStore }) {
                 {tabs}
             </SideBar>
 
-            <ContentContainer>
-                {renderPage()}
-            </ContentContainer>
+            {renderTab() && <ContentContainer>
+                {renderTab()}
+            </ContentContainer>}
             
         </ProfileContentLayout>
 
@@ -91,6 +84,6 @@ const ContentContainer = styled.div`
     border-radius: 15px;
 `;
 
-const ContentTitle = styled.h2`
+export const ContentTitle = styled.h2`
     font-weight: 600;
 `;

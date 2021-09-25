@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Redirect, useLocation } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import { inject, observer } from 'mobx-react';
 import { autorun } from 'mobx';
 import styled from 'styled-components';

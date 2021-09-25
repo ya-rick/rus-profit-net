@@ -20,7 +20,6 @@ function SearchResults({ searchStore }) {
             const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
 
             if (!isLastPage && !isLoading && (scrollTop + clientHeight >= scrollHeight - clientHeight / 2)) {
-                console.log('fetching')
                 showMoreInfo();
             }
         })

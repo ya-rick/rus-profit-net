@@ -5,7 +5,14 @@ export default class CityCountryModel {
     countries = observable.map();
     currentEditCountry = null;
 
-    constructor() {
+    constructor(fromServerCityCountry = []) {
+        fromServerCityCountry.forEach(country => {
+            this.countries.set(country.id, {
+                name: country.name,
+                cities: country.cities
+            })
+        })
+
         makeAutoObservable(this, {
             onChangeCountries: action.bound,
             onChangeCities: action.bound,

@@ -16,7 +16,7 @@ import { CommonButton } from '../../../common/components/Buttons';
 import { ModalVariants } from '../../../common/consts';
 import FullSizedImage from '../../../common/components/fullsizedImage';
 
-function Vacancy({ searchStore, uiStore: { isUserAuthenticated, openModal, openImage, setImages,isImageShown } }) {
+function Vacancy({ searchStore, uiStore: { userModel: { isUserAuthenticated }, openModal, openImage, setImages,isImageShown } }) {
     const [isContactsShown, setContactsHown] = useState(false);
 
     function onContactsClick() {

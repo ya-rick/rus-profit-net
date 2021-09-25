@@ -35,7 +35,7 @@ class Authorization extends Component {
         try {
             const { email, password } = this.state;
 
-            await this.props.uiStore.userLogin(email, password);
+            await this.props.uiStore.userModel.userLogin(email, password);
 
             this.props.uiStore.closeModal();
         } catch (e) {

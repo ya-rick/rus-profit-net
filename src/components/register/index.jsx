@@ -4,13 +4,13 @@ import { inject, observer } from 'mobx-react';
 import { PageContentWrapper } from '../../common/components/Layouts'
 import PageTitle from '../../common/components/PageTitle';
 import GeneralInformation from '../generalInformation';
-import NameContact from '../nameContact/nameContact';
+import NameContact from '../nameContact';
 import RegisterVacancy from '../registerVacancies'
 import RegistrationButtonsBlock from './RegistrationButtonsBlock';
 import ErrorMessage from '../../common/components/ErrorMessage';
 
 export default inject('registrationStore')(observer(function RegisterPage({ 
-    registrationStore: { commonInfo: { registration_type }, setField, error: { mainInfo, creationInfo } } }) {
+    registrationStore: { commonInfo, setField, error: { mainInfo, creationInfo, contactInfo } } }) {
 
     return <PageContentWrapper>
         <PageTitle>
@@ -18,17 +18,21 @@ export default inject('registrationStore')(observer(function RegisterPage({
             {mainInfo && <ErrorMessage>{mainInfo}</ErrorMessage>}
         </PageTitle>
 
-        <NameContact/>
+        <NameContact
+            onChangeField={setField}
+            fields={commonInfo}
+            error={contactInfo}
+        />
 
         <GeneralInformation/>
 
         <RegistrationButtonsBlock
             onClickLeft={() => setField('registration_type')('vacancy')}
             onClickRight={() => setField('registration_type')('resume')}
-            current={registration_type}
+            current={commonInfo.registration_type}
             creationError={creationInfo}
         />
 
-        {registration_type && <RegisterVacancy/>}
+        {commonInfo.registration_type && <RegisterVacancy/>}
     </PageContentWrapper>
 }))

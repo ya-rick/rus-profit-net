@@ -1,4 +1,4 @@
-html, body, #root{
+html, body, #root {
     height: 100%;
     padding: 0;
     margin: 0;
@@ -37,21 +37,31 @@ a:hover, a:active {
     color: #000000;
 }
 
-.button-group{
+.subtext-new {
+    margin-top: 10px;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 18px;
+    text-align: left;
+
+    color: #4C5E8B;
+}
+
+.button-group {
     display: flex;
 }
 
-.wrap-box{
+.wrap-box {
     display: flex;
     flex-wrap: wrap;
 }
 
-.input-number{
+.input-number {
     width: 70px !important;
     text-align: center;
 }
 
-@media (min-width: 1580px){
+@media (min-width: 1580px) {
     .container {
         width: 1320px;
     }

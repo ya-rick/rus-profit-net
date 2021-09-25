@@ -74,7 +74,6 @@ export default class RegistrationStore {
     }
 
     sendData() {
-
         if (this.validateAll()) return Promise.reject(false);
 
         const commoninfoServerContract = {...this.commonInfo.toServerContract()};

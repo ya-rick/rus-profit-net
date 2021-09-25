@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useLocation } from 'react-router-dom';
 import styled from "styled-components";
+import { PageContentWrapper } from "../../common/components/Layouts";
 
 import BigLogo from '../../images/2021RusProfiNetFooterLogo.svg';
 
@@ -13,7 +14,7 @@ const Footer = () => {
 
     return (
         isRoot() ? null
-        :   <FooterWrapper>
+        : <FooterWrapper>
             <FooterInfoWrapper>
                 <div>
                     <FooterLinkAsBlock href='/#'>+7 916 500 50 50</FooterLinkAsBlock>
@@ -43,10 +44,7 @@ export default Footer;
 
 const FooterWrapper = styled.div`
     background: #B9C3D8;
-    
-    padding: 50px 70px 20px;
-
-    
+    padding: 5% 2% 3%;
 `;
 
 const FooterInfoWrapper = styled.div`

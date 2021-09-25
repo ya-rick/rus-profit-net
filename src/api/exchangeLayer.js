@@ -18,6 +18,7 @@ const httpMethodsTypes = {
     getCurrencies: 'get_currencies',
     setAccess: 'set_access_code',
     getUserData: 'get_user_data',
+    editUserData: 'edit_user_data',
     login: 'login',
     logout: 'logout',
     setMark: 'set_mark',

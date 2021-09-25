@@ -99,6 +99,29 @@ export default class CommonInfoContract {
         this.validateRegistrationType(callback);
     }
 
+    static fromServerContract(fromServerUseData) {
+        const {
+            avatar, birthday, contacts_info, name, surname, places
+        } = fromServerUseData;
+
+        const newCommonInfoContract = new this();
+
+        newCommonInfoContract.image = avatar;
+        newCommonInfoContract.birthday = birthday;
+        newCommonInfoContract.user_name = name || '';
+        newCommonInfoContract.user_surname = surname || '';
+
+        contacts_info?.forEach(contact => {
+            const fieldName = `user_${contact.name}`;
+            newCommonInfoContract[fieldName] = contact.value;
+            newCommonInfoContract[`${fieldName}_prefered`] = Boolean(contact.prefered);
+        });
+
+        newCommonInfoContract.cityCountryModel = new CityCountryModel(places);
+
+        return newCommonInfoContract;
+    }
+
     toServerContract() {
         const { user_surname, user_name, user_email, user_password, user_password_confirm,
             user_whatsapp, user_whatsapp_prefered,

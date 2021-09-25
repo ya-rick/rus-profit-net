@@ -1,20 +1,20 @@
+import { useEffect, useRef } from 'react';
 import styled from 'styled-components'
 import { useHistory, useLocation } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 
+import './header.css';
+
 import Logo from '../../images/logo_outcome_Artboard_6_1.png';
 import FullLogo from '../../images/2021RusProfiNetFooterLogo.svg';
-import Login from '../../images/login-icon.svg';
-import Register from '../../images/register-icon.svg';
-import './header.css';
 import HeaderButton from "../../common/components/HeaderButton";
 import { PageContentWrapper } from "../../common/components/Layouts";
 import { ModalVariants } from '../../common/consts';
 import Icon from '../../common/components/Icon';
-import { useEffect, useRef } from 'react';
 
-const HeaderNew = inject('uiStore')(observer(({ uiStore: { openModal, isUserAuthenticated, user, userLogout } }) => {
-
+const HeaderNew = inject('uiStore')(observer(({
+    uiStore: { openModal, userModel: { isUserAuthenticated, user, userLogout  } }
+}) => {
     const headerRef = useRef(null);
     const history = useHistory();
 
