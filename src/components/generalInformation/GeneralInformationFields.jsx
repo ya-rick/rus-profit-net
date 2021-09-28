@@ -39,8 +39,6 @@ function GeneralInformation({ uiStore, birthday, onChangeField, image }) {
         display: 'none'
     }
 
-    console.log(image);
-
     return (
         <>
             <Image

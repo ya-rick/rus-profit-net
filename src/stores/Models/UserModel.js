@@ -3,12 +3,15 @@ import { action, makeAutoObservable } from 'mobx';
 import { requestWithFormData, requestWithParams } from '../../api/exchangeLayer';
 import UserContract from './Contracts/UserProfileContracts/UserContract';
 import UserProfileCommonInfoContract from './Contracts/UserProfileContracts/UserProfileCommonInfoContract';
+import SearchResultsCollection from './SearchResultsCollection';
 
 
 export default class UserModel {
 
     user = null;
     editInfo = null;
+
+    currentTabResults = new SearchResultsCollection();
 
     initialErrorState = {
         mainInfo: null,
@@ -31,6 +34,8 @@ export default class UserModel {
             validateAll: action.bound,
             validatePasswordInfo: action.bound,
             saveData: action.bound,
+            getTabResults: action.bound,
+            clearTabResults: action.bound,
         });
     }
 
@@ -45,7 +50,6 @@ export default class UserModel {
     setField(fieldKey) {
         return action((value) => {
             if (fieldKey in this.editInfo) {
-                console.log(value)
                 this.editInfo[fieldKey] = value;
             } else {
                 throw new Error(`No such key ${fieldKey}`);
@@ -124,7 +128,31 @@ export default class UserModel {
         } finally {
             this.user = null;
         }
+    }
 
+    async getTabResults(searchParam) {
+        try {
+            console.log(searchParam);
+            
+            const { vacancy, resume } = await requestWithParams(searchParam);
+
+            if (vacancy) {
+                this.currentTabResults.setCollectionType('vacancy');
+                this.currentTabResults.setResults(vacancy);
+            } else if (resume) {
+                this.currentTabResults.setCollectionType('resume');
+                this.currentTabResults.setResults(resume);
+            } else {
+                throw new Error('No necessary tab results')
+            }
+
+        } catch(e) {
+            console.error(e);
+        }
+    }
+
+    clearTabResults() {
+        this.currentTabResults.clearResults();
     }
     
 }

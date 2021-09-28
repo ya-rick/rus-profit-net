@@ -1,4 +1,5 @@
 import { inject, observer } from 'mobx-react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router';
 import styled from 'styled-components';
 
@@ -6,7 +7,10 @@ import { PageContentWrapper } from '../../common/components/Layouts';
 import PageTitle from '../../common/components/PageTitle';
 import SideBar from './SideBar';
 import UserInfoPage from './UserInfoPage';
+import { UserProfileResults } from '../SearchResults';
 
+
+export default inject('uiStore')(observer(UserProfile));
 
 const tabs = [
     {
@@ -14,14 +18,35 @@ const tabs = [
         name: 'Личная информация'
     },
     {
-        to: '/profile/myVacancies',
+        to: '/profile/userVacancy',
         name: 'Мои вакансии'
     },
     {
-        to: '/profile/myResumes',
+        to: '/profile/userResume',
         name: 'Мои резюме'
+    },
+    {
+        to: '/profile/vacancyFavourites',
+        name: 'Отобранные вакансии'
+    },
+    {
+        to: '/profile/resumeFavourites',
+        name: 'Отобранные резюме'
     }
 ]
+
+const PageWithSearch = inject('uiStore')(observer(({ uiStore: { userModel: { getTabResults, clearTabResults } }, searchParam }) => {
+
+    useEffect(() => {
+
+        getTabResults(searchParam);
+
+        return () => clearTabResults();
+    }, [])
+
+    return <UserProfileResults/>
+
+}))
 
 function UserProfile({ uiStore: { userModel: { editInfo } } }) {
 
@@ -31,9 +56,13 @@ function UserProfile({ uiStore: { userModel: { editInfo } } }) {
         switch(page) {
             case 'userInfo': return <UserInfoPage/>
 
-            case 'myVacancies': return <ContentTitle>Мои вакансии</ContentTitle>
+            case 'vacancyFavourites': return <PageWithSearch searchParam={page}/>
 
-            case 'myResumes': return <ContentTitle>Мои анкеты</ContentTitle>
+            case 'resumeFavourites': return <PageWithSearch searchParam={page}/>
+
+            case 'userResume': return <PageWithSearch searchParam={page}/>
+
+            case 'userVacancy': return <PageWithSearch searchParam={page}/>
 
             default: return null;
         }
@@ -58,7 +87,6 @@ function UserProfile({ uiStore: { userModel: { editInfo } } }) {
     </PageContentWrapper>
 }
 
-export default inject('uiStore')(observer(UserProfile));
 
 const ProfileContentLayout = styled.div`
     display: grid;

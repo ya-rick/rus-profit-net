@@ -31,9 +31,11 @@ function Vacancy({ searchStore, uiStore: { userModel: { isUserAuthenticated }, o
     }
 
     const {
-        isCurrentSearchResult, setCurrentResult, onFavouriteClicked, onLikeClicked,
-        mainInfoSearchResult, secondaryInfoSearchResult, isResultsPresent
+        isCurrentSearchResult, setCurrentResult, mainInfoSearchResult,
+        secondaryInfoSearchResult
     } = searchStore;
+
+    const isResultsPresent = searchStore.searchResultsCollection.results?.length > 0;
 
     const { name, description, experience, avatar, salary, salary_type,
         places, category, employer, contacts_info, mark, isFavourite, vacancy_name,
@@ -59,11 +61,49 @@ function Vacancy({ searchStore, uiStore: { userModel: { isUserAuthenticated }, o
         setImages(example?.map(el => el.photo));
     }, [example]);
 
+    function onFavouriteClicked(type, id) {
+        requestWithParams(type, {
+            id,
+        })
+            .then(() => {
+                if (this.results.length) {
+                    this.results.forEach(result => {
+                        if (result.id === id) {
+                            result.isFavourite = !result.isFavourite;
+                        }
+                    })
+                } else {
+                    // case of exact loading from route of vacancy/resume
+                    this.currentChosenResult.isFavourite = !this.currentChosenResult.isFavourite;
+                }
+                
+            })
+            .catch(err => console.error(err))
+    }
+
     function favouriteClickHandler(type, id) {
         return e => {
             e.stopPropagation();
 
             onFavouriteClicked(type, id)
+        }
+    }
+
+    function likeClicked(type_mark, id) {
+        return (mark) => {
+            if (!isUserAuthenticated) {
+                openModal(ModalVariants.InfoModal, {
+                    title: 'Для оценки',
+                    description: 'необходимо авторизироваться в системе'
+                });
+    
+                return;
+            }
+
+            requestWithParams('setMark', {
+                type_mark, id, value: mark
+            })
+                .catch(err => console.error(err))
         }
     }
 
@@ -98,7 +138,7 @@ function Vacancy({ searchStore, uiStore: { userModel: { isUserAuthenticated }, o
 
                             {isUserAuthenticated && <HandsLike
                                 currentMark={mark}
-                                onHandClick={onLikeClicked(isResume ? 'resume' : 'vacancy', id)}
+                                onHandClick={likeClicked(isResume ? 'resume' : 'vacancy', id)}
                             />}
 
                         </FullInfoImageBlock>}

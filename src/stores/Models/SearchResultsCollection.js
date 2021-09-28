@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 
-export default class SearchResultModel {
+export class ResultContract {
 
     id = null;
     name = '';
@@ -52,6 +52,35 @@ export default class SearchResultModel {
 
     static createFromServerContract(fromServerData) {
         return new this(fromServerData);
+    }
+
+}
+
+export default class SearchResultsCollection {
+
+    results = [];
+
+    collectionType = null;
+
+    constructor() {
+        makeAutoObservable(this);
+    }
+
+    isVacancy() {
+        return this.collectionType === 'vacancy';
+    }
+
+    setCollectionType(collectionType) {
+        this.results = null
+        this.collectionType = collectionType;
+    }
+
+    clearResults() {
+        this.results = [];
+    }
+
+    setResults(results = []) {
+        this.results = results.map(result => ResultContract.createFromServerContract(result));
     }
 
 }

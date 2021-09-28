@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Footer from '../footer';
-import SearchResults from '../SearchResults';
+import { SearchStoreResults } from '../SearchResults';
 import Modal from '../modal';
 import MainFilterSearch from '../mainFilterSeach';
 import ImgText from '../imgText';
@@ -61,7 +61,7 @@ class MainPage extends Component {
                             <FullResult/>
                         </Route>
                         <Route path={'/searchResults'}>
-                            <SearchResults/>
+                            <SearchStoreResults/>
                         </Route>
                         <Route path={'/register'}>
                             <Register/>

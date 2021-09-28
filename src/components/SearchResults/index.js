@@ -1,49 +1,66 @@
 import React, { useEffect } from 'react';
-import { inject, observer } from 'mobx-react';
-import { Redirect } from 'react-router';
+import { Redirect, useHistory } from 'react-router';
 
-import ResultCard from './ResultCard';
+import ResultCard from '../../common/components/ResultCard';
 import { PageContentWrapper } from '../../common/components/Layouts';
 import PageTitle from '../../common/components/PageTitle';
 import Loading from '../../common/components/Loading';
+import { SearchResultsFromSearchStore, SearchResultsFromUserProfile } from '../../common/HOCs';
 
 
-function SearchResults({ searchStore }) {
+export default SearchResults;
 
-    const {
-        results, isResultsPresent, isLastPage, isLoading, showMoreInfo,
-        mainFiltersStore: { filterType }
-    } = searchStore;
+export const SearchStoreResults = SearchResultsFromSearchStore(SearchResults);
+
+export const UserProfileResults = SearchResultsFromUserProfile(SearchResults);
+
+function SearchResults({
+    onSelectCallback, results = [], isLastPage, isLoading, isSearchWorker, showMoreCallback, forceRender = false
+}) {
+
+    console.log(forceRender)
+
+    const history = useHistory();
+
+    const isResultsPresent = results.length > 0;
 
     useEffect(() => {
         const listener = window.addEventListener('scroll', e => {
             const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
 
             if (!isLastPage && !isLoading && (scrollTop + clientHeight >= scrollHeight - clientHeight / 2)) {
-                showMoreInfo();
+                showMoreCallback && showMoreCallback();
             }
         })
 
         return () => window.removeEventListener('scroll', listener);
 
-    }, [isLastPage, isLoading, showMoreInfo]);
+    }, [isLastPage, isLoading, showMoreCallback]);
 
-    if (!isResultsPresent) {
+    if (!(isResultsPresent || forceRender)) {
         return <Redirect to={'/'}/>
+    }
+
+    function bindOnSelectResult(result) {
+        return () => {
+            history.push(`/searchResults/${isSearchWorker ? 'getVacancyByID' : 'getResumeByID'}/${result.id}`);
+
+            onSelectCallback && onSelectCallback(result);
+        }
     }
 
     return(
         <PageContentWrapper>
-            <PageTitle>{filterType === 'getVacancies' ? 'Вакансии' : 'Анкеты'}</PageTitle>
+            <PageTitle>{isSearchWorker ? 'Вакансии' : 'Анкеты'}</PageTitle>
 
-            {results && results.map(result => <ResultCard
+            {(isResultsPresent || forceRender) && results.map(result => <ResultCard
                 key={result.id}
                 result={result}
+                isResume={!isSearchWorker}
+                onSelectResult={bindOnSelectResult(result)}
             />)}
 
             {isLoading && <Loading/>}
         </PageContentWrapper>
     );
 };
-
-export default inject('searchStore')(observer(SearchResults));

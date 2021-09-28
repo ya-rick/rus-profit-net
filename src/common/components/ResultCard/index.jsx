@@ -1,30 +1,43 @@
-import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import { inject, observer } from 'mobx-react';
 
 import DefaultAvatar from '../../../images/avatar.png'
 
-import HandsLike from '../HandsLike';
-import Icon from '../../../common/components/Icon';
-import { mapAge } from '../../../common/utils';
-import {  } from '../../../api/exchangeLayer';
-import { ModalVariants } from '../../../common/consts';
+import HandsLike from '../../../components/SearchResults/HandsLike';
+import Icon from '../Icon';
+import { mapAge } from '../../utils';
+import { ModalVariants } from '../../consts';
+import { requestWithParams } from '../../../api/exchangeLayer';
 
 
-function ResultCard({ result, searchStore, uiStore: { userModel: { isUserAuthenticated }, openModal } }) {
+export default inject('searchStore', 'uiStore')(observer(ResultCard));
 
-    const [redirectToID, setRedirectID] = useState(null);
+function ResultCard({
+    result, isResume, onSelectResult,
+    uiStore: { userModel: { isUserAuthenticated }, openModal }
+}) {
 
     const { category, places, experience, parameters, salary,
         salary_type, description, name, avatar, id, mark, isFavourite } = result;
 
-    const { onLikeClicked, onFavouriteClicked, mainFiltersStore: { filterType } } = searchStore;
-
-    const isResume = filterType === 'getResumes';
-
-    if (redirectToID) {
-        return <Redirect to={`/searchResults/${isResume ? 'getResumeByID' : 'getVacancyByID'}/${redirectToID}`}/>
+    function onFavouriteClicked(type, id) {
+        requestWithParams(type, {
+            id,
+        })
+            .then(() => {
+                if (this.results.length) {
+                    this.results.forEach(result => {
+                        if (result.id === id) {
+                            result.isFavourite = !result.isFavourite;
+                        }
+                    })
+                } else {
+                    // case of exact loading from route of vacncy/resume
+                    this.currentChosenResult.isFavourite = !this.currentChosenResult.isFavourite;
+                }
+                
+            })
+            .catch(err => console.error(err))
     }
 
     function favouriteClickHandler(type, id) {
@@ -36,7 +49,7 @@ function ResultCard({ result, searchStore, uiStore: { userModel: { isUserAuthent
     }
 
     function likeClicked(type_mark, id) {
-        return onLikeClicked(type_mark, id, () => {
+        return (mark) => {
             if (!isUserAuthenticated) {
                 openModal(ModalVariants.InfoModal, {
                     title: 'Для оценки',
@@ -45,18 +58,16 @@ function ResultCard({ result, searchStore, uiStore: { userModel: { isUserAuthent
     
                 return;
             }
-        });
-    }
 
-    function onPlusClicked(result) {
-        return () => {
-            searchStore.setCurrentResult(result);
-            setRedirectID(result.id);
+            requestWithParams('setMark', {
+                type_mark, id, value: mark
+            })
+                .catch(err => console.error(err))
         }
     }
 
     return (
-        <CardWrapper onClick={onPlusClicked(result)}>
+        <CardWrapper onClick={onSelectResult}>
             {isResume && <CardImageBlock>
 
                 <CardImage src={avatar || DefaultAvatar}/>
@@ -84,7 +95,7 @@ function ResultCard({ result, searchStore, uiStore: { userModel: { isUserAuthent
                     />}
                     <PlusIcon
                         iconName={'plus'}
-                        onClick={onPlusClicked(result)}
+                        onClick={onSelectResult}
                     />
                 </CardHeader>
 
@@ -103,8 +114,6 @@ function ResultCard({ result, searchStore, uiStore: { userModel: { isUserAuthent
         </CardWrapper>
     );
 };
-
-export default inject('searchStore', 'uiStore')(observer(ResultCard));
 
 const CardWrapper = styled.div`
     padding: 50px;
