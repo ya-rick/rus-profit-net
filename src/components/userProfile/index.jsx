@@ -67,14 +67,6 @@ const ProfileContentLayout = styled.div`
     gap: 20px;
 
     grid-template-areas: ' sidebar content ';
-
-    @media (max-width: 900px) {
-        grid-template-rows: repeat(2, min-content);
-        grid-template-areas: 
-            'sidebar sidebar'
-            'content content'
-        ;
-    }
 `;
 
 const ContentContainer = styled.div`

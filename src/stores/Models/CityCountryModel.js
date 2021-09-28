@@ -5,6 +5,7 @@ export default class CityCountryModel {
     countries = observable.map();
     currentEditCountry = null;
 
+
     constructor(fromServerCityCountry = []) {
         fromServerCityCountry.forEach(country => {
             this.countries.set(country.id, {

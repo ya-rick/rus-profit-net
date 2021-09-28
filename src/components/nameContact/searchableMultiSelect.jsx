@@ -131,7 +131,6 @@ export const SearchableMultiSelect = observer(({ isCountry = false, onTagClick, 
 const SelectWrapper = styled.div`
     position: relative;
     width: 100%;
-    min-width: 250px;
 `;
 
 const SelectTagedHeader = styled.div`

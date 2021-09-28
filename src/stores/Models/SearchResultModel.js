@@ -22,6 +22,7 @@ export default class SearchResultModel {
     create_date = null;
     example = [];
 
+
     constructor(fromServerData) {
         const { name, description, experience, avatar, parameters, salary, salary_type,
             places, category, employer, id, contacts_info, mark, isFavourite, vacancy_name,

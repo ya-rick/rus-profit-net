@@ -19,6 +19,7 @@ const httpMethodsTypes = {
     setAccess: 'set_access_code',
     getUserData: 'get_user_data',
     editUserData: 'edit_user_data',
+    changeUserPassword: 'change_password_user',
     login: 'login',
     logout: 'logout',
     setMark: 'set_mark',

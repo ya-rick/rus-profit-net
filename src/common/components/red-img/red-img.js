@@ -9,8 +9,8 @@ import RangeSlider from "../rangeSlider";
 import { LinkedButton } from "../Buttons";
 import { inject, observer } from "mobx-react";
 
-const RedImg = inject('uiStore', 'registrationStore')(observer(({
-        uiStore: { modalPayload: { photo }, closeModal }, registrationStore: { setField }
+const RedImg = inject('uiStore')(observer(({
+        uiStore: { modalPayload: { photo, onSuccessCallback }, closeModal }
     }) => {
     const [crop, setCrop] = useState({ x: 0, y: 0 })
     const [zoom, setZoom] = useState(1)
@@ -26,7 +26,7 @@ const RedImg = inject('uiStore', 'registrationStore')(observer(({
                 photo,
                 croppedAreaPixels,
             )
-            setField('image')(croppedImage);
+            onSuccessCallback(croppedImage);
             closeModal();
 
         } catch (e) {

@@ -1,7 +1,8 @@
-import { action, makeAutoObservable, autorun } from 'mobx';
+import { action, makeAutoObservable } from 'mobx';
 
 import { requestWithFormData, requestWithParams } from '../../api/exchangeLayer';
-import CommonInfoContract from '../RegistrationContracts/CommonInfoContract';
+import UserContract from './Contracts/UserProfileContracts/UserContract';
+import UserProfileCommonInfoContract from './Contracts/UserProfileContracts/UserProfileCommonInfoContract';
 
 
 export default class UserModel {
@@ -12,10 +13,12 @@ export default class UserModel {
     initialErrorState = {
         mainInfo: null,
         contactInfo: null,
-        generalInfo: null
+        generalInfo: null,
+        passwordInfo: null
     };
 
     error = {...this.initialErrorState};
+
 
     constructor() {
         makeAutoObservable(this, {
@@ -26,12 +29,13 @@ export default class UserModel {
             clearError: action.bound,
             setError: action.bound,
             validateAll: action.bound,
+            validatePasswordInfo: action.bound,
             saveData: action.bound,
         });
     }
 
     get isError() {
-        return Object.values(this.error).reduce((acc, errorVal) => acc || !!errorVal, false);
+        return Object.values(this.error).reduce((acc, errorVal) => acc || Boolean(errorVal), false);
     }
 
     get isUserAuthenticated() {
@@ -40,12 +44,13 @@ export default class UserModel {
 
     setField(fieldKey) {
         return action((value) => {
-            if (this.editInfo.hasOwnProperty(fieldKey)) {
+            if (fieldKey in this.editInfo) {
+                console.log(value)
                 this.editInfo[fieldKey] = value;
             } else {
                 throw new Error(`No such key ${fieldKey}`);
             }
-        })
+        });
     }
 
     clearError() {
@@ -55,6 +60,12 @@ export default class UserModel {
     setError(errorKey) {
         return action((value) => this.error[errorKey] = value);
         
+    }
+
+    validatePasswordInfo() {
+        this.error = {...this.error, passwordInfo: null};
+
+        this.editInfo.validatePassword(this.setError('passwordError'));
     }
 
     validateAll() {
@@ -68,23 +79,27 @@ export default class UserModel {
         return this.isError;
     }
 
+    savePassword() {
+        if (this.validatePasswordInfo()) return Promise.reject(false);
+
+        return requestWithFormData('changeUserPassword', {...this.editInfo.toServerContract()});
+    }
+
     saveData() {
         if (this.validateAll()) return Promise.reject(false);
 
-        const editInfoServerContract = {...this.editInfo.toServerContract()};
-
-        return requestWithFormData('editUserData', {...editInfoServerContract})
+        return requestWithFormData('editUserData', {...this.editInfo.toServerContract()});
     }
 
     async getUserData() {
         try {
-            this.user = await requestWithParams('getUserData');
+            // this.user = new UserContract(await requestWithParams('getUserData'));
 
-            // this.user = {
-            //     name: 'testing only'
-            // }
+            this.user = new UserContract({
+                name: 'testing only'
+            })
 
-            this.editInfo = CommonInfoContract.fromServerContract(this.user);
+            this.editInfo = UserProfileCommonInfoContract.fromServerContract(this.user);
         } catch(e) {
             console.error(e)
 

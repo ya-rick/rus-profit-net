@@ -14,6 +14,7 @@ export default class TargetedInfoContract {
     agree = false;
     currency = '';
     files_images = [];
+    
 
     constructor() {
         makeAutoObservable(this, {

@@ -11,10 +11,11 @@ export default class UserContract {
     surname = null;
     places = [];
 
-    constructor(fromServerUseData = {}) {
+
+    constructor(fromServerUserData = {}) {
         const {
             avatar, id, birthday, contacts_info, name, surname, places
-        } = fromServerUseData;
+        } = fromServerUserData;
 
         this.avatar = avatar;
         this.id = id;

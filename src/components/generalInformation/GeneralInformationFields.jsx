@@ -24,7 +24,10 @@ function GeneralInformation({ uiStore, birthday, onChangeField, image }) {
         const file = e.target.files[0];
 
         reader.onloadend = () => {
-            uiStore.openModal(ModalVariants.RedImg, { photo: reader.result });
+            uiStore.openModal(ModalVariants.RedImg, {
+                photo: reader.result,
+                onSuccessCallback: onChangeField('image')
+            });
         };
 
         if (file) {
@@ -35,6 +38,8 @@ function GeneralInformation({ uiStore, birthday, onChangeField, image }) {
     const myStyle = {
         display: 'none'
     }
+
+    console.log(image);
 
     return (
         <>

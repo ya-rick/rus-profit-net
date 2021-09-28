@@ -1,11 +1,11 @@
 import { makeAutoObservable, action } from 'mobx';
 import { requestWithFormData } from '../api/exchangeLayer';
-import CommonInfoContract from './RegistrationContracts/CommonInfoContract';
-import TargetedInfoContract from './RegistrationContracts/TargetedInfoContract';
+import RegistrationCommonInfoContract from './Models/Contracts/RegistrationContracts/RegistrationCommonInfoContract';
+import TargetedInfoContract from './Models/Contracts/RegistrationContracts/TargetedInfoContract';
 
 export default class RegistrationStore {
 
-    commonInfo = new CommonInfoContract();
+    commonInfo = new RegistrationCommonInfoContract();
     targetedInfo = new TargetedInfoContract();
 
     initialErrorState = {
@@ -35,9 +35,9 @@ export default class RegistrationStore {
 
     setField(fieldKey) {
         return action((value) => {
-            if (this.commonInfo.hasOwnProperty(fieldKey)) {
+            if (fieldKey in this.commonInfo) {
                 this.commonInfo[fieldKey] = value;
-            } else if (this.targetedInfo.hasOwnProperty(fieldKey)) {
+            } else if (fieldKey in this.targetedInfo) {
                 this.targetedInfo[fieldKey] = value;
             } else {
                 throw new Error(`No such key ${fieldKey}`);
@@ -59,7 +59,7 @@ export default class RegistrationStore {
 
         this.commonInfo.validateMain(this.setError('mainInfo'));
         this.commonInfo.validateContact(this.setError('contactInfo'));
-        this.commonInfo.validateCreation(this.setError('creationInfo'));
+        this.commonInfo.validateRegistrationType(this.setError('creationInfo'));
 
         this.commonInfo.validateBirthday(this.setError('generalInfo'))
 
