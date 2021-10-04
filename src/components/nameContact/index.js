@@ -2,7 +2,6 @@ import React from 'react';
 import { observer } from 'mobx-react';
 
 import ErrorMessage from '../../common/components/ErrorMessage';
-import { Centerer } from '../../common/components/Layouts';
 import styled from 'styled-components';
 import UserMainFields from './UserMainFields';
 import UserContactFields from './UserContactFields';
@@ -14,7 +13,7 @@ export default observer(function NameContact({ onChangeField, error, fields }) {
         user_password, user_second_email_prefered, user_viber, user_skype,
         user_second_email, user_telegram_prefered, user_phone_prefered,
         user_phone, user_whatsapp_prefered, user_whatsapp, user_viber_prefered,
-        user_telegram, user_skype_prefered,
+        user_telegram, user_skype_prefered, user_email_confirm,
         cityCountryModel
     } = fields;
 
@@ -25,7 +24,7 @@ export default observer(function NameContact({ onChangeField, error, fields }) {
                     <UserMainFields
                         onChangeField={onChangeField}
                         fieldValues={{ user_surname, user_name, user_email, user_password_confirm,
-                            user_password }}
+                            user_password, user_email_confirm }}
                         cityCountryModel={cityCountryModel}
                     />
                 </Contact4Grid>
@@ -72,21 +71,13 @@ const Contact2Grid = styled.div`
     }
 `;
 
-const Contact4Grid = styled(Centerer)`
-    flex-wrap: wrap;
-    align-items: baseline;
-    justify-content: space-between;
+const Contact4Grid = styled.div`
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 30px;
 
-    gap: 30px;
-    
-    > * {
-        flex: 1 1 0;
-        min-width: 300px;
-        max-width: 45%;
+    @media (max-width: 900px) {
+        grid-template-columns: 1fr;
+        margin: 0 20%;
     }
-
-    @media (max-width: 700px) {
-        flex-direction: column;
-    }
-
 `;

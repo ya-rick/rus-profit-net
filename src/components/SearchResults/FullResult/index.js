@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {useParams} from 'react-router';
+import { useParams } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import styled from 'styled-components';
 
@@ -66,17 +66,7 @@ function Vacancy({ searchStore, uiStore: { userModel: { isUserAuthenticated }, o
             id,
         })
             .then(() => {
-                if (this.results.length) {
-                    this.results.forEach(result => {
-                        if (result.id === id) {
-                            result.isFavourite = !result.isFavourite;
-                        }
-                    })
-                } else {
-                    // case of exact loading from route of vacancy/resume
-                    this.currentChosenResult.isFavourite = !this.currentChosenResult.isFavourite;
-                }
-                
+                searchStore.currentChosenResult.isFavourite = !searchStore.currentChosenResult.isFavourite;
             })
             .catch(err => console.error(err))
     }

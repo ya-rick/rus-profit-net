@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Redirect } from 'react-router-dom';
-import { useLocation } from 'react-router';
+import { useHistory, useLocation } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import { autorun } from 'mobx';
 import styled from 'styled-components';
@@ -9,7 +8,7 @@ import './mainFilterSearch.css';
 
 import Select from '../../common/components/select';
 import MenuButtonsDocs from '../menuButtonsDocs';
-import { LinkedButton } from "../../common/components/Buttons";
+import { CommonButton, LinkedButton } from "../../common/components/Buttons";
 import { Centerer, GapedAdaptiveCenterer, PageContentWrapper } from '../../common/components/Layouts';
 import AgeChooser from '../../common/components/AgeChooser';
 import WorkExperience from '../../common/components/WorkExperience';
@@ -22,7 +21,7 @@ import { ModalVariants } from '../../common/consts';
 
 function MainFilterSearch({ registrationStore, searchStore, uiStore: { openModal } }) {
     const [scrollToEl, setScrollToEl] = useState(null);
-    const [redirect, setRedirect] = useState(false);
+    const history = useHistory();
 
     const { categories, setCurrentCategory, filtersByCategory } = useCategoryFilters();
 
@@ -47,7 +46,7 @@ function MainFilterSearch({ registrationStore, searchStore, uiStore: { openModal
         cityCountryModel: {
             onChangeCities, onChangeCountries, chosenCountries, chosenCities, onChangeActiveEditableCountry,
             currentEditCountry, countries
-        }, isSearchWorker, setError } = mainFiltersStore;
+        }, isSearchWorker } = mainFiltersStore;
 
     useEffect(() => {
         // Copying filters to registrations form
@@ -101,7 +100,7 @@ function MainFilterSearch({ registrationStore, searchStore, uiStore: { openModal
 
             window.scroll(0,0);
 
-            setRedirect(true);
+            history.push('/searchResults');
         } catch (e) {
             if (e.message === 'false') {
                 return;
@@ -116,14 +115,10 @@ function MainFilterSearch({ registrationStore, searchStore, uiStore: { openModal
         }
     }
 
-    if (redirect) {
-        return <Redirect to={'/searchResults'}/>
-    }
-
     return (
             <PageContentWrapper>
                 <GapedAdaptiveCenterer>
-                    <VerticalCenterer
+                    <VerticalPlacesBlock
                         ref={el => setScrollToEl(el)}
                     >
                         <div className='name-info-subblock'>
@@ -151,7 +146,7 @@ function MainFilterSearch({ registrationStore, searchStore, uiStore: { openModal
                                 editableCountryID={currentEditCountry?.id}
                             />
                         </div>
-                    </VerticalCenterer>
+                    </VerticalPlacesBlock>
                 
                     <div>
                         <div className='main-filter-search-subBlock'>
@@ -197,10 +192,11 @@ function MainFilterSearch({ registrationStore, searchStore, uiStore: { openModal
                 {noFullInfo && <ErrorMessage>{noFullInfo}</ErrorMessage>}
 
                 <VerticalCenterer style={{ marginTop: '70px' }}>
-                    <LinkedButton
-                        onClick={makeSearch}>
+                    <CommonButton
+                        onClick={makeSearch}
+                    >
                         Подобрать {isSearchWorker ? 'вакансии' : 'анкеты'}
-                    </LinkedButton>
+                    </CommonButton>
                 </VerticalCenterer>
             </PageContentWrapper>
         );
@@ -210,4 +206,8 @@ export default inject('registrationStore', 'searchStore', 'uiStore')(observer(Ma
 
 const VerticalCenterer = styled(Centerer)`
     flex-direction: column;
+`;
+
+const VerticalPlacesBlock = styled(VerticalCenterer)`
+    align-items: stretch;
 `;

@@ -1,7 +1,6 @@
-import React from "react";
-import { Link, useLocation } from 'react-router-dom';
-import styled from "styled-components";
-import { PageContentWrapper } from "../../common/components/Layouts";
+import React from 'react';
+import { Link, useLocation} from 'react-router-dom';
+import styled from 'styled-components';
 
 import BigLogo from '../../images/2021RusProfiNetFooterLogo.svg';
 
@@ -12,17 +11,16 @@ const Footer = () => {
         return pathname === '/'
     }
 
-    return (
-        isRoot() ? null
+    return isRoot() ? null
         : <FooterWrapper>
             <FooterInfoWrapper>
                 <div>
-                    <FooterLinkAsBlock href='/#'>+7 916 500 50 50</FooterLinkAsBlock>
-                    <FooterLinkAsBlock href='https://google.com'>Напишите нам</FooterLinkAsBlock>
-                    <FooterLinkAsBlock href='http://localhost:3000'>Рекламодателям</FooterLinkAsBlock>
+                    <FooterLinkAsBlock to={'/userAgreement'}></FooterLinkAsBlock>
+                    <FooterLinkAsBlock to={'/userAgreement'}>Напишите нам</FooterLinkAsBlock>
+                    <FooterLinkAsBlock to={'/userAgreement'}>Рекламодателям</FooterLinkAsBlock>
                 </div>
                 <div>
-                    <FooterLinkAsBlock href='http://127.0.0.1:3000'>FAQ</FooterLinkAsBlock>
+                    <FooterLinkAsBlock to={'/userAgreement'}>FAQ</FooterLinkAsBlock>
                     <FooterLinkAsBlock to={'/userAgreement'}>Условия использования</FooterLinkAsBlock>
                 </div>
                 <div>
@@ -37,7 +35,6 @@ const Footer = () => {
                 2021 RusProfiNet. Все права защищены
             </div>
         </FooterWrapper>
-    );
 };
 
 export default Footer;

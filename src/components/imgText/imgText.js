@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import './imgText.css';
-import {useHistory} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { requestWithParams } from "../../api/exchangeLayer";
 import { LinkedButton } from "../../common/components/Buttons";
 
@@ -24,21 +24,18 @@ const ImgText = () => {
         backgroundImage: `url(${data.image})`
     }
 
-    function bindOnClickWithPath(pathTo) {
-        return () => {
-            history.push(pathTo);
-        }
-    }
-
-    const history = useHistory();
     return (
         <div className='img-text' style={myStyle}>
-            <div className='col-xs-12 col-md-12 col-lg-6 main-page-img'>
+            <div className='main-page-img'>
                 <div className='group-button'>
-                    <LinkedButton onClick={bindOnClickWithPath('/searchWorker')}>
+                    <LinkedButton
+                        to={'/searchWorker'}
+                    >
                         Найти работника
                     </LinkedButton>
-                    <LinkedButton onClick={bindOnClickWithPath('/searchWork')}>
+                    <LinkedButton
+                        to={'/searchWork'}
+                    >
                         Найти работу
                     </LinkedButton>
                 </div>

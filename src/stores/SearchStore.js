@@ -41,10 +41,6 @@ export default class SearchStore {
         this.resultsRestInfo.isLoading = value;
     }
 
-    get isResultsPresent() {
-        return this.searchResultsCollection.results.length > 0;
-    }
-
     get isLastPage() {
         return this.resultsRestInfo.page >= this.resultsRestInfo.last_page;
     }

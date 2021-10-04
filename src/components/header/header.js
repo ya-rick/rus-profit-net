@@ -7,12 +7,12 @@ import './header.css';
 
 import Logo from '../../images/logo_outcome_Artboard_6_1.png';
 import FullLogo from '../../images/2021RusProfiNetFooterLogo.svg';
-import HeaderButton from "../../common/components/HeaderButton";
-import { PageContentWrapper } from "../../common/components/Layouts";
+import HeaderButton from '../../common/components/HeaderButton';
+import { PageContentWrapper } from '../../common/components/Layouts';
 import { ModalVariants } from '../../common/consts';
 import Icon from '../../common/components/Icon';
 
-const HeaderNew = inject('uiStore')(observer(({
+const Header = inject('uiStore')(observer(({
     uiStore: { openModal, userModel: { isUserAuthenticated, user, userLogout  } }
 }) => {
     const headerRef = useRef(null);
@@ -26,7 +26,7 @@ const HeaderNew = inject('uiStore')(observer(({
                 headerRef.current.scrollIntoView();
             }, 1)
         }
-    }, [pathname])
+    }, [pathname]);
 
     function isRoot() {
         return pathname === '/'
@@ -35,18 +35,25 @@ const HeaderNew = inject('uiStore')(observer(({
     return (
         <div className='header'>
             <HeaderContainer ref={headerRef}>
-                {isRoot() ? <img className='logo' onClick={() => history.push('/')} src={FullLogo} alt='logo'/>
-                : <img className='logo' onClick={() => history.push('/')} src={Logo} alt='logo'/>}
+                <img
+                    className='logo'
+                    onClick={() => history.push('/')}
+                    src={isRoot() ? FullLogo : Logo}
+                    alt='logo'
+                />
                 
                 <div className='button-group'>
                     {isUserAuthenticated ? <>
-                        <HeaderButton onClick={() => history.push('/profile/userInfo')}>
+                        <HeaderButton to={'/profile/userInfo'}>
                             <Icon
                                 iconName={'man'}
                             />
                             {user.name}
                         </HeaderButton>
-                        <HeaderButton onClick={userLogout}>
+                        <HeaderButton
+                            onClick={userLogout}
+                            to={''}
+                        >
                             <Icon
                                 iconName={'logout'}
                             />
@@ -54,13 +61,18 @@ const HeaderNew = inject('uiStore')(observer(({
                         </HeaderButton>
                     </>
                     :<>
-                        <HeaderButton onClick={() => openModal(ModalVariants.Authorization)}>
+                        <HeaderButton
+                            onClick={() => openModal(ModalVariants.Authorization)}
+                            to={''}
+                        >
                             <Icon
                                 iconName={'logout'}
                             />
                             Авторизация
                         </HeaderButton>
-                        <HeaderButton onClick={() => history.push('/register')}>
+                        <HeaderButton
+                            to={'/register'}
+                        >
                             <Icon
                                 iconName={'people'}
                             />
@@ -73,7 +85,7 @@ const HeaderNew = inject('uiStore')(observer(({
     );
 }));
 
-export default HeaderNew;
+export default Header;
 
 const HeaderContainer = styled(PageContentWrapper)`
     padding: 10px 15px;

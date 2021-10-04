@@ -8,8 +8,8 @@ export default class CityCountryModel {
 
     constructor(fromServerCityCountry = []) {
         fromServerCityCountry.forEach(country => {
-            this.countries.set(country.id, {
-                name: country.name,
+            this.countries.set(country.country_id, {
+                name: country.country_name,
                 cities: country.cities
             })
         })

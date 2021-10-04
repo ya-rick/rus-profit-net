@@ -1,10 +1,12 @@
 import { observer, inject } from 'mobx-react';
+import Calendar from 'react-calendar';
 
-import Avatar from '../../images/avatar.png';
 import './generalInformation.css';
-import MyCalendar from '../myCalendar';
+import './Calendar.css';
+import Avatar from '../../../images/avatar.png';
+
 import { Image, InfoWrapper } from './styles';
-import { ModalVariants } from '../../common/consts';
+import { ModalVariants } from '../../../common/consts';
 
 
 export default inject('uiStore')(observer(GeneralInformation));
@@ -14,7 +16,7 @@ function GeneralInformation({ uiStore, birthday, onChangeField, image }) {
     function changeDate(date) {
         const dateObj = new Date(date);
 
-        const formatedDate = dateObj.getUTCFullYear() + '-' + (dateObj.getUTCMonth() > 9 ? dateObj.getMonth() : '0' + dateObj.getMonth()) + '-' + dateObj.getDate();
+        const formatedDate = dateObj.getUTCFullYear() + '-' + (dateObj.getMonth() + 1) + '-' + dateObj.getDate();
 
         onChangeField('birthday')(formatedDate);
     }
@@ -51,11 +53,14 @@ function GeneralInformation({ uiStore, birthday, onChangeField, image }) {
                 <label for='in' className='reg-dwn-img'>Добавьте фотографию</label>
                 <p className='reg-subtext'>Размер файла не более 5 Мб</p>
             </InfoWrapper>
-            
-            <MyCalendar changeDate={changeDate}/>
+
+            <Calendar
+                onChange={changeDate}
+                value={new Date(birthday)}
+            />
 
             <InfoWrapper>
-                <p for='in' className='reg-dwn-img'>{birthday?.split('-').reverse().join('-')}</p>
+                <p for='in' className='reg-dwn-img'>{birthday?.split('-').reverse().join('-') || 'Дата рождения*'}</p>
             </InfoWrapper>
         </>
     );

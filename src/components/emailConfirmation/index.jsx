@@ -1,7 +1,6 @@
 import { inject, observer } from 'mobx-react';
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router'
-import { Redirect } from 'react-router-dom'
+import { Redirect, useParams } from 'react-router-dom'
 
 import { requestWithParams } from '../../api/exchangeLayer';
 import { ModalVariants } from '../../common/consts';

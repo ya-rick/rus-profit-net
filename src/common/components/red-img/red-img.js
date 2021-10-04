@@ -6,7 +6,7 @@ import './red-img.css';
 
 import getCroppedImg from "./cropImage";
 import RangeSlider from "../rangeSlider";
-import { LinkedButton } from "../Buttons";
+import { CommonButton, LinkedButton } from "../Buttons";
 import { inject, observer } from "mobx-react";
 
 const RedImg = inject('uiStore')(observer(({
@@ -56,9 +56,9 @@ const RedImg = inject('uiStore')(observer(({
                 <RangeSlider min={1} max={10} onChange={onChange} value={zoom} />
             </div>
             <div className='center margin-top-15'>
-                <LinkedButton onClick={showCroppedImage}>
+                <CommonButton onClick={showCroppedImage}>
                     Сохранить
-                </LinkedButton>
+                </CommonButton>
             </div>
         </div>
     )

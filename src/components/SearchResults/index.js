@@ -1,28 +1,22 @@
 import React, { useEffect } from 'react';
-import { Redirect, useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 
 import ResultCard from '../../common/components/ResultCard';
-import { PageContentWrapper } from '../../common/components/Layouts';
 import PageTitle from '../../common/components/PageTitle';
 import Loading from '../../common/components/Loading';
 import { SearchResultsFromSearchStore, SearchResultsFromUserProfile } from '../../common/HOCs';
+import { observer } from 'mobx-react';
 
 
-export default SearchResults;
-
-export const SearchStoreResults = SearchResultsFromSearchStore(SearchResults);
-
-export const UserProfileResults = SearchResultsFromUserProfile(SearchResults);
-
-function SearchResults({
-    onSelectCallback, results = [], isLastPage, isLoading, isSearchWorker, showMoreCallback, forceRender = false
-}) {
-
-    console.log(forceRender)
+const SearchResults = observer(({
+    isPresent, onSelectCallback, results = [], isLastPage,
+    isLoading, isSearchWorker, showMoreCallback,
+    resultsTitleVariants, userProfileInfo, TitleComponent = PageTitle
+}) => {
+    
+    const [vacancyTitle, resumeTitle] = resultsTitleVariants;
 
     const history = useHistory();
-
-    const isResultsPresent = results.length > 0;
 
     useEffect(() => {
         const listener = window.addEventListener('scroll', e => {
@@ -37,10 +31,6 @@ function SearchResults({
 
     }, [isLastPage, isLoading, showMoreCallback]);
 
-    if (!(isResultsPresent || forceRender)) {
-        return <Redirect to={'/'}/>
-    }
-
     function bindOnSelectResult(result) {
         return () => {
             history.push(`/searchResults/${isSearchWorker ? 'getVacancyByID' : 'getResumeByID'}/${result.id}`);
@@ -49,18 +39,28 @@ function SearchResults({
         }
     }
 
-    return(
-        <PageContentWrapper>
-            <PageTitle>{isSearchWorker ? 'Вакансии' : 'Анкеты'}</PageTitle>
+    return <>
+            <TitleComponent>{ isSearchWorker ? vacancyTitle : resumeTitle }</TitleComponent>
 
-            {(isResultsPresent || forceRender) && results.map(result => <ResultCard
-                key={result.id}
-                result={result}
-                isResume={!isSearchWorker}
-                onSelectResult={bindOnSelectResult(result)}
-            />)}
+            {isLoading ?
+                <Loading/>
+                : isPresent ?
+                    results.map(result =>
+                        <ResultCard
+                            key={result.id}
+                            result={result}
+                            isResume={!isSearchWorker}
+                            onSelectResult={bindOnSelectResult(result)}
+                            userProfileInfo={userProfileInfo}
+                        />
+                    )
+                : 'Нет результатов'}
 
-            {isLoading && <Loading/>}
-        </PageContentWrapper>
-    );
-};
+        </>
+});
+
+export default SearchResults;
+
+export const SearchStoreResults = SearchResultsFromSearchStore(SearchResults);
+
+export const UserProfileResults = SearchResultsFromUserProfile(SearchResults);

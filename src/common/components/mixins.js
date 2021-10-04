@@ -7,7 +7,6 @@ export const buttonStylesMixin = css`
   padding: 13px 22px 14px 23px;
   border: 2px solid #6F80A5;
   border-radius: 15px;
-  margin: 0 20px;
 
   font-weight: 700;
   font-size: 17px;

@@ -12,7 +12,7 @@ export const ModalVariants = {
     VerifyWithSms: 'VerifyWithSms',
     FAQ: 'FAQ',
     RedImg: 'RedImg',
-    PasswordResetModal: 'PasswordResetModal'
+    PasswordResetModal: 'PasswordResetModal',
 }
 
 export const SalaryTypes = {

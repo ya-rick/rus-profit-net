@@ -1,8 +1,10 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from 'react';
+
 import './error404.css';
-import {useHistory} from 'react-router-dom';
-import { requestWithParams } from "../../api/exchangeLayer";
-import { LinkedButton } from "../../common/components/Buttons";
+
+import { requestWithParams } from '../../api/exchangeLayer';
+import { LinkedButton } from '../../common/components/Buttons';
+
 
 const Error404 = () => {
     const [data, setData] = useState({error: false, description: '', title: '', image: '', subtitle: '', subtitle2: ''});
@@ -16,8 +18,6 @@ const Error404 = () => {
                 subtitle2 : data.options[3].block1_subtitle2
             }))
     }, []);
-
-    const history = useHistory();
 
     const myStyle = {
         backgroundSize: 'recover',
@@ -43,12 +43,14 @@ const Error404 = () => {
                     </p>
                 </div>
                 <div className='group-error-button'>
-                    <LinkedButton className='img-button col-xs-5 col-md-5 col-lg-5'
-                            onClick={() => history.push('/searchWorker')}>
+                    <LinkedButton
+                        to={'/searchWorker'}
+                    >
                         Найти работника
                     </LinkedButton>
-                    <LinkedButton className='img-button col-xs-5 col-md-5 col-lg-5'
-                            onClick={() => history.push('/searchWork')}>
+                    <LinkedButton
+                        to={'/searchWork'}
+                    >
                         Найти работу
                     </LinkedButton>
                 </div>

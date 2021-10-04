@@ -1,4 +1,5 @@
 import { action, makeAutoObservable } from 'mobx';
+import CityCountryModel from '../../CityCountryModel';
 
 export default class TargetedInfoContract {
 
@@ -14,7 +15,8 @@ export default class TargetedInfoContract {
     agree = false;
     currency = '';
     files_images = [];
-    
+    cityCountryModel = new CityCountryModel();
+
 
     constructor() {
         makeAutoObservable(this, {
@@ -37,6 +39,7 @@ export default class TargetedInfoContract {
 
     validateAgree(callback) {
         if (!this.agree) callback('Для завершения регистрации нужно подтверждение согласия пользовательского соглашения');
+        this.cityCountryModel.validateCountry(callback);
     }
 
     validateDescription(callback) {
@@ -59,14 +62,15 @@ export default class TargetedInfoContract {
     toServerContract() {
         const { category_global: { id: category_global }, experience, salary, 
             salary_type, description, result_cat, years_with,
-            years_to, name, currency, files_images } = this;
+            years_to, name, currency, files_images, cityCountryModel } = this;
 
         return {
             category_global, experience, salary, 
             salary_type, description, years_with,
             years_to, name, currency,
             result_cat,
-            'files_images[]': files_images
+            'files_images[]': files_images,
+            places: JSON.stringify(cityCountryModel.toServerContract())
         }
     }
 

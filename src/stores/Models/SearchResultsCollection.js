@@ -1,4 +1,4 @@
-import { makeAutoObservable } from 'mobx';
+import { action, makeAutoObservable } from 'mobx';
 
 export class ResultContract {
 
@@ -22,11 +22,13 @@ export class ResultContract {
     create_date = null;
     example = [];
 
+    status = 'stopped';
+
 
     constructor(fromServerData) {
         const { name, description, experience, avatar, parameters, salary, salary_type,
             places, category, employer, id, contacts_info, mark, isFavourite, vacancy_name,
-            create_date, currency, example } = fromServerData;
+            create_date, currency, example, status } = fromServerData;
 
         this.id = id;
         this.name = name;
@@ -46,6 +48,7 @@ export class ResultContract {
         this.create_date = create_date;
         this.currency = currency;
         this.example = example;
+        this.status = status;
 
         makeAutoObservable(this);
     }
@@ -58,21 +61,38 @@ export class ResultContract {
 
 export default class SearchResultsCollection {
 
-    results = [];
+    results = null;
 
     collectionType = null;
 
     constructor() {
-        makeAutoObservable(this);
+        makeAutoObservable(this, {
+            clearResults: action.bound,
+            setCollectionType: action.bound,
+            setLoading: action.bound,
+            setResults: action.bound,
+        });
     }
 
-    isVacancy() {
+    get isLoading() {
+        return this.results === null;
+    }
+
+    get isPresent() {
+        return Boolean(this.results?.length);
+    }
+
+    get isVacancy() {
         return this.collectionType === 'vacancy';
     }
 
     setCollectionType(collectionType) {
-        this.results = null
+        this.setLoading();
         this.collectionType = collectionType;
+    }
+
+    setLoading() {
+        this.results = null;
     }
 
     clearResults() {

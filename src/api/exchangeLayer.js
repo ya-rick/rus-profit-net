@@ -23,13 +23,13 @@ const httpMethodsTypes = {
     resumeFavourites: 'get_resume_favorites',
     userVacancy: 'get_vacancy_by_user',
     userResume: 'get_resume_by_user',
-    changeUserPassword: 'change_password_user',
+    changerPasswordUser: 'change_password_user',
     login: 'login',
     logout: 'logout',
     setMark: 'set_mark',
     vacancyToFavourites: 'add_vacancy_to_favorites',
     resumeToFavourites: 'add_resume_to_favorites',
-    changePassword: 'change_password_recovery',
+    changePasswordRecovery: 'change_password_recovery',
     forgotPassword: 'recovery'
 }
 

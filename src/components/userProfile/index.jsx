@@ -1,6 +1,5 @@
 import { inject, observer } from 'mobx-react';
-import { useEffect } from 'react';
-import { useParams } from 'react-router';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { PageContentWrapper } from '../../common/components/Layouts';
@@ -8,6 +7,8 @@ import PageTitle from '../../common/components/PageTitle';
 import SideBar from './SideBar';
 import UserInfoPage from './UserInfoPage';
 import { UserProfileResults } from '../SearchResults';
+import PasswordChangePage from './PasswordChangePage';
+import EmailChangePage from './EmailChangePage';
 
 
 export default inject('uiStore')(observer(UserProfile));
@@ -23,32 +24,19 @@ const tabs = [
     },
     {
         to: '/profile/userResume',
-        name: 'Мои резюме'
+        name: 'Мои анкеты'
     },
     {
-        to: '/profile/vacancyFavourites',
-        name: 'Отобранные вакансии'
+        to: '/profile/security',
+        name: 'Смена пароля'
     },
     {
-        to: '/profile/resumeFavourites',
-        name: 'Отобранные резюме'
+        to: '/profile/email',
+        name: 'Смена почты'
     }
 ]
 
-const PageWithSearch = inject('uiStore')(observer(({ uiStore: { userModel: { getTabResults, clearTabResults } }, searchParam }) => {
-
-    useEffect(() => {
-
-        getTabResults(searchParam);
-
-        return () => clearTabResults();
-    }, [])
-
-    return <UserProfileResults/>
-
-}))
-
-function UserProfile({ uiStore: { userModel: { editInfo } } }) {
+function UserProfile() {
 
     const { page } = useParams();
 
@@ -56,13 +44,13 @@ function UserProfile({ uiStore: { userModel: { editInfo } } }) {
         switch(page) {
             case 'userInfo': return <UserInfoPage/>
 
-            case 'vacancyFavourites': return <PageWithSearch searchParam={page}/>
+            case 'userResume': return <UserProfileResults searchParam={page}/>
 
-            case 'resumeFavourites': return <PageWithSearch searchParam={page}/>
+            case 'userVacancy': return <UserProfileResults searchParam={page}/>
 
-            case 'userResume': return <PageWithSearch searchParam={page}/>
+            case 'security': return <PasswordChangePage/>
 
-            case 'userVacancy': return <PageWithSearch searchParam={page}/>
+            case 'email': return <EmailChangePage/>
 
             default: return null;
         }
@@ -91,7 +79,7 @@ function UserProfile({ uiStore: { userModel: { editInfo } } }) {
 const ProfileContentLayout = styled.div`
     display: grid;
     grid-template-columns: min-content auto;
-    grid-template-rows: min-content;
+    grid-template-rows: minmax(400px, 1fr);
     gap: 20px;
 
     grid-template-areas: ' sidebar content ';

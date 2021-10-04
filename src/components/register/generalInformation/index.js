@@ -3,7 +3,7 @@ import { inject, observer } from 'mobx-react';
 import './generalInformation.css';
 
 import { GeneralInfoWrapper } from './styles';
-import ErrorMessage from '../../common/components/ErrorMessage';
+import ErrorMessage from '../../../common/components/ErrorMessage';
 import GeneralInformationFields from './GeneralInformationFields';
 
 
@@ -18,15 +18,15 @@ function GeneralInformation({ registrationStore }) {
             <h2 className='register-title'>Общие данные
                 {generalInfo && <ErrorMessage>{generalInfo}</ErrorMessage>}
             </h2>
-            
+
             <GeneralInfoWrapper>
-                
+
                 <GeneralInformationFields
                     onChangeField={setField}
                     birthday={birthday}
                     image={image}
                 />
-                
+
             </GeneralInfoWrapper>
         </>
     );

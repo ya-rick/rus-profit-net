@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { inject, observer } from 'mobx-react';
 import styled from 'styled-components';
 
-import { InfoWrapper } from '../generalInformation/styles';
+import { InfoWrapper } from '../register/generalInformation/styles';
 import Icon from '../../common/components/Icon';
 
 

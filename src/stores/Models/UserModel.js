@@ -1,8 +1,8 @@
 import { action, makeAutoObservable } from 'mobx';
 
 import { requestWithFormData, requestWithParams } from '../../api/exchangeLayer';
+import CommonInfoContract from './Contracts/CommonInfoContract';
 import UserContract from './Contracts/UserProfileContracts/UserContract';
-import UserProfileCommonInfoContract from './Contracts/UserProfileContracts/UserProfileCommonInfoContract';
 import SearchResultsCollection from './SearchResultsCollection';
 
 
@@ -83,12 +83,6 @@ export default class UserModel {
         return this.isError;
     }
 
-    savePassword() {
-        if (this.validatePasswordInfo()) return Promise.reject(false);
-
-        return requestWithFormData('changeUserPassword', {...this.editInfo.toServerContract()});
-    }
-
     saveData() {
         if (this.validateAll()) return Promise.reject(false);
 
@@ -97,13 +91,13 @@ export default class UserModel {
 
     async getUserData() {
         try {
-            // this.user = new UserContract(await requestWithParams('getUserData'));
+            this.user = new UserContract(await requestWithParams('getUserData'));
 
-            this.user = new UserContract({
-                name: 'testing only'
-            })
+            // this.user = new UserContract({
+            //     name: 'testing only'
+            // })
 
-            this.editInfo = UserProfileCommonInfoContract.fromServerContract(this.user);
+            this.editInfo = CommonInfoContract.fromServerContract(this.user);
         } catch(e) {
             console.error(e)
 
@@ -132,8 +126,6 @@ export default class UserModel {
 
     async getTabResults(searchParam) {
         try {
-            console.log(searchParam);
-            
             const { vacancy, resume } = await requestWithParams(searchParam);
 
             if (vacancy) {
@@ -148,6 +140,7 @@ export default class UserModel {
 
         } catch(e) {
             console.error(e);
+            this.currentTabResults.setResults([]);
         }
     }
 

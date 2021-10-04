@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { useLocation } from 'react-router';
+import { useLocation } from 'react-router-dom';
 
 import { LinkedButton } from '../../common/components/Buttons';
 
@@ -8,6 +8,7 @@ export default function SideBar({ children = [] }) {
 
     return <SideBarContainer>
         {children.map(tab => <SideBarTab
+            key={tab.to}
             to={tab.to}
             active={pathname === tab.to}
         >{tab.name}</SideBarTab>)}

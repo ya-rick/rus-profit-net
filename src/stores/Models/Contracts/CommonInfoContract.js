@@ -1,15 +1,11 @@
-import { makeObservable, observable, reaction } from 'mobx';
-import CityCountryModel from '../CityCountryModel';
+import { makeObservable, observable } from 'mobx';
 
 export default class CommonInfoContract {
 
     // main info
     user_surname = '';
     user_name = '';
-    user_email = '';
-
-    cityCountryModel = new CityCountryModel();
-
+    
     // contact info
     user_phone = '';
     user_phone_prefered = false;
@@ -37,7 +33,6 @@ export default class CommonInfoContract {
         makeObservable(this, {
             user_surname: observable,
             user_name: observable,
-            user_email: observable,
             user_phone: observable,
             user_phone_prefered: observable,
             user_whatsapp: observable,
@@ -53,16 +48,10 @@ export default class CommonInfoContract {
             image: observable,
             birthday: observable,
         });
-
-        reaction(() => this.user_email, (user_email) => this.user_second_email = user_email);
     }
 
     validateBirthday(callback) {
         if (!this.birthday) callback('Необходимо указать дату рождения');
-    }
-
-    validateEmail(callback) {
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.user_email)) callback('Email неправильного формата');
     }
 
     validateMainInfoByLength(callback) {
@@ -86,7 +75,6 @@ export default class CommonInfoContract {
 
     validateMain(callback) {
         this.validateEmail(callback);
-        this.cityCountryModel.validateCountry(callback);
         this.validateMainInfoByLength(callback);
     }
 
@@ -96,7 +84,7 @@ export default class CommonInfoContract {
 
     static fromServerContract(fromServerUserData) {
         const {
-            avatar, birthday, contacts_info, name, surname, places
+            avatar, birthday, contacts_info, name, surname
         } = fromServerUserData;
 
         const newContact = new this();
@@ -112,7 +100,6 @@ export default class CommonInfoContract {
             newContact[`${fieldName}_prefered`] = Boolean(contact.prefered);
         });
 
-        newContact.cityCountryModel = new CityCountryModel(places);
 
         return newContact;
     }
@@ -121,14 +108,14 @@ export default class CommonInfoContract {
         const { user_surname, user_name, user_email, user_whatsapp, user_whatsapp_prefered,
             user_second_email, user_second_email_prefered, user_skype, user_skype_prefered,
             user_viber, user_viber_prefered, user_telegram, user_telegram_prefered,
-            image, birthday, cityCountryModel
+            image, birthday
         } = this;
 
         return {
             user_surname, user_name, user_email, user_whatsapp, user_whatsapp_prefered,
             user_second_email, user_second_email_prefered, user_skype, user_skype_prefered,
             user_viber, user_viber_prefered, user_telegram, user_telegram_prefered,
-            image, birthday, places: JSON.stringify(cityCountryModel.toServerContract())
+            image, birthday
         }
     }
 

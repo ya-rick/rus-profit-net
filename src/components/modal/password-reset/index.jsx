@@ -1,18 +1,17 @@
 import { inject, observer } from 'mobx-react';
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
 
 import { ModalContent, ModalSubtitle, ModalTitle } from '../../../common/components/ModalStyles';
 import PasswordInput from '../../../common/components/PasswordInput';
 import { CommonButton } from '../../../common/components/Buttons';
 import ErrorMessage from '../../../common/components/ErrorMessage';
-import { requestWithParams } from '../../../api/exchangeLayer';
-import { Redirect } from 'react-router';
 import { ModalVariants } from '../../../common/consts';
 
 
-const PasswordResetModal = ({ uiStore: { openModal, modalPayload: { id } } }) => {
-    const [isRedirecting, setRedirect] = useState(false);
+const PasswordResetModal = ({ uiStore: { openModal, modalPayload: { request, isReset = false } } }) => {
+    const history = useHistory();
 
     const [passwordInputs, setPassword] = useState({
         new_password: '',
@@ -42,12 +41,10 @@ const PasswordResetModal = ({ uiStore: { openModal, modalPayload: { id } } }) =>
 
     function sendPasswords() {
         if (validate()) {
-            requestWithParams('changePassword', {
-                recovery_token: id,
-                new_password: passwordInputs.new_password
-            })
+            request(...Object.values(passwordInputs))
                 .then(() => {
-                    setRedirect(true);
+                    isReset && history.push('/');
+
                     openModal(ModalVariants.InfoModal, {
                         title: 'Ваш пароль успешно изменён!',
                         description: 'Теперь вы можете войти в систему с новым'
@@ -55,8 +52,6 @@ const PasswordResetModal = ({ uiStore: { openModal, modalPayload: { id } } }) =>
                 });
         }
     }
-
-    if (isRedirecting) return <Redirect to={'/'}/>
 
     return (
         <>

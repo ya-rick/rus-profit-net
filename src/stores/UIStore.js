@@ -15,7 +15,7 @@ const modals = {
     [ModalVariants.InfoModal]: <InfoModal/>,
     [ModalVariants.FAQ]: <QuestionModalContent/>,
     [ModalVariants.RedImg]: <RedImg/>,
-    [ModalVariants.PasswordResetModal]: <PasswordResetModal/>
+    [ModalVariants.PasswordResetModal]: <PasswordResetModal/>,
 };
 
 export default class UIStore {

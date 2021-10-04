@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { inject, observer } from 'mobx-react';
 
 import DefaultAvatar from '../../../images/avatar.png'
@@ -8,34 +8,28 @@ import Icon from '../Icon';
 import { mapAge } from '../../utils';
 import { ModalVariants } from '../../consts';
 import { requestWithParams } from '../../../api/exchangeLayer';
+import ProfileFooter, { ProfileFooterLayout } from './ProfileFooter';
+import ProfileHeaderOptions from './ProfileHeaderOptions';
 
 
 export default inject('searchStore', 'uiStore')(observer(ResultCard));
 
 function ResultCard({
-    result, isResume, onSelectResult,
+    result, isResume, onSelectResult, userProfileInfo,
     uiStore: { userModel: { isUserAuthenticated }, openModal }
 }) {
 
     const { category, places, experience, parameters, salary,
-        salary_type, description, name, avatar, id, mark, isFavourite } = result;
+        salary_type, description, name, avatar, id, mark, isFavourite, status } = result;
+
+    const disabled = status === 'stopped' || status === 'pending';
 
     function onFavouriteClicked(type, id) {
         requestWithParams(type, {
             id,
         })
             .then(() => {
-                if (this.results.length) {
-                    this.results.forEach(result => {
-                        if (result.id === id) {
-                            result.isFavourite = !result.isFavourite;
-                        }
-                    })
-                } else {
-                    // case of exact loading from route of vacncy/resume
-                    this.currentChosenResult.isFavourite = !this.currentChosenResult.isFavourite;
-                }
-                
+                result.isFavourite = !result.isFavourite;
             })
             .catch(err => console.error(err))
     }
@@ -67,8 +61,12 @@ function ResultCard({
     }
 
     return (
-        <CardWrapper onClick={onSelectResult}>
-            {isResume && <CardImageBlock>
+        <CardWrapper
+            onClick={onSelectResult}
+            disabled={disabled}
+        >
+            <CardInfosLayout>
+                {isResume && <CardImageBlock>
 
                 <CardImage src={avatar || DefaultAvatar}/>
 
@@ -77,26 +75,25 @@ function ResultCard({
                     onHandClick={likeClicked(isResume ? 'resume' : 'vacancy', id)}
                 />
 
-            </CardImageBlock>}
+                </CardImageBlock>}
 
-            <CardInfoBlock>
+                <CardInfoBlock>
 
                 <CardHeader>
                     <CardTitle>
                         {isResume ? name : category}
-                        {!isResume && <CardSubtitle>{places[0].country_name}: {places[0].cities.length > 0 ?
-                            places[0].cities.map(city => city.name).join(',')
-                            : 'Все города'}</CardSubtitle>}
+                        {!isResume && <CardSubtitle>{places[0]?.country_name}: {places[0]?.cities?.map(city => city.name).join(',')}</CardSubtitle>}
                     </CardTitle>
-                    {isUserAuthenticated && <FavouriteIcon
+                    {isUserAuthenticated && !userProfileInfo && <FavouriteIcon
                         iconName={'favourite'}
                         onClick={favouriteClickHandler(isResume ? 'resumeToFavourites' : 'vacancyToFavourites', id)}
                         isActive={isFavourite}
                     />}
-                    <PlusIcon
+                    {userProfileInfo ? <ProfileHeaderOptions status={status}/>
+                    : <PlusIcon
                         iconName={'plus'}
                         onClick={onSelectResult}
-                    />
+                    />}
                 </CardHeader>
 
                 <CardOptionalInfoBlock>
@@ -109,7 +106,12 @@ function ResultCard({
 
                 <CardDescrption>{description}</CardDescrption>
 
-            </CardInfoBlock>
+                </CardInfoBlock>
+            </CardInfosLayout>
+            
+            {userProfileInfo && <ProfileFooter
+                resultID={id}
+            />}
             
         </CardWrapper>
     );
@@ -125,13 +127,26 @@ const CardWrapper = styled.div`
         margin-bottom: 0;
     }
 
-    display: flex;
-    gap: 40px;
+    ${props => props.disabled && css`
+
+        ${CardInfosLayout} > *, ${ProfileFooterLayout}, ${CardTitle} {
+            > *:not(${CardHeader}) {
+                filter: opacity(0.5);
+                cursor: default;
+                pointer-events: none;
+            }
+        }
+    `};
 
     :hover {
         box-shadow: 4px 4px 10px #4C5E8B;
     }
+`;
 
+const CardInfosLayout = styled.div`
+    display: flex;
+    gap: 40px;
+    
     @media (max-width: 1000px) {
         flex-wrap: wrap;
     }

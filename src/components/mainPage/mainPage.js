@@ -8,7 +8,7 @@ import { SearchStoreResults } from '../SearchResults';
 import Modal from '../modal';
 import MainFilterSearch from '../mainFilterSeach';
 import ImgText from '../imgText';
-import HeaderNew from '../header';
+import Header from '../header';
 import Error404 from '../error404';
 import Register from '../register';
 import UserAgreement from '../userAgreement/userAgreement';
@@ -42,9 +42,7 @@ class MainPage extends Component {
         return (
             <Router>
                 <MainPageLayout>
-                    <HeaderNew
-                        pathName={(new URL(window.location.href)).pathname}
-                    />
+                    <Header/>
                     <Switch>
                         <Route exact path={'/'}>
                             <ImgText/>
