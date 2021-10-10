@@ -15,18 +15,20 @@ import ProfileHeaderOptions from './ProfileHeaderOptions';
 export default inject('searchStore', 'uiStore', 'createEditStore')(observer(ResultCard));
 
 function ResultCard({
-    result, isResume, onSelectResult, userProfileInfo,
+    result, onSelectResult, userProfileInfo,
     uiStore: { userModel: { isUserAuthenticated }, openModal },
-    createEditStore
+    createEditStore, onDeleteCallback
 }) {
 
-    const { category, places, experience, parameters, salary,
+    const { category, places, experience, parameters, salary, type,
         salary_type, description, name, avatar, id, mark, isFavourite, status } = result;
+
+    const isResume = type === 'resume';
 
     const disabled = status === 'stopped' || status === 'pending';
 
     function onFavouriteClicked(type, id) {
-        requestWithParams(type, {
+        return requestWithParams(type, {
             id,
         })
             .then(() => {
@@ -40,6 +42,11 @@ function ResultCard({
             e.stopPropagation();
 
             onFavouriteClicked(type, id)
+                .then(() => {
+                    if (isFavourite) {
+                        onDeleteCallback && onDeleteCallback(id);
+                    }
+                })
         }
     }
 
@@ -87,8 +94,14 @@ function ResultCard({
         }
     }
 
-    function deleteClicked() {
-        // TODO
+    async function deleteResult() {
+        try {
+            await requestWithParams('delete', { id });
+
+            onDeleteCallback && onDeleteCallback(id);
+        } catch (e) {
+            console.error(e);
+        }
     }
 
     function onClickWrapper(e) {
@@ -127,7 +140,7 @@ function ResultCard({
                         isActive={isFavourite}
                     />}
                     {userProfileInfo ? <ProfileHeaderOptions 
-                        onTrashClickCallback={deleteClicked}
+                        onTrashClickCallback={deleteResult}
                         onButtonClickCallback={toggleActiveState}
                         status={status}
                         disabled={disabled}
@@ -144,7 +157,7 @@ function ResultCard({
                     <div>{salary} {salary_type}</div>
                 </CardOptionalInfoBlock>
 
-                <CardSubtitle>Описание вакансии</CardSubtitle>
+                <CardSubtitle>Описание {isResume ? 'анкеты' : 'вакансии'}</CardSubtitle>
 
                 <CardDescrption>{description}</CardDescrption>
 

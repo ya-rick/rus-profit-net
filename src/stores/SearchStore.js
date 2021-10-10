@@ -28,6 +28,7 @@ export default class SearchStore {
             sendFilters: action.bound,
             getInfoByFilters: action.bound,
             showMoreInfo: action.bound,
+            getContactsByID: action.bound,
             mainInfoSearchResult: computed,
             secondaryInfoSearchResult: computed
         });
@@ -74,12 +75,9 @@ export default class SearchStore {
     async showMoreInfo() {
         if (this.isLastPage) return;
 
-        const { type_search } = this.resultsRestInfo.currentFiltersContract;
-
         this.scrollDown();
 
         const results = await this.sendFilters(
-            type_search,
             {
                 ...this.resultsRestInfo.currentFiltersContract,
                 page: this.resultsRestInfo.page
@@ -93,13 +91,12 @@ export default class SearchStore {
     }
 
     async getInfoByFilters() {
-        const { type_search } = 
-            this.resultsRestInfo.currentFiltersContract =
-            this.mainFiltersStore.filtersToServerContract();
+        this.resultsRestInfo.currentFiltersContract = this.mainFiltersStore.filtersToServerContract();
+
         try {
             if (this.mainFiltersStore.validateFullInfo()) throw new Error(false);
 
-            const results = await this.sendFilters(type_search, this.resultsRestInfo.currentFiltersContract);
+            const results = await this.sendFilters(this.resultsRestInfo.currentFiltersContract);
     
             this.searchResultsCollection.setResults(results.resume || results.vacancy);
             this.setTotalPage(results.last_page);
@@ -110,10 +107,16 @@ export default class SearchStore {
         }
     }
 
-    async sendFilters(searchType, filters) {
+    async sendFilters(filters) {
         this.setIsLoading(true);
 
-        return await requestWithParams(searchType, filters);
+        return await requestWithParams('getByFilters', filters);
+    }
+
+    async getContactsByID(id) {
+        const contats = (await requestWithParams('getContacts', { id })).contacts_info;
+
+        this.currentChosenResult.contacts_info = contats;
     }
 
 }

@@ -13,7 +13,7 @@ const SearchResults = observer(({
     isPresent, onSelectCallback, results = [], isLastPage,
     isLoading, isVacancy, showMoreCallback,
     resultsTitleVariants, userProfileInfo, TitleComponent = PageTitle,
-    onCreateClick
+    onCreateClick, onDeleteCallback
 }) => {
     
     const [vacancyTitle, resumeTitle] = resultsTitleVariants;
@@ -57,9 +57,9 @@ const SearchResults = observer(({
                         <ResultCard
                             key={result.id}
                             result={result}
-                            isResume={!isVacancy}
                             onSelectResult={bindOnSelectResult(result)}
                             userProfileInfo={userProfileInfo}
+                            onDeleteCallback={onDeleteCallback}
                         />
                     )
                 : 'Нет результатов'}

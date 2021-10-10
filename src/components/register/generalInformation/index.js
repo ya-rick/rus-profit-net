@@ -11,7 +11,7 @@ export default inject('registrationStore')(observer(GeneralInformation));
 
 function GeneralInformation({ registrationStore }) {
 
-    const { commonInfo: { birthday, image }, error: { generalInfo }, setField } = registrationStore;
+    const { commonInfo: { birthday, avatar }, error: { generalInfo }, setField } = registrationStore;
 
     return (
         <>
@@ -24,7 +24,7 @@ function GeneralInformation({ registrationStore }) {
                 <GeneralInformationFields
                     onChangeField={setField}
                     birthday={birthday}
-                    image={image}
+                    avatar={avatar}
                 />
 
             </GeneralInfoWrapper>

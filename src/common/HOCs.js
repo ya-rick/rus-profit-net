@@ -42,7 +42,7 @@ export const SearchResultsFromUserProfile = SearchResultsComponent => {
     
     function Wrapper({
         searchStore,
-        uiStore: { userModel: { currentTabResults, getTabResults, clearTabResults } },
+        uiStore: { userModel: { currentTabResults, getTabResults, clearTabResults, deleteTabResult } },
         searchParam,
         createEditStore,
         ...props
@@ -82,6 +82,7 @@ export const SearchResultsFromUserProfile = SearchResultsComponent => {
             userProfileInfo
             TitleComponent={ContentTitle}
             onCreateClick={onCreateClick}
+            onDeleteCallback={deleteTabResult}
             {...props}
         />
     }
@@ -93,7 +94,7 @@ export const SearchResultsFavourites = SearchResultsComponent => {
     
     function Wrapper({
         searchStore,
-        uiStore: { userModel: { currentTabResults, getTabResults, clearTabResults } },
+        uiStore: { userModel: { currentTabResults, getTabResults, clearTabResults, deleteTabResult } },
         searchParam,
         createEditStore,
         ...props
@@ -103,17 +104,14 @@ export const SearchResultsFavourites = SearchResultsComponent => {
             isLoading, isPresent, isVacancy, results,
         } = currentTabResults;
 
-        const { type_get, id } = useParams();
-
-        console.log(searchParam)
-        console.log(type_get, id)
+        const { id } = useParams();
 
         useEffect(() => {
 
-            getTabResults(searchParam, { type_get, id });
+            getTabResults(searchParam, { id });
     
             return () => clearTabResults();
-        }, [searchParam, type_get, id])
+        }, [searchParam, id])
 
         function onSelectCallback(result) {
             searchStore.setCurrentResult(result);
@@ -128,6 +126,7 @@ export const SearchResultsFavourites = SearchResultsComponent => {
             resultsTitleVariants={[ 'Отобранные вакансии', 'Отобранные анкеты' ]}
             onSelectCallback={onSelectCallback}
             TitleComponent={ContentTitle}
+            onDeleteCallback={deleteTabResult}
             {...props}
         />
     }

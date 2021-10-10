@@ -56,7 +56,12 @@ export default class CommonInfoContract {
     }
 
     setContact(newContact) {
-        this.contacts_info.forEach(contact => (contact.name === newContact.name) && (contact = {...newContact, name: contact.name}))
+        this.contacts_info.forEach(contact => {
+            if (contact.name === newContact.name) {
+                contact.value = newContact.value;
+                contact.prefered = newContact.prefered;
+            }
+        })
     }
 
     validateBirthday(callback) {
@@ -107,7 +112,7 @@ export default class CommonInfoContract {
     toServerContract() {
         const { user_surname, user_name, user_email, contacts_info, avatar, birthday } = this;
 
-        return { user_surname, user_name, user_email, avatar, birthday, contacts_info }
+        return { user_surname, user_name, user_email, avatar, birthday, contacts_info: JSON.stringify(contacts_info) }
     }
 
 }

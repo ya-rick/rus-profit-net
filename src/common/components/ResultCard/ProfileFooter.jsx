@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { CommonButton } from '../Buttons';
@@ -7,10 +7,8 @@ import Icon from '../Icon';
 
 
 export default observer(function ProfileFooter({
-    resultID, favouritesCount = 0, viewsCount = 0, disabled, editClicked, type
+    resultID, favouritesCount = 0, viewsCount = 0, disabled, editClicked,
 }) {
-
-    const history = useHistory();
 
     function onEditClicked(e) {
         e.stopPropagation();
@@ -29,7 +27,7 @@ export default observer(function ProfileFooter({
         </CommonButton>
 
         <ButtonLinkedWrapper
-            to={`/profile/favourites/${type}/${resultID}`}
+            to={`/profile/favourites/${resultID}`}
             onClick={e => e.stopPropagation()}
         >
             <Icon

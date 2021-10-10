@@ -36,6 +36,7 @@ export default class UserModel {
             saveData: action.bound,
             getTabResults: flow.bound,
             clearTabResults: action.bound,
+            deleteTabResult: action.bound,
         });
     }
 
@@ -144,6 +145,11 @@ export default class UserModel {
             console.error(e);
             this.currentTabResults.setResults([]);
         }
+    }
+
+    deleteTabResult(id) {
+        console.log(id)
+        this.currentTabResults.deleteResult(id);
     }
 
     clearTabResults() {

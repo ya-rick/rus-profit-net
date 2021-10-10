@@ -38,7 +38,7 @@ function MainFilterSearch({ registrationStore, searchStore, uiStore: { openModal
             scrollToEl.scrollIntoView();
         }
 
-        setField('filterType')(getSearchType(pathname));
+        setField('type_search')(getSearchType(pathname));
     }, [scrollToEl, pathname]);
 
     const { setField, result_cat, years_with, years_to, error: { noFullInfo },
@@ -50,12 +50,12 @@ function MainFilterSearch({ registrationStore, searchStore, uiStore: { openModal
 
     useEffect(() => {
         // Copying filters to registrations form
-        const { commonInfo: { cityCountryModel }, targetedInfo } = registrationStore;
+        const { targetedInfo } = registrationStore;
 
         const disposers = [];
         
         disposers.push(autorun(() => {
-            cityCountryModel.countries = countries;
+            targetedInfo.cityCountryModel.countries = countries;
         }))
 
         disposers.push(autorun(() => {
@@ -63,7 +63,7 @@ function MainFilterSearch({ registrationStore, searchStore, uiStore: { openModal
         }))
 
         disposers.push(autorun(() => {
-            cityCountryModel.currentEditCountry = currentEditCountry;
+            targetedInfo.cityCountryModel.currentEditCountry = currentEditCountry;
         }))
 
         disposers.push(autorun(() => {

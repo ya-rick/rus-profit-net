@@ -55,7 +55,7 @@ class MainPage extends Component {
                             <ImgText/>
                             <MainFilterSearch/>
                         </Route>
-                        <Route path={'/searchResults/:searchType/:id'}>
+                        <Route path={'/searchResults/:id'}>
                             <FullResult/>
                         </Route>
                         <Route path={'/searchResults'}>
@@ -67,7 +67,7 @@ class MainPage extends Component {
                         <PrivateRoute
                             exact
                             path={[
-                                '/profile/:page/:type_get/:id',
+                                '/profile/:page/:id',
                                 '/profile/:page'
                             ]}
                         >

@@ -18,22 +18,11 @@ import FullSizedImage from '../../../common/components/fullsizedImage';
 import Loading from '../../../common/components/Loading';
 
 function Vacancy({ searchStore, uiStore: { userModel: { isUserAuthenticated }, openModal, openImage, setImages,isImageShown } }) {
-    const [isContactsShown, setContactsHown] = useState(false);
-
-    function onContactsClick() {
-        if (isUserAuthenticated) {
-            setContactsHown(true);
-        } else {
-            openModal(ModalVariants.InfoModal, {
-                title: 'Извините,',
-                description: 'но для получения списка контактов необходимо войти в систему'
-            })
-        }
-    }
+    const [isContactsShown, setContactsShown] = useState(false);
 
     const {
         isCurrentSearchResult, setCurrentResult, mainInfoSearchResult,
-        secondaryInfoSearchResult
+        secondaryInfoSearchResult, getContactsByID
     } = searchStore;
 
     const isResultsPresent = searchStore.searchResultsCollection.results?.length > 0;
@@ -44,17 +33,27 @@ function Vacancy({ searchStore, uiStore: { userModel: { isUserAuthenticated }, o
 
     const { id } = useParams();
 
+    async function onContactsClick() {
+        try {
+            await getContactsByID(id);
+            
+            setContactsShown(true);
+        } catch (e) {
+            console.log(e);
+
+            openModal(ModalVariants.InfoModal, {
+                title: 'Извините,',
+                description: 'но для получения списка контактов необходимо войти в систему'
+            });
+        }
+    }
+
     const isResume = type === 'resume';
 
     useEffect(() => {
         if (!isCurrentSearchResult) {
-
             requestWithParams('getByID', { id })
-                .then(res => {
-                    const fromServerData = isResume ? res.resume[0] : res.vacancy[0]
-
-                    setCurrentResult(fromServerData);
-                })
+                .then(res => setCurrentResult(res))
                 .catch(e => console.error(e));
         }
 
@@ -191,7 +190,7 @@ function Vacancy({ searchStore, uiStore: { userModel: { isUserAuthenticated }, o
                             </SecondaryBlockLayout>
 
                             <div style={{ display: 'flex' }}>
-                                {isContactsShown ? <SecondaryBlockLayout>
+                                {isContactsShown && isUserAuthenticated ? <SecondaryBlockLayout>
                                     {contacts_info?.map(contact => <MainContactBlockItem>
                                         <FullInfoBolderText>{contact.value}</FullInfoBolderText>
                                     </MainContactBlockItem>)}

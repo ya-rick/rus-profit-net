@@ -4,8 +4,9 @@ const httpMethodsTypes = {
     getMainPageData: 'get_page_main',
     getProfessions: 'get_category_to_filters',
     getFiltersByProfession: 'get_filters_by_category',
-    getVacancies: 'search',
+    getByFilters: 'search',
     createSearch: 'create',
+    delete: 'delete',
     registration: 'registration',
     get404PageData: 'get_page_404',
     getPageLicense: 'get_page_license',
@@ -27,7 +28,8 @@ const httpMethodsTypes = {
     setToFavourites: 'add_to_favorites',
     changePasswordRecovery: 'change_password_recovery',
     forgotPassword: 'recovery',
-    toggleActivation: 'activation'
+    toggleActivation: 'activation',
+    getContacts: 'get_contacts_info'
 }
 
 export const requestWithParams = (method, dataToServer = {}) => {

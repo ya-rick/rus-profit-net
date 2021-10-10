@@ -17,12 +17,12 @@ import WorkExamples from './WorkExamples';
 
 function RegisterVacancies({
     uiStore: { openModal }, isResume,
-    fields: { description, result_cat, agree, category_global, isWorksAddable, ...restFields },
+    fields: { description, result_cat, agree, category, isWorksAddable, ...restFields },
     error: { targetedInfo, descriptionBlock },
     onFieldChange, onConfirmClicked, successMessage
 }) {
 
-    const { categories, setCurrentCategory, filtersByCategory } = useCategoryFilters(category_global?.id);
+    const { categories, setCurrentCategory, filtersByCategory } = useCategoryFilters(category?.id);
 
     
     async function finishRegistration() {
@@ -43,7 +43,7 @@ function RegisterVacancies({
     }
 
     function onChangeCategory(category) {
-        onFieldChange('category_global')(category);
+        onFieldChange('category')(category);
         setCurrentCategory(category.id);
     }
 
@@ -59,7 +59,7 @@ function RegisterVacancies({
             </div>
             <WorkCluster
                 onCategoryChanged={onChangeCategory}
-                currentCategory={category_global}
+                currentCategory={category}
                 categories={categories}
             />
 

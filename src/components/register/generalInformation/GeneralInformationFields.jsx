@@ -11,7 +11,7 @@ import { ModalVariants } from '../../../common/consts';
 
 export default inject('uiStore')(observer(GeneralInformation));
 
-function GeneralInformation({ uiStore, birthday, onChangeField, image }) {
+function GeneralInformation({ uiStore, birthday, onChangeField, avatar }) {
 
     function changeDate(date) {
         const dateObj = new Date(date);
@@ -28,7 +28,7 @@ function GeneralInformation({ uiStore, birthday, onChangeField, image }) {
         reader.onloadend = () => {
             uiStore.openModal(ModalVariants.RedImg, {
                 photo: reader.result,
-                onSuccessCallback: onChangeField('image')
+                onSuccessCallback: onChangeField('avatar')
             });
         };
 
@@ -44,7 +44,7 @@ function GeneralInformation({ uiStore, birthday, onChangeField, image }) {
     return (
         <>
             <Image
-                src={image ? typeof image === 'string' ? image : URL.createObjectURL(image) : Avatar}
+                src={avatar ? typeof avatar === 'string' ? avatar : URL.createObjectURL(avatar) : Avatar}
                 alt='avatar'
             />
 

@@ -107,4 +107,7 @@ export default class SearchResultsCollection {
         this.results = results.map(result => ResultContract.createFromServerContract(result));
     }
 
+    deleteResult(id) {
+        this.results.splice(this.results.findIndex(result => result.id === id), 1);
+    }
 }
