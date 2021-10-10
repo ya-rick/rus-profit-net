@@ -19,10 +19,7 @@ function UserInfoPage({ uiStore }) {
 
     const {
         editInfo: {
-            birthday, image, user_surname, user_name, user_email, user_second_email_prefered,
-            user_viber, user_skype, user_second_email, user_telegram_prefered, user_phone_prefered,
-            user_phone, user_whatsapp_prefered, user_whatsapp, user_viber_prefered,
-            user_telegram, user_skype_prefered,
+            birthday, avatar, user_surname, user_name, user_email, contacts_info,
         },
         error: { generalInfo, contactInfo, mainInfo }, setField, saveData
     } = userModel;
@@ -86,10 +83,7 @@ function UserInfoPage({ uiStore }) {
 
             <UserContactFields
                 onChangeField={setField}
-                contactFields={{ user_second_email_prefered, user_viber, user_skype,
-                    user_second_email, user_telegram_prefered, user_phone_prefered,
-                    user_phone, user_whatsapp_prefered, user_whatsapp, user_viber_prefered,
-                    user_telegram, user_skype_prefered }}
+                contactFields={contacts_info}
             />
 
         </UserContactsLayout>
@@ -103,7 +97,7 @@ function UserInfoPage({ uiStore }) {
             <GeneralInformationFields
                 onChangeField={setField}
                 birthday={birthday}
-                image={image}
+                image={avatar}
             />
 
         </GeneralInfoLayout>

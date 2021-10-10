@@ -26,7 +26,7 @@ export default class RegistrationCommonInfoContract extends CommonInfoContract {
             registration_type: observable
         });
         
-        reaction(() => this.user_email, (user_email) => this.user_second_email = user_email);
+        reaction(() => this.user_email, user_email => this.contacts_info[0].value = user_email);
     }
 
     validatePassword(callback) {

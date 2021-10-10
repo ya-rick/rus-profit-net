@@ -1,6 +1,9 @@
-import { CommonButton } from "../../common/components/Buttons";
-import ErrorMessage from "../../common/components/ErrorMessage";
-import { Centerer } from "../../common/components/Layouts";
+import styled from 'styled-components';
+
+import { CommonButton } from '../../common/components/Buttons';
+import ErrorMessage from '../../common/components/ErrorMessage';
+import { Centerer } from '../../common/components/Layouts';
+
 
 export default function RegistrationButtonsBlock({ onClickLeft, onClickRight, current, creationInfo }) {
     return <>
@@ -9,7 +12,7 @@ export default function RegistrationButtonsBlock({ onClickLeft, onClickRight, cu
             {creationInfo && <ErrorMessage>{creationInfo}</ErrorMessage>}
         </h2>
 
-        <Centerer>
+        <ButtonsLayout>
 
             <CommonButton
                 onClick={onClickLeft}
@@ -20,6 +23,11 @@ export default function RegistrationButtonsBlock({ onClickLeft, onClickRight, cu
                 active={'resume' === current}
             >Регистрация анкеты</CommonButton>
 
-        </Centerer>
+        </ButtonsLayout>
     </>
 }
+
+const ButtonsLayout = styled(Centerer)`
+    flex-wrap: wrap;
+    column-gap: 40px;
+`;

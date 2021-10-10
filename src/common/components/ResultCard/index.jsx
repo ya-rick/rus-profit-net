@@ -12,11 +12,12 @@ import ProfileFooter, { ProfileFooterLayout } from './ProfileFooter';
 import ProfileHeaderOptions from './ProfileHeaderOptions';
 
 
-export default inject('searchStore', 'uiStore')(observer(ResultCard));
+export default inject('searchStore', 'uiStore', 'createEditStore')(observer(ResultCard));
 
 function ResultCard({
     result, isResume, onSelectResult, userProfileInfo,
-    uiStore: { userModel: { isUserAuthenticated }, openModal }
+    uiStore: { userModel: { isUserAuthenticated }, openModal },
+    createEditStore
 }) {
 
     const { category, places, experience, parameters, salary,
@@ -60,9 +61,45 @@ function ResultCard({
         }
     }
 
+    async function onEditClicked(id) {
+        try {
+            const type = isResume ? 'resume' : 'vacancy';
+            const requestParam = isResume ? { resume_id: id } : { vacancy_id: id };
+            createEditStore.setUpdating(
+                type,
+                await requestWithParams('getByID', requestParam)
+            )
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    async function toggleActiveState(status) {
+        try {
+            await requestWithParams('toggleActivation', {
+                type_data: isResume ? 'resume' : 'vacancy',
+                status, id: result.id
+            });
+
+            result.status = status;
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    function deleteClicked() {
+        // TODO
+    }
+
+    function onClickWrapper(e) {
+        e.stopPropagation();
+
+        if (!disabled) onSelectResult();
+    }
+
     return (
         <CardWrapper
-            onClick={onSelectResult}
+            onClick={onClickWrapper}
             disabled={disabled}
         >
             <CardInfosLayout>
@@ -86,10 +123,15 @@ function ResultCard({
                     </CardTitle>
                     {isUserAuthenticated && !userProfileInfo && <FavouriteIcon
                         iconName={'favourite'}
-                        onClick={favouriteClickHandler(isResume ? 'resumeToFavourites' : 'vacancyToFavourites', id)}
+                        onClick={favouriteClickHandler('setToFavourites', id)}
                         isActive={isFavourite}
                     />}
-                    {userProfileInfo ? <ProfileHeaderOptions status={status}/>
+                    {userProfileInfo ? <ProfileHeaderOptions 
+                        onTrashClickCallback={deleteClicked}
+                        onButtonClickCallback={toggleActiveState}
+                        status={status}
+                        disabled={disabled}
+                    />
                     : <PlusIcon
                         iconName={'plus'}
                         onClick={onSelectResult}
@@ -111,8 +153,11 @@ function ResultCard({
             
             {userProfileInfo && <ProfileFooter
                 resultID={id}
+                disabled={disabled}
+                editClicked={onEditClicked}
+                type={isResume ? 'resume' : 'vacancy'}
             />}
-            
+
         </CardWrapper>
     );
 };

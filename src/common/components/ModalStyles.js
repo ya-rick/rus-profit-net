@@ -33,7 +33,6 @@ export const ModalLink = styled(Link)`
     display: block;
     margin-top: 15px;
     font-size: 15px;
-    line-height: 18px;
     color: #4C5E8B;
     text-decoration: underline;
 `;
@@ -46,7 +45,6 @@ export const ModalButtonWapper = styled.div`
 
 export const ModalTitle = styled.h2`
     font-size: 30px;
-    line-height: 35px;
     font-weight: 600;
     margin: 0 auto;
     text-align: center;
@@ -54,7 +52,6 @@ export const ModalTitle = styled.h2`
 
 export const ModalSubtitle = styled.h2`
     font-size: 22px;
-    line-height: 35px;
     margin: 0;
     font-weight: 600;
 `;

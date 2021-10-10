@@ -29,5 +29,11 @@ export const FlyingButton = styled.button`
     :hover {
         box-shadow: 4px 4px 10px #4C5E8B;
     }
-
 `;
+
+export const SecondaryButton = styled(CommonButton)`
+  box-shadow: none;
+  column-gap: 5px;
+  min-width: auto;
+  border-radius: 20px;
+`

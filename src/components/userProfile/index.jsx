@@ -1,14 +1,15 @@
 import { inject, observer } from 'mobx-react';
-import { useParams } from 'react-router-dom';
+import { useParams, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { PageContentWrapper } from '../../common/components/Layouts';
 import PageTitle from '../../common/components/PageTitle';
 import SideBar from './SideBar';
 import UserInfoPage from './UserInfoPage';
-import { UserProfileResults } from '../SearchResults';
+import { Favourites, UserProfileResults } from '../SearchResults';
 import PasswordChangePage from './PasswordChangePage';
 import EmailChangePage from './EmailChangePage';
+import CreateEditSearch from '../createEditSearch';
 
 
 export default inject('uiStore')(observer(UserProfile));
@@ -52,7 +53,14 @@ function UserProfile() {
 
             case 'email': return <EmailChangePage/>
 
-            default: return null;
+            case 'favourites': return <Favourites searchParam={page}/>
+
+            // case 'views': return <EmailChangePage/>
+
+            case 'create': return <CreateEditSearch/>
+            case 'update': return <CreateEditSearch/>
+
+            default: return <Redirect to={'/404'}/>;
         }
     }
 
@@ -93,5 +101,8 @@ const ContentContainer = styled.div`
 `;
 
 export const ContentTitle = styled.h2`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     font-weight: 600;
 `;

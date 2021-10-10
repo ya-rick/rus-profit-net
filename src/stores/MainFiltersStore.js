@@ -14,7 +14,7 @@ export default class MainFiltersStore {
     salary_type = '';
     currency = '';
 
-    filterType = null;
+    type_search = null;
 
     initialErrorState = {
         noFullInfo: null
@@ -35,7 +35,7 @@ export default class MainFiltersStore {
     }
 
     get isSearchWorker() {
-        return this.filterType === 'getVacancies';
+        return this.type_search === 'vacancy';
     }
 
     get isError() {
@@ -71,13 +71,13 @@ export default class MainFiltersStore {
 
     filtersToServerContract() {
         const { cityCountryModel, result_cat, years_with, years_to, category: { id: category },
-            experience, salary, salary_type, currency, filterType } = this;
+            experience, salary, salary_type, currency, type_search } = this;
 
         return {
             places: cityCountryModel.toServerContract(),
             result_cat, years_with, years_to, category, experience,
             salary, salary_type, currency,
-            filterType
+            type_search
         };
     }
 

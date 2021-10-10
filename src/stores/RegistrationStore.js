@@ -36,7 +36,11 @@ export default class RegistrationStore {
     setField(fieldKey) {
         return action((value) => {
             if (fieldKey in this.commonInfo) {
-                this.commonInfo[fieldKey] = value;
+                if (fieldKey === 'contacts_info') {
+                    this.commonInfo.setContact(value);
+                } else {
+                    this.commonInfo[fieldKey] = value;
+                }
             } else if (fieldKey in this.targetedInfo) {
                 this.targetedInfo[fieldKey] = value;
             } else {

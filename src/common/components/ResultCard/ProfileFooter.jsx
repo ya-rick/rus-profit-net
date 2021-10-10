@@ -1,21 +1,37 @@
 import { observer } from 'mobx-react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { LinkedButton } from '../Buttons';
+import { CommonButton } from '../Buttons';
 import Icon from '../Icon';
 
 
 export default observer(function ProfileFooter({
-    resultID, favouritesCount = 0, viewsCount = 0, disabled
+    resultID, favouritesCount = 0, viewsCount = 0, disabled, editClicked, type
 }) {
+
+    const history = useHistory();
+
+    function onEditClicked(e) {
+        e.stopPropagation();
+
+        if (disabled) return;
+
+        editClicked && editClicked(resultID);
+
+        // history.push(`/profile/update/${resultID}`);
+
+    }
     return <ProfileFooterLayout>
 
-        <LinkedButton to={`edit/${resultID}`}>
+        <CommonButton onClick={onEditClicked}>
             Редактировать
-        </LinkedButton>
+        </CommonButton>
 
-        <ButtonLinkedWrapper to={`favourites/${resultID}`}>
+        <ButtonLinkedWrapper
+            to={`/profile/favourites/${type}/${resultID}`}
+            onClick={e => e.stopPropagation()}
+        >
             <Icon
                 iconName={'heart'}
                 text={favouritesCount}
@@ -24,7 +40,10 @@ export default observer(function ProfileFooter({
             Моё избранное
         </ButtonLinkedWrapper>
 
-        <ButtonLinkedWrapper to={`views/${resultID}`}>
+        <ButtonLinkedWrapper
+            to={`views/${resultID}`}
+            onClick={e => e.stopPropagation()}
+        >
             <Icon
                 iconName={'views'}
             />

@@ -1,19 +1,17 @@
 import React from 'react';
+import styled from 'styled-components';
 import { observer } from 'mobx-react';
 
 import ErrorMessage from '../../common/components/ErrorMessage';
-import styled from 'styled-components';
 import UserMainFields from './UserMainFields';
 import UserContactFields from './UserContactFields';
+
 
 export default observer(function NameContact({ onChangeField, error, fields }) {
 
     const {
         user_surname, user_name, user_email,user_password_confirm,
-        user_password, user_second_email_prefered, user_viber, user_skype,
-        user_second_email, user_telegram_prefered, user_phone_prefered,
-        user_phone, user_whatsapp_prefered, user_whatsapp, user_viber_prefered,
-        user_telegram, user_skype_prefered, user_email_confirm,
+        user_password, contacts_info, user_email_confirm,
         cityCountryModel
     } = fields;
 
@@ -37,10 +35,7 @@ export default observer(function NameContact({ onChangeField, error, fields }) {
                 <Contact2Grid>
                     <UserContactFields
                         onChangeField={onChangeField}
-                        contactFields={{ user_second_email_prefered, user_viber, user_skype,
-                            user_second_email, user_telegram_prefered, user_phone_prefered,
-                            user_phone, user_whatsapp_prefered, user_whatsapp, user_viber_prefered,
-                            user_telegram, user_skype_prefered }}
+                        contactFields={contacts_info}
                     />
                 </Contact2Grid>
             </div>

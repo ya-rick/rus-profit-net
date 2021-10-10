@@ -3,7 +3,7 @@ import CityCountryModel from '../../CityCountryModel';
 
 export default class TargetedInfoContract {
 
-    category_global = '';
+    category = '';
     experience = '';
     salary = '';
     salary_type = '';
@@ -47,7 +47,7 @@ export default class TargetedInfoContract {
     }
 
     validateCategory(callback) {
-        if (!this.category_global) callback('Нужно выбрать хотя бы одну категорию')
+        if (!this.category) callback('Нужно выбрать хотя бы одну категорию')
     }
 
     validateName(callback) {
@@ -60,18 +60,43 @@ export default class TargetedInfoContract {
     }
 
     toServerContract() {
-        const { category_global: { id: category_global }, experience, salary, 
+        const { category, experience, salary, 
             salary_type, description, result_cat, years_with,
             years_to, name, currency, files_images, cityCountryModel } = this;
 
         return {
-            category_global, experience, salary, 
+            category: category.id, experience, salary, 
             salary_type, description, years_with,
             years_to, name, currency,
             result_cat,
             'files_images[]': files_images,
             places: JSON.stringify(cityCountryModel.toServerContract())
         }
+    }
+
+    fillFrom(obj) {
+        const {
+            category_global, experience, salary, salary_type, description, result_cat,
+            years_with, years_to, name, agree, currency, files_images, cityCountryModel
+        } = obj;
+
+        const newContract = new this();
+
+        newContract.category_global = category_global;
+        newContract.experience = experience;
+        newContract.salary = salary;
+        newContract.salary_type = salary_type;
+        newContract.description = description;
+        newContract.result_cat = result_cat;
+        newContract.years_with = years_with;
+        newContract.years_to = years_to;
+        newContract.name = name;
+        newContract.agree = agree;
+        newContract.currency = currency;
+        newContract.files_images = files_images;
+        newContract.cityCountryModel = cityCountryModel;
+
+        return newContract;
     }
 
 }

@@ -46,6 +46,10 @@ export default inject('registrationStore')(observer(function RegisterPage({
             error={error}
             onConfirmClicked={sendData}
             isResume={commonInfo.registration_type === 'resume'}
+            successMessage={{
+                title: 'Поздравляю!',
+                description: 'Для завершения регистрация на Ваш почтовый ящик было отправлена ссылка, по которой необходимо перейти'
+            }}
         />}
     </PageContentWrapper>
 }))

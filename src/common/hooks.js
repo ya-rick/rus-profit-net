@@ -20,3 +20,13 @@ export function useCategoryFilters(initialCategory = null) {
 
     return ({ categories, setCurrentCategory, filtersByCategory })
 }
+
+export function useToggle(initial = false) {
+    const [state, setState] = useState(initial);
+
+    function toggleState(value) {
+        value ? setState(Boolean(value)) : setState(prev => !prev);
+    }
+
+    return [state, toggleState]
+}

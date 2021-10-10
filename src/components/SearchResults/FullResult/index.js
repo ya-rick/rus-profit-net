@@ -15,6 +15,7 @@ import { flexAlignCenter } from '../../../common/components/mixins';
 import { CommonButton } from '../../../common/components/Buttons';
 import { ModalVariants } from '../../../common/consts';
 import FullSizedImage from '../../../common/components/fullsizedImage';
+import Loading from '../../../common/components/Loading';
 
 function Vacancy({ searchStore, uiStore: { userModel: { isUserAuthenticated }, openModal, openImage, setImages,isImageShown } }) {
     const [isContactsShown, setContactsHown] = useState(false);
@@ -39,17 +40,16 @@ function Vacancy({ searchStore, uiStore: { userModel: { isUserAuthenticated }, o
 
     const { name, description, experience, avatar, salary, salary_type,
         places, category, employer, contacts_info, mark, isFavourite, vacancy_name,
-        create_date, currency, id: result_id, example } = searchStore.currentChosenResult || {};
+        create_date, currency, example, type } = searchStore.currentChosenResult || {};
 
-    const { id, searchType } = useParams();
+    const { id } = useParams();
 
-    const isResume = searchType === 'getResumeByID';
+    const isResume = type === 'resume';
 
     useEffect(() => {
         if (!isCurrentSearchResult) {
-            const requestData = isResume ? { resume_id: id } : { vacancy_id: id };
 
-            requestWithParams(searchType, requestData)
+            requestWithParams('getByID', { id })
                 .then(res => {
                     const fromServerData = isResume ? res.resume[0] : res.vacancy[0]
 
@@ -105,7 +105,7 @@ function Vacancy({ searchStore, uiStore: { userModel: { isUserAuthenticated }, o
                         <FullInfoTitle>{isResume ? name : vacancy_name}</FullInfoTitle>
                         {isUserAuthenticated && <FavouriteIcon
                             iconName={'favourite'}
-                            onClick={favouriteClickHandler(isResume ? 'resumeToFavourites' : 'vacancyToFavourites', result_id)}
+                            onClick={favouriteClickHandler('setToFavourites', id)}
                             isActive={isFavourite}
                         />}
                         
@@ -221,7 +221,9 @@ function Vacancy({ searchStore, uiStore: { userModel: { isUserAuthenticated }, o
                 
                 {isImageShown && <FullSizedImage/>}
             </>
-            : 'Загрузка...'}
+            : <LoadingLayout>
+                <Loading/>
+            </LoadingLayout>}
         </PageContentWrapper>
         
     );
@@ -285,15 +287,6 @@ const DescriptionBlock = styled.div`
     flex-direction: column;
     align-items: stretch;
     gap: 30px;
-    padding: 50px;
-    background-color: #F7FBFC;
-    border-radius: 15px;
-`;
-
-const SecondaryBlock = styled.div`
-    display: flex;
-    flex-direction: column;
-    row-gap: 30px;
     padding: 50px;
     background-color: #F7FBFC;
     border-radius: 15px;
@@ -409,4 +402,10 @@ const ExamplesImageLayout = styled.div`
 const StyledImage = styled.img`
     width: 100%;
     height: 100%;
+`;
+
+const LoadingLayout = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;

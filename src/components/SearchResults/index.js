@@ -1,17 +1,19 @@
 import React, { useEffect } from 'react';
+import { observer } from 'mobx-react';
 import { useHistory } from 'react-router-dom';
 
 import ResultCard from '../../common/components/ResultCard';
 import PageTitle from '../../common/components/PageTitle';
 import Loading from '../../common/components/Loading';
-import { SearchResultsFromSearchStore, SearchResultsFromUserProfile } from '../../common/HOCs';
-import { observer } from 'mobx-react';
+import { SearchResultsFavourites, SearchResultsFromSearchStore, SearchResultsFromUserProfile } from '../../common/HOCs';
+import { CommonButton } from '../../common/components/Buttons';
 
 
 const SearchResults = observer(({
     isPresent, onSelectCallback, results = [], isLastPage,
-    isLoading, isSearchWorker, showMoreCallback,
-    resultsTitleVariants, userProfileInfo, TitleComponent = PageTitle
+    isLoading, isVacancy, showMoreCallback,
+    resultsTitleVariants, userProfileInfo, TitleComponent = PageTitle,
+    onCreateClick
 }) => {
     
     const [vacancyTitle, resumeTitle] = resultsTitleVariants;
@@ -33,14 +35,20 @@ const SearchResults = observer(({
 
     function bindOnSelectResult(result) {
         return () => {
-            history.push(`/searchResults/${isSearchWorker ? 'getVacancyByID' : 'getResumeByID'}/${result.id}`);
+            history.push(`/searchResults/${result.id}`);
 
             onSelectCallback && onSelectCallback(result);
         }
     }
 
     return <>
-            <TitleComponent>{ isSearchWorker ? vacancyTitle : resumeTitle }</TitleComponent>
+            <TitleComponent>
+                { isVacancy ? vacancyTitle : resumeTitle }
+                { onCreateClick &&
+                    <CommonButton onClick={onCreateClick}>
+                        Создать
+                    </CommonButton> }
+            </TitleComponent>
 
             {isLoading ?
                 <Loading/>
@@ -49,7 +57,7 @@ const SearchResults = observer(({
                         <ResultCard
                             key={result.id}
                             result={result}
-                            isResume={!isSearchWorker}
+                            isResume={!isVacancy}
                             onSelectResult={bindOnSelectResult(result)}
                             userProfileInfo={userProfileInfo}
                         />
@@ -62,5 +70,7 @@ const SearchResults = observer(({
 export default SearchResults;
 
 export const SearchStoreResults = SearchResultsFromSearchStore(SearchResults);
+
+export const Favourites = SearchResultsFavourites(SearchResults);
 
 export const UserProfileResults = SearchResultsFromUserProfile(SearchResults);

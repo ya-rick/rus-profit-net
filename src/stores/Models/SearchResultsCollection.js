@@ -22,13 +22,16 @@ export class ResultContract {
     create_date = null;
     example = [];
 
+    // vacancy || resume
+    type = null;
+
     status = 'stopped';
 
 
     constructor(fromServerData) {
         const { name, description, experience, avatar, parameters, salary, salary_type,
             places, category, employer, id, contacts_info, mark, isFavourite, vacancy_name,
-            create_date, currency, example, status } = fromServerData;
+            create_date, currency, example, status, type } = fromServerData;
 
         this.id = id;
         this.name = name;
@@ -49,6 +52,7 @@ export class ResultContract {
         this.currency = currency;
         this.example = example;
         this.status = status;
+        this.type = type;
 
         makeAutoObservable(this);
     }

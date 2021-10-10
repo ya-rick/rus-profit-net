@@ -1,4 +1,4 @@
-import { makeObservable, observable } from 'mobx';
+import { action, makeObservable, observable } from 'mobx';
 
 export default class CommonInfoContract {
 
@@ -7,25 +7,40 @@ export default class CommonInfoContract {
     user_name = '';
     
     // contact info
-    user_phone = '';
-    user_phone_prefered = false;
+    contacts_info = [
+        {
+            name: 'Email',
+            value: '',
+            prefered: false,
+        },
+        {
+            name: 'WhatsApp',
+            value: '',
+            prefered: false,
+        },
+        {
+            name: 'Telegram',
+            value: '',
+            prefered: false,
+        },
+        {
+            name: 'Skype',
+            value: '',
+            prefered: false,
+        },
+        {
+            name: 'Viber',
+            value: '',
+            prefered: false,
+        },
+        {
+            name: 'Телефон',
+            value: '',
+            prefered: false,
+        },
+    ];
 
-    user_whatsapp = '';
-    user_whatsapp_prefered = false;
-
-    user_second_email = '';
-    user_second_email_prefered = true;
-
-    user_skype = '';
-    user_skype_prefered = false;
-
-    user_viber = '';
-    user_viber_prefered = false;
-
-    user_telegram = '';
-    user_telegram_prefered = false;
-
-    image = null;
+    avatar = null;
     birthday = null;
 
 
@@ -33,21 +48,15 @@ export default class CommonInfoContract {
         makeObservable(this, {
             user_surname: observable,
             user_name: observable,
-            user_phone: observable,
-            user_phone_prefered: observable,
-            user_whatsapp: observable,
-            user_whatsapp_prefered: observable,
-            user_second_email: observable,
-            user_second_email_prefered: observable,
-            user_skype: observable,
-            user_skype_prefered: observable,
-            user_viber: observable,
-            user_viber_prefered: observable,
-            user_telegram: observable,
-            user_telegram_prefered: observable,
-            image: observable,
+            contacts_info: observable,
+            avatar: observable,
             birthday: observable,
+            setContact: action,
         });
+    }
+
+    setContact(newContact) {
+        this.contacts_info.forEach(contact => (contact.name === newContact.name) && (contact = {...newContact, name: contact.name}))
     }
 
     validateBirthday(callback) {
@@ -55,20 +64,17 @@ export default class CommonInfoContract {
     }
 
     validateMainInfoByLength(callback) {
-        ['user_surname', 'user_name', 'user_email'].forEach(field => {
+        ['user_surname', 'user_name'].forEach(field => {
             if (!this[field].trim().length) callback('Заполните все необходимые поля');
         })
     }
 
     validateContactInfo(callback) {
-        const isValidated = [
-            ['user_phone', 'user_phone_prefered'],
-            ['user_whatsapp', 'user_whatsapp_prefered'],
-            ['user_second_email', 'user_second_email_prefered'],
-            ['user_skype', 'user_skype_prefered'],
-            ['user_viber', 'user_viber_prefered'],
-            ['user_telegram', 'user_telegram_prefered']
-        ].reduce((acc, [textField, booleanField]) => acc || (this[textField].trim().length && this[booleanField]), false);
+        const isValidated = this.contacts_info
+            .reduce(
+                (acc, contact) => acc || (contact.value.trim().length && contact.prefered), 
+                false
+            );
 
         if (!isValidated) callback('Выберите и заполните хотя бы один вид предпочтительной связи');
     }
@@ -89,34 +95,19 @@ export default class CommonInfoContract {
 
         const newContact = new this();
 
-        newContact.image = avatar;
+        newContact.avatar = avatar;
         newContact.birthday = birthday;
         newContact.user_name = name || '';
         newContact.user_surname = surname || '';
-
-        contacts_info?.forEach(contact => {
-            const fieldName = `user_${contact.name}`;
-            newContact[fieldName] = contact.value;
-            newContact[`${fieldName}_prefered`] = Boolean(contact.prefered);
-        });
-
+        newContact.contacts_info = contacts_info;
 
         return newContact;
     }
 
     toServerContract() {
-        const { user_surname, user_name, user_email, user_whatsapp, user_whatsapp_prefered,
-            user_second_email, user_second_email_prefered, user_skype, user_skype_prefered,
-            user_viber, user_viber_prefered, user_telegram, user_telegram_prefered,
-            image, birthday
-        } = this;
+        const { user_surname, user_name, user_email, contacts_info, avatar, birthday } = this;
 
-        return {
-            user_surname, user_name, user_email, user_whatsapp, user_whatsapp_prefered,
-            user_second_email, user_second_email_prefered, user_skype, user_skype_prefered,
-            user_viber, user_viber_prefered, user_telegram, user_telegram_prefered,
-            image, birthday
-        }
+        return { user_surname, user_name, user_email, avatar, birthday, contacts_info }
     }
 
 }

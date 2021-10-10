@@ -8,7 +8,7 @@ import './mainFilterSearch.css';
 
 import Select from '../../common/components/select';
 import MenuButtonsDocs from '../menuButtonsDocs';
-import { CommonButton, LinkedButton } from "../../common/components/Buttons";
+import { CommonButton } from "../../common/components/Buttons";
 import { Centerer, GapedAdaptiveCenterer, PageContentWrapper } from '../../common/components/Layouts';
 import AgeChooser from '../../common/components/AgeChooser';
 import WorkExperience from '../../common/components/WorkExperience';
@@ -30,7 +30,7 @@ function MainFilterSearch({ registrationStore, searchStore, uiStore: { openModal
     const { pathname } = useLocation();
 
     function getSearchType(pathname) {
-        return pathname === '/searchWorker' ? 'getResumes' : 'getVacancies';
+        return pathname === '/searchWorker' ? 'resume' : 'vacancy';
     }
 
     useEffect(() => {

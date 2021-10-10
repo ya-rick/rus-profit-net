@@ -5,10 +5,10 @@ import './registerFilterVacation.css';
 
 import WorkExperience from '../../../common/components/WorkExperience';
 import AgeChooser from '../../../common/components/AgeChooser';
-import { GapedAdaptiveCenterer } from '../../../common/components/Layouts';
 import SuggestSalary from '../../../common/components/SuggestSalary';
 import Input from '../../../common/components/Input';
 import { SearchableMultiSelect } from '../../nameContact/searchableMultiSelect';
+import styled from 'styled-components';
 
 function RegisterFilterVacation({
     onFieldChange, isResume,
@@ -22,7 +22,7 @@ function RegisterFilterVacation({
 }) {
 
     return (
-        <GapedAdaptiveCenterer>
+        <Layout>
             {isResume ? <>
                 <WorkExperience
                     min={0}
@@ -95,8 +95,22 @@ function RegisterFilterVacation({
                     editableCountryID={currentEditCountry?.id}
                 />
             </div>
-        </GapedAdaptiveCenterer>
+        </Layout>
     )
 }
 
 export default inject('registrationStore')(observer(RegisterFilterVacation));
+
+const Layout = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    align-content: center;
+    flex-wrap: wrap;
+    gap: 50px;
+
+    > * {
+        flex-grow: 1;
+        max-width: 300px;
+    }
+`;

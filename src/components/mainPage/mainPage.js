@@ -64,7 +64,13 @@ class MainPage extends Component {
                         <Route path={'/register'}>
                             <Register/>
                         </Route>
-                        <PrivateRoute path={'/profile/:page'}>
+                        <PrivateRoute
+                            exact
+                            path={[
+                                '/profile/:page/:type_get/:id',
+                                '/profile/:page'
+                            ]}
+                        >
                             <UserProfile/>
                         </PrivateRoute>
                         <Route path={'/userAgreement'}>
@@ -100,5 +106,5 @@ const MainPageLayout = styled.div`
     background: #F1F3F6;
     height: 100%;
     display: grid;
-    grid-template-rows: 65px minmax(max-content, 1fr) auto;
+    grid-template-rows: auto minmax(max-content, 1fr) auto;
 `;

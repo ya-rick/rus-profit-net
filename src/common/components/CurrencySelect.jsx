@@ -92,5 +92,4 @@ const CurrencySelectDropdownItem = styled.div`
     background: #FFFFFF;
     text-align: center;
     font-size: 13px;
-    line-height: 23px;
 `;

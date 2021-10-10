@@ -74,12 +74,12 @@ export default class SearchStore {
     async showMoreInfo() {
         if (this.isLastPage) return;
 
-        const { filterType } = this.resultsRestInfo.currentFiltersContract;
+        const { type_search } = this.resultsRestInfo.currentFiltersContract;
 
         this.scrollDown();
 
         const results = await this.sendFilters(
-            filterType,
+            type_search,
             {
                 ...this.resultsRestInfo.currentFiltersContract,
                 page: this.resultsRestInfo.page
@@ -93,13 +93,13 @@ export default class SearchStore {
     }
 
     async getInfoByFilters() {
-        const { filterType } = 
+        const { type_search } = 
             this.resultsRestInfo.currentFiltersContract =
             this.mainFiltersStore.filtersToServerContract();
         try {
             if (this.mainFiltersStore.validateFullInfo()) throw new Error(false);
 
-            const results = await this.sendFilters(filterType, this.resultsRestInfo.currentFiltersContract);
+            const results = await this.sendFilters(type_search, this.resultsRestInfo.currentFiltersContract);
     
             this.searchResultsCollection.setResults(results.resume || results.vacancy);
             this.setTotalPage(results.last_page);

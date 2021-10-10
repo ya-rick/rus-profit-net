@@ -19,7 +19,7 @@ function RegisterVacancies({
     uiStore: { openModal }, isResume,
     fields: { description, result_cat, agree, category_global, isWorksAddable, ...restFields },
     error: { targetedInfo, descriptionBlock },
-    onFieldChange, onConfirmClicked
+    onFieldChange, onConfirmClicked, successMessage
 }) {
 
     const { categories, setCurrentCategory, filtersByCategory } = useCategoryFilters(category_global?.id);
@@ -29,10 +29,7 @@ function RegisterVacancies({
         try {
             await onConfirmClicked();
 
-            openModal(ModalVariants.InfoModal, {
-                title: 'Поздравляю!',
-                description: 'Для завершения регистрация на Ваш почтовый ящик было отправлена ссылка, по которой необходимо перейти'
-            })
+            openModal(ModalVariants.InfoModal, successMessage)
         } catch(e) {
             console.error(e);
             
@@ -40,7 +37,7 @@ function RegisterVacancies({
 
             openModal(ModalVariants.InfoModal, {
                 title: 'Произошла ошибка!',
-                description: 'Пользователь с таким почтовым ящиком уже существует в системе'
+                description: 'Обратитесь в поддержку'
             });
         } 
     }

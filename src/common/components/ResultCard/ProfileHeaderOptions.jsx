@@ -6,20 +6,36 @@ import Icon from '../Icon';
 
 
 export default observer(function ProfileHeaderOptions({
-    onTrashClick = () => {}, status, onButtonClick = () => {}, disabled
+    onTrashClickCallback, status, onButtonClickCallback, disabled
 }) {
 
-    function renderByStatus(status) {
+    function onTrashClick(e) {
+        e.stopPropagation();
+
+        if (disabled) return;
+
+        onTrashClickCallback();
+    }
+
+    function bindOnButtonClick(newStatus) {
+        return e => {
+            e.stopPropagation();
+
+            onButtonClickCallback(newStatus);
+        }
+    }
+
+    function renderByStatus() {
         switch(status) {
-            case 'shown': return <CommonButton onClick={onButtonClick}>Убрать из поиска</CommonButton>;
-            case 'stopped': return <CommonButton onClick={onButtonClick}>Активировать вакансию</CommonButton>;
-            default: return 'Ожидает подтверждения модератором'
+            case 'shown': return <CommonButton onClick={bindOnButtonClick('stopped')}>Убрать из поиска</CommonButton>;
+            case 'stopped': return <CommonButton onClick={bindOnButtonClick('shown')}>Активировать вакансию</CommonButton>;
+            default: return 'Ожидает подтверждения модератором';
         }
     }
 
     return <ProfileHeaderOptionsLayout>
 
-        {renderByStatus(status)}
+        {renderByStatus()}
 
         <Icon
             iconName={'trash'}

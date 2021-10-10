@@ -1,13 +1,13 @@
-import React, {useState, useCallback, useContext} from "react";
-import Cropper from "react-easy-crop";
+import React, {useState, useCallback } from 'react';
+import Cropper from 'react-easy-crop';
 
 import './react-easy-crop.css';
 import './red-img.css';
 
-import getCroppedImg from "./cropImage";
-import RangeSlider from "../rangeSlider";
-import { CommonButton, LinkedButton } from "../Buttons";
-import { inject, observer } from "mobx-react";
+import getCroppedImg from './cropImage';
+import RangeSlider from '../rangeSlider';
+import { CommonButton } from '../Buttons';
+import { inject, observer } from 'mobx-react';
 
 const RedImg = inject('uiStore')(observer(({
         uiStore: { modalPayload: { photo, onSuccessCallback }, closeModal }

@@ -1,4 +1,4 @@
-import { action, makeAutoObservable } from 'mobx';
+import { action, flow, makeAutoObservable } from 'mobx';
 
 import { requestWithFormData, requestWithParams } from '../../api/exchangeLayer';
 import CommonInfoContract from './Contracts/CommonInfoContract';
@@ -34,7 +34,7 @@ export default class UserModel {
             validateAll: action.bound,
             validatePasswordInfo: action.bound,
             saveData: action.bound,
-            getTabResults: action.bound,
+            getTabResults: flow.bound,
             clearTabResults: action.bound,
         });
     }
@@ -124,9 +124,11 @@ export default class UserModel {
         }
     }
 
-    async getTabResults(searchParam) {
+    *getTabResults(searchParam, payload) {
+        this.currentTabResults.setLoading();
+
         try {
-            const { vacancy, resume } = await requestWithParams(searchParam);
+            const { vacancy, resume } = yield requestWithParams(searchParam, payload)
 
             if (vacancy) {
                 this.currentTabResults.setCollectionType('vacancy');

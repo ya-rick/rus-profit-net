@@ -56,7 +56,7 @@ function GeneralInformation({ uiStore, birthday, onChangeField, image }) {
 
             <Calendar
                 onChange={changeDate}
-                value={new Date(birthday)}
+                value={birthday ? new Date(birthday) : new Date(Date.now())}
             />
 
             <InfoWrapper>
