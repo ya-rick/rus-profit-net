@@ -133,37 +133,37 @@ function ResultCard({
 
                 <CardInfoBlock>
 
-                <CardHeader>
-                    <CardTitle>
-                        {isResume ? name : category.name}
-                        {!isResume && <CardSubtitle>{places[0]?.country_name}: {places[0]?.cities?.map(city => city.name).join(',')}</CardSubtitle>}
-                    </CardTitle>
-                    {isUserAuthenticated && !userProfileInfo && <FavouriteIcon
-                        iconName={'favourite'}
-                        onClick={favouriteClickHandler('setToFavourites', id)}
-                        isActive={isFavourite}
-                    />}
-                    {userProfileInfo ? <ProfileHeaderOptions 
-                        onTrashClickCallback={deleteResult}
-                        onButtonClickCallback={toggleActiveState}
-                        status={status}
-                        disabled={disabled}
-                    />
-                    : <PlusIcon
-                        iconName={'plus'}
-                        onClick={onSelectResult}
-                    />}
-                </CardHeader>
+                    <CardHeader>
+                        <CardTitle>
+                            {isResume ? name : category.name}
+                            {!isResume && <CardSubtitle>{places[0]?.country_name}: {places[0]?.cities?.map(city => city.name).join(',')}</CardSubtitle>}
+                        </CardTitle>
+                        {isUserAuthenticated && !userProfileInfo && <FavouriteIcon
+                            iconName={'favourite'}
+                            onClick={favouriteClickHandler('setToFavourites', id)}
+                            isActive={isFavourite}
+                        />}
+                        {userProfileInfo ? <ProfileHeaderOptions 
+                            onTrashClickCallback={deleteResult}
+                            onButtonClickCallback={toggleActiveState}
+                            status={status}
+                            disabled={disabled}
+                        />
+                        : <PlusIcon
+                            iconName={'plus'}
+                            onClick={onSelectResult}
+                        />}
+                    </CardHeader>
 
-                <CardOptionalInfoBlock>
-                    <div>Опыт: {mapAge(experience)}</div>
-                    <div>{parameters[0]?.options[0]?.name}</div>
-                    <div>{salary.value} {salary.currency.value} {salary.type.value}</div>
-                </CardOptionalInfoBlock>
+                    <CardOptionalInfoBlock>
+                        <div>Опыт: {mapAge(experience)}</div>
+                        <div>{parameters[0]?.options[0]?.name}</div>
+                        <div>{salary.value} {salary.currency.value} {salary.type.value}</div>
+                    </CardOptionalInfoBlock>
 
-                <CardSubtitle>Описание {isResume ? 'анкеты' : 'вакансии'}</CardSubtitle>
+                    <CardSubtitle>Описание {isResume ? 'анкеты' : 'вакансии'}</CardSubtitle>
 
-                <CardDescrption>{description}</CardDescrption>
+                    <CardDescrption>{description}</CardDescrption>
 
                 </CardInfoBlock>
             </CardInfosLayout>
@@ -184,7 +184,7 @@ function ResultCard({
 };
 
 const CardWrapper = styled.div`
-    padding: 30px;
+    padding: 2%;
     border-radius: 15px;
     background-color: #F7FBFC;
     margin-bottom: 30px;
@@ -260,7 +260,7 @@ const CardInfoBlock = styled.div`
     flex: 1 1 70%;
 
     > * {
-        margin-bottom: 40px;
+        margin-bottom: 20px;
     }
 
     > *:last-child {

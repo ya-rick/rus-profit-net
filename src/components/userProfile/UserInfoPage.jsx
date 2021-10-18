@@ -19,8 +19,9 @@ function UserInfoPage({ uiStore }) {
 
     const {
         editInfo: {
-            birthday, avatar, user_surname, user_name, user_email, contacts_info,
+            birthday, avatar, user_surname, user_name, contacts_info,
         },
+        user: { user_email },
         error: { generalInfo, contactInfo, mainInfo }, setField, saveData
     } = userModel;
 
@@ -103,7 +104,7 @@ function UserInfoPage({ uiStore }) {
             <GeneralInformationFields
                 onChangeField={setField}
                 birthday={birthday}
-                image={avatar}
+                avatar={avatar}
             />
 
         </GeneralInfoLayout>

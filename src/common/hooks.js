@@ -25,8 +25,8 @@ export function useToggle(initial = false) {
     const [state, setState] = useState(initial);
 
     function toggleState(value) {
-        value ? setState(Boolean(value)) : setState(prev => !prev);
+        value !== undefined ? setState(Boolean(value)) : setState(prev => !prev);
     }
 
-    return [state, toggleState]
+    return [state, toggleState];
 }

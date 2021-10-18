@@ -24,6 +24,7 @@ const httpMethodsTypes = {
     userVacancy: 'get_vacancy_by_user',
     userResume: 'get_resume_by_user',
     changerPasswordUser: 'change_password_user',
+    changerEmailUser: 'change_email_user',
     login: 'login',
     logout: 'logout',
     setMark: 'set_mark',

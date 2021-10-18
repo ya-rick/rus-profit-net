@@ -39,17 +39,19 @@ function EmailChangePage({ uiStore }) {
         try {
             if (validateEmails() !== true) return;
 
-            // await requestWithParams('changerPasswordUser', emails);
-            throw new Error('TODO send email change');
+            await requestWithParams('changerEmailUser', emails);
 
             uiStore.openModal(ModalVariants.InfoModal, {
                 title: 'Поздравляем!',
                 description: 'Вы успешно изменили имейл. На Вашу новую почту отправлено письмо с подтверждением'
-            })
+            });
         } catch(e) {
             console.error(e);
 
-            setError(e.message);
+            uiStore.openModal(ModalVariants.InfoModal, {
+                title: 'Упс!',
+                description: 'Что-то пошло не так'
+            });
         }
     }
 

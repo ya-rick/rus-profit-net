@@ -24,7 +24,7 @@ export const Image = styled.img`
 
 export const InfoWrapper = styled.div`
     position: relative;
-    width: 100%;
+    width: 50%;
     display: flex;
     flex-direction: column;
     justify-content: center;

@@ -13,7 +13,7 @@ import styled from 'styled-components';
 function RegisterFilterVacation({
     onFieldChange, isResume,
     fields: {
-        vacancy_name, years_with, years_to, experience, salary,
+        vacancy_name, years_with, years_to, experience, salary, currency, salary_type,
         cityCountryModel: {
             onChangeActiveEditableCountry, onChangeCountries, chosenCountries, currentEditCountry,
             onChangeCities, chosenCities
@@ -35,7 +35,9 @@ function RegisterFilterVacation({
                     onSelectChanged={onFieldChange('salary_type')}
                     onSalaryChanged={onFieldChange('salary')}
                     onCurrencyChanged={onFieldChange('currency')}
-                    currencyValue={salary}
+                    salary={salary}
+                    currencyID={currency}
+                    salaryTypeID={salary_type}
                 />
             </> : <>
                 <div>
@@ -67,7 +69,9 @@ function RegisterFilterVacation({
                     onSelectChanged={onFieldChange('salary_type')}
                     onSalaryChanged={onFieldChange('salary')}
                     onCurrencyChanged={onFieldChange('currency')}
-                    currencyValue={salary}
+                    salary={salary}
+                    currencyID={currency}
+                    salaryTypeID={salary_type}
                 />
             </>}
             <div className='name-info-subblock'>

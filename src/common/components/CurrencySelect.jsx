@@ -1,48 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { requestWithParams } from '../../api/exchangeLayer';
+import { useToggle } from '../hooks';
 import OutsideClickWrapper from './OutsideClickWrapper';
 import { ArrowDown } from './select';
 
-export default function CurrencySelect({ onChange, ...props }) {
+export default function CurrencySelect({ onChange, current }) {
     const [currencies, setCurrencies] = useState([]);
-    const [currentCurrency, setCurrentCurrency] = useState([]);
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, toggleOpen] = useToggle(false);
 
     useEffect(() => {
 
         requestWithParams('getCurrencies')
             .then(data => {
                 setCurrencies(data.currencies)
-                onChange(data.currencies[0])
+                if (!current) {
+                    onChange(data.currencies[0]);
+                }
             })
 
     }, []);
 
-    function toggleOpen (isOpen) {
-        if (isOpen === true) {
-            setIsOpen(true);
-        } else if (isOpen === false) {
-            setIsOpen(false);
-        } else {
-            setIsOpen(prevState => !prevState);
-        }
-    }
-
     function onItemClick(item) {
         return (e) => {
-            e?.stopPropagation()
+            e?.stopPropagation();
 
-            setCurrentCurrency(item.symbol)
-            onChange(item)
-            toggleOpen(false)
+            onChange(item);
+            toggleOpen(false);
         }
     }
 
     return <OutsideClickWrapper onOutsideClickHandler={() => toggleOpen(false)}>
         {elRef => <CurrencySelectWrapper ref={elRef}>
-            <CurrencySelectHeader onClick={toggleOpen}>
-                {currentCurrency}
+            <CurrencySelectHeader onClick={() => toggleOpen()}>
+                {currencies.find(currency => currency.id === current)?.value}
                 <ArrowDown isInverted={isOpen}/> 
             </CurrencySelectHeader>
 
@@ -52,7 +43,7 @@ export default function CurrencySelect({ onChange, ...props }) {
                     key={currency.id}
                     onClick={onItemClick(currency)}
                 >
-                    {currency.symbol}
+                    {currency.value}
                 </CurrencySelectDropdownItem>)}
             </CurrencySelectDropdown>}
             

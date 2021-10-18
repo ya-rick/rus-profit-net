@@ -55,7 +55,10 @@ function PasswordChangePage({ uiStore }) {
         } catch(e) {
             console.error(e);
 
-            setError(e);
+            uiStore.openModal(ModalVariants.InfoModal, {
+                title: 'Упс!',
+                description: 'Вы указали неверный старый пароль'
+            })
         }
     }
 

@@ -42,7 +42,7 @@ function MainFilterSearch({ registrationStore, searchStore, uiStore: { openModal
     }, [scrollToEl, pathname]);
 
     const { setField, result_cat, years_with, years_to, error: { noFullInfo },
-        experience, salary, category,
+        experience, salary, category, salary_type, currency,
         cityCountryModel: {
             onChangeCities, onChangeCountries, chosenCountries, chosenCities, onChangeActiveEditableCountry,
             currentEditCountry, countries
@@ -163,7 +163,9 @@ function MainFilterSearch({ registrationStore, searchStore, uiStore: { openModal
                             onSelectChanged={setField('salary_type')}
                             onSalaryChanged={setField('salary')}
                             onCurrencyChanged={setField('currency')}
-                            currencyValue={salary}
+                            salary={salary}
+                            currencyID={currency}
+                            salaryTypeID={salary_type}
                         />
                     </div>
 

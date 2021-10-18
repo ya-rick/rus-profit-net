@@ -247,7 +247,7 @@ const ContentLayout = styled.div`
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    gap: 70px;
+    gap: 40px;
 `;
 
 const MainBlock = styled.div`

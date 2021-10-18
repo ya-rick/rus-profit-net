@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { SelectWrapper, SelectHeader, SelectDropdownList, SelectDropdownItem,
-    ArrowWrapper, SelectLayout, SelectedItem, LeftItemWrapper } from './styles';
+    ArrowWrapper, SelectLayout, SelectedItem } from './styles';
 import { arrow_down } from '../../svgElements';
 import OutsideClickWrapper from '../OutsideClickWrapper';
+import { useToggle } from '../../hooks';
+
 
 export function ArrowDown ({ isInverted = false }) {
     return (
@@ -13,36 +15,20 @@ export function ArrowDown ({ isInverted = false }) {
     )
 }
 
-/**
- * @param {array} elements - Array of elements { value: <some value>, text: <some text> } 
- */
-
 export default function Select ({
-    noHeaderBorders, elements, children, onItemClickCallback = () => {}, leftHeaderItem, value
+    noHeaderBorders, elements, children, onItemClickCallback = () => {}, leftHeaderItem, current
 }) {
-    const [isOpen, setIsOpen] = useState(false);
-    const [selectedItem, selectItem] = useState(null)
+    const [isOpen, toggleOpen] = useToggle(false);
 
     useEffect(() => {
-
-        selectItem(children.find(child => child.id === value?.id) || '');
-
-    }, [])
-
-    function toggleOpen (isOpen) {
-        if (isOpen === true) {
-            setIsOpen(true);
-        } else if (isOpen === false) {
-            setIsOpen(false);
-        } else {
-            setIsOpen(prevState => !prevState);
+        if (!current) {
+            onItemClickCallback(children[0]);
         }
-    }
+    }, []);
     
     function onItemClick (element) {
         return () => {
             toggleOpen(false);
-            selectItem(element)
             onItemClickCallback(element);
         }
     }
@@ -54,17 +40,17 @@ export default function Select ({
     }
     
     return (
-        <OutsideClickWrapper onOutsideClickHandler={() => setIsOpen(false)}>
+        <OutsideClickWrapper onOutsideClickHandler={() => toggleOpen(false)}>
             {(elRef) => <SelectWrapper ref={elRef}>
 
                 {leftHeaderItem && leftHeaderItem}
 
                 <SelectLayout>
                     <SelectHeader
-                        onClick={toggleOpen}
+                        onClick={() => toggleOpen()}
                         noBorders={noHeaderBorders}
                     >
-                        <SelectedItem>{selectedItem?.name}</SelectedItem>
+                        <SelectedItem>{children.find(type => type.id === current)?.name}</SelectedItem>
                         <ArrowDown isInverted={isOpen}/>    
                     </SelectHeader>
 

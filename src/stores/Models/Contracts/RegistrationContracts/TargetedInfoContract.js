@@ -67,7 +67,7 @@ export default class TargetedInfoContract {
     }
 
     validateName(callback) {
-        if (!this.name.trim().length) callback('Нужно добавить название вакансии');
+        if (!this.vacancy_name.trim().length) callback('Нужно добавить название вакансии');
     }
 
     validateDescriptionBlock(callback) {

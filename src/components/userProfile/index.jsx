@@ -100,7 +100,7 @@ const ProfileContentLayout = styled.div`
 
 const ContentContainer = styled.div`
     grid-area: content;
-    padding: 20px;
+    padding: 3% 5%;
     border-radius: 15px;
 
     box-shadow: 0 0 10px rgb(0, 0, 0, 0.5);

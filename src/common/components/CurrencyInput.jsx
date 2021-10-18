@@ -4,18 +4,19 @@ import styled from 'styled-components'
 import NumberInput from './NumberInput'
 import CurrencySelect from './CurrencySelect'
 
-export default function CurrencyInput({ onChangeCurrency, noHeaderBorders, onChangeValue, currencyValue, ...props }) {
+export default function CurrencyInput({ onChangeCurrency, noHeaderBorders, onChangeValue, salary, currencyID, ...props }) {
     return <CurrencySelectWrapper>
         <StyledInput
             {...props}
-            value={currencyValue}
+            value={salary}
             onChange={onChangeValue}
         />
         <CurrencySelectLayoutContainer>
             <CurrencySelect
-                {...props}
                 noHeaderBorders={noHeaderBorders}
                 onChange={obj => onChangeCurrency(obj.id)}
+                currentCurrency={salary.currency}
+                current={currencyID}
             />
         </CurrencySelectLayoutContainer>
     </CurrencySelectWrapper>

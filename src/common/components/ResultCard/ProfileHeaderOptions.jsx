@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react';
 import styled from 'styled-components';
 
-import { CommonButton } from '../Buttons';
+import { SecondaryButton } from '../Buttons';
 import Icon from '../Icon';
 
 
@@ -27,8 +27,8 @@ export default observer(function ProfileHeaderOptions({
 
     function renderByStatus() {
         switch(status) {
-            case 'shown': return <CommonButton onClick={bindOnButtonClick('stopped')}>Убрать из поиска</CommonButton>;
-            case 'stopped': return <CommonButton onClick={bindOnButtonClick('shown')}>Активировать вакансию</CommonButton>;
+            case 'shown': return <SecondaryButton onClick={bindOnButtonClick('stopped')}>Убрать из поиска</SecondaryButton>;
+            case 'stopped': return <SecondaryButton onClick={bindOnButtonClick('shown')}>Активировать вакансию</SecondaryButton>;
             default: return <PendingBar>Ожидает подтверждения модератором</PendingBar>;
         }
     }

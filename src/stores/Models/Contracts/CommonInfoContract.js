@@ -1,50 +1,10 @@
-import { action, makeObservable, observable, toJS } from 'mobx';
+import { action, makeObservable, observable } from 'mobx';
 
 export default class CommonInfoContract {
-
-    // main info
-    user_surname = '';
-    user_name = '';
-    
-    // contact info
-    contacts_info = [
-        {
-            name: 'Email',
-            value: '',
-            prefered: false,
-        },
-        {
-            name: 'WhatsApp',
-            value: '',
-            prefered: false,
-        },
-        {
-            name: 'Telegram',
-            value: '',
-            prefered: false,
-        },
-        {
-            name: 'Skype',
-            value: '',
-            prefered: false,
-        },
-        {
-            name: 'Viber',
-            value: '',
-            prefered: false,
-        },
-        {
-            name: 'Телефон',
-            value: '',
-            prefered: false,
-        },
-    ];
-
-    avatar = null;
-    birthday = null;
-
-
     constructor() {
+        Object.entries(this.basicTemplate)
+            .forEach(([key, defaultValue]) => this[key] = defaultValue);
+
         makeObservable(this, {
             user_surname: observable,
             user_name: observable,
@@ -53,6 +13,47 @@ export default class CommonInfoContract {
             birthday: observable,
             setContact: action,
         });
+    }
+
+    get basicTemplate() {
+        return {
+            user_surname: '',
+            user_name: '',
+            contacts_info: [
+                {
+                    name: 'Email',
+                    value: '',
+                    prefered: false,
+                },
+                {
+                    name: 'WhatsApp',
+                    value: '',
+                    prefered: false,
+                },
+                {
+                    name: 'Telegram',
+                    value: '',
+                    prefered: false,
+                },
+                {
+                    name: 'Skype',
+                    value: '',
+                    prefered: false,
+                },
+                {
+                    name: 'Viber',
+                    value: '',
+                    prefered: false,
+                },
+                {
+                    name: 'Телефон',
+                    value: '',
+                    prefered: false,
+                },
+            ],
+            avatar: null,
+            birthday: null,
+        }
     }
 
     setContact(newContact) {
@@ -93,26 +94,25 @@ export default class CommonInfoContract {
     }
 
     static fromServerContract(fromServerUserData) {
-        const {
-            avatar, birthday, contacts_info, user_name, user_surname, user_email
-        } = fromServerUserData;
+        const newContract = new this();
 
-        const newContact = new this();
+        Object.entries(newContract.basicTemplate)
+            .forEach(([key, defaultValue]) => newContract[key] = fromServerUserData[key] || defaultValue);
 
-        newContact.avatar = avatar;
-        newContact.birthday = birthday;
-        newContact.user_name = user_name;
-        newContact.user_surname = user_surname;
-        newContact.user_email = user_email;
-        newContact.contacts_info = toJS(contacts_info);
-
-        return newContact;
+        return newContract;
     }
 
     toServerContract() {
-        const { user_surname, user_name, user_email, contacts_info, avatar, birthday } = this;
+        return Object.keys(this.basicTemplate)
+            .reduce((acc, key) => {
+                if (key === 'contacts_info') {
+                    acc[key] = JSON.stringify(this[key]);
+                } else {
+                    acc[key] = this[key];
+                }
 
-        return { user_surname, user_name, user_email, avatar, birthday, contacts_info: JSON.stringify(contacts_info) }
+                return acc;
+            }, {})
     }
 
 }
