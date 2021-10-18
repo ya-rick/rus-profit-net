@@ -22,14 +22,14 @@ function Vacancy({ searchStore, uiStore: { userModel: { isUserAuthenticated }, o
 
     const {
         isCurrentSearchResult, setCurrentResult, mainInfoSearchResult,
-        secondaryInfoSearchResult, getContactsByID
+        secondaryInfoSearchResult, getContactsByID, searchResultsCollection
     } = searchStore;
 
-    const isResultsPresent = searchStore.searchResultsCollection.results?.length > 0;
+    const isResultsPresent = searchResultsCollection.results?.length > 0;
 
-    const { name, description, experience, avatar, salary, salary_type,
+    const { name, description, experience, avatar, salary,
         places, category, employer, contacts_info, mark, isFavourite, vacancy_name,
-        create_date, currency, example, type } = searchStore.currentChosenResult || {};
+        create_date, example, type } = searchStore.currentChosenResult || {};
 
     const { id } = useParams();
 
@@ -39,7 +39,7 @@ function Vacancy({ searchStore, uiStore: { userModel: { isUserAuthenticated }, o
             
             setContactsShown(true);
         } catch (e) {
-            console.log(e);
+            console.error(e);
 
             openModal(ModalVariants.InfoModal, {
                 title: 'Извините,',
@@ -134,10 +134,10 @@ function Vacancy({ searchStore, uiStore: { userModel: { isUserAuthenticated }, o
 
                         <FullInfoTextBlock>
 
-                            {isResume && <div style={{ textAlign: 'center' }}>{category}</div>}
+                            {isResume && <div style={{ textAlign: 'center' }}>{category.name}</div>}
 
                             <MainInfoBlock>
-                                <FullInfoBolderText>{`${salary} ${currency} ${salary_type}`}</FullInfoBolderText>
+                                <FullInfoBolderText>{`${salary.value} ${salary.currency.value} ${salary.type.value}`}</FullInfoBolderText>
 
                                 {!isResume && <MainInfoBlockItem>
                                     <FullInfoBolderText>Работодатель:</FullInfoBolderText>

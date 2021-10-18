@@ -1,4 +1,4 @@
-import { action, makeObservable, observable } from 'mobx';
+import { action, makeObservable, observable, toJS } from 'mobx';
 
 export default class CommonInfoContract {
 
@@ -85,7 +85,6 @@ export default class CommonInfoContract {
     }
 
     validateMain(callback) {
-        this.validateEmail(callback);
         this.validateMainInfoByLength(callback);
     }
 
@@ -95,16 +94,17 @@ export default class CommonInfoContract {
 
     static fromServerContract(fromServerUserData) {
         const {
-            avatar, birthday, contacts_info, name, surname
+            avatar, birthday, contacts_info, user_name, user_surname, user_email
         } = fromServerUserData;
 
         const newContact = new this();
 
         newContact.avatar = avatar;
         newContact.birthday = birthday;
-        newContact.user_name = name || '';
-        newContact.user_surname = surname || '';
-        newContact.contacts_info = contacts_info;
+        newContact.user_name = user_name;
+        newContact.user_surname = user_surname;
+        newContact.user_email = user_email;
+        newContact.contacts_info = toJS(contacts_info);
 
         return newContact;
     }

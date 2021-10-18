@@ -3,13 +3,14 @@ import { useLocation } from 'react-router-dom';
 
 import { LinkedButton } from '../../common/components/Buttons';
 
-export default function SideBar({ children = [] }) {
+export default function SideBar({ children = [], onTablClickCallback = () => {} }) {
     const { pathname } = useLocation();
 
     return <SideBarContainer>
         {children.map(tab => <SideBarTab
             key={tab.to}
             to={tab.to}
+            onClick={() => onTablClickCallback(tab.onClickType)}
             active={pathname === tab.to}
         >{tab.name}</SideBarTab>)}
     </SideBarContainer>
@@ -17,12 +18,13 @@ export default function SideBar({ children = [] }) {
 
 const SideBarContainer = styled.div`
     grid-area: sidebar;
-    border: 2px solid #6F80A5;
     padding: 10px;
     border-radius: 15px;
     display: flex;
     flex-direction: column;
     gap: 20px;
+
+    box-shadow: 0 0 10px rgb(0, 0, 0, 0.5);
 `;
 
 const SideBarTab = styled(LinkedButton)`

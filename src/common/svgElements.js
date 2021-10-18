@@ -128,7 +128,7 @@ export const heart = (
 )
 
 export const trash = (
-    <svg width="46" height="54" viewBox="0 0 46 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width="40" height="40" viewBox="0 0 46 54" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M5.81836 9.69238L8.20472 48.1539C8.31808 50.3763 9.9229 52.0001 12.0229 52.0001H33.9774C36.0858 52.0001 37.6608 50.3763 37.7956 48.1539L40.182 9.69238" stroke="#6F80A5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
         <path d="M2 9.69238H44" stroke="#6F80A5" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round"/>
         <path d="M31.591 17.3846L30.6365 44.3077M15.3637 9.69232V4.88463C15.3626 4.5055 15.4359 4.1299 15.5795 3.77942C15.723 3.42894 15.9339 3.1105 16.2 2.84242C16.4661 2.57434 16.7823 2.3619 17.1302 2.21733C17.4781 2.07276 17.851 1.9989 18.2274 2.00001H27.7728C28.1492 1.9989 28.5221 2.07276 28.87 2.21733C29.2179 2.3619 29.534 2.57434 29.8002 2.84242C30.0663 3.1105 30.2772 3.42894 30.4207 3.77942C30.5642 4.1299 30.6376 4.5055 30.6365 4.88463V9.69232H15.3637ZM23.0001 17.3846V44.3077V17.3846ZM14.4092 17.3846L15.3637 44.3077L14.4092 17.3846Z" stroke="#6F80A5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
@@ -172,5 +172,11 @@ export const email_notification = (
         <path d="M41 29.5C41 22.599 35.401 17 28.5 17C21.599 17 16 22.599 16 29.5C16 36.401 21.599 42 28.5 42C35.401 42 41 36.401 41 29.5Z" fill="#B9C3D8"/>
         <path d="M33 25L23.9 35L20 31" stroke="#4C5E8B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         <path d="M37 25L27.9 35L24 31" stroke="#153D70" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+)
+
+export const check = (
+    <svg width="24" height="19" viewBox="0 0 24 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M22 2L8 17L2 11.375" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
 )

@@ -42,7 +42,7 @@ export const SearchResultsFromUserProfile = SearchResultsComponent => {
     
     function Wrapper({
         searchStore,
-        uiStore: { userModel: { currentTabResults, getTabResults, clearTabResults, deleteTabResult } },
+        uiStore: { userModel: { currentTabResults, getTabResults, deleteTabResult } },
         searchParam,
         createEditStore,
         ...props
@@ -58,7 +58,6 @@ export const SearchResultsFromUserProfile = SearchResultsComponent => {
 
             getTabResults(searchParam);
     
-            return () => clearTabResults();
         }, [searchParam])
 
         function onSelectCallback(result) {
@@ -94,7 +93,7 @@ export const SearchResultsFavourites = SearchResultsComponent => {
     
     function Wrapper({
         searchStore,
-        uiStore: { userModel: { currentTabResults, getTabResults, clearTabResults, deleteTabResult } },
+        uiStore: { userModel: { currentTabResults, getTabResults, deleteTabResult } },
         searchParam,
         createEditStore,
         ...props
@@ -110,7 +109,6 @@ export const SearchResultsFavourites = SearchResultsComponent => {
 
             getTabResults(searchParam, { id });
     
-            return () => clearTabResults();
         }, [searchParam, id])
 
         function onSelectCallback(result) {
@@ -124,6 +122,49 @@ export const SearchResultsFavourites = SearchResultsComponent => {
             isLoading={isLoading}
             isPresent={isPresent}
             resultsTitleVariants={[ 'Отобранные вакансии', 'Отобранные анкеты' ]}
+            onSelectCallback={onSelectCallback}
+            TitleComponent={ContentTitle}
+            onDeleteCallback={deleteTabResult}
+            {...props}
+        />
+    }
+
+    return inject('searchStore', 'uiStore', 'createEditStore')(observer(Wrapper));
+};
+
+export const SearchResultsViews = SearchResultsComponent => {
+    
+    function Wrapper({
+        searchStore,
+        uiStore: { userModel: { currentTabResults, getTabResults, deleteTabResult } },
+        searchParam,
+        createEditStore,
+        ...props
+    }) {
+
+        const {
+            isLoading, isPresent, isVacancy, results,
+        } = currentTabResults;
+
+        const { id } = useParams();
+
+        useEffect(() => {
+
+            getTabResults(searchParam, { id });
+    
+        }, [searchParam, id]);
+
+        function onSelectCallback(result) {
+            searchStore.setCurrentResult(result);
+        }
+
+        return <SearchResultsComponent
+            results={results}
+            isVacancy={isVacancy}
+            isLastPage={true}
+            isLoading={isLoading}
+            isPresent={isPresent}
+            resultsTitleVariants={[ 'Просмотры вакансии', 'Просмотры анкеты' ]}
             onSelectCallback={onSelectCallback}
             TitleComponent={ContentTitle}
             onDeleteCallback={deleteTabResult}

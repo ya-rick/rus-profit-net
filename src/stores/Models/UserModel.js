@@ -35,6 +35,7 @@ export default class UserModel {
             validatePasswordInfo: action.bound,
             saveData: action.bound,
             getTabResults: flow.bound,
+            setTabResultsType: action.bound,
             clearTabResults: action.bound,
             deleteTabResult: action.bound,
         });
@@ -51,7 +52,11 @@ export default class UserModel {
     setField(fieldKey) {
         return action((value) => {
             if (fieldKey in this.editInfo) {
-                this.editInfo[fieldKey] = value;
+                if (fieldKey === 'contacts_info') {
+                    this.editInfo.setContact(value);
+                } else {
+                    this.editInfo[fieldKey] = value;
+                }
             } else {
                 throw new Error(`No such key ${fieldKey}`);
             }
@@ -95,7 +100,7 @@ export default class UserModel {
             this.user = new UserContract(await requestWithParams('getUserData'));
 
             // this.user = new UserContract({
-            //     name: 'testing only'
+            //     user_name: 'testing only'
             // })
 
             this.editInfo = CommonInfoContract.fromServerContract(this.user);
@@ -125,22 +130,23 @@ export default class UserModel {
         }
     }
 
+    setTabResultsType(type) {
+        this.currentTabResults.setCollectionType(type);
+    }
+
     *getTabResults(searchParam, payload) {
         this.currentTabResults.setLoading();
 
         try {
             const { vacancy, resume } = yield requestWithParams(searchParam, payload)
 
-            if (vacancy) {
-                this.currentTabResults.setCollectionType('vacancy');
-                this.currentTabResults.setResults(vacancy);
-            } else if (resume) {
+            if (resume) {
                 this.currentTabResults.setCollectionType('resume');
                 this.currentTabResults.setResults(resume);
             } else {
-                throw new Error('No necessary tab results')
+                this.currentTabResults.setCollectionType('vacancy');
+                this.currentTabResults.setResults(vacancy);
             }
-
         } catch(e) {
             console.error(e);
             this.currentTabResults.setResults([]);
@@ -148,7 +154,6 @@ export default class UserModel {
     }
 
     deleteTabResult(id) {
-        console.log(id)
         this.currentTabResults.deleteResult(id);
     }
 

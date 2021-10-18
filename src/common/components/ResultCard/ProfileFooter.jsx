@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { CommonButton } from '../Buttons';
@@ -7,8 +7,19 @@ import Icon from '../Icon';
 
 
 export default observer(function ProfileFooter({
-    resultID, favouritesCount = 0, viewsCount = 0, disabled, editClicked,
+    resultID, count_favorites, count_views, disabled, editClicked, onFavouritesClickCallback, onViewsClickCallback
 }) {
+
+    const history = useHistory();
+
+    function bindRedirect(link, callback) {
+        return e => {
+            e.stopPropagation();
+
+            history.push(link);
+            callback();
+        }
+    }
 
     function onEditClicked(e) {
         e.stopPropagation();
@@ -17,8 +28,7 @@ export default observer(function ProfileFooter({
 
         editClicked && editClicked(resultID);
 
-        // history.push(`/profile/update/${resultID}`);
-
+        history.push(`/profile/update`);
     }
     return <ProfileFooterLayout>
 
@@ -26,28 +36,26 @@ export default observer(function ProfileFooter({
             Редактировать
         </CommonButton>
 
-        <ButtonLinkedWrapper
-            to={`/profile/favourites/${resultID}`}
-            onClick={e => e.stopPropagation()}
+        <ButtonWrapper
+            onClick={bindRedirect(`/profile/favourites/${resultID}`, onFavouritesClickCallback)}
         >
             <Icon
                 iconName={'heart'}
-                text={favouritesCount}
+                text={count_favorites}
             />
 
             Моё избранное
-        </ButtonLinkedWrapper>
+        </ButtonWrapper>
 
-        <ButtonLinkedWrapper
-            to={`views/${resultID}`}
-            onClick={e => e.stopPropagation()}
+        <ButtonWrapper
+            onClick={bindRedirect(`/profile/views/${resultID}`, onViewsClickCallback)}
         >
             <Icon
                 iconName={'views'}
             />
 
-            Просмотры (+{viewsCount})
-        </ButtonLinkedWrapper>
+            Просмотры {count_views > 0 && `(+${count_views})`}
+        </ButtonWrapper>
 
     </ProfileFooterLayout>
 })
@@ -60,7 +68,7 @@ export const ProfileFooterLayout = styled.div`
     margin-top: 40px;
 `;
 
-const ButtonLinkedWrapper = styled(Link)`
+const ButtonWrapper = styled.div`
     display: flex;
     align-items: center;
     column-gap: 30px;

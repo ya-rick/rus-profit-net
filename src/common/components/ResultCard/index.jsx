@@ -16,16 +16,17 @@ export default inject('searchStore', 'uiStore', 'createEditStore')(observer(Resu
 
 function ResultCard({
     result, onSelectResult, userProfileInfo,
-    uiStore: { userModel: { isUserAuthenticated }, openModal },
+    uiStore: { userModel: { isUserAuthenticated, setTabResultsType }, openModal },
     createEditStore, onDeleteCallback
 }) {
 
     const { category, places, experience, parameters, salary, type,
-        salary_type, description, name, avatar, id, mark, isFavourite, status } = result;
+        description, name, avatar, id, mark, isFavourite, status,
+        count_favorites, count_views } = result;
 
     const isResume = type === 'resume';
 
-    const disabled = status === 'stopped' || status === 'pending';
+    const disabled = userProfileInfo && (status === 'stopped' || status === 'pending');
 
     function onFavouriteClicked(type, id) {
         return requestWithParams(type, {
@@ -68,14 +69,9 @@ function ResultCard({
         }
     }
 
-    async function onEditClicked(id) {
+    async function onEditClicked() {
         try {
-            const type = isResume ? 'resume' : 'vacancy';
-            const requestParam = isResume ? { resume_id: id } : { vacancy_id: id };
-            createEditStore.setUpdating(
-                type,
-                await requestWithParams('getByID', requestParam)
-            )
+            createEditStore.startUpdating(result)
         } catch (e) {
             console.error(e);
         }
@@ -104,6 +100,14 @@ function ResultCard({
         }
     }
 
+    function onFooterLinksClickCallback() {
+        return e => {
+            e.stopPropagation();
+
+            setTabResultsType(isResume ? 'vacancy' : 'resume');
+        }
+    }
+
     function onClickWrapper(e) {
         e.stopPropagation();
 
@@ -116,14 +120,14 @@ function ResultCard({
             disabled={disabled}
         >
             <CardInfosLayout>
-                {isResume && <CardImageBlock>
+                {isResume && !userProfileInfo && <CardImageBlock>
 
-                <CardImage src={avatar || DefaultAvatar}/>
+                    <CardImage src={avatar || DefaultAvatar}/>
 
-                <HandsLike
-                    currentMark={mark}
-                    onHandClick={likeClicked(isResume ? 'resume' : 'vacancy', id)}
-                />
+                    <HandsLike
+                        currentMark={mark}
+                        onHandClick={likeClicked(isResume ? 'resume' : 'vacancy', id)}
+                    />
 
                 </CardImageBlock>}
 
@@ -131,7 +135,7 @@ function ResultCard({
 
                 <CardHeader>
                     <CardTitle>
-                        {isResume ? name : category}
+                        {isResume ? name : category.name}
                         {!isResume && <CardSubtitle>{places[0]?.country_name}: {places[0]?.cities?.map(city => city.name).join(',')}</CardSubtitle>}
                     </CardTitle>
                     {isUserAuthenticated && !userProfileInfo && <FavouriteIcon
@@ -154,7 +158,7 @@ function ResultCard({
                 <CardOptionalInfoBlock>
                     <div>Опыт: {mapAge(experience)}</div>
                     <div>{parameters[0]?.options[0]?.name}</div>
-                    <div>{salary} {salary_type}</div>
+                    <div>{salary.value} {salary.currency.value} {salary.type.value}</div>
                 </CardOptionalInfoBlock>
 
                 <CardSubtitle>Описание {isResume ? 'анкеты' : 'вакансии'}</CardSubtitle>
@@ -169,6 +173,10 @@ function ResultCard({
                 disabled={disabled}
                 editClicked={onEditClicked}
                 type={isResume ? 'resume' : 'vacancy'}
+                count_favorites={count_favorites}
+                count_views={count_views}
+                onFavouritesClickCallback={onFooterLinksClickCallback}
+                onViewsClickCallback={onFooterLinksClickCallback}
             />}
 
         </CardWrapper>
@@ -176,7 +184,7 @@ function ResultCard({
 };
 
 const CardWrapper = styled.div`
-    padding: 50px;
+    padding: 30px;
     border-radius: 15px;
     background-color: #F7FBFC;
     margin-bottom: 30px;

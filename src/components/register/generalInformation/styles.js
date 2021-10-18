@@ -24,9 +24,12 @@ export const Image = styled.img`
 
 export const InfoWrapper = styled.div`
     position: relative;
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     row-gap: 30px;
+
+    cursor: default;
 `;

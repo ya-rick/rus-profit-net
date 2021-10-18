@@ -6,7 +6,7 @@ import { PageContentWrapper } from '../../common/components/Layouts';
 import PageTitle from '../../common/components/PageTitle';
 import SideBar from './SideBar';
 import UserInfoPage from './UserInfoPage';
-import { Favourites, UserProfileResults } from '../SearchResults';
+import { Favourites, UserProfileResults, Views } from '../SearchResults';
 import PasswordChangePage from './PasswordChangePage';
 import EmailChangePage from './EmailChangePage';
 import CreateEditSearch from '../createEditSearch';
@@ -21,10 +21,12 @@ const tabs = [
     },
     {
         to: '/profile/userVacancy',
+        onClickType: 'vacancy',
         name: 'Мои вакансии'
     },
     {
         to: '/profile/userResume',
+        onClickType: 'resume',
         name: 'Мои анкеты'
     },
     {
@@ -37,7 +39,7 @@ const tabs = [
     }
 ]
 
-function UserProfile() {
+function UserProfile({ uiStore: { userModel: { setTabResults } } }) {
 
     const { page } = useParams();
 
@@ -55,9 +57,10 @@ function UserProfile() {
 
             case 'favourites': return <Favourites searchParam={page}/>
 
-            // case 'views': return <EmailChangePage/>
+            case 'views': return <Views searchParam={page}/>
 
             case 'create': return <CreateEditSearch/>
+            
             case 'update': return <CreateEditSearch/>
 
             default: return <Redirect to={'/404'}/>;
@@ -70,7 +73,9 @@ function UserProfile() {
 
         <ProfileContentLayout>
             
-            <SideBar>
+            <SideBar
+                onTablClickCallback={setTabResults}
+            >
                 {tabs}
             </SideBar>
 
@@ -95,14 +100,14 @@ const ProfileContentLayout = styled.div`
 
 const ContentContainer = styled.div`
     grid-area: content;
-    border: 2px solid #6F80A5;
     padding: 20px;
     border-radius: 15px;
+
+    box-shadow: 0 0 10px rgb(0, 0, 0, 0.5);
 `;
 
 export const ContentTitle = styled.h2`
     display: flex;
     justify-content: space-between;
-    align-items: center;
     font-weight: 600;
 `;

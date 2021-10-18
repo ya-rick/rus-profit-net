@@ -15,7 +15,7 @@ function UserContactFields({ onChangeField, contactFields }) {
     }
 
     return <>
-        {contactFields.map(contact => <ContactBlockLayout>
+        {contactFields?.map(contact => <ContactBlockLayout>
             <CheckBox
                 isChecked={contact.prefered}
                 check={togglePrefered(contact)}

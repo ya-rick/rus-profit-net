@@ -13,7 +13,7 @@ import styled from 'styled-components';
 function RegisterFilterVacation({
     onFieldChange, isResume,
     fields: {
-        name, years_with, years_to, experience, salary,
+        vacancy_name, years_with, years_to, experience, salary,
         cityCountryModel: {
             onChangeActiveEditableCountry, onChangeCountries, chosenCountries, currentEditCountry,
             onChangeCities, chosenCities
@@ -42,8 +42,8 @@ function RegisterFilterVacation({
                     <p className='bg-reg-text'>Название вакансии*</p>
                     <Input
                         className='input-reg'
-                        value={name}
-                        onChange={e => onFieldChange('name')(e.target.value)}
+                        value={vacancy_name}
+                        onChange={e => onFieldChange('vacancy_name')(e.target.value)}
                     />
                 </div>
                 

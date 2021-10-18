@@ -1,9 +1,9 @@
 import { inject, observer } from 'mobx-react';
 import { Redirect } from 'react-router-dom';
 
-import PageTitle from '../../common/components/PageTitle';
 import { ACTIONS } from '../../stores/CreateEditStore';
 import RegisterVacancy from '../registerVacancies';
+import { ContentTitle } from '../userProfile';
 
 
 export default inject('createEditStore')(observer(function CreateEditSearch({
@@ -17,7 +17,7 @@ export default inject('createEditStore')(observer(function CreateEditSearch({
     if (!currentAction) return <Redirect to={'/profile/userInfo'}/>
 
     return <>
-        <PageTitle>{currentAction === ACTIONS.UPDATE ? 'Редактирование' : 'Создание'} {createEditStore.isResume ? 'анкеты' : 'вакансии'}</PageTitle>
+        <ContentTitle>{currentAction === ACTIONS.UPDATE ? 'Редактирование' : 'Создание'} {createEditStore.isResume ? 'анкеты' : 'вакансии'}</ContentTitle>
 
         <RegisterVacancy
             onFieldChange={setField}
@@ -26,8 +26,8 @@ export default inject('createEditStore')(observer(function CreateEditSearch({
             onConfirmClicked={sendData}
             isResume={createEditStore.isResume}
             successMessage={{
-                title: 'Поздравляю!',
-                description: 'В ближайшее время ваш запрос будет рассмотрен администратором'
+                title: 'Спасибо!',
+                description: `Ваша ${createEditStore.isResume ? 'анкета' : 'вакансия'} направлена на рассмотрение модератору и будет опубликована в течении 24 часов`
             }}
         />
     </>

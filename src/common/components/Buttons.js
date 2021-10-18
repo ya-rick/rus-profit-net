@@ -33,7 +33,7 @@ export const FlyingButton = styled.button`
 
 export const SecondaryButton = styled(CommonButton)`
   box-shadow: none;
-  column-gap: 5px;
+  column-gap: 15px;
   min-width: auto;
   border-radius: 20px;
 `

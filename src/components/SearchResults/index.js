@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import ResultCard from '../../common/components/ResultCard';
 import PageTitle from '../../common/components/PageTitle';
 import Loading from '../../common/components/Loading';
-import { SearchResultsFavourites, SearchResultsFromSearchStore, SearchResultsFromUserProfile } from '../../common/HOCs';
+import { SearchResultsFavourites, SearchResultsFromSearchStore, SearchResultsFromUserProfile, SearchResultsViews } from '../../common/HOCs';
 import { CommonButton } from '../../common/components/Buttons';
 
 
@@ -72,5 +72,6 @@ export default SearchResults;
 export const SearchStoreResults = SearchResultsFromSearchStore(SearchResults);
 
 export const Favourites = SearchResultsFavourites(SearchResults);
+export const Views = SearchResultsViews(SearchResults);
 
 export const UserProfileResults = SearchResultsFromUserProfile(SearchResults);

@@ -33,10 +33,15 @@ function UserInfoPage({ uiStore }) {
             openModal(ModalVariants.InfoModal, {
                 title: 'Получилось!',
                 description: 'Вы изменили свои личные данные'
-            })
+            });
 
         } catch(e) {
-            console.error(e)
+            console.error(e);
+
+            openModal(ModalVariants.InfoModal, {
+                title: 'Приносим извинения!',
+                description: 'Произошла ошибка, обратитесь, пожалуйста, к поддержке'
+            });
         }
     }
 
@@ -69,7 +74,8 @@ function UserInfoPage({ uiStore }) {
                 <Input
                     className='input-reg'
                     value={user_email}
-                    onChange={e => setField('user_email')(user_email)}/>
+                    disabled
+                    onChange={e => {}}/>
             </div>
 
         </UserMainInfoLayout>

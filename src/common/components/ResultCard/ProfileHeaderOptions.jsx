@@ -29,7 +29,7 @@ export default observer(function ProfileHeaderOptions({
         switch(status) {
             case 'shown': return <CommonButton onClick={bindOnButtonClick('stopped')}>Убрать из поиска</CommonButton>;
             case 'stopped': return <CommonButton onClick={bindOnButtonClick('shown')}>Активировать вакансию</CommonButton>;
-            default: return 'Ожидает подтверждения модератором';
+            default: return <PendingBar>Ожидает подтверждения модератором</PendingBar>;
         }
     }
 
@@ -52,4 +52,10 @@ export const ProfileHeaderOptionsLayout = styled.div`
 
     margin-left: auto;
     margin-right: 0;
+`;
+
+export const PendingBar = styled.div`
+    border-radius: 20px;
+    background-color: rgb(111, 128, 165, 0.2);
+    padding: 20px 30px;
 `;

@@ -1,58 +1,10 @@
 import { action, makeAutoObservable } from 'mobx';
 
 export class ResultContract {
-
-    id = null;
-    name = '';
-    category = '';
-    employer = '';
-
-    description = '';
-    vacancy_name = '';
-    currency = '';
-    experience = 0;
-    avatar = null;
-    parameters = [];
-    salary = [];
-    salary_type = 0;
-    places = [];
-    contacts_info = [];
-    mark = 0;
-    isFavourite = false;
-    create_date = null;
-    example = [];
-
-    // vacancy || resume
-    type = null;
-
-    status = 'stopped';
-
-
     constructor(fromServerData) {
-        const { name, description, experience, avatar, parameters, salary, salary_type,
-            places, category, employer, id, contacts_info, mark, isFavourite, vacancy_name,
-            create_date, currency, example, status, type } = fromServerData;
 
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.experience = experience;
-        this.avatar = avatar;
-        this.parameters = parameters;
-        this.salary = salary;
-        this.places = places;
-        this.category = category;
-        this.salary_type = salary_type;
-        this.employer = employer;
-        this.contacts_info = contacts_info;
-        this.mark = mark;
-        this.isFavourite = isFavourite;
-        this.vacancy_name = vacancy_name;
-        this.create_date = create_date;
-        this.currency = currency;
-        this.example = example;
-        this.status = status;
-        this.type = type;
+        Object.entries(this.basicTemplate)
+            .forEach(([key, defaultValue]) => this[key] = fromServerData[key] || defaultValue);
 
         makeAutoObservable(this);
     }
@@ -61,6 +13,50 @@ export class ResultContract {
         return new this(fromServerData);
     }
 
+    get basicTemplate() {
+        return {
+            id: null,
+            name: '',
+            category: {
+                id: 8,
+                name: 'Няня',
+                example: false
+            },
+            salary: {
+                value: 0,
+                type: {
+                    id: 0,
+                    value: 'в месяц'
+                },
+                currency: {
+                    id: 1,
+                    value: '$'
+                }
+            },
+            years_to: 60,
+            years_with: 18,
+            employer: '',
+            description: '',
+            vacancy_name: '',
+            experience: 0,
+            avatar: null,
+            parameters: [],
+            places: [],
+            contacts_info: [],
+            mark: 0,
+            isFavourite: false,
+            create_date: null,
+            example: [],
+            count_favorites: 0,
+            count_views: 0,
+            type: null,
+            status: 'stopped'
+        }
+    }
+
+    get basicTemplateKeys() {
+        return Object.keys(this.basicTemplate);
+    }
 }
 
 export default class SearchResultsCollection {

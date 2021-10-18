@@ -1,32 +1,48 @@
-import { action, makeAutoObservable } from 'mobx';
+import { action, makeAutoObservable, toJS } from 'mobx';
+
 import CityCountryModel from '../../CityCountryModel';
 
+
 export default class TargetedInfoContract {
-
-    category = '';
-    experience = '';
-    salary = '';
-    salary_type = '';
-    description = '';
-    result_cat = [];
-    years_with = 18;
-    years_to = 60;
-    name = '';
-    agree = false;
-    currency = '';
-    files_images = [];
-    cityCountryModel = new CityCountryModel();
-
-
     constructor() {
+        Object.entries(this.basicTemplate).forEach(([key, defaultValue]) => this[key] = defaultValue);
+
         makeAutoObservable(this, {
             addImage: action.bound,
             removeImage: action.bound,
         });
     }
 
+    get basicTemplate() {
+        return {
+            id: '',
+
+            category: {
+                id: 8,
+                name: 'Няня',
+                example: false
+            },
+            experience: '',
+            salary: '',
+            salary_type: '',
+            description: '',
+            result_cat: [],
+            years_with: 18,
+            years_to: 60,
+            vacancy_name: '',
+            agree: false,
+            currency: 1,
+            files_images: [],
+            cityCountryModel: new CityCountryModel()
+        }
+    }
+
+    get basicTemplateKeys() {
+        return Object.keys(this.basicTemplate);
+    }
+
     get isWorksAddable() {
-        return this.category_global?.example === true;
+        return this.category?.example === true;
     }
 
     addImage(image) {
@@ -60,41 +76,55 @@ export default class TargetedInfoContract {
     }
 
     toServerContract() {
-        const { category, experience, salary, 
-            salary_type, description, result_cat, years_with,
-            years_to, name, currency, files_images, cityCountryModel } = this;
+        return this.basicTemplateKeys.reduce(
+            (acc, key) => {
+                switch (key) {
+                    case 'category': acc.category = this.category.id; break;
+                    case 'files_images': acc['files_images[]'] = this.files_images; break;
+                    case 'cityCountryModel': acc.places = this.cityCountryModel.toServerContract(); break;
+                    default: acc[key] = this[key];
+                }
 
-        return {
-            category: category.id, experience, salary, 
-            salary_type, description, years_with,
-            years_to, name, currency,
-            result_cat,
-            'files_images[]': files_images,
-            places: JSON.stringify(cityCountryModel.toServerContract())
-        }
+                return acc;
+            },
+            {}
+        );
     }
 
-    fillFrom(obj) {
-        const {
-            category_global, experience, salary, salary_type, description, result_cat,
-            years_with, years_to, name, agree, currency, files_images, cityCountryModel
-        } = obj;
+    fillFromServer(obj) {
+        const newContract = new TargetedInfoContract();
 
-        const newContract = new this();
+        obj.basicTemplateKeys.forEach(key => {
+            switch (key) {
+                case 'example': newContract.files_images = toJS(obj.example) || this.basicTemplate.files_images; break;
+                case 'places': newContract.cityCountryModel = new CityCountryModel(obj.places); break;
+                case 'salary': {
+                    const { salary: { value, type, currency: { id: currencyID } } } = obj;
 
-        newContract.category_global = category_global;
-        newContract.experience = experience;
-        newContract.salary = salary;
-        newContract.salary_type = salary_type;
-        newContract.description = description;
-        newContract.result_cat = result_cat;
-        newContract.years_with = years_with;
-        newContract.years_to = years_to;
-        newContract.name = name;
-        newContract.agree = agree;
-        newContract.currency = currency;
-        newContract.files_images = files_images;
-        newContract.cityCountryModel = cityCountryModel;
+                    newContract.salary = value;
+                    newContract.satary_type = type;
+                    newContract.currency = currencyID;
+                    
+                    break;
+                }
+                case 'parameters': {
+                    newContract.result_cat = obj.parameters
+                        .reduce(
+                            (arr, param) => {
+                                param.options.forEach(option => arr.push(option.id));
+
+                                return arr;
+                            },
+                            []
+                        );
+
+                    break;
+                }
+                default: 
+                    if (this.basicTemplateKeys.includes(key))
+                        newContract[key] = obj[key];
+            }
+        });
 
         return newContract;
     }

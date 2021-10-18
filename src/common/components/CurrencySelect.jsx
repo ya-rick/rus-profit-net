@@ -17,7 +17,7 @@ export default function CurrencySelect({ onChange, ...props }) {
                 onChange(data.currencies[0])
             })
 
-    }, [])
+    }, []);
 
     function toggleOpen (isOpen) {
         if (isOpen === true) {

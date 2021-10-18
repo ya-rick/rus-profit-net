@@ -90,7 +90,7 @@ export default class CityCountryModel {
     
     onChangeActiveEditableCountry(newCountry) {
         this.currentEditCountry = newCountry;
-     }
+    }
 
     toServerContract() {
         let retVal = [];

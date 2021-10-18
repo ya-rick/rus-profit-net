@@ -1,8 +1,8 @@
 import React from 'react'
+import styled from 'styled-components'
 
 import NumberInput from './NumberInput'
 import CurrencySelect from './CurrencySelect'
-import styled from 'styled-components'
 
 export default function CurrencyInput({ onChangeCurrency, noHeaderBorders, onChangeValue, currencyValue, ...props }) {
     return <CurrencySelectWrapper>

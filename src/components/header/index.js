@@ -54,7 +54,7 @@ const Header = inject('uiStore')(observer(({
                             <Icon
                                 iconName={'man'}
                             />
-                            {user.name}
+                            {user.user_name}
                         </SecondaryButton>
                         <SecondaryButton
                             onClick={userLogout}

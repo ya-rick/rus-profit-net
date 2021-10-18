@@ -5,9 +5,9 @@ import TargetedInfoContract from './Models/Contracts/RegistrationContracts/Targe
 
 
 export const ACTIONS = {
-    CREATE_VACANCY: 'CREATE_VACANCY',
-    CREATE_RESUME: 'CREATE_RESUME',
-    UPDATE: 'UPDATE',
+    CREATE_VACANCY: 'create_vacancy',
+    CREATE_RESUME: 'create_resume',
+    UPDATE: 'edit',
 }
 
 export default class CreateEditStore {
@@ -62,8 +62,9 @@ export default class CreateEditStore {
 
     setField(fieldKey) {
         return action((value) => {
-            if (fieldKey in this.templates[this.currentAction]) {
-                this.templates[this.currentAction][fieldKey] = value;
+            console.log(fieldKey, value)
+            if (fieldKey in this.currentTemplate) {
+                this.currentTemplate[fieldKey] = value;
             } else {
                 throw new Error(`No such key ${fieldKey}`);
             }
@@ -78,12 +79,12 @@ export default class CreateEditStore {
         this.setAction(actionType);
     }
 
-    startUpdating(type, editableData) {
+    startUpdating(editableData) {
         this.setAction(ACTIONS.UPDATE);
 
         this.templates[this.currentAction] = {
-            type,
-            data: this.templates[this.currentAction].data.fillFrom(editableData)
+            type: editableData.type,
+            data: this.templates[this.currentAction].data.fillFromServer(editableData)
         }
     }
 
@@ -111,22 +112,16 @@ export default class CreateEditStore {
     sendData() {
         if (this.validateAll()) return Promise.reject(false);
 
-        const targetedInfoServerContract = {...this.currentTemplate.toServerContract()};
-
-
-        let type_create;
+        const targetedInfoServerContract = this.currentTemplate.toServerContract();
 
         if (this.currentAction === ACTIONS.UPDATE) {
-            return Promise.reject(false);
+            return requestWithFormData('edit', targetedInfoServerContract);
         } else {
-            type_create = this.currentAction === ACTIONS.CREATE_RESUME ? 'resume' : 'vacancy'
+            return requestWithFormData('create', {
+                ...targetedInfoServerContract,
+                type_create: this.currentAction === ACTIONS.CREATE_RESUME ? 'resume' : 'vacancy'
+            });
         }
-
-        // TODO add update posibility
-        return requestWithFormData('createSearch', {
-            ...targetedInfoServerContract,
-            type_create: type_create
-        })
     }
 
 }
