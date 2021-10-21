@@ -44,25 +44,13 @@ export default observer(function NameContact({ onChangeField, error, fields }) {
 })
 
 const Contact2Grid = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    align-content: center;
-    justify-content: space-between;
-    gap: 50px;
+    display: grid;
+    grid-template-columns: max-content;
+    grid-row-gap: 40px;
 
-    > * {
-        flex: 1 0 45%;
-        width: 350px;
-    }
-
-    @media (max-width: 1000px) {
-        flex-direction: column;
-        justify-content: space-between;
-
-        > * {
-            width: 500px;
-        }
+    @media (min-width: 1100px) {
+        grid-template-columns: repeat(2, 1fr);
+        grid-column-gap: 50px;
     }
 `;
 

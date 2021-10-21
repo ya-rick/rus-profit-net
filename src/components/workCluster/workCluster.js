@@ -16,14 +16,8 @@ export default function WorkCluster({ currentCategory, categories = [], onCatego
 }
 
 const WorkClusterContainer = styled.div`
-    display: flex;
-    align-items: center;
-    align-content: center;
-    justify-content: center;
-    flex-wrap: wrap;
-
-    > * {
-        margin: 20px;
-        max-width: 300px;
-    }
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-gap: 40px;
 `;

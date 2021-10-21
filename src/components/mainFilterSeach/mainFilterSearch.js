@@ -154,7 +154,7 @@ function MainFilterSearch({ registrationStore, searchStore, uiStore: { openModal
                                 : 'Вакансия'}</p>
                             {categories && <Select
                                 onItemClickCallback={onChangeCategory}
-                                value={category}
+                                current={category.id}
                             >
                                 {categories}
                             </Select>}

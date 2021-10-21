@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 import { SelectWrapper, SelectHeader, SelectDropdownList, SelectDropdownItem,
-    ArrowWrapper, SelectLayout, SelectedItem } from './styles';
+    ArrowWrapper, SelectLayout, SelectedItem, SelectDropdownLayout } from './styles';
 import { arrow_down } from '../../svgElements';
 import OutsideClickWrapper from '../OutsideClickWrapper';
 import { useToggle } from '../../hooks';
@@ -16,7 +16,7 @@ export function ArrowDown ({ isInverted = false }) {
 }
 
 export default function Select ({
-    noHeaderBorders, elements, children, onItemClickCallback = () => {}, leftHeaderItem, current
+    noHeaderBorders, children, onItemClickCallback = () => {}, leftHeaderItem, current
 }) {
     const [isOpen, toggleOpen] = useToggle(false);
 
@@ -34,9 +34,7 @@ export default function Select ({
     }
 
     function renderChildren () {
-        let toBeRendered = elements || children;
-
-        return toBeRendered?.map(element => <SelectDropdownItem onClick={onItemClick(element)}>{element.name}</SelectDropdownItem>)
+        return children.map(element => <SelectDropdownItem onClick={onItemClick(element)}>{element.name}</SelectDropdownItem>)
     }
     
     return (
@@ -54,9 +52,11 @@ export default function Select ({
                         <ArrowDown isInverted={isOpen}/>    
                     </SelectHeader>
 
-                    {isOpen && <SelectDropdownList>
-                        {renderChildren()}
-                    </SelectDropdownList>}
+                    {isOpen && <SelectDropdownLayout>
+                        <SelectDropdownList>
+                            {renderChildren()}
+                        </SelectDropdownList>
+                    </SelectDropdownLayout>}
                 </SelectLayout>
 
 

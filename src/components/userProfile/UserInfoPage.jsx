@@ -132,17 +132,9 @@ const UserMainInfoLayout = styled.div`
 `;
 
 const UserContactsLayout = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    align-content: center;
-    justify-content: space-between;
-    gap: 20px;
-
-    > * {
-        flex-grow: 1;
-        width: 450px;
-        margin: 0 auto;
-    }
+    display: grid;
+    grid-template-columns: max-content;
+    grid-row-gap: 40px;
 `;
 
 const GeneralInfoLayout = styled.div`

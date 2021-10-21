@@ -60,7 +60,7 @@ function GeneralInformation({ uiStore, birthday, onChangeField, avatar }) {
             />
 
             <InfoWrapper>
-                <p for='in' className='reg-dwn-img'>{birthday?.split('-').reverse().join('-') || 'Дата рождения*'}</p>
+                <p for='in' className='reg-dwn-img'>{birthday?.split('-').reverse().map(value => value.padStart(2, '0')).join('-') || 'Дата рождения*'}</p>
             </InfoWrapper>
         </>
     );

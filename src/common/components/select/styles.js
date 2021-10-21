@@ -10,7 +10,7 @@ export const SelectWrapper = styled.div`
     > input:first-child {
         width: 200%;
     }
-  `;
+`;
 
 export const LeftItemWrapper = styled.div`
     width: 100%;
@@ -33,43 +33,45 @@ export const SelectHeader = styled.div`
     ${props => !props.noBorders && 'border: 2px solid #6F80A5;'}
     
     cursor: pointer;
-  `;
+`;
 
 export const SelectTitle = styled.div`
     margin-bottom: 30px;
-  `;
+`;
 
 export const SelectedItem = styled.div`
     height: 18px;
     font-size: 13px;
-  `;
+`;
 
-export const SelectDropdownList = styled.ul`
-    background: #FFFFFF;
+export const SelectDropdownLayout = styled.div`
+    margin-top: 0;
     position: absolute;
     z-index: 5;
     top: 100%;
     width: 100%;
+
+    border: 2px solid ${props => props.theme.borderColor};
+    border-top: none;
+    border-radius: ${props => `${props.theme.borderRadius} ${props.theme.borderRadius}`};
+    border-radius: 15px;
+    background-color: #FFFFFF;
+`;
+
+export const SelectDropdownList = styled.ul`
+    padding: 0;
+    margin: 5px;
     max-height: 100px;
     overflow-y: auto;
-    margin-top: 0;
 
-    padding: 0;
-    border: 2px solid ${props => props.theme.borderColor};
-    border-radius: ${props => `${props.theme.borderRadius} ${props.theme.borderRadius}`};
-    background-color: white;
-    border-radius: 15px;
-    border-left: 2px solid #6F80A5;
-    border-bottom: 2px solid #6F80A5;
-    border-right: 2px solid #6F80A5;
     cursor: pointer;
-  `;
+`;
 
 export const SelectDropdownItem = styled.li`
     padding: 10px 12px;
     list-style: none;
     font-size: 13px;
-  `;
+`;
 
 export const ArrowWrapper = styled.span`
     display: flex;

@@ -189,17 +189,15 @@ function Vacancy({ searchStore, uiStore: { userModel: { isUserAuthenticated }, o
                                 
                             </SecondaryBlockLayout>
 
-                            <div style={{ display: 'flex' }}>
-                                {isContactsShown && isUserAuthenticated ? <SecondaryBlockLayout>
-                                    {contacts_info?.map(contact => <MainContactBlockItem>
-                                        <FullInfoBolderText>{contact.value}</FullInfoBolderText>
-                                    </MainContactBlockItem>)}
-                                </SecondaryBlockLayout>
-                                : <ContactsButton
-                                    style={{ marginLeft: 'auto', marginRight: 'o' }}
-                                    onClick={onContactsClick}
-                                >Получить контакты</ContactsButton>}
-                            </div>
+                            {isContactsShown && isUserAuthenticated ? <SecondaryBlockLayout>
+                                {contacts_info?.map(contact => <FullInfoBolderText>
+                                    {contact.value}
+                                </FullInfoBolderText>)}
+                            </SecondaryBlockLayout>
+                            : <ContactsButton
+                                style={{ marginLeft: 'auto', marginRight: 'o' }}
+                                onClick={onContactsClick}
+                            >Получить контакты</ContactsButton>}
                             
                     </DescriptionBlock>
 
@@ -251,15 +249,14 @@ const ContentLayout = styled.div`
 `;
 
 const MainBlock = styled.div`
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     align-items: center;
-    justify-content: space-between;
+    gap: 50px;
 
     padding: 50px;
     border-radius: 15px;
     background-color: #F7FBFC;
-
-    gap: 50px;
 `;
 
 const MainInfoBlock = styled.div`
@@ -274,7 +271,8 @@ const MainInfoBlock = styled.div`
 
 const MainInfoBlockItem = styled.div`
     display: grid;
-    grid-template-columns: repeat(2, 45%);
+    grid-template-columns: 1fr 200px;
+    column-gap: 20px;
 `;
 
 const MainContactBlockItem = styled(MainInfoBlockItem)`
@@ -292,27 +290,19 @@ const DescriptionBlock = styled.div`
 `;
 
 const SecondaryBlockLayout = styled.div`
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 30px;
-    align-items: flex-start;
-
-    > * {
-        width: 45%;
-    }
-
-    @media (max-width: 1000px) {
-        flex-wrap: wrap;
-    }
 `;
 
 const FullInfoImageBlock = styled.div`
-    flex-basis: 30%;
-
-    ${flexAlignCenter}
-
+    display: flex;
     flex-direction: column;
-    justify-content: space-between;
     gap: 20px;
+
+    > * {
+        flex-grow: 1;
+    }
 `;
 
 const FullInfoTextBlock = styled.div`
@@ -354,7 +344,6 @@ const ShareIcon = styled(Icon)`
 
 const FullInfoImage = styled.img`
     width: 100%;
-    max-height: 300px;
 `;
 
 const FullInfoTitle = styled.div`

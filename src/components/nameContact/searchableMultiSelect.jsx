@@ -135,8 +135,8 @@ const SelectWrapper = styled.div`
 
 const SelectTagedHeader = styled.div`
     display: grid;
-    grid-template-columns: 1fr 40px;
-    padding: 4px 8px;
+    grid-template-columns: 1fr 20px;
+    padding: 11px 12px;
     align-items: center;
     border: 2px solid #6F80A5;
     background: #FFFFFF;
@@ -210,8 +210,7 @@ const SelectSearchField = styled.input`
 const SelectDropdownList = styled.div`
     overflow-y: scroll;
     max-height: 200px;
-    padding: 5px 10px;
-
+    margin: 5px;
 `;
 
 const SelectDropdownItem = styled.div`

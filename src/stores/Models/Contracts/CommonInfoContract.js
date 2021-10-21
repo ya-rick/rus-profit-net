@@ -22,34 +22,40 @@ export default class CommonInfoContract {
             contacts_info: [
                 {
                     name: 'Email',
-                    value: '',
-                    prefered: false,
-                },
-                {
-                    name: 'WhatsApp',
-                    value: '',
-                    prefered: false,
-                },
-                {
-                    name: 'Telegram',
-                    value: '',
-                    prefered: false,
-                },
-                {
-                    name: 'Skype',
-                    value: '',
-                    prefered: false,
-                },
-                {
-                    name: 'Viber',
+                    key: 'second_email',
                     value: '',
                     prefered: false,
                 },
                 {
                     name: 'Телефон',
+                    key: 'phone',
                     value: '',
                     prefered: false,
                 },
+                {
+                    name: 'Telegram',
+                    key: 'telegram',
+                    value: '',
+                    prefered: false,
+                },
+                {
+                    name: 'WhatsApp',
+                    key: 'whatsapp',
+                    value: '',
+                    prefered: false,
+                },
+                {
+                    name: 'Skype',
+                    key: 'skype',
+                    value: '',
+                    prefered: false,
+                },
+                {
+                    name: 'Viber',
+                    key: 'viber',
+                    value: '',
+                    prefered: false,
+                }
             ],
             avatar: null,
             birthday: null,
@@ -58,7 +64,7 @@ export default class CommonInfoContract {
 
     setContact(newContact) {
         this.contacts_info.forEach(contact => {
-            if (contact.name === newContact.name) {
+            if (contact.key === newContact.key) {
                 contact.value = newContact.value;
                 contact.prefered = newContact.prefered;
             }

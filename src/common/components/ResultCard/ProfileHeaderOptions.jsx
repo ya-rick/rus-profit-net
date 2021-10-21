@@ -40,6 +40,7 @@ export default observer(function ProfileHeaderOptions({
         <Icon
             iconName={'trash'}
             onClick={onTrashClick}
+            disabled={disabled}
         />
 
     </ProfileHeaderOptionsLayout>
