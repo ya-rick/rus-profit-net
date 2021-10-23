@@ -114,13 +114,15 @@ function ResultCard({
         if (!disabled) onSelectResult();
     }
 
+    const withImageBlock = isResume && !userProfileInfo;
+
     return (
         <CardWrapper
             onClick={onClickWrapper}
             disabled={disabled}
         >
-            <CardInfosLayout>
-                {isResume && !userProfileInfo && <CardImageBlock>
+            <CardInfosLayout withImage={withImageBlock}>
+                {withImageBlock && <CardImageBlock>
 
                     <CardImage src={avatar || DefaultAvatar}/>
 
@@ -148,8 +150,7 @@ function ResultCard({
                             onButtonClickCallback={toggleActiveState}
                             status={status}
                             disabled={disabled}
-                        />
-                        : <PlusIcon
+                        /> : <PlusIcon
                             iconName={'plus'}
                             onClick={onSelectResult}
                         />}
@@ -210,11 +211,14 @@ const CardWrapper = styled.div`
 `;
 
 const CardInfosLayout = styled.div`
-    display: flex;
+    display: grid;
+    grid-template-columns: ${props => props.withImage && '1fr'} 2fr;
+    align-items: center;
+
     gap: 40px;
-    
-    @media (max-width: 1000px) {
-        flex-wrap: wrap;
+
+    @media (max-width: 720px) {
+        display: block;
     }
 `;
 
@@ -249,7 +253,10 @@ const PlusIcon = styled(Icon)`
 `;
 
 const CardImage = styled.img`
+    align-self: center;
     width: 100%;
+    max-width: 300px;
+    max-height: 300px;
 `;
 
 const CardInfoBlock = styled.div`

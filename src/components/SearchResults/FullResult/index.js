@@ -125,10 +125,10 @@ function Vacancy({ searchStore, uiStore: { userModel: { isUserAuthenticated }, o
 
                             <FullInfoImage src={avatar || DefaultAvatar}/>
 
-                            {isUserAuthenticated && <HandsLike
+                            <HandsLike
                                 currentMark={mark}
                                 onHandClick={likeClicked(isResume ? 'resume' : 'vacancy', id)}
-                            />}
+                            />
 
                         </FullInfoImageBlock>}
 
@@ -343,7 +343,10 @@ const ShareIcon = styled(Icon)`
 `;
 
 const FullInfoImage = styled.img`
+    align-self: center;
     width: 100%;
+    max-width: 400px;
+    max-height: 400px;
 `;
 
 const FullInfoTitle = styled.div`

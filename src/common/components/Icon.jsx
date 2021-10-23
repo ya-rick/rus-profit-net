@@ -22,7 +22,7 @@ const Wrapper = styled.div`
     max-height: 40px;
     cursor: pointer;
 
-    ${props => props.disable && css`
+    ${props => props.disabled && css`
         filter: opacity(0.5);
         cursor: default;
         pointer-events: none;

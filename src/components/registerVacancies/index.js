@@ -95,7 +95,7 @@ function RegisterVacancies({
                     </CheckBox>
                 </div>
             </div>
-            <div className='container center margin-top-15'>
+            <div style={{ margin: '50px 0', display: 'flex', justifyContent: 'center' }}>
                 <CommonButton
                     className='img-reg-button'
                     onClick={finishRegistration}

@@ -16,12 +16,11 @@ export const LinkedButton = styled(Link)`
 `;
 
 export const FlyingButton = styled.button`
-    ${buttonStylesMixin};
     outline: none;
-
-    box-shadow: none;
-    background-color: #f7fbfc !important;
+    background-color: #f7fbfc;
     border: none;
+    border-radius: 15px;
+    padding: 0.8em 1em;
     font-weight: 300;
 
     ${props => props.active && 'box-shadow: 4px 4px 10px #4C5E8B;'}

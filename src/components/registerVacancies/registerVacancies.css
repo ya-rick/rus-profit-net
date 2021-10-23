@@ -15,7 +15,8 @@
     justify-content: flex-end;
 }
 
-.reg-intro{
+.reg-intro {
     font-size: 13px;
     color: #4C5E8B;
+    margin: 0;
 }

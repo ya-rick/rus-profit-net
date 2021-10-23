@@ -40,7 +40,7 @@ function UserMainFields({ onChangeField, fieldValues, cityCountryModel }) {
             </div>
 
             <div className='name-info-subblock'>
-                <p className='name-info-text'>Подтвердите e-mail**</p>
+                <p className='name-info-text'>Подтвердите e-mail*</p>
                 <Input
                     className='input-reg'
                     value={user_email_confirm}

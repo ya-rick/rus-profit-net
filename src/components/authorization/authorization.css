@@ -73,10 +73,3 @@
     color: #CC363B;
     text-align: left;
 }
-
-.center{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
