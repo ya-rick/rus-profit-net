@@ -8,6 +8,7 @@ export const ModalContainer = styled.div`
     pointer-events: all;
     border-radius: 15px;
     width: 600px;
+    max-height: 90vh;
 `;
 
 export const ModalLayout = styled.div`

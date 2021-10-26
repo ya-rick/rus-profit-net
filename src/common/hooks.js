@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { requestWithParams } from '../api/exchangeLayer';
 
 export function useCategoryFilters(initialCategory = null) {
@@ -29,4 +29,34 @@ export function useToggle(initial = false) {
     }
 
     return [state, toggleState];
+}
+
+export function useRequest(requestType, requestParams) {
+    const [result, setResult] = useState(null);
+    const [error, setError] = useState(null);
+
+    function clearState() {
+        setResult(null);
+        setError(null);
+    }
+
+    useEffect(() => {
+        (async () => {
+            try {
+                const result = await requestWithParams(requestType, requestParams);
+
+                setResult(result);
+                setError(null);
+            } catch(e) {
+                setResult(null);
+                setError(e.message);
+            }
+        })();
+
+        return () => clearState();
+    }, [requestType]);
+
+    return {
+        error, result, isLoading: !Boolean(result || error)
+    }
 }

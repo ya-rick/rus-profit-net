@@ -25,7 +25,6 @@ export default function CurrencyInput({ onChangeCurrency, noHeaderBorders, onCha
 const CurrencySelectWrapper = styled.div`
     position: relative;
     display: flex;
-    width: 140%;
 `;
 
 const StyledInput = styled(NumberInput)`

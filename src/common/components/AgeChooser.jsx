@@ -7,7 +7,7 @@ import NumberInput from './NumberInput'
 import { observer } from 'mobx-react'
 
 export default observer(function AgeChooser({ min, max, currentMinValue,
-    currentMaxValue, onChangeMin, onChangeMax }) {
+    currentMaxValue, onChangeMin, onChangeMax, ...props }) {
 
     const [fromTo, setFromTo] = useState([min || 0,  max || min || 0])
 
@@ -38,7 +38,7 @@ export default observer(function AgeChooser({ min, max, currentMinValue,
         
     }
         
-    return <div>
+    return <div {...props}>
         <p className='bg-long-text'>Возраст</p>
         <div>
             <MultiRangeSlider

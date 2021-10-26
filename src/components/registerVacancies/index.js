@@ -49,14 +49,13 @@ function RegisterVacancies({
 
     return (
         <>
-            <div>
-                <h2 className='register-title'>
-                    {isResume ? 'Какую работу вы ищете'
-                    : 'Кого вы ищете'}
-                    {targetedInfo && 
-                        <ErrorMessage>{targetedInfo}</ErrorMessage>}
-                </h2>
-            </div>
+            <h2 className='register-title'>
+                {isResume ? 'Какую работу вы ищете'
+                : 'Кого вы ищете'}
+                {targetedInfo && 
+                    <ErrorMessage>{targetedInfo}</ErrorMessage>}
+            </h2>
+            
             <WorkCluster
                 onCategoryChanged={onChangeCategory}
                 currentCategory={category}

@@ -91,6 +91,7 @@ function UserInfoPage({ uiStore }) {
             <UserContactFields
                 onChangeField={setField}
                 contactFields={contacts_info}
+                showMoreButton={false}
             />
 
         </UserContactsLayout>

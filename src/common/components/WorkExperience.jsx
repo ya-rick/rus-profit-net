@@ -4,9 +4,9 @@ import styled from 'styled-components'
 import RangeSlider from './rangeSlider'
 import NumberInput from './NumberInput'
 
-export default function WorkExperience({ min, max, value, onChange }) {
+export default function WorkExperience({ min, max, value, onChange, ...props }) {
 
-    return <Wrapper>
+    return <Wrapper {...props}>
         <p className='bg-long-text'>Опыт работы</p>
         <div>
             <RangeSlider

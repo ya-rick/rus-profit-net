@@ -16,7 +16,7 @@ export default styled.div`
     border-top: none;
     border-bottom: none;
     border-radius: 50%;
-    margin: 0 auto;
+    margin: auto;
 
     animation: ${rotation} infinite 1s;
 `;

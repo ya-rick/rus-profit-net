@@ -99,12 +99,6 @@
     align-items: center;
 }
 
-.group-input{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
 .group-mini-input{
     display: flex;
     justify-content: space-around;

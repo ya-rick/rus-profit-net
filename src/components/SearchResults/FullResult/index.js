@@ -16,8 +16,10 @@ import { CommonButton } from '../../../common/components/Buttons';
 import { ModalVariants } from '../../../common/consts';
 import FullSizedImage from '../../../common/components/fullsizedImage';
 import Loading from '../../../common/components/Loading';
+import { useRequest } from '../../../common/hooks';
 
-function Vacancy({ searchStore, uiStore: { userModel: { isUserAuthenticated }, openModal, openImage, setImages,isImageShown } }) {
+
+function Vacancy({ searchStore, uiStore: { userModel: { isUserAuthenticated }, openModal, openImage, setImages, isImageShown } }) {
     const [isContactsShown, setContactsShown] = useState(false);
 
     const {
@@ -27,11 +29,27 @@ function Vacancy({ searchStore, uiStore: { userModel: { isUserAuthenticated }, o
 
     const isResultsPresent = searchResultsCollection.results?.length > 0;
 
+    const { id } = useParams();
+
+    const { result, isLoading, error } = useRequest('getByID', { id });
+
     const { name, description, experience, avatar, salary,
         places, category, employer, contacts_info, mark, isFavourite, vacancy_name,
-        create_date, example, type } = searchStore.currentChosenResult || {};
+        create_date, example, type } = result || {};
 
-    const { id } = useParams();
+    useEffect(() => {
+        if (!isLoading && result) {
+            setCurrentResult(result);
+
+            setImages(example?.map(el => el.photo));
+        }
+    }, [result, example]);
+
+    if (isLoading) return <Loading/>;
+
+    if (error) return error.message;
+
+    const isResume = type === 'resume';
 
     async function onContactsClick() {
         try {
@@ -47,18 +65,6 @@ function Vacancy({ searchStore, uiStore: { userModel: { isUserAuthenticated }, o
             });
         }
     }
-
-    const isResume = type === 'resume';
-
-    useEffect(() => {
-        if (!isCurrentSearchResult) {
-            requestWithParams('getByID', { id })
-                .then(res => setCurrentResult(res))
-                .catch(e => console.error(e));
-        }
-
-        setImages(example?.map(el => el.photo));
-    }, [example]);
 
     function onFavouriteClicked(type, id) {
         requestWithParams(type, {

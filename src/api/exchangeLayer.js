@@ -32,7 +32,9 @@ const httpMethodsTypes = {
     changePasswordRecovery: 'change_password_recovery',
     forgotPassword: 'recovery',
     toggleActivation: 'activation',
-    getContacts: 'get_contacts_info'
+    getContacts: 'get_contacts_info',
+    sendQuestion: 'add_faq',
+    getFAQs: 'get_faq'
 }
 
 export const requestWithParams = (method, dataToServer = {}) => {

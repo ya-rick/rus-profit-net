@@ -141,7 +141,7 @@ const SelectTagedHeader = styled.div`
     border: 2px solid #6F80A5;
     background: #FFFFFF;
     border-radius: 15px;
-    min-height: 40px;
+    min-height: 43px;
 
     ${props => props.disabled && 'border-color:#b5c1db'}
 `;
