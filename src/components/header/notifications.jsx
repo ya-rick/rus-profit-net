@@ -1,47 +1,78 @@
+import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
+import { requestWithParams } from '../../api/exchangeLayer';
 import Icon from '../../common/components/Icon';
-import { useToggle } from '../../common/hooks';
+import Loading from '../../common/components/Loading';
+import { useRequest, useToggle } from '../../common/hooks';
 
 
 export default function Notifications() {
+    const history = useHistory();
+
     const [isOpen, toggleIsOpen] = useToggle(false);
+    const [isRead, setIsRead] = useState(false);
+
+    const { result, isLoading, error } = useRequest({ requestType: 'getNotifications' });
+
+    const notifsPresent = !isLoading && result.notifications
+        ?.reduce((acc, notification) => acc || !notification.viewed, false);
+
+    useEffect(() => {
+        if (!isRead && notifsPresent) {
+            requestWithParams('readNotifications')
+                .then(() => {
+                    setIsRead(true);
+                })
+        }
+    }, [notifsPresent]);
+
+    function renderNotification({ type, text, viewed, id, notif_id }) {
+        switch(type) {
+            case 'email': return <NotificatonItem key={notif_id}>
+                <Icon iconName={'email_notification'}/>
+                {text}
+            </NotificatonItem>
     
+            case 'view': return <NotificatonItem
+                key={notif_id}
+                onClick={() => history.push(`/profile/views/${id}`)}
+            >
+                <Icon iconName={'view_notification'}/>
+                {text}
+            </NotificatonItem>
+    
+            default: return <NotificatonItem
+                key={notif_id}
+                onClick={() => history.push(`/searchResults/${id}`)}
+            >
+                <Icon iconName={'work_notification'}/>
+                {text}
+            </NotificatonItem>
+        }
+    }
+
     return <Wrapper>
 
-        <NotificationButtonWrapper
-            notifsPresent
-            onClick={() => toggleIsOpen()}
-        >
-            <Icon
-                iconName={'notifications_enabled'}
-            />
-        </NotificationButtonWrapper>
-
-        {isOpen && <NotificationsItemsWrapper>
-
-            <NotificatonItem>
+        {isLoading ? <Loading/>
+        : error ? 'Ошибка'
+        : <>
+            <NotificationButtonWrapper
+                notifsPresent={notifsPresent}
+                onClick={() => toggleIsOpen()}
+            >
                 <Icon
-                    iconName={'view_notification'}
+                    iconName={`notifications_${notifsPresent ? 'enabled' : 'disabled'}`}
                 />
-                Новый просмотр анкеты Няня
-            </NotificatonItem>
+            </NotificationButtonWrapper>
 
-            <NotificatonItem>
-                <Icon
-                    iconName={'work_notification'}
-                />
-                Модератор разместил вашу анкету Сиделка
-            </NotificatonItem>
+            {isOpen && notifsPresent && <NotificationsItemsWrapper>
 
-            <NotificatonItem>
-                <Icon
-                    iconName={'email_notification'}
-                />
-                Ваша почта успешно подтверждена
-            </NotificatonItem>
+                {result.notifications.map(notification => renderNotification(notification))}
 
-        </NotificationsItemsWrapper>}
+            </NotificationsItemsWrapper>}
+        </>}
             
     </Wrapper>
 }

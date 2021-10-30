@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import { useHistory } from 'react-router-dom';
 
 import ResultCard from '../../common/components/ResultCard';
-import PageTitle from '../../common/components/PageTitle';
+import { PageTitle } from '../../common/components/TitleVariants';
 import Loading from '../../common/components/Loading';
 import { SearchResultsFavourites, SearchResultsFromSearchStore, SearchResultsFromUserProfile, SearchResultsViews } from '../../common/HOCs';
 import { CommonButton } from '../../common/components/Buttons';

@@ -4,19 +4,20 @@ import { inject, observer } from 'mobx-react';
 import styled from 'styled-components';
 
 import DefaultAvatar from '../../../images/avatar.png';
+import Logo from '../../../images/2021RusProfiNetFooterLogo.svg';
 
 import { requestWithParams } from '../../../api/exchangeLayer';
 import { PageContentWrapper } from '../../../common/components/Layouts';
 import { LinkedButton } from "../../../common/components/Buttons";
 import HandsLike from '../HandsLike';
-import PageTitle from '../../../common/components/PageTitle';
+import { PageTitle } from '../../../common/components/TitleVariants';
 import Icon from '../../../common/components/Icon';
 import { flexAlignCenter } from '../../../common/components/mixins';
 import { CommonButton } from '../../../common/components/Buttons';
 import { ModalVariants } from '../../../common/consts';
 import FullSizedImage from '../../../common/components/fullsizedImage';
 import Loading from '../../../common/components/Loading';
-import { useRequest } from '../../../common/hooks';
+import { useMetaTags, useRequest } from '../../../common/hooks';
 
 
 function Vacancy({ searchStore, uiStore: { userModel: { isUserAuthenticated }, openModal, openImage, setImages, isImageShown } }) {
@@ -31,7 +32,7 @@ function Vacancy({ searchStore, uiStore: { userModel: { isUserAuthenticated }, o
 
     const { id } = useParams();
 
-    const { result, isLoading, error } = useRequest('getByID', { id });
+    const { result, isLoading, error } = useRequest({ requestType: 'getByID', requestParams: { id } });
 
     const { name, description, experience, avatar, salary,
         places, category, employer, contacts_info, mark, isFavourite, vacancy_name,
@@ -45,11 +46,18 @@ function Vacancy({ searchStore, uiStore: { userModel: { isUserAuthenticated }, o
         }
     }, [result, example]);
 
+    const isResume = type === 'resume';
+
+    useMetaTags({
+        description,
+        title: isResume ? name : vacancy_name,
+        url: window.location.href,
+        image: isResume ? avatar : Logo
+    });
+
     if (isLoading) return <Loading/>;
 
     if (error) return error.message;
-
-    const isResume = type === 'resume';
 
     async function onContactsClick() {
         try {
@@ -59,10 +67,7 @@ function Vacancy({ searchStore, uiStore: { userModel: { isUserAuthenticated }, o
         } catch (e) {
             console.error(e);
 
-            openModal(ModalVariants.InfoModal, {
-                title: 'Извините,',
-                description: 'но для получения списка контактов необходимо войти в систему'
-            });
+            openModal(ModalVariants.UnregisteredInfo);
         }
     }
 
@@ -116,8 +121,9 @@ function Vacancy({ searchStore, uiStore: { userModel: { isUserAuthenticated }, o
                         
                         <ShareIcon
                             iconName={'share'}
-                            onClick={() => {}}
+                            onClick={() => openModal(ModalVariants.Share)}
                         />
+
                         {isResultsPresent && <LinkedButton to={'/searchResults'}>
                             Вернуться к списку
                         </LinkedButton>}
@@ -133,21 +139,21 @@ function Vacancy({ searchStore, uiStore: { userModel: { isUserAuthenticated }, o
 
                             <HandsLike
                                 currentMark={mark}
-                                onHandClick={likeClicked(isResume ? 'resume' : 'vacancy', id)}
+                                onHandClick={likeClicked(type, id)}
                             />
 
                         </FullInfoImageBlock>}
 
                         <FullInfoTextBlock>
 
-                            {isResume && <div style={{ textAlign: 'center' }}>{category.name}</div>}
+                            {isResume && <CategoryName>{category.name}</CategoryName>}
 
                             <MainInfoBlock>
                                 <FullInfoBolderText>{`${salary.value} ${salary.currency.value} ${salary.type.value}`}</FullInfoBolderText>
 
                                 {!isResume && <MainInfoBlockItem>
                                     <FullInfoBolderText>Работодатель:</FullInfoBolderText>
-                                    <div>{employer}</div>
+                                    <SimpleInfo>{employer}</SimpleInfo>
                                 </MainInfoBlockItem>}
 
                                 {!isResume && <MainInfoBlockItem>
@@ -157,19 +163,19 @@ function Vacancy({ searchStore, uiStore: { userModel: { isUserAuthenticated }, o
 
                                 <MainInfoBlockItem>
                                     <FullInfoBolderText>Опыт работы:</FullInfoBolderText>
-                                    <div>{experience} лет</div>
+                                    <SimpleInfo>{experience} лет</SimpleInfo>
                                 </MainInfoBlockItem>
 
                                 <MainInfoBlockItem>
                                     <FullInfoBolderText>Города:</FullInfoBolderText>
-                                    <div>
-                                        {places.map(place => <div>{`${place.country_name}: ${place.cities.map(city => city.name).join(',')}`}</div>)}
-                                    </div>    
+                                    <SimpleInfo>
+                                        {places.map(place => <SimpleInfo>{`${place.country_name}: ${place.cities.map(city => city.name).join(',')}`}</SimpleInfo>)}
+                                    </SimpleInfo>    
                                 </MainInfoBlockItem>
 
                                 {mainInfoSearchResult.map(param => <MainInfoBlockItem>
                                     <FullInfoBolderText>{param.name}:</FullInfoBolderText>
-                                    <div>{param.options?.map(option => option.name).join(', ')}</div>
+                                    <SimpleInfo>{param.options?.map(option => option.name).join(', ')}</SimpleInfo>
                                 </MainInfoBlockItem>)}
                             </MainInfoBlock>
 
@@ -190,7 +196,7 @@ function Vacancy({ searchStore, uiStore: { userModel: { isUserAuthenticated }, o
                                     key={param.name}
                                 >
                                     <FullInfoBolderText>{param.name}:</FullInfoBolderText>
-                                    <div>{param.options?.map(option => option.name).join(', ')}</div>
+                                    <SimpleInfo>{param.options?.map(option => option.name).join(', ')}</SimpleInfo>
                                 </MainInfoBlockItem>)}
                                 
                             </SecondaryBlockLayout>
@@ -257,7 +263,7 @@ const ContentLayout = styled.div`
 const MainBlock = styled.div`
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    align-items: center;
+    align-items: start;
     gap: 50px;
 
     padding: 50px;
@@ -266,23 +272,16 @@ const MainBlock = styled.div`
 `;
 
 const MainInfoBlock = styled.div`
-    ${flexAlignCenter}
-
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
 
     gap: 20px;
 `;
 
 const MainInfoBlockItem = styled.div`
     display: grid;
-    grid-template-columns: 1fr 200px;
+    grid-template-columns: repeat(2, minmax(min-content, 200px));
     column-gap: 20px;
-`;
-
-const MainContactBlockItem = styled(MainInfoBlockItem)`
-    grid-template-columns: 22.5%;
 `;
 
 const DescriptionBlock = styled.div`
@@ -311,14 +310,18 @@ const FullInfoImageBlock = styled.div`
     }
 `;
 
+const CategoryName = styled.div`
+    font-weight: 600;
+    background-color: #F1F3F6;
+    border-radius: 15px;
+    padding: 1em 5em;
+    text-align: center;
+    align-self: center;
+`;
+
 const FullInfoTextBlock = styled.div`
-    flex-basis: 40%;
-
-    ${flexAlignCenter}
-
+    display: flex;
     flex-direction: column;
-    align-items: stretch;
-    justify-content: space-between;
     gap: 20px;
 `;
 
@@ -353,6 +356,10 @@ const FullInfoImage = styled.img`
     width: 100%;
     max-width: 400px;
     max-height: 400px;
+`;
+
+const SimpleInfo = styled.div`
+    line-height: 25px;
 `;
 
 const FullInfoTitle = styled.div`

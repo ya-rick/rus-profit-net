@@ -22,6 +22,7 @@ export const FlyingButton = styled.button`
     border-radius: 15px;
     padding: 1.5em 2em;
     font-weight: 300;
+    font-size: 17px;
 
     ${props => props.active && 'box-shadow: 4px 4px 10px #4C5E8B;'}
 

@@ -80,7 +80,7 @@ function ResultCard({
     async function toggleActiveState(status) {
         try {
             await requestWithParams('toggleActivation', {
-                type_data: isResume ? 'resume' : 'vacancy',
+                type_data: type,
                 status, id: result.id
             });
 
@@ -104,7 +104,7 @@ function ResultCard({
         return e => {
             e.stopPropagation();
 
-            setTabResultsType(isResume ? 'vacancy' : 'resume');
+            setTabResultsType(type);
         }
     }
 
@@ -120,6 +120,7 @@ function ResultCard({
         <CardWrapper
             onClick={onClickWrapper}
             disabled={disabled}
+            withImage={withImageBlock}
         >
             <CardInfosLayout withImage={withImageBlock}>
                 {withImageBlock && <CardImageBlock>
@@ -128,17 +129,17 @@ function ResultCard({
 
                     <HandsLike
                         currentMark={mark}
-                        onHandClick={likeClicked(isResume ? 'resume' : 'vacancy', id)}
+                        onHandClick={likeClicked(type, id)}
                     />
 
                 </CardImageBlock>}
 
-                <CardInfoBlock>
+                <CardInfoBlock userProfile={userProfileInfo}>
 
                     <CardHeader>
                         <CardTitle>
                             {isResume ? name : category.name}
-                            {!isResume && <CardSubtitle>{places[0]?.country_name}: {places[0]?.cities?.map(city => city.name).join(',')}</CardSubtitle>}
+                            {!isResume && <CardCountryBlock>{places[0]?.country_name}: {places[0]?.cities?.map(city => city.name).join(',')}</CardCountryBlock>}
                         </CardTitle>
                         {isUserAuthenticated && !userProfileInfo && <FavouriteIcon
                             iconName={'favourite'}
@@ -150,6 +151,7 @@ function ResultCard({
                             onButtonClickCallback={toggleActiveState}
                             status={status}
                             disabled={disabled}
+                            isResume={isResume}
                         /> : <PlusIcon
                             iconName={'plus'}
                             onClick={onSelectResult}
@@ -173,7 +175,7 @@ function ResultCard({
                 resultID={id}
                 disabled={disabled}
                 editClicked={onEditClicked}
-                type={isResume ? 'resume' : 'vacancy'}
+                type={type}
                 count_favorites={count_favorites}
                 count_views={count_views}
                 onFavouritesClickCallback={onFooterLinksClickCallback}
@@ -185,7 +187,7 @@ function ResultCard({
 };
 
 const CardWrapper = styled.div`
-    padding: 2%;
+    padding: 4%${props => props.withImage && '5%'};
     border-radius: 15px;
     background-color: #F7FBFC;
     margin-bottom: 30px;
@@ -213,7 +215,7 @@ const CardWrapper = styled.div`
 const CardInfosLayout = styled.div`
     display: grid;
     grid-template-columns: ${props => props.withImage && '1fr'} 2fr;
-    align-items: center;
+    align-items: start;
 
     gap: 40px;
 
@@ -253,18 +255,15 @@ const PlusIcon = styled(Icon)`
 `;
 
 const CardImage = styled.img`
-    align-self: center;
-    width: 100%;
-    max-width: 300px;
-    max-height: 300px;
+    align-self: stretch;
 `;
 
 const CardInfoBlock = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-
-    flex: 1 1 70%;
+    height: 100%;
+    font-size: ${props => props.userProfile ? '25px' : '30px'};
 
     > * {
         margin-bottom: 20px;
@@ -272,6 +271,7 @@ const CardInfoBlock = styled.div`
 
     > *:last-child {
         margin-bottom: 0;
+        flex-grow: 1;
     }
 
 `;
@@ -292,12 +292,16 @@ const CardHeader = styled.div`
 `;
 
 const CardTitle = styled.div`
-    font-size: 30px;
+    font-size: 1em;
     font-weight: bold;
 `;
 
+const CardCountryBlock = styled.div`
+    font-size: .7em;
+`;
+
 const CardSubtitle = styled.div`
-    font-size: 25px;
+    font-size: .8em;
     font-weight: 500;
 `;
 
@@ -306,7 +310,7 @@ const CardOptionalInfoBlock = styled.div`
 
     > div {
         margin-inline-start: 100px;
-        font-size: 20px;
+        font-size: .6em;
     }
 
     > div:first-child {
@@ -317,9 +321,9 @@ const CardOptionalInfoBlock = styled.div`
 const CardDescrption = styled.div`
     border-radius: 15px;
     padding: 20px;
-    font-size: 20px;
+    font-size: .6em;
     border: 1px solid #6F80A5;
-    max-height: calc(23px * 4);
+    max-height: calc(23px * 10);
     word-break: break-all;
     overflow-y: auto;
 `;

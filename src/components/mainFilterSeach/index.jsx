@@ -8,8 +8,8 @@ import './mainFilterSearch.css';
 
 import Select from '../../common/components/select';
 import MenuButtonsDocs from '../menuButtonsDocs';
-import { CommonButton } from "../../common/components/Buttons";
-import { Centerer, GapedAdaptiveCenterer, PageContentWrapper } from '../../common/components/Layouts';
+import { CommonButton } from '../../common/components/Buttons';
+import { AdaptiveGrid, Centerer, PageContentWrapper } from '../../common/components/Layouts';
 import AgeChooser from '../../common/components/AgeChooser';
 import WorkExperience from '../../common/components/WorkExperience';
 import SuggestSalary from '../../common/components/SuggestSalary';
@@ -22,8 +22,6 @@ import { ModalVariants } from '../../common/consts';
 function MainFilterSearch({ registrationStore, searchStore, uiStore: { openModal } }) {
     const [scrollToEl, setScrollToEl] = useState(null);
     const history = useHistory();
-
-    const { categories, setCurrentCategory, filtersByCategory } = useCategoryFilters();
 
     const { mainFiltersStore, getInfoByFilters } = searchStore;
 
@@ -47,6 +45,8 @@ function MainFilterSearch({ registrationStore, searchStore, uiStore: { openModal
             onChangeCities, onChangeCountries, chosenCountries, chosenCities, onChangeActiveEditableCountry,
             currentEditCountry, countries
         }, isSearchWorker } = mainFiltersStore;
+
+    const { categories, setCurrentCategory, filtersByCategory } = useCategoryFilters(category.id);
 
     useEffect(() => {
         // Copying filters to registrations form
@@ -116,8 +116,8 @@ function MainFilterSearch({ registrationStore, searchStore, uiStore: { openModal
     }
 
     return (
-            <PageContentWrapper>
-                <GapedAdaptiveCenterer>
+            <Wrapper>
+                <AdaptiveGrid cols={isSearchWorker ? 3 : 4}>
                     <VerticalPlacesBlock
                         ref={el => setScrollToEl(el)}
                     >
@@ -184,7 +184,7 @@ function MainFilterSearch({ registrationStore, searchStore, uiStore: { openModal
                         onChangeMin={setField('years_with')}
                         onChangeMax={setField('years_to')}
                     />}
-                </GapedAdaptiveCenterer>
+                </AdaptiveGrid>
 
                 {filtersByCategory && <MenuButtonsDocs
                     categories={filtersByCategory}
@@ -193,18 +193,23 @@ function MainFilterSearch({ registrationStore, searchStore, uiStore: { openModal
 
                 {noFullInfo && <ErrorMessage>{noFullInfo}</ErrorMessage>}
 
-                <VerticalCenterer style={{ marginTop: '70px' }}>
+                <VerticalCenterer>
                     <CommonButton
                         onClick={makeSearch}
                     >
                         Подобрать {isSearchWorker ? 'вакансии' : 'анкеты'}
                     </CommonButton>
                 </VerticalCenterer>
-            </PageContentWrapper>
+            </Wrapper>
         );
 };
 
 export default inject('registrationStore', 'searchStore', 'uiStore')(observer(MainFilterSearch));
+
+const Wrapper = styled(PageContentWrapper)`
+    display: grid;
+    row-gap: 40px;
+`;
 
 const VerticalCenterer = styled(Centerer)`
     flex-direction: column;

@@ -3,14 +3,15 @@ import styled from 'styled-components';
 import { CommonButton } from '../../common/components/Buttons';
 import ErrorMessage from '../../common/components/ErrorMessage';
 import { Centerer } from '../../common/components/Layouts';
+import { PageSubtitle } from '../../common/components/TitleVariants';
 
 
 export default function RegistrationButtonsBlock({ onClickLeft, onClickRight, current, creationInfo }) {
     return <>
-        <h2 className='register-title'>Создание вакансии/анкеты
+        <PageSubtitle>Создание вакансии/анкеты
             <p className='subtext-new'>Для продолжения работы с сайтом, необходимо создать вакансию или анкету работника</p>
             {creationInfo && <ErrorMessage>{creationInfo}</ErrorMessage>}
-        </h2>
+        </PageSubtitle>
 
         <ButtonsLayout>
 

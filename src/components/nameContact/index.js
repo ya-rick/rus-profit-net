@@ -5,6 +5,7 @@ import { observer } from 'mobx-react';
 import ErrorMessage from '../../common/components/ErrorMessage';
 import UserMainFields from './UserMainFields';
 import UserContactFields from './UserContactFields';
+import { PageSubtitle } from '../../common/components/TitleVariants';
 
 
 export default observer(function NameContact({ onChangeField, error, fields }) {
@@ -28,10 +29,10 @@ export default observer(function NameContact({ onChangeField, error, fields }) {
                 </Contact4Grid>
             </div>
             <div>
-                <h2 className='register-title'>Предпочитаемый способ связи
+                <PageSubtitle>Предпочитаемый способ связи
                     <p className='subtext-new'>Необходимо указать хотя бы один дополнительный способ связи</p>
                     {error && <ErrorMessage>{error}</ErrorMessage>}
-                </h2>
+                </PageSubtitle>
                 <Contact2Grid>
                     <UserContactFields
                         onChangeField={onChangeField}

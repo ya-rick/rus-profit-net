@@ -2,7 +2,7 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 
 import { PageContentWrapper } from '../../common/components/Layouts'
-import PageTitle from '../../common/components/PageTitle';
+import { PageTitle } from '../../common/components/TitleVariants';
 import GeneralInformation from './generalInformation';
 import NameContact from '../nameContact';
 import RegisterVacancy from '../registerVacancies'

@@ -3,7 +3,7 @@ import { useParams, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { PageContentWrapper } from '../../common/components/Layouts';
-import PageTitle from '../../common/components/PageTitle';
+import { PageTitle } from '../../common/components/TitleVariants';
 import SideBar from './SideBar';
 import UserInfoPage from './UserInfoPage';
 import { Favourites, UserProfileResults, Views } from '../SearchResults';
@@ -110,4 +110,5 @@ export const ContentTitle = styled.h2`
     display: flex;
     justify-content: space-between;
     font-weight: 600;
+    margin-block-start: 0;
 `;

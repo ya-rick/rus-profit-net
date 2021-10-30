@@ -1,11 +1,12 @@
+import { useEffect, useState } from 'react';
+
 import './styles.css';
 
-import { LinkedButton } from "../../common/components/Buttons";
-import PageTitle from "../../common/components/PageTitle";
-import { PageContentWrapper } from "../../common/components/Layouts";
-import TwoLinkedButtonGroup from "../../common/components/TwoLinkedButtonGroup";
-import { useEffect, useState } from "react";
-import { requestWithParams } from "../../api/exchangeLayer";
+import { LinkedButton } from '../../common/components/Buttons';
+import { PageTitle } from '../../common/components/TitleVariants';
+import { PageContentWrapper } from '../../common/components/Layouts';
+import TwoLinkedButtonGroup from '../../common/components/TwoLinkedButtonGroup';
+import { requestWithParams } from '../../api/exchangeLayer';
 
 export default function UserAgreement () {
     const [data, setData] = useState({});
@@ -45,8 +46,8 @@ export default function UserAgreement () {
         <div>{data.block2_subtitle}</div>
 
         <TwoLinkedButtonGroup>
-            <LinkedButton to={'/vacancies'}>Найти работника</LinkedButton>
-            <LinkedButton to={'/questionnaires'}>Найти работу</LinkedButton>
+            <LinkedButton to={'/searchWorker'}>Найти работника</LinkedButton>
+            <LinkedButton to={'/searchWork'}>Найти работу</LinkedButton>
         </TwoLinkedButtonGroup>
 
 

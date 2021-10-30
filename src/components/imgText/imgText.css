@@ -1,13 +1,6 @@
 .img-text{
-    position: relative;
-    width: 100%;
-    height: 91vh;
-    display: flex;
-    align-items: center;
-    flex-direction: column-reverse;
-    justify-content: flex-start;
-    background-size: cover;
-    background-position-x: center;
+    display: grid;
+    grid-template-rows: 3fr 1fr;
 }
 
 .buttons{

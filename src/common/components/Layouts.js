@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const PageContentWrapper = styled.div`
-    padding: 5% 2% 3%;
+    padding: 3% 2%;
 
     @media (min-width: 1320px) {
         width: 1320px;
@@ -20,27 +20,16 @@ export const Centerer = styled.div`
     justify-content: center;
 `;
 
-export const AdaptiveCenterer = styled(Centerer)`
-    > * {
-        flex-basis: 100%;
+export const AdaptiveGrid = styled.div`
+    display: grid;
+    grid-template-columns: repeat(${props => props.cols}, 1fr);
+    gap: 20px;
+
+    @media (max-width: 1024px) {
+        grid-template-columns: repeat(2, 1fr);
     }
 
-    @media (max-width: 1320px) {
-        flex-wrap: wrap;
-
-        > * {
-            flex: 1 1 40%;
-        }
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
     }
-    
-    @media (max-width: 650px) {
-        > * {
-            flex: 1 1 100%;
-        }
-    }
-`;
-
-export const GapedAdaptiveCenterer = styled(AdaptiveCenterer)`
-    column-gap: 50px;
-    row-gap: 70px;
 `;

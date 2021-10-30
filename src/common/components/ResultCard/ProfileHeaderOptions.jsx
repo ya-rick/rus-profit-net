@@ -6,7 +6,7 @@ import Icon from '../Icon';
 
 
 export default observer(function ProfileHeaderOptions({
-    onTrashClickCallback, status, onButtonClickCallback, disabled
+    onTrashClickCallback, status, onButtonClickCallback, disabled, isResume
 }) {
 
     function onTrashClick(e) {
@@ -28,7 +28,7 @@ export default observer(function ProfileHeaderOptions({
     function renderByStatus() {
         switch(status) {
             case 'shown': return <SecondaryButton onClick={bindOnButtonClick('stopped')}>Убрать из поиска</SecondaryButton>;
-            case 'stopped': return <SecondaryButton onClick={bindOnButtonClick('shown')}>Активировать вакансию</SecondaryButton>;
+            case 'stopped': return <SecondaryButton onClick={bindOnButtonClick('shown')}>Активировать {isResume ? 'анкету' : 'вакансию'}</SecondaryButton>;
             default: return <PendingBar>Ожидает подтверждения модератором</PendingBar>;
         }
     }
@@ -59,4 +59,5 @@ export const PendingBar = styled.div`
     border-radius: 20px;
     background-color: rgb(111, 128, 165, 0.2);
     padding: 20px 30px;
+    font-size: .8em;
 `;

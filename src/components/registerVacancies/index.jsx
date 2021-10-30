@@ -13,18 +13,20 @@ import TextArea from '../../common/components/TextArea';
 import { ModalVariants } from '../../common/consts';
 import { useCategoryFilters } from '../../common/hooks';
 import WorkExamples from './WorkExamples';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import { PageSubtitle } from '../../common/components/TitleVariants';
 
 
 function RegisterVacancies({
     uiStore: { openModal }, isResume,
-    fields: { description, result_cat, agree, category, isWorksAddable, ...restFields },
+    fields: { description, result_cat, agree, category, isWorksAddable, files_images, addImage, removeImage, ...restFields },
     error: { targetedInfo, descriptionBlock },
     onFieldChange, onConfirmClicked, successMessage
 }) {
 
     const { categories, setCurrentCategory, filtersByCategory } = useCategoryFilters(category?.id);
 
-    
     async function finishRegistration() {
         try {
             await onConfirmClicked();
@@ -49,12 +51,12 @@ function RegisterVacancies({
 
     return (
         <>
-            <h2 className='register-title'>
+            <PageSubtitle>
                 {isResume ? 'Какую работу вы ищете'
                 : 'Кого вы ищете'}
                 {targetedInfo && 
                     <ErrorMessage>{targetedInfo}</ErrorMessage>}
-            </h2>
+            </PageSubtitle>
             
             <WorkCluster
                 onCategoryChanged={onChangeCategory}
@@ -72,28 +74,31 @@ function RegisterVacancies({
                     categories={filtersByCategory}
                     selectedParameters={result_cat}
                     onCheckChanged={onFieldChange('result_cat')}/>}
-            <div>
-                <h2 className='register-title'>{isResume ? 'О себе' : 'Описание вакансии'}*
-                    {descriptionBlock && 
-                        <ErrorMessage>{descriptionBlock}</ErrorMessage>}
-                </h2>
-            </div>
+
+            <PageSubtitle>{isResume ? 'О себе' : 'Описание вакансии'}*
+                {descriptionBlock && 
+                    <ErrorMessage>{descriptionBlock}</ErrorMessage>}
+            </PageSubtitle>
+
             <TextArea
                 value={description}
                 onChange={e => onFieldChange('description')(e.target.value)}
             />
-            {isResume && isWorksAddable && <WorkExamples/>}
-            <div>
-                <div className='display-right'>
-                    <CheckBox isChecked={agree} check={onFieldChange('agree')}>
-                        <p className='agree'>
-                            Я согласен с условиями оказания услуг и с политикой <br/>
-                            конфиденциальности в отношении обработки персональных<br/>
-                            данных
-                        </p>
-                    </CheckBox>
-                </div>
+            {isResume && isWorksAddable && <WorkExamples
+                files_images={files_images}
+                removeImage={removeImage}
+                addImage={addImage}
+            />}
+
+            <div className='display-right'>
+                <CheckBox isChecked={agree} check={onFieldChange('agree')}>
+                    <AgreementLink to={'/userAgreement'}>
+                        Я согласен с <Underlined>условиями оказания услуг</Underlined> и с <Underlined>политикой конфиденциальности в отношении обработки 
+                        персональных данных</Underlined>
+                    </AgreementLink>
+                </CheckBox>
             </div>
+
             <div style={{ margin: '50px 0', display: 'flex', justifyContent: 'center' }}>
                 <CommonButton
                     className='img-reg-button'
@@ -109,4 +114,18 @@ function RegisterVacancies({
     )
 }
 
-export default inject('registrationStore', 'uiStore')(observer(RegisterVacancies));
+export default inject('uiStore')(observer(RegisterVacancies));
+
+const AgreementLink = styled(Link)`
+    display: inline-block;
+    width: 400px;
+    line-height: 30px;
+
+    :hover {
+        text-decoration: underline;
+    }
+`;
+
+const Underlined = styled.span`
+    text-decoration: underline;
+`;

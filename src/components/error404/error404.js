@@ -4,6 +4,7 @@ import './error404.css';
 
 import { requestWithParams } from '../../api/exchangeLayer';
 import { LinkedButton } from '../../common/components/Buttons';
+import styled from 'styled-components';
 
 
 const Error404 = () => {
@@ -19,44 +20,55 @@ const Error404 = () => {
             }))
     }, []);
 
-    const myStyle = {
-        backgroundSize: 'recover',
-        backgroundPositionX: 'center',
-        width: '100%',
-        backgroundImage: `url(${data.image})`
-    }
-
+    // refactor as imgtext 
     return (
-        <div className='img-text' style={myStyle}>
-            <div className='col-xs-12 col-md-12 col-lg-6 page-error-img'>
-                <div>
-                    <p className='number-error'>
-                        {data.title}
-                    </p>
-                </div>
-                <div className='text-block-error'>
-                    <p className='text-error'>
-                        {data.subtitle}
-                    </p>
-                    <p className='text-error'>
-                        {data.subtitle2}
-                    </p>
-                </div>
-                <div className='group-error-button'>
-                    <LinkedButton
-                        to={'/searchWorker'}
-                    >
-                        Найти работника
-                    </LinkedButton>
-                    <LinkedButton
-                        to={'/searchWork'}
-                    >
-                        Найти работу
-                    </LinkedButton>
-                </div>
+        <Layout image={data.image}>
+            <p className='number-error'>
+                {data.title}
+            </p>
+            <div className='text-block'>
+                <p className='text-block-text'>
+                    {data.subtitle}
+                </p>
+                <p className='text-block-text'>
+                    {data.subtitle2}
+                </p>
             </div>
-        </div>
+            <ButtonGroup>
+                <LinkedButton
+                    to={'/searchWorker'}
+                >
+                    Найти работника
+                </LinkedButton>
+                <LinkedButton
+                    to={'/searchWork'}
+                >
+                    Найти работу
+                </LinkedButton>
+            </ButtonGroup>
+        </Layout>
     );
 };
 
 export default Error404;
+
+const Layout = styled.div`
+    display: grid;
+    background-image: url(${props => props.image});
+    background-position: center;
+    background-size: cover;
+    background-clip: content-box;
+    justify-content: center;
+    align-items: end;
+`;
+
+const ButtonGroup = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+    margin: 50px 0;
+
+    > * {
+        margin: 0 auto;
+    }
+`;

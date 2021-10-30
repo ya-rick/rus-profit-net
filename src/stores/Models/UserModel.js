@@ -34,7 +34,7 @@ export default class UserModel {
             validateAll: action.bound,
             validatePasswordInfo: action.bound,
             saveData: action.bound,
-            getTabResults: flow.bound,
+            setTabResult: action.bound,
             setTabResultsType: action.bound,
             clearTabResults: action.bound,
             deleteTabResult: action.bound,
@@ -134,22 +134,15 @@ export default class UserModel {
         this.currentTabResults.setCollectionType(type);
     }
 
-    *getTabResults(searchParam, payload) {
-        this.currentTabResults.setLoading();
+    setTabResult(result) {
+        const { vacancy, resume } = result;
 
-        try {
-            const { vacancy, resume } = yield requestWithParams(searchParam, payload)
-
-            if (resume) {
-                this.currentTabResults.setCollectionType('resume');
-                this.currentTabResults.setResults(resume);
-            } else {
-                this.currentTabResults.setCollectionType('vacancy');
-                this.currentTabResults.setResults(vacancy);
-            }
-        } catch(e) {
-            console.error(e);
-            this.currentTabResults.setResults([]);
+        if (resume) {
+            this.currentTabResults.setCollectionType('resume');
+            this.currentTabResults.setResults(resume);
+        } else {
+            this.currentTabResults.setCollectionType('vacancy');
+            this.currentTabResults.setResults(vacancy);
         }
     }
 

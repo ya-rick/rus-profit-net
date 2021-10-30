@@ -79,7 +79,7 @@ function EmailChangePage({ uiStore }) {
         </EmailsLayout>
 
         <CommonButton
-            style={{ margin: '40px auto' }}
+            style={{ margin: '20px auto 0' }}
             onClick={sendEmails}
         >Подтвердить</CommonButton>
     </>

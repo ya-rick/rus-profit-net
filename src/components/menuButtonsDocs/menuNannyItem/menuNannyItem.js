@@ -20,11 +20,13 @@ const MenuNannyItem = ({ listsData, chek, selectedIDs }) => {
     return(
        <div className="input-list">
            {elements}
-           {listsData.length > 4 && <div className={'spread-button-wrapper'}>
+           {listsData.length > 4 && <div 
+                onClick={() => setFullSized(!isFullSized)}
+                className={'spread-button-wrapper'}
+            >
                 <span
                     className={'spread-button'}
-                    onClick={() => setFullSized(!isFullSized)}
-                >Посмотреть все</span>
+                >{isFullSized ? 'Свернуть' : 'Посмотреть все'}</span>
                <ArrowIcon
                     iconName={'arrow_down'}
                     spread={isFullSized}

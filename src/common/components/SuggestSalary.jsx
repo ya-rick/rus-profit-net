@@ -5,10 +5,10 @@ import { SalaryTypes } from '../consts'
 import CurrencyInput from './CurrencyInput'
 import styled from 'styled-components'
 
-export default function SuggestSalary({ salary, currencyID, salaryTypeID, onSelectChanged, onSalaryChanged, onCurrencyChanged }) {
+export default function SuggestSalary({ salary, currencyID, salaryTypeID, onSelectChanged, onSalaryChanged, onCurrencyChanged, isResume }) {
 
     return <div className='main-filter-search-subBlock'>
-        <p className='bg-long-text'>Предлагаемая заработная плата</p>
+        <p className='bg-long-text'>{isResume ? 'Желаемая' : 'Предлагаемая'} заработная плата</p>
         <Layout>
             <CurrencyInput
                 onChangeValue={onSalaryChanged}

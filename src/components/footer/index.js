@@ -1,13 +1,15 @@
+import { inject } from 'mobx-react';
 import React from 'react';
 import { Link, useLocation} from 'react-router-dom';
 import styled from 'styled-components';
 import { PageContentWrapper } from '../../common/components/Layouts';
+import { ModalVariants } from '../../common/consts';
 
 import BigLogo from '../../images/2021RusProfiNetFooterLogo.svg';
 
 const layoutGap = '30px';
 
-const Footer = () => {
+const Footer = inject('uiStore')(({ uiStore: { openModal } }) => {
     const { pathname } = useLocation();
 
     function isRoot() {
@@ -21,7 +23,7 @@ const Footer = () => {
                     <ContactsRows area={'contacts1'}>
                         <ContactBlock>+7 916 500 50 50</ContactBlock>
                         <ContactBlock>
-                            <Link to={'/faq'}>Напишите нам</Link>
+                            <LinLikeButton onClick={() => openModal(ModalVariants.FAQ)}>Напишите нам</LinLikeButton>
                         </ContactBlock>
                         <ContactBlock>
                             <Link to={'/advertMen'}>Рекламодателям</Link>
@@ -41,17 +43,34 @@ const Footer = () => {
                     </div>
                 </FooterRowsLayout>
 
-                <div style={{ textAlign: 'center', color: '#153D70', fontSize: '15px' }}>
+                <div style={{ textAlign: 'center', color: '#153D70', fontSize: '13px' }}>
                     2021 RusProfiNet. Все права защищены
                 </div>
             </PageContentWrapper>
         </FooterWrapper>
-};
+});
 
 export default Footer;
 
 const FooterWrapper = styled.div`
     background: #B9C3D8;
+
+    ${PageContentWrapper} {
+        padding-bottom: 1%;
+    }
+`;
+
+const LinLikeButton = styled.button`
+    background: transparent;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 0;
+
+    :hover {
+        text-decoration: underline;
+    }
 `;
 
 const FooterRowsLayout = styled.div`

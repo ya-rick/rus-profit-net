@@ -1,11 +1,12 @@
+import { useEffect, useState } from 'react';
+
 import './styles.css';
 
-import { LinkedButton } from "../../common/components/Buttons";
-import PageTitle from "../../common/components/PageTitle";
-import { PageContentWrapper } from "../../common/components/Layouts";
-import TwoLinkedButtonGroup from "../../common/components/TwoLinkedButtonGroup";
-import { useEffect, useState } from "react";
-import { requestWithParams } from "../../api/exchangeLayer";
+import { LinkedButton } from '../../common/components/Buttons';
+import { PageTitle } from '../../common/components/TitleVariants';
+import { PageContentWrapper } from '../../common/components/Layouts';
+import TwoLinkedButtonGroup from '../../common/components/TwoLinkedButtonGroup';
+import { requestWithParams } from '../../api/exchangeLayer';
 
 export default function UserAgreement () {
     const [data, setData] = useState({});

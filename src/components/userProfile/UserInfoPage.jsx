@@ -9,6 +9,7 @@ import { Centerer } from '../../common/components/Layouts';
 import { CommonButton } from '../../common/components/Buttons';
 import { ModalVariants } from '../../common/consts';
 import Input from '../../common/components/Input';
+import { PageSubtitle } from '../../common/components/TitleVariants';
 
 
 export default inject('uiStore')(observer(UserInfoPage));
@@ -81,24 +82,24 @@ function UserInfoPage({ uiStore }) {
 
         </UserMainInfoLayout>
 
-        <h2 className='register-title'>Предпочитаемый способ связи
+        <PageSubtitle>Предпочитаемый способ связи
             <p className='subtext-new'>Необходимо указать хотя бы один дополнительный способ связи</p>
             {contactInfo && <ErrorMessage>{contactInfo}</ErrorMessage>}
-        </h2>
+        </PageSubtitle>
 
         <UserContactsLayout>
 
             <UserContactFields
                 onChangeField={setField}
                 contactFields={contacts_info}
-                showMoreButton={false}
+                showMoreButton
             />
 
         </UserContactsLayout>
 
-        <h2 className='register-title'>Общие данные
+        <PageSubtitle>Общие данные
             {generalInfo && <ErrorMessage>{generalInfo}</ErrorMessage>}
-        </h2>
+        </PageSubtitle>
 
         <GeneralInfoLayout>
 

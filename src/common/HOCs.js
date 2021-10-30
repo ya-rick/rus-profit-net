@@ -1,10 +1,11 @@
 import { inject, observer } from 'mobx-react';
-import { useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 
 import { ContentTitle } from '../components/userProfile';
 import { PageContentWrapper } from './components/Layouts';
 import { ACTIONS } from '../stores/CreateEditStore';
+import { useRequest } from './hooks';
+import Loading from './components/Loading';
 
 
 export const SearchResultsFromSearchStore = SearchResultsComponent => {
@@ -42,23 +43,22 @@ export const SearchResultsFromUserProfile = SearchResultsComponent => {
     
     function Wrapper({
         searchStore,
-        uiStore: { userModel: { currentTabResults, getTabResults, deleteTabResult } },
+        uiStore: { userModel: { currentTabResults, setTabResult, deleteTabResult } },
         searchParam,
         createEditStore,
         ...props
     }) {
 
         const {
-            isLoading, isPresent, isVacancy, results,
+            isPresent, isVacancy, results,
         } = currentTabResults;
 
         const history = useHistory();
 
-        useEffect(() => {
-
-            getTabResults(searchParam);
-    
-        }, [searchParam])
+        const { isLoading } = useRequest({
+            requestType: searchParam, 
+            onSuccess: setTabResult,
+        });
 
         function onSelectCallback(result) {
             searchStore.setCurrentResult(result);
@@ -69,6 +69,8 @@ export const SearchResultsFromUserProfile = SearchResultsComponent => {
 
             history.push('/profile/create');
         }
+
+        if (isLoading) return <Loading/>;
 
         return <SearchResultsComponent
             results={results}
@@ -93,27 +95,29 @@ export const SearchResultsFavourites = SearchResultsComponent => {
     
     function Wrapper({
         searchStore,
-        uiStore: { userModel: { currentTabResults, getTabResults, deleteTabResult } },
+        uiStore: { userModel: { currentTabResults, setTabResult, deleteTabResult } },
         searchParam,
         createEditStore,
         ...props
     }) {
 
         const {
-            isLoading, isPresent, isVacancy, results,
+            isPresent, isVacancy, results,
         } = currentTabResults;
 
         const { id } = useParams();
 
-        useEffect(() => {
-
-            getTabResults(searchParam, { id });
-    
-        }, [searchParam, id])
+        const { isLoading } = useRequest({
+            requestType: searchParam, 
+            requestParams: { id },
+            onSuccess: setTabResult,
+        });
 
         function onSelectCallback(result) {
             searchStore.setCurrentResult(result);
         }
+
+        if (isLoading) return <Loading/>;
 
         return <SearchResultsComponent
             results={results}
@@ -136,27 +140,29 @@ export const SearchResultsViews = SearchResultsComponent => {
     
     function Wrapper({
         searchStore,
-        uiStore: { userModel: { currentTabResults, getTabResults, deleteTabResult } },
+        uiStore: { userModel: { currentTabResults, setTabResult, deleteTabResult } },
         searchParam,
         createEditStore,
         ...props
     }) {
 
         const {
-            isLoading, isPresent, isVacancy, results,
+            isPresent, isVacancy, results,
         } = currentTabResults;
 
         const { id } = useParams();
 
-        useEffect(() => {
-
-            getTabResults(searchParam, { id });
-    
-        }, [searchParam, id]);
+        const { isLoading } = useRequest({
+            requestType: searchParam, 
+            requestParams: { id },
+            onSuccess: setTabResult,
+        });
 
         function onSelectCallback(result) {
             searchStore.setCurrentResult(result);
         }
+
+        if (isLoading) return <Loading/>;
 
         return <SearchResultsComponent
             results={results}

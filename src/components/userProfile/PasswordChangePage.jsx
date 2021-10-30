@@ -93,7 +93,7 @@ function PasswordChangePage({ uiStore }) {
         </PasswordsLayout>
 
         <CommonButton
-            style={{ margin: '40px auto' }}
+            style={{ margin: '20px auto 0' }}
             onClick={sendPasswords}
         >Подтвердить</CommonButton>
     </>

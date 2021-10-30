@@ -34,6 +34,8 @@ const httpMethodsTypes = {
     toggleActivation: 'activation',
     getContacts: 'get_contacts_info',
     sendQuestion: 'add_faq',
+    getNotifications: 'get_notifications',
+    readNotifications: 'read_notifications',
     getFAQs: 'get_faq'
 }
 

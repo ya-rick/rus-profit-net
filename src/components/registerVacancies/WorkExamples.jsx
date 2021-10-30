@@ -4,9 +4,10 @@ import styled from 'styled-components';
 
 import { InfoWrapper } from '../register/generalInformation/styles';
 import Icon from '../../common/components/Icon';
+import { PageSubtitle } from '../../common/components/TitleVariants';
 
 
-function WorkExample({ registrationStore: { targetedInfo: { addImage, removeImage, files_images } } }) {
+function WorkExample({ addImage, removeImage, files_images }) {
     const [hoveredImageIndex, setHoveredImageIndex] = useState(null);
 
     function onImageMouseEnter(index) {
@@ -29,10 +30,10 @@ function WorkExample({ registrationStore: { targetedInfo: { addImage, removeImag
 
     return <WorkExamplesContainer>
         <div>
-            <h2 className='register-title'>Примеры работ</h2>
+            <PageSubtitle>Примеры работ</PageSubtitle>
         </div>
 
-        <div>
+        <AddImageLayout>
             <InfoWrapper>
                 <input
                     id='file-in'
@@ -45,7 +46,7 @@ function WorkExample({ registrationStore: { targetedInfo: { addImage, removeImag
                 <label for='file-in' className='reg-dwn-img'>Добавьте фотографию</label>
                 <p className='reg-subtext'>Размер файла не более 5 Мб</p>
             </InfoWrapper>
-        </div>
+        </AddImageLayout>
         
         {files_images.length > 0 && <ExamplesImageLayout>
             {files_images.map((image, index) => <ImageContainer
@@ -67,6 +68,12 @@ export default inject('registrationStore')(observer(WorkExample));
 
 const WorkExamplesContainer = styled.div`
 
+`;
+
+const AddImageLayout = styled.div`
+    display: flex;
+    justify-content: start;
+    margin-bottom: 40px;
 `;
 
 const ExamplesImageLayout = styled.div`

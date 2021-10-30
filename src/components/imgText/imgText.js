@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, memo } from "react";
+
 import './imgText.css';
-import { useHistory } from 'react-router-dom';
 import { requestWithParams } from "../../api/exchangeLayer";
 import { LinkedButton } from "../../common/components/Buttons";
+import styled from "styled-components";
 
 
-const ImgText = () => {
+const ImgText = memo(() => {
     const [data, setData] = useState({error: false, description: '', title: '', image: ''});
     
     useEffect(() => {
@@ -15,41 +16,49 @@ const ImgText = () => {
         }));
     }, [])
     
-
-    const myStyle = {
-        backgroundSize: 'recover',
-        backgroundPositionX: 'center',
-        width: '100%',
-        minHeight: '100%',
-        backgroundImage: `url(${data.image})`
-    }
-
     return (
-        <div className='img-text' style={myStyle}>
-            <div className='main-page-img'>
-                <div className='group-button'>
-                    <LinkedButton
-                        to={'/searchWorker'}
-                    >
-                        Найти работника
-                    </LinkedButton>
-                    <LinkedButton
-                        to={'/searchWork'}
-                    >
-                        Найти работу
-                    </LinkedButton>
-                </div>
-                <div className='text-block'>
-                    <p className='text-block-text'>
-                        {data.title}
-                    </p>
-                </div>
+        <Layout image={data.image}>
+            <div className='text-block'>
+                <p className='text-block-text'>
+                    {data.title}
+                </p>
             </div>
-            <div className='col-xs-12 col-md-0 col-lg-3'>
-
-            </div>
-        </div>
+            <ButtonGroup>
+                <LinkedButton
+                    to={'/searchWorker'}
+                >
+                    Найти работника
+                </LinkedButton>
+                <LinkedButton
+                    to={'/searchWork'}
+                >
+                    Найти работу
+                </LinkedButton>
+            </ButtonGroup>
+        </Layout>
     );
-};
+});
 
 export default ImgText;
+
+const Layout = styled.div`
+    display: grid;
+    grid-template-rows: 3fr 1fr;
+    background-image: url(${props => props.image});
+    background-position: center;
+    background-size: cover;
+    background-clip: content-box;
+    justify-content: center;
+    align-items: end;
+`;
+
+const ButtonGroup = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+    margin: 50px 0;
+
+    > * {
+        margin: 0 auto;
+    }
+`;

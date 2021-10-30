@@ -1,16 +1,16 @@
 import { observer } from 'mobx-react';
-import { useState } from 'react';
 import styled from 'styled-components';
 
 import Input from '../../common/components/Input';
+import { useToggle } from '../../common/hooks';
 import CheckBox from '../checkbox';
 
 
 // For comfotrable layouts purpose
 export default observer(UserContactFields);
 
-function UserContactFields({ onChangeField, contactFields = [], showMoreButton = true }) {
-    const [isAllVisible, setIsAllVisible] = useState(!showMoreButton);
+function UserContactFields({ onChangeField, contactFields = [], showMoreButton = false }) {
+    const [isAllVisible, toggleVisibility] = useToggle(!showMoreButton);
 
     function togglePrefered(contact) {
         return newVal => onChangeField('contacts_info')({...contact, prefered: newVal})
@@ -28,7 +28,8 @@ function UserContactFields({ onChangeField, contactFields = [], showMoreButton =
                 onChange={e => onChangeField('contacts_info')({...contact, value: e.target.value})}
             />
         </ContactBlockLayout>)}
-        {!isAllVisible && <ShowMoreButton onClick={() => setIsAllVisible(true)}>Посмотреть все</ShowMoreButton>}
+
+        {showMoreButton && <ShowMoreButton onClick={() => toggleVisibility()}>{!isAllVisible ? 'Посмотреть все' : 'Свернуть'}</ShowMoreButton>}
     </>
 }
 

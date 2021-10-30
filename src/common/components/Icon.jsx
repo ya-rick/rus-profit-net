@@ -1,15 +1,33 @@
 import styled, { css } from 'styled-components';
+import PropTypes from 'prop-types';
 
 import * as svgIcons from '../svgElements';
 
-export default function Icon ({ iconName, text, disabled = false, ...props }) {
+function mapSize(size) {
+    switch(size) {
+        case 'xl': return '150px';
+        case 'md': return '100px';
+        default: return '40px';
+    }
+}
+
+export default function Icon ({ iconName, text, disabled = false, size = 'xs', ...props }) {
+
     return <Wrapper
         {...props}
+        size={size}
         disabled={disabled}
     >
         {svgIcons[iconName]}
         <Text>{text}</Text>
     </Wrapper>
+}
+
+Icon.propTypes = {
+    iconName: PropTypes.oneOf(Object.keys(svgIcons)),
+    size: PropTypes.oneOf(['xs', 'xl']),
+    text: PropTypes.string,
+    disabled: PropTypes.bool
 }
 
 const Wrapper = styled.div`
@@ -18,8 +36,8 @@ const Wrapper = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    max-width: 40px;
-    max-height: 40px;
+    max-width: ${props => mapSize(props.size)};
+    max-height: ${props => mapSize(props.size)};
     cursor: pointer;
 
     ${props => props.disabled && css`

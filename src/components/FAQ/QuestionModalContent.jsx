@@ -25,7 +25,7 @@ export default inject('uiStore')(function QuestionModalContent({ uiStore: { open
 
             openModal(ModalVariants.InfoModal, {
                 title: 'Поздравляем!',
-                description: 'ответ на Ваш вопрос будет отправлен на указанный почтовый ящик'
+                description: 'Ответ на Ваш вопрос будет отправлен на указанный почтовый ящик'
             })
         } catch (e) {
             console.error(e);
@@ -78,7 +78,7 @@ export default inject('uiStore')(function QuestionModalContent({ uiStore: { open
 
             <ModalButtonWapper>
                 <CommonButton onClick={sendQuestion}>Отправить</CommonButton>
-            </ModalButtonWapper>   
+            </ModalButtonWapper>
         </>
     )
 })

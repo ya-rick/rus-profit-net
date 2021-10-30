@@ -31,7 +31,7 @@ export function useToggle(initial = false) {
     return [state, toggleState];
 }
 
-export function useRequest(requestType, requestParams) {
+export function useRequest({ requestType, requestParams, onSuccess, onError }) {
     const [result, setResult] = useState(null);
     const [error, setError] = useState(null);
 
@@ -47,9 +47,11 @@ export function useRequest(requestType, requestParams) {
 
                 setResult(result);
                 setError(null);
+                onSuccess && onSuccess(result);
             } catch(e) {
                 setResult(null);
                 setError(e.message);
+                onError && onError(e);
             }
         })();
 
@@ -57,6 +59,26 @@ export function useRequest(requestType, requestParams) {
     }, [requestType]);
 
     return {
-        error, result, isLoading: !Boolean(result || error)
+        error, result, isLoading: !Boolean(result || error), transformResult: setResult
     }
+}
+
+export function useMetaTags(props) {
+    const propertiesNames = ['title', 'description', 'image', 'url'];
+    useEffect(() => {
+        propertiesNames.forEach(propertyName => {
+            let meta = document.querySelector(`meta[property='og:${propertyName}']`);
+
+            if (meta) {
+                meta.content = props[propertyName];
+            } else {
+                meta = document.createElement('meta');
+                meta.setAttribute('property', `og:${propertyName}`);
+                meta.setAttribute('content', props[propertyName]);
+
+                document.head.appendChild(meta);
+            }
+        })
+
+    }, [props]);
 }

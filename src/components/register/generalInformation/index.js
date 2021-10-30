@@ -5,6 +5,7 @@ import './generalInformation.css';
 import { GeneralInfoWrapper } from './styles';
 import ErrorMessage from '../../../common/components/ErrorMessage';
 import GeneralInformationFields from './GeneralInformationFields';
+import { PageSubtitle } from '../../../common/components/TitleVariants';
 
 
 export default inject('registrationStore')(observer(GeneralInformation));
@@ -15,9 +16,9 @@ function GeneralInformation({ registrationStore }) {
 
     return (
         <>
-            <h2 className='register-title'>Общие данные
+            <PageSubtitle>Общие данные
                 {generalInfo && <ErrorMessage>{generalInfo}</ErrorMessage>}
-            </h2>
+            </PageSubtitle>
 
             <GeneralInfoWrapper>
 

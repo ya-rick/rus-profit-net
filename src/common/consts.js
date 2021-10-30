@@ -13,6 +13,8 @@ export const ModalVariants = {
     FAQ: 'FAQ',
     RedImg: 'RedImg',
     PasswordResetModal: 'PasswordResetModal',
+    UnregisteredInfo: 'UnregisteredInfo',
+    Share: 'Share',
 }
 
 export const SalaryTypes = {

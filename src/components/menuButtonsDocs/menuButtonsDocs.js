@@ -63,19 +63,8 @@ export default class MenuButtonsDocs extends Component{
 };
 
 const ColumnsCenterer = styled(Centerer)`
-    flex-wrap: wrap;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
     align-items: start;
-    margin-top: 30px;
-    row-gap: 40px;
-
-    > * {
-        flex-basis: 30%;
-    }
-
-    @media (max-width: 650px) {
-        > * {
-            flex-basis: 100%;
-        }
-    }
 `;

@@ -24,7 +24,7 @@ export default class CommonInfoContract {
                     name: 'Email',
                     key: 'second_email',
                     value: '',
-                    prefered: false,
+                    prefered: true,
                 },
                 {
                     name: 'Телефон',

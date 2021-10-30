@@ -8,6 +8,8 @@ import InfoModal from '../components/modal/info-form';
 import RedImg from '../common/components/red-img';
 import PasswordResetModal from '../components/modal/password-reset';
 import UserModel from './Models/UserModel'
+import UnregisteredInfo from '../components/modal/unregistered-info';
+import Share from '../components/modal/share';
 
 const modals = {
     [ModalVariants.Authorization]: <Authorization/>,
@@ -16,6 +18,8 @@ const modals = {
     [ModalVariants.FAQ]: <QuestionModalContent/>,
     [ModalVariants.RedImg]: <RedImg/>,
     [ModalVariants.PasswordResetModal]: <PasswordResetModal/>,
+    [ModalVariants.UnregisteredInfo]: <UnregisteredInfo/>,
+    [ModalVariants.Share]: <Share/>,
 };
 
 export default class UIStore {
