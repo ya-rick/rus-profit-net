@@ -15,9 +15,9 @@ import ProfileHeaderOptions from './ProfileHeaderOptions';
 export default inject('searchStore', 'uiStore', 'createEditStore')(observer(ResultCard));
 
 function ResultCard({
-    result, onSelectResult, userProfileInfo,
+    result, onSelectResult, userProfileInfo = false, viewsOrFavourites = false,
     uiStore: { userModel: { isUserAuthenticated, setTabResultsType }, openModal },
-    createEditStore, onDeleteCallback
+    createEditStore, onDeleteCallback, ...props
 }) {
 
     const { category, places, experience, parameters, salary, type,
@@ -134,7 +134,7 @@ function ResultCard({
 
                 </CardImageBlock>}
 
-                <CardInfoBlock userProfile={userProfileInfo}>
+                <CardInfoBlock smallerFont={userProfileInfo || viewsOrFavourites}>
 
                     <CardHeader>
                         <CardTitle>
@@ -263,7 +263,7 @@ const CardInfoBlock = styled.div`
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
-    font-size: ${props => props.userProfile ? '25px' : '30px'};
+    font-size: ${props => props.smallerFont ? '25px' : '30px'};
 
     > * {
         margin-bottom: 20px;

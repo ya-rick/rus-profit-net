@@ -59,5 +59,5 @@ export const PendingBar = styled.div`
     border-radius: 20px;
     background-color: rgb(111, 128, 165, 0.2);
     padding: 20px 30px;
-    font-size: .8em;
+    font-size: .7em;
 `;

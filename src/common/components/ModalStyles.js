@@ -10,7 +10,7 @@ export const ModalContainer = styled.div`
 
 export const ModalLayout = styled.div`
     margin-right: -15px;
-    padding: 2em;
+    padding: 3em;
     min-width: 500px;
     max-height: 70vh;
     overflow-y: scroll;

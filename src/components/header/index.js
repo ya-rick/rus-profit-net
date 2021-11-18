@@ -24,7 +24,7 @@ const Header = inject('uiStore')(observer(({
     useEffect(() => {
         if (!['/searchWorker', '/searchWork'].includes(pathname)) {
             setTimeout(() => {
-                headerRef.current.scrollIntoView();
+                // headerRef.current.scrollIntoView();
             }, 1)
         }
     }, [pathname]);

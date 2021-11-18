@@ -11,12 +11,13 @@ function mapSize(size) {
     }
 }
 
-export default function Icon ({ iconName, text, disabled = false, size = 'xs', ...props }) {
+export default function Icon ({ iconName, text, disabled = false, size = 'xs', cursorDefault = false, ...props }) {
 
     return <Wrapper
         {...props}
         size={size}
         disabled={disabled}
+        cursorDefault={cursorDefault}
     >
         {svgIcons[iconName]}
         <Text>{text}</Text>
@@ -38,7 +39,8 @@ const Wrapper = styled.div`
     align-items: center;
     max-width: ${props => mapSize(props.size)};
     max-height: ${props => mapSize(props.size)};
-    cursor: pointer;
+
+    ${props => props.cursorDefault && css`cursor: pointer;`}
 
     ${props => props.disabled && css`
         filter: opacity(0.5);

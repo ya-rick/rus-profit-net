@@ -1,7 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-snapshot';
 import { ThemeProvider } from 'styled-components';
 import { Provider as StoreProvider } from 'mobx-react';
+import 'url-search-params-polyfill';
 
 import App from './components/mainPage';
 import RegistrationStore from './stores/RegistrationStore';
@@ -19,13 +20,15 @@ const stores = {
 
 stores.uiStore.userModel.getUserData()
   .finally(() => {
-    ReactDOM.render( 
+    const root = document.getElementById('root');
+
+    render( 
       <StoreProvider {...stores}>
         <ThemeProvider theme={defaultStyles}>
           <App/>
         </ThemeProvider>
-      </StoreProvider> ,
-      document.getElementById('root')
+      </StoreProvider>,
+      root
     );
   })
 

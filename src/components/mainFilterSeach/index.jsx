@@ -32,9 +32,9 @@ function MainFilterSearch({ registrationStore, searchStore, uiStore: { openModal
     }
 
     useEffect(() => {
-        if (scrollToEl) {
-            scrollToEl.scrollIntoView();
-        }
+        // if (scrollToEl) {
+        //     scrollToEl.scrollIntoView();
+        // }
 
         setField('type_search')(getSearchType(pathname));
     }, [scrollToEl, pathname]);

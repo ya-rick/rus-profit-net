@@ -44,9 +44,6 @@ class MainPage extends Component {
                 <MainPageLayout>
                     <Header/>
                     <Switch>
-                        <Route exact path={'/'}>
-                            <ImgText/>
-                        </Route>
                         <Route path={'/searchWorker'}>
                             <ImgText/>
                             <MainFilterSearch/>
@@ -87,6 +84,9 @@ class MainPage extends Component {
                         </Route>
                         <Route path={'/password-reset/:id'}>
                             <PasswordReset/>
+                        </Route>
+                        <Route exact path={'/'}>
+                            <ImgText/>
                         </Route>
                         <Route path={'*'}>
                             <Error404/>

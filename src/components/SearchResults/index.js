@@ -11,7 +11,7 @@ import { CommonButton } from '../../common/components/Buttons';
 
 const SearchResults = observer(({
     isPresent, onSelectCallback, results = [], isLastPage,
-    isLoading, isVacancy, showMoreCallback,
+    isLoading, isVacancy, showMoreCallback, viewsOrFavourites,
     resultsTitleVariants, userProfileInfo, TitleComponent = PageTitle,
     onCreateClick, onDeleteCallback
 }) => {
@@ -60,6 +60,7 @@ const SearchResults = observer(({
                             onSelectResult={bindOnSelectResult(result)}
                             userProfileInfo={userProfileInfo}
                             onDeleteCallback={onDeleteCallback}
+                            viewsOrFavourites={viewsOrFavourites}
                         />
                     )
                 : 'Нет результатов'}

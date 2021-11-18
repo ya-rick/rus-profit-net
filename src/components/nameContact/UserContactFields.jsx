@@ -1,3 +1,4 @@
+import { toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import styled from 'styled-components';
 
@@ -6,7 +7,6 @@ import { useToggle } from '../../common/hooks';
 import CheckBox from '../checkbox';
 
 
-// For comfotrable layouts purpose
 export default observer(UserContactFields);
 
 function UserContactFields({ onChangeField, contactFields = [], showMoreButton = false }) {
@@ -16,8 +16,22 @@ function UserContactFields({ onChangeField, contactFields = [], showMoreButton =
         return newVal => onChangeField('contacts_info')({...contact, prefered: newVal})
     }
 
+    function renderByConditions() {
+        let transformedFields = toJS(contactFields);
+
+        if (showMoreButton) {
+            transformedFields.sort((fieldA, fieldB) => fieldB.prefered - fieldA.prefered);
+        }
+
+        if (!isAllVisible) {
+            transformedFields = transformedFields.slice(0, 3);
+        }
+
+        return transformedFields;
+    }
+
     return <>
-        {(isAllVisible ? contactFields : contactFields.slice(0, 3)).map(contact => <ContactBlockLayout>
+        {renderByConditions().map(contact => <ContactBlockLayout>
             <CheckBox
                 isChecked={contact.prefered}
                 check={togglePrefered(contact)}

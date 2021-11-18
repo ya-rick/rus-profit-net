@@ -1,8 +1,7 @@
 import axios from 'axios';
 
 export const http = axios.create({
-    baseURL: (process.env.NODE_ENV === 'development' ?
-        'https://rusprofinet.dncompany.fun' : window.location.origin) + '/api/api.php',
+    baseURL: 'https://rusprofinet.dncompany.fun/api/api.php',
     method: 'post'
 });
 

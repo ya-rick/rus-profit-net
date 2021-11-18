@@ -137,6 +137,8 @@ export default class UserModel {
     setTabResult(result) {
         const { vacancy, resume } = result;
 
+        this.clearTabResults();
+
         if (resume) {
             this.currentTabResults.setCollectionType('resume');
             this.currentTabResults.setResults(resume);

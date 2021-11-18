@@ -43,7 +43,7 @@ export const SearchResultsFromUserProfile = SearchResultsComponent => {
     
     function Wrapper({
         searchStore,
-        uiStore: { userModel: { currentTabResults, setTabResult, deleteTabResult } },
+        uiStore: { userModel: { clearTabResults, currentTabResults, setTabResult, deleteTabResult } },
         searchParam,
         createEditStore,
         ...props
@@ -58,6 +58,7 @@ export const SearchResultsFromUserProfile = SearchResultsComponent => {
         const { isLoading } = useRequest({
             requestType: searchParam, 
             onSuccess: setTabResult,
+            onError: clearTabResults
         });
 
         function onSelectCallback(result) {
@@ -95,7 +96,7 @@ export const SearchResultsFavourites = SearchResultsComponent => {
     
     function Wrapper({
         searchStore,
-        uiStore: { userModel: { currentTabResults, setTabResult, deleteTabResult } },
+        uiStore: { userModel: { clearTabResults, currentTabResults, setTabResult, deleteTabResult } },
         searchParam,
         createEditStore,
         ...props
@@ -111,6 +112,7 @@ export const SearchResultsFavourites = SearchResultsComponent => {
             requestType: searchParam, 
             requestParams: { id },
             onSuccess: setTabResult,
+            onError: clearTabResults
         });
 
         function onSelectCallback(result) {
@@ -129,6 +131,7 @@ export const SearchResultsFavourites = SearchResultsComponent => {
             onSelectCallback={onSelectCallback}
             TitleComponent={ContentTitle}
             onDeleteCallback={deleteTabResult}
+            viewsOrFavourites
             {...props}
         />
     }
@@ -140,7 +143,7 @@ export const SearchResultsViews = SearchResultsComponent => {
     
     function Wrapper({
         searchStore,
-        uiStore: { userModel: { currentTabResults, setTabResult, deleteTabResult } },
+        uiStore: { userModel: { clearTabResults, currentTabResults, setTabResult, deleteTabResult } },
         searchParam,
         createEditStore,
         ...props
@@ -156,6 +159,7 @@ export const SearchResultsViews = SearchResultsComponent => {
             requestType: searchParam, 
             requestParams: { id },
             onSuccess: setTabResult,
+            onError: clearTabResults
         });
 
         function onSelectCallback(result) {
@@ -174,6 +178,7 @@ export const SearchResultsViews = SearchResultsComponent => {
             onSelectCallback={onSelectCallback}
             TitleComponent={ContentTitle}
             onDeleteCallback={deleteTabResult}
+            viewsOrFavourites
             {...props}
         />
     }
