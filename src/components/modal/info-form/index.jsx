@@ -1,6 +1,8 @@
-import { inject, observer } from "mobx-react";
-import React from "react";
-import { ModalContent, ModalSubtitle, ModalTitle } from "../../../common/components/ModalStyles";
+import { inject, observer } from 'mobx-react';
+import React from 'react';
+
+import { ModalContent, ModalSubtitle, ModalTitle } from '../../../common/components/ModalStyles';
+
 
 const InfoModal = ({ uiStore: { modalPayload } }) => {
     return (
@@ -11,7 +13,7 @@ const InfoModal = ({ uiStore: { modalPayload } }) => {
             
             <ModalContent>
 
-                <ModalSubtitle style={{ textAlign: 'center' }}>
+                <ModalSubtitle>
                     {modalPayload.description}
                 </ModalSubtitle>
 

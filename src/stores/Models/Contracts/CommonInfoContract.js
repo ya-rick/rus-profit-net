@@ -1,5 +1,10 @@
 import { action, makeObservable, observable } from 'mobx';
 
+import LocaleService from '../../../api/LocaleService';
+
+
+let localeService = LocaleService.getInstance();
+
 export default class CommonInfoContract {
     constructor() {
         Object.entries(this.basicTemplate)
@@ -72,12 +77,18 @@ export default class CommonInfoContract {
     }
 
     validateBirthday(callback) {
-        if (!this.birthday) callback('Необходимо указать дату рождения');
+        if (!this.birthday) callback(localeService.getByKey('birthday'));
+
+        let user_birthday = new Date(this.birthday);
+
+        user_birthday.setFullYear(user_birthday.getFullYear() + 18);
+
+        if (user_birthday >= new Date()) callback(localeService.getByKey('not_enough_years'));
     }
 
     validateMainInfoByLength(callback) {
         ['user_surname', 'user_name'].forEach(field => {
-            if (!this[field].trim().length) callback('Заполните все необходимые поля');
+            if (!this[field].trim().length) callback(localeService.getByKey('all_fields'));
         })
     }
 
@@ -88,7 +99,7 @@ export default class CommonInfoContract {
                 false
             );
 
-        if (!isValidated) callback('Выберите и заполните хотя бы один вид предпочтительной связи');
+        if (!isValidated) callback(localeService.getByKey('prefered_contacts'));
     }
 
     validateMain(callback) {

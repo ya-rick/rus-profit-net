@@ -19,7 +19,12 @@ export const GeneralInfoWrapper = styled.div`
 `;
 
 export const Image = styled.img`
-
+    width: 100%;
+    min-width: 250px;
+    max-width: 300px;
+    height: auto;
+    border: 3px solid #6f80a5;
+    border-radius: 15px;
 `;
 
 export const InfoWrapper = styled.div`

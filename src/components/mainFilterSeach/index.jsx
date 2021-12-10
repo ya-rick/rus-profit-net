@@ -19,7 +19,10 @@ import { useCategoryFilters } from '../../common/hooks';
 import { ModalVariants } from '../../common/consts';
 
 
-function MainFilterSearch({ registrationStore, searchStore, uiStore: { openModal } }) {
+function MainFilterSearch({
+    registrationStore, searchStore, uiStore: { openModal },
+    localeService
+}) {
     const [scrollToEl, setScrollToEl] = useState(null);
     const history = useHistory();
 
@@ -47,6 +50,18 @@ function MainFilterSearch({ registrationStore, searchStore, uiStore: { openModal
         }, isSearchWorker } = mainFiltersStore;
 
     const { categories, setCurrentCategory, filtersByCategory } = useCategoryFilters(category.id);
+
+    let empty_categories = { categories_and: [], categories_or: [] };
+
+    const { categories_and, categories_or } = filtersByCategory?.reduce((acc, category) => {
+        if (category.category_type === 'AND') {
+            acc.categories_and.push(category);
+        } else {
+            acc.categories_or.push(category);
+        }
+
+        return acc;
+    }, empty_categories) || empty_categories;
 
     useEffect(() => {
         // Copying filters to registrations form
@@ -104,13 +119,11 @@ function MainFilterSearch({ registrationStore, searchStore, uiStore: { openModal
         } catch (e) {
             if (e.message === 'false') {
                 return;
-            } else {
-                console.error(e);
             }
 
             openModal(ModalVariants.InfoModal, {
-                title: 'К сожалению,',
-                description: 'по Вашему запросу ничего не найдено. Попробуйте изменить параметры поиска'
+                title: 'Ошибка!',
+                description: localeService.getByKey(e.message)
             });
         }
     }
@@ -122,7 +135,7 @@ function MainFilterSearch({ registrationStore, searchStore, uiStore: { openModal
                         ref={el => setScrollToEl(el)}
                     >
                         <div className='name-info-subblock'>
-                            <p className='bg-long-text'>Выберите страну*</p>
+                            <p>Выберите страну*</p>
                             <SearchableMultiSelect
                                 onTagClick={(tag) => onChangeActiveEditableCountry(tag)}
                                 onTagDelete={(tag) => onChangeCountries(tag, 'delete')}
@@ -131,11 +144,12 @@ function MainFilterSearch({ registrationStore, searchStore, uiStore: { openModal
                                 isCountry={true}
                                 onItemSelected={(tag) => onChangeCountries(tag, 'add')}
                                 editableCountryID={currentEditCountry?.id}
+                                emptyCaseMessage={'Все страны'}
                             />
                         </div>
 
                         <div className='name-info-subblock'>
-                            <p className='bg-long-text'>Выберите город</p>
+                            <p>Выберите город</p>
                             <SearchableMultiSelect
                                 onTagClick={() => {}}
                                 onTagDelete={(tag) => onChangeCities(tag, 'delete')}
@@ -144,13 +158,14 @@ function MainFilterSearch({ registrationStore, searchStore, uiStore: { openModal
                                 isCountry={false}
                                 onItemSelected={(tag) => onChangeCities(tag, 'add')}
                                 editableCountryID={currentEditCountry?.id}
+                                emptyCaseMessage={'Все города по выбранным странам'}
                             />
                         </div>
                     </VerticalPlacesBlock>
                 
                     <div>
                         <div className='main-filter-search-subBlock'>
-                            <p className='bg-long-text'>{!isSearchWorker ? 'Кого вы ищете?'
+                            <p>{!isSearchWorker ? 'Кого вы ищете?'
                                 : 'Вакансия'}</p>
                             {categories && <Select
                                 onItemClickCallback={onChangeCategory}
@@ -186,10 +201,21 @@ function MainFilterSearch({ registrationStore, searchStore, uiStore: { openModal
                     />}
                 </AdaptiveGrid>
 
-                {filtersByCategory && <MenuButtonsDocs
-                    categories={filtersByCategory}
-                    selectedParameters={result_cat}
-                    onCheckChanged={setField('result_cat')}/>}
+                {filtersByCategory && <>
+                    {categories_and.length > 0 && <MenuButtonsDocs
+                        categories={categories_and}
+                        selectedParameters={result_cat}
+                        onCheckChanged={setField('result_cat')}
+                        title={'Заголовок 1 (AND)'}
+                    />}
+
+                    {categories_or.length > 0 && <MenuButtonsDocs
+                        categories={categories_or}
+                        selectedParameters={result_cat}
+                        onCheckChanged={setField('result_cat')}
+                        title={'Заголовок 2 (OR)'}
+                    />}
+                </>}
 
                 {noFullInfo && <ErrorMessage>{noFullInfo}</ErrorMessage>}
 
@@ -204,7 +230,7 @@ function MainFilterSearch({ registrationStore, searchStore, uiStore: { openModal
         );
 };
 
-export default inject('registrationStore', 'searchStore', 'uiStore')(observer(MainFilterSearch));
+export default inject('registrationStore', 'searchStore', 'uiStore', 'localeService')(observer(MainFilterSearch));
 
 const Wrapper = styled(PageContentWrapper)`
     display: grid;

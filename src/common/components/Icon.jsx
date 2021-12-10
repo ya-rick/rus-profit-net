@@ -7,11 +7,12 @@ function mapSize(size) {
     switch(size) {
         case 'xl': return '150px';
         case 'md': return '100px';
+        case 'xxs': return '20px';
         default: return '40px';
     }
 }
 
-export default function Icon ({ iconName, text, disabled = false, size = 'xs', cursorDefault = false, ...props }) {
+export default function Icon ({ iconName, text, disabled, size, cursorDefault, ...props }) {
 
     return <Wrapper
         {...props}
@@ -26,9 +27,15 @@ export default function Icon ({ iconName, text, disabled = false, size = 'xs', c
 
 Icon.propTypes = {
     iconName: PropTypes.oneOf(Object.keys(svgIcons)),
-    size: PropTypes.oneOf(['xs', 'xl']),
+    size: PropTypes.oneOf(['xs', 'xl', 'md', 'xxs']),
     text: PropTypes.string,
     disabled: PropTypes.bool
+}
+
+Icon.defaultProps = {
+    size: 'xs',
+    cursorDefault: false,
+    disabled: false
 }
 
 const Wrapper = styled.div`
@@ -49,8 +56,10 @@ const Wrapper = styled.div`
     `};
 `;
 
-const Text = styled.p`
+const Text = styled.span`
     position: absolute;
+
     left: 50%;
-    transform: translate(-50%);
+    top: 50%;
+    transform: translate(-50%, -50%);
 `;

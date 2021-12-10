@@ -40,6 +40,7 @@ function WorkExample({ addImage, removeImage, files_images }) {
                     className='reg-dwn-img'
                     type='file'
                     style={{ display: 'none' }}
+                    onClick={e => e.target.value = null}
                     onChange={onChoosePhotoes}
                     multiple
                 />
@@ -53,7 +54,7 @@ function WorkExample({ addImage, removeImage, files_images }) {
                 onMouseEnter={onImageMouseEnter(index)}
                 onMouseLeave={onImageMouseLeave()}
             >
-                <StyledImage src={URL.createObjectURL(image)}/>
+                <StyledImage src={typeof image === 'string' ? image : URL.createObjectURL(image)}/>
                 {hoveredImageIndex === index && <RemoveImageIcon
                     iconName={'garbage_collector'}
                     onClick={() => removeImage(image)}

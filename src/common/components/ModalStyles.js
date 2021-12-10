@@ -1,7 +1,11 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
+import Icon from './Icon';
+
+
 export const ModalContainer = styled.div`
+    position: relative;
     background-color: #f1f3f6;
     border-radius: 15px;
     overflow: auto;
@@ -45,14 +49,24 @@ export const ModalButtonWapper = styled.div`
 `;
 
 export const ModalTitle = styled.h2`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     font-size: 30px;
     font-weight: 600;
-    margin: 0 auto;
-    text-align: center;
 `;
 
 export const ModalSubtitle = styled.h2`
+    position: relative;
+
     font-size: 22px;
     margin-block: 20px;
-    font-weight: 600;
+    font-weight: 500;
+`;
+
+export const ReplacedIcon = styled(Icon)`
+    position: absolute;
+
+    right: 20px;
+    top: 20px;
 `;

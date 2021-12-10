@@ -39,7 +39,10 @@ class Authorization extends Component {
 
             this.props.uiStore.closeModal();
         } catch (e) {
-            this.setState({ exception: true, description: e.message});
+            this.setState({
+                exception: true,
+                description: this.props.localeService.getByKey(e.message)
+            });
         }
     }
 
@@ -75,4 +78,4 @@ class Authorization extends Component {
     }
 }
 
-export default inject('uiStore')(observer(Authorization));
+export default inject('uiStore', 'localeService')(observer(Authorization));

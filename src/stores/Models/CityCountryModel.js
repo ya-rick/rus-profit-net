@@ -1,4 +1,9 @@
-import { action, makeAutoObservable, observable } from "mobx";
+import { action, makeAutoObservable, observable } from 'mobx';
+
+import LocaleService from '../../api/LocaleService';
+
+
+let localeService = LocaleService.getInstance();
 
 export default class CityCountryModel {
 
@@ -12,7 +17,7 @@ export default class CityCountryModel {
                 name: country.country_name,
                 cities: country.cities
             })
-        })
+        });
 
         makeAutoObservable(this, {
             onChangeCountries: action.bound,
@@ -41,17 +46,12 @@ export default class CityCountryModel {
         return retVal.flat();
     }
 
-    validateCountry(callback) {
-        if (!this.countries.size) callback('Необходимо указать хотя бы одну страну');
-    }
-
     onChangeCountries(newCountry, operationType) {
         if (this.countries.size === 3  && operationType !== 'delete') {
             return;
         }
 
         if (operationType === 'delete') {
-
             this.countries.delete(newCountry.id);
 
             const countryID = this.countries.keys().next().value;

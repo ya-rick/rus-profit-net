@@ -1,7 +1,10 @@
 import { action, makeAutoObservable, toJS } from 'mobx';
 
 import CityCountryModel from '../../CityCountryModel';
+import LocaleService from '../../../../api/LocaleService';
 
+
+let localeService = LocaleService.getInstance();
 
 export default class TargetedInfoContract {
     constructor() {
@@ -54,20 +57,19 @@ export default class TargetedInfoContract {
     }
 
     validateAgree(callback) {
-        if (!this.agree) callback('Для завершения регистрации нужно подтверждение согласия пользовательского соглашения');
-        this.cityCountryModel.validateCountry(callback);
+        if (!this.agree) callback(localeService.getByKey('user_agreement'));
     }
 
     validateDescription(callback) {
-        if (!this.description.trim().length) callback('Нужно добавить описание');
+        if (!this.description.trim().length) callback(localeService.getByKey('description'));
     }
 
     validateCategory(callback) {
-        if (!this.category) callback('Нужно выбрать хотя бы одну категорию')
+        if (!this.category) callback(localeService.getByKey('empty_category'));
     }
 
     validateName(callback) {
-        if (!this.vacancy_name.trim().length) callback('Нужно добавить название вакансии');
+        if (!this.vacancy_name.trim().length) callback(localeService.getByKey('vacancy_name'));
     }
 
     validateDescriptionBlock(callback) {
@@ -96,7 +98,7 @@ export default class TargetedInfoContract {
 
         obj.basicTemplateKeys.forEach(key => {
             switch (key) {
-                case 'example': newContract.files_images = toJS(obj.example) || this.basicTemplate.files_images; break;
+                case 'example': newContract.files_images = obj.example?.map(singleExample => singleExample.photo) || this.basicTemplate.files_images; break;
                 case 'places': newContract.cityCountryModel = new CityCountryModel(obj.places); break;
                 case 'salary': {
                     const { salary: { value, type, currency: { id: currencyID } } } = obj;

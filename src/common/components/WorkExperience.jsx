@@ -7,7 +7,7 @@ import NumberInput from './NumberInput'
 export default function WorkExperience({ min, max, value, onChange, ...props }) {
 
     return <Wrapper {...props}>
-        <p className='bg-long-text'>Опыт работы</p>
+        <p>Опыт работы</p>
         <div>
             <RangeSlider
                 max={max}

@@ -16,10 +16,10 @@ import AdvertMen from '../advertMen/advertMen';
 import EmailConfirmation from '../emailConfirmation';
 import FAQ from '../FAQ/FAQ';
 import UserProfile from '../userProfile';
-
 import FullResult from '../SearchResults/FullResult';
 import PasswordReset from '../passwordReset';
 import PrivateRoute from '../../common/components/PrivateRoute';
+import ScrollFix from './scrollFix';
 
 class MainPage extends Component {
 
@@ -41,8 +41,10 @@ class MainPage extends Component {
     render() {
         return (
             <Router>
+                <ScrollFix/>
                 <MainPageLayout>
                     <Header/>
+                    
                     <Switch>
                         <Route path={'/searchWorker'}>
                             <ImgText/>
@@ -83,6 +85,7 @@ class MainPage extends Component {
                             <EmailConfirmation/>
                         </Route>
                         <Route path={'/password-reset/:id'}>
+                            <ImgText/>
                             <PasswordReset/>
                         </Route>
                         <Route exact path={'/'}>
@@ -92,6 +95,7 @@ class MainPage extends Component {
                             <Error404/>
                         </Route>
                     </Switch>
+
                     <Footer/>
                     {this.props.uiStore.isModalOpened && <Modal/>}
                 </MainPageLayout>

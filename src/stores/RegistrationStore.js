@@ -1,7 +1,9 @@
 import { makeAutoObservable, action } from 'mobx';
+
 import { requestWithFormData } from '../api/exchangeLayer';
 import RegistrationCommonInfoContract from './Models/Contracts/RegistrationContracts/RegistrationCommonInfoContract';
 import TargetedInfoContract from './Models/Contracts/RegistrationContracts/TargetedInfoContract';
+
 
 export default class RegistrationStore {
 
@@ -63,7 +65,6 @@ export default class RegistrationStore {
 
         this.commonInfo.validateMain(this.setError('mainInfo'));
         this.commonInfo.validateContact(this.setError('contactInfo'));
-        this.commonInfo.validateRegistrationType(this.setError('creationInfo'));
 
         this.commonInfo.validateBirthday(this.setError('generalInfo'))
 

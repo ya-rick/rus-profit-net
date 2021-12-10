@@ -6,6 +6,7 @@ import 'url-search-params-polyfill';
 
 import App from './components/mainPage';
 import RegistrationStore from './stores/RegistrationStore';
+import LocaleService from './api/LocaleService';
 import SearchStore from './stores/SearchStore';
 import UIStore from './stores/UIStore';
 import { defaultStyles } from './common/consts';
@@ -15,11 +16,14 @@ const stores = {
   registrationStore: new RegistrationStore(),
   uiStore: new UIStore(),
   searchStore: new SearchStore(),
-  createEditStore: new CreateEditStore()
+  createEditStore: new CreateEditStore(),
+  localeService: LocaleService.getInstance()
 }
 
-stores.uiStore.userModel.getUserData()
-  .finally(() => {
+Promise.allSettled([
+  stores.uiStore.userModel.getUserData(),
+  stores.localeService.loadErrors()
+]).finally(() => {
     const root = document.getElementById('root');
 
     render( 

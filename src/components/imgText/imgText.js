@@ -1,9 +1,8 @@
-import React, { useState, useEffect, memo } from "react";
+import React, { useState, useEffect, memo } from 'react';
 
-import './imgText.css';
-import { requestWithParams } from "../../api/exchangeLayer";
-import { LinkedButton } from "../../common/components/Buttons";
-import styled from "styled-components";
+import { requestWithParams } from '../../api/exchangeLayer';
+import { LinkedButton } from '../../common/components/Buttons';
+import { Layout, ButtonGroup, Title, Wrapper } from '../../common/components/BlockWithImage';
 
 
 const ImgText = memo(() => {
@@ -17,48 +16,25 @@ const ImgText = memo(() => {
     }, [])
     
     return (
-        <Layout image={data.image}>
-            <div className='text-block'>
-                <p className='text-block-text'>
-                    {data.title}
-                </p>
-            </div>
-            <ButtonGroup>
-                <LinkedButton
-                    to={'/searchWorker'}
-                >
-                    Найти работника
-                </LinkedButton>
-                <LinkedButton
-                    to={'/searchWork'}
-                >
-                    Найти работу
-                </LinkedButton>
-            </ButtonGroup>
-        </Layout>
+        <Wrapper image={data.image}>
+            <Layout>
+                <Title>{data.title}</Title>
+                <ButtonGroup>
+                    <LinkedButton
+                        to={'/searchWorker'}
+                    >
+                        Найти работника
+                    </LinkedButton>
+                    <LinkedButton
+                        to={'/searchWork'}
+                    >
+                        Найти работу
+                    </LinkedButton>
+                </ButtonGroup>
+            </Layout>
+        </Wrapper>
+        
     );
 });
 
 export default ImgText;
-
-const Layout = styled.div`
-    display: grid;
-    grid-template-rows: 3fr 1fr;
-    background-image: url(${props => props.image});
-    background-position: center;
-    background-size: cover;
-    background-clip: content-box;
-    justify-content: center;
-    align-items: end;
-`;
-
-const ButtonGroup = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    gap: 50px;
-    margin: 50px 0;
-
-    > * {
-        margin: 0 auto;
-    }
-`;

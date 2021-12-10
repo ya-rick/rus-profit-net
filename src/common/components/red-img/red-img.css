@@ -1,10 +1,14 @@
-.modal-redact{
+.modal-redact {
+    position: relative;
+
     height: 350px;
     width: 350px;
 }
 
-.red-display{
+.red-display {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
+    gap: 40px;
 }

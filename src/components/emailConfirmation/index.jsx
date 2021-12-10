@@ -5,7 +5,10 @@ import { Redirect, useParams } from 'react-router-dom'
 import { requestWithParams } from '../../api/exchangeLayer';
 import { ModalVariants } from '../../common/consts';
 
-export default inject('uiStore')(observer(function EmailConfirmation({ uiStore: { openModal } }) {
+export default inject('uiStore', 'localeService')(observer(function EmailConfirmation({
+    uiStore: { openModal },
+    localeService
+}) {
     const { id } = useParams();
     const [isRedirecting, setIsRedirecting] = useState(false);
 
@@ -31,8 +34,8 @@ export default inject('uiStore')(observer(function EmailConfirmation({ uiStore: 
                     setIsRedirecting(true);
 
                     openModal(ModalVariants.InfoModal, {
-                        title: 'Произошла ошибка!',
-                        description: 'Пользователь с таким почтовым ящиком уже существует в системе'
+                        title: 'Ошибка!',
+                        description: localeService.getByKey(e.message)
                     })
                 }
             }

@@ -1,11 +1,12 @@
-import React, {Component} from "react";
-import styled from "styled-components";
+import React, {Component} from 'react';
+import styled from 'styled-components';
 
 import './menuButtonsDocs.css';
-import MenuNannyItem from "./menuNannyItem";
-import { Centerer } from "../../common/components/Layouts";
+import MenuNannyItem from './menuNannyItem';
+import { Centerer } from '../../common/components/Layouts';
 
-export default class MenuButtonsDocs extends Component{
+
+export default class MenuButtonsDocs extends Component {
 
     state = {
         visible: []
@@ -17,7 +18,7 @@ export default class MenuButtonsDocs extends Component{
 
     onChangeCheck = (newID) => {
         let newChecked = [...this.props.selectedParameters];
-        
+
         if (newChecked.includes(newID)) {
             newChecked = newChecked.filter( id => id !== newID );
         } else {
@@ -45,9 +46,10 @@ export default class MenuButtonsDocs extends Component{
     };
 
     render() {
-        const { categories, selectedParameters } = this.props;
+        const { categories, selectedParameters, title } = this.props;
 
-        return (
+        return <div>
+            {title && <p>{title}</p>}
             <ColumnsCenterer>
                 {categories && categories.map((category, index) => (
                     <div>
@@ -58,7 +60,7 @@ export default class MenuButtonsDocs extends Component{
                     </div>
                 ))}
             </ColumnsCenterer>
-        );
+        </div>
     };
 };
 

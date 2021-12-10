@@ -3,8 +3,10 @@ import { useHistory } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
 import { requestWithParams } from '../../api/exchangeLayer';
+import Background from '../../common/components/Background';
 import Icon from '../../common/components/Icon';
 import Loading from '../../common/components/Loading';
+import OutsideClickWrapper from '../../common/components/OutsideClickWrapper';
 import { useRequest, useToggle } from '../../common/hooks';
 
 
@@ -25,10 +27,11 @@ export default function Notifications() {
                 .then(() => {
                     setIsRead(true);
                 })
+                .catch(e => console.error(e))
         }
     }, [notifsPresent]);
 
-    function renderNotification({ type, text, viewed, id, notif_id }) {
+    function renderNotification({ type, text, id, notif_id }) {
         switch(type) {
             case 'email': return <NotificatonItem key={notif_id}>
                 <Icon iconName={'email_notification'}/>
@@ -54,26 +57,28 @@ export default function Notifications() {
     }
 
     return <Wrapper>
-
         {isLoading ? <Loading/>
-        : error ? 'Ошибка'
-        : <>
-            <NotificationButtonWrapper
-                notifsPresent={notifsPresent}
-                onClick={() => toggleIsOpen()}
-            >
-                <Icon
-                    iconName={`notifications_${notifsPresent ? 'enabled' : 'disabled'}`}
-                />
-            </NotificationButtonWrapper>
+            : error ? 'Ошибка'
+                : <>
+                    <NotificationButtonWrapper
+                        notifsPresent={notifsPresent}
+                        onClick={() => toggleIsOpen()}
+                    >
+                        <Icon
+                            iconName={`notifications_${notifsPresent && !isRead ? 'enabled' : 'disabled'}`}
+                        />
+                    </NotificationButtonWrapper>
 
-            {isOpen && notifsPresent && <NotificationsItemsWrapper>
-
-                {result.notifications.map(notification => renderNotification(notification))}
-
-            </NotificationsItemsWrapper>}
-        </>}
-            
+                    {isOpen && notifsPresent && <OutsideClickWrapper onOutsideClickHandler={() => toggleIsOpen(false)}>
+                        {ref => <>
+                            <NotificationsBackground onClick={() => toggleIsOpen(false)}/>
+                            
+                            <NotificationsItemsWrapper ref={ref}>
+                                {result.notifications.map(notification => renderNotification(notification))}
+                            </NotificationsItemsWrapper>
+                        </>}
+                    </OutsideClickWrapper>}
+                </>}
     </Wrapper>
 }
 
@@ -103,11 +108,15 @@ const NotificationButtonWrapper = styled.div`
     `}
 `;
 
+const NotificationsBackground = styled(Background)`
+    top: 80px;
+`;
+
 const NotificationsItemsWrapper = styled.div`
     position: absolute;
     top: 55px;
     right: 0;
-    z-index: 10;
+    z-index: 20;
 
     border-radius: 20px;
     background-color: #F7FBFC;

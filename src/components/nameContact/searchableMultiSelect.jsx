@@ -1,16 +1,25 @@
 import { observer } from 'mobx-react';
 import { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { requestWithParams } from '../../api/exchangeLayer';
 import Icon from '../../common/components/Icon';
 import OutsideClickWrapper from '../../common/components/OutsideClickWrapper';
+import { useToggle } from '../../common/hooks';
 
-export const SearchableMultiSelect = observer(({ isCountry = false, onTagClick, onTagDelete,
-    editableCountryID, chosenOptions, onItemSelected }) => {
+export const SearchableMultiSelect = observer(({
+    isCountry = false, onTagClick, onTagDelete,
+    editableCountryID, chosenOptions, onItemSelected,
+    emptyCaseMessage
+}) => {
 
     const disabled = !editableCountryID && !isCountry;
-    
+
+    const [isOpen, toggleOpen] = useToggle();
+
+    const [searchParam, setSearchParam] = useState('');
+    const [apiResult, setApiResult] = useState(null);
+
     function onSomethingClicked(data, callback) {
         return (e) => {
             e.stopPropagation();
@@ -19,37 +28,23 @@ export const SearchableMultiSelect = observer(({ isCountry = false, onTagClick, 
                 return;
             }
 
+            setSearchParam('');
             callback(data);
         }
     }
 
-    const [isOpen, setIsOpen] = useState(false);
-
-    function toggleOpen(val) {
-        if (disabled) {
-            return;
-        }
-
-        if (val === true) {
-            setIsOpen(true);
-        } else if (val === false) {
-            setIsOpen(false);
-        } else {
-            setIsOpen(preVal => !preVal);
-        }
-    }
-
-    const [searchParam, setSearchParam] = useState('');
-    const [apiResult, setApiResult] = useState(null);
-
     function resultExcept(initResult, chosen) {
         if (!chosen) return initResult || [];
-        
+
         return initResult?.filter(el => !chosen.find(option => option.id === el.id))
     }
 
     function filterBySearch(search) {
-        return apiResult?.filter(el => el.name.toLowerCase().includes(search.toLowerCase()));
+        return apiResult?.filter(el => {
+            let searchLower = search.toLowerCase();
+
+            return el.name.toLowerCase().includes(searchLower) || el.name_en?.toLowerCase().includes(searchLower);
+        });
     }
 
     useEffect(() => {
@@ -63,26 +58,27 @@ export const SearchableMultiSelect = observer(({ isCountry = false, onTagClick, 
 
     useEffect(() => {
 
-        if (!isCountry && searchParam.length >= 3) {
+        if (!isCountry && searchParam.length >= 1) {
             setApiResult(null);
 
             requestWithParams('getCities', { value: searchParam, 'country_id[]': editableCountryID })
                 .then(res => setApiResult(res.countries && res.countries[0]?.cities))
         }
-        
 
-    }, [searchParam, editableCountryID])
+    }, [searchParam, editableCountryID]);
 
     return (
         <OutsideClickWrapper onOutsideClickHandler={() => toggleOpen(false)}>
             {elRef => <SelectWrapper ref={elRef}>
 
                 <SelectTagedHeader
-                    onClick={toggleOpen}
                     disabled={disabled}
                 >
 
                     <SelectTagsContainer>
+                        {!chosenOptions.length && <Message>
+                            {emptyCaseMessage}    
+                        </Message>}
                         {chosenOptions?.map(tag => <SelectTag
                             active={tag.id === editableCountryID}
                             onClick={onSomethingClicked(tag, onTagClick)}
@@ -94,20 +90,23 @@ export const SearchableMultiSelect = observer(({ isCountry = false, onTagClick, 
                                 key={tag.id}
                             />
                         </SelectTag>)}
+                        <InputTag
+                            onChange={e => setSearchParam(e.target.value)}
+                            onClick={() => toggleOpen(true)}
+                            value={searchParam}
+                            placeholder={'Введите для поиска'}
+                        />
                     </SelectTagsContainer>
 
                     <Icon
                         iconName={'arrow_down'}
+                        cursorDefault
+                        onClick={() => toggleOpen()}
                     />
 
                 </SelectTagedHeader>
 
                 {isOpen && <SelectDropdown>
-
-                    <SelectSearchField
-                        onChange={e => setSearchParam(e.target.value)}
-                        value={searchParam}
-                    />
 
                     <SelectDropdownList>
                         {resultExcept(filterBySearch(searchParam), chosenOptions)?.map(tag => (
@@ -117,7 +116,7 @@ export const SearchableMultiSelect = observer(({ isCountry = false, onTagClick, 
                             >
                                 {tag.name}
                             </SelectDropdownItem>
-                        )) || <NoResults>Нет результатов. Для начала поиска выберите страну поиска и введите 3 или больше символов</NoResults>}
+                        )) || <NoResults>Нет результатов.<br/>Для начала поиска выберите страну и начните вводить название</NoResults>}
                     </SelectDropdownList>
                     
 
@@ -126,7 +125,7 @@ export const SearchableMultiSelect = observer(({ isCountry = false, onTagClick, 
             </SelectWrapper>}
         </OutsideClickWrapper>
     )
-})
+});
 
 const SelectWrapper = styled.div`
     position: relative;
@@ -136,14 +135,15 @@ const SelectWrapper = styled.div`
 const SelectTagedHeader = styled.div`
     display: grid;
     grid-template-columns: 1fr 20px;
-    padding: 11px 12px;
+    column-gap: 20px;
+    padding: 0.5em 1em;
     align-items: center;
     border: 2px solid #6F80A5;
     background: #FFFFFF;
     border-radius: 15px;
-    min-height: 43px;
+    min-height: 42px;
 
-    ${props => props.disabled && 'border-color:#b5c1db'}
+    ${props => props.disabled && css`border-color:#b5c1db;`}
 `;
 
 const SelectTagsContainer = styled.div`
@@ -153,26 +153,33 @@ const SelectTagsContainer = styled.div`
     row-gap: 10px;
 `;
 
-const SelectTag = styled.div`
+const tagStyles = css`
     display: flex;
-    justify-content: center;
     align-items: center;
     column-gap: 5px;
-    padding: 0.5em;
+    padding: 0.1em 0.5em;
     border-radius: 15px;
-    cursor: pointer;
-    transition: 300ms;
-    padding: 6px 8px;
     font-size: 0.8em;
+`;
+
+const InputTag = styled.input`
+    ${tagStyles}
+
+    border: 2px solid #6F80A5;
+    flex-grow: 1;
+`;
+
+const SelectTag = styled.div`
+    ${tagStyles}
+
+    cursor: pointer;
+    transition: box-shadow 300ms;
     box-shadow: 2px 2px 10px #4C5E8B;
 
-    ${props => props.active && `
-        box-shadow: 6px 6px 10px #4C5E8B;
-        transform: scale(1.15);
-    `}
+    ${props => props.active && css`border: 2px solid #6F80A5;`}
 
     :hover {
-        box-shadow: 6px 6px 10px #4C5E8B;
+        box-shadow: 2px 2px 15px #4C5E8B;
     }
 
     & > div {
@@ -197,16 +204,6 @@ const SelectDropdown = styled.div`
     z-index: 10;
 `;
 
-const SelectSearchField = styled.input`
-    width: 100%;
-    border: none;
-    border-radius: 15px;
-    padding: 10px 20px;
-    box-shadow: 4px 4px 10px #4C5E8B;
-    padding: 5px 10px;
-    margin-bottom: 10px;
-`;
-
 const SelectDropdownList = styled.div`
     overflow-y: scroll;
     max-height: 200px;
@@ -226,4 +223,9 @@ const SelectDropdownItem = styled.div`
 
 const NoResults = styled.div`
     padding: 5px 10px;
+`;
+
+const Message = styled.div`
+    color: grey;
+    font-size: .6em;
 `;

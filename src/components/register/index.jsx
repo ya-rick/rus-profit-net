@@ -1,5 +1,6 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
+import { Redirect } from 'react-router-dom';
 
 import { PageContentWrapper } from '../../common/components/Layouts'
 import { PageTitle } from '../../common/components/TitleVariants';
@@ -9,11 +10,17 @@ import RegisterVacancy from '../registerVacancies'
 import RegistrationButtonsBlock from './RegistrationButtonsBlock';
 import ErrorMessage from '../../common/components/ErrorMessage';
 
-export default inject('registrationStore')(observer(function RegisterPage({ 
+
+export default inject('registrationStore', 'uiStore')(observer(function RegisterPage({ 
     registrationStore: {
         commonInfo, targetedInfo, setField, error, sendData
-    }
+    },
+    uiStore: { userModel: { isUserAuthenticated } }
 }) {
+
+    if (isUserAuthenticated) {
+        return <Redirect to={'/profile/userInfo'}/>
+    }
 
     const {
         mainInfo, creationInfo, contactInfo

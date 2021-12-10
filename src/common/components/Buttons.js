@@ -13,6 +13,9 @@ export const CommonButton = styled.button`
 export const LinkedButton = styled(Link)`
     ${buttonStylesMixin};
     ${activeButtonStyleMixin};
+
+    width: min-content;
+    margin-inline: auto;
 `;
 
 export const FlyingButton = styled.button`

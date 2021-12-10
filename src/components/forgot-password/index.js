@@ -9,7 +9,10 @@ import { inject, observer } from 'mobx-react';
 import { ModalVariants } from '../../common/consts';
 
 
-function ForgotPassword ({ uiStore: { openModal } }) {
+function ForgotPassword ({
+    uiStore: { openModal },
+    localeService
+}) {
     const [email, setEmail] = useState('');
     const [error, setError] = useState(null);
 
@@ -35,6 +38,7 @@ function ForgotPassword ({ uiStore: { openModal } }) {
                         description: 'На Ваш почтовый ящик было отправлена ссылка, по которой вы сможете установить новый пароль'
                     })
                 })
+                .catch(e => localeService.getByKey(e.message));
         }
     };
 
@@ -65,4 +69,4 @@ function ForgotPassword ({ uiStore: { openModal } }) {
 }
 
 
-export default inject('uiStore')(observer(ForgotPassword));
+export default inject('uiStore', 'localeService')(observer(ForgotPassword));

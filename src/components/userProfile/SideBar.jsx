@@ -36,6 +36,7 @@ const SideBarTab = styled(LinkedButton)`
     border: none;
     font-weight: 300;
     white-space: nowrap;
+    width: 100%;
 
     ${props => props.active && 'box-shadow: 4px 4px 10px #4C5E8B;'}
 

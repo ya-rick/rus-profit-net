@@ -1,17 +1,29 @@
 import styled from 'styled-components';
+import { inject } from 'mobx-react';
+import { useHistory } from 'react-router-dom';
 
 import Icon from '../../../common/components/Icon';
 import { ModalSubtitle, ModalTitle } from '../../../common/components/ModalStyles';
+import { ButtonGroup } from '../../../common/components/BlockWithImage';
+import { CommonButton } from '../../../common/components/Buttons';
+import { ModalVariants } from '../../../common/consts';
 
 
-export default function UnregisteredInfo() {
+export default inject('uiStore')(function UnregisteredInfo({ uiStore: { openModal, closeModal } }) {
+    const history = useHistory();
+
+    function registrationClicked() {
+        closeModal();
+
+        history.push('/register');
+    }
+
     return <>
         <ModalTitle>Зарегистрируйтесь или авторизуйтесь</ModalTitle>
 
         <ModalSubtitle>Как работает наш сайт?</ModalSubtitle>
 
         <InstructionsLayout>
-
             <InstractopnWithArrow>
                 <InstructionWithText>
                     <Icon
@@ -58,31 +70,39 @@ export default function UnregisteredInfo() {
                     </div>
                 </InstructionWithText>
             </InstractopnWithArrow>
-            
         </InstructionsLayout>
+
+        <ButtonGroup>
+            <CommonButton
+                onClick={() => openModal(ModalVariants.Authorization)}
+            >Авторизация</CommonButton>
+
+            <CommonButton
+                onClick={registrationClicked}
+            >Регистрация</CommonButton>
+        </ButtonGroup>
     </>
-}
+})
 
 const gap = '30px';
 
 const InstructionsLayout = styled.div`
-    display: grid;
-    grid-template-columns: repeat(3, minmax(200px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-items: center;
     justify-content: start;
     gap: ${gap};
 
-    @media (max-width: 1024px) {
-        grid-template-columns: 1fr;
-    }
+    margin-block: ${gap};
 `;
 
 const InstractopnWithArrow = styled.div`
-    display: grid;
-    grid-template-columns: 200px auto;
+    display: flex;
     align-items: center;
-    gap: calc(${gap} - 20px);
+    justify-content: center;
+    flex-grow: 1;
+    column-gap: calc(${gap} - 20px);
 `;
 
 const InstructionWithText = styled.div`

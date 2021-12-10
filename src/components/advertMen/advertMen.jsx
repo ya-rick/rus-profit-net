@@ -32,14 +32,11 @@ export default function UserAgreement () {
 
         <PageTitle>{data.block_title}</PageTitle>
 
-
-        <div className={'borderedTitle'}>{data.block1_title}</div>
-
         <div>{data.block1_subtitle}</div>
 
         <TwoLinkedButtonGroup>
-            <LinkedButton to={'/vacancies'}>Найти работника</LinkedButton>
-            <LinkedButton to={'/questionnaires'}>Найти работу</LinkedButton>
+            <LinkedButton to={'/searchWorker'}>Найти работника</LinkedButton>
+            <LinkedButton to={'/searchWork'}>Найти работу</LinkedButton>
         </TwoLinkedButtonGroup>
 
 

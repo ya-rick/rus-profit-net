@@ -36,7 +36,8 @@ const httpMethodsTypes = {
     sendQuestion: 'add_faq',
     getNotifications: 'get_notifications',
     readNotifications: 'read_notifications',
-    getFAQs: 'get_faq'
+    getFAQs: 'get_faq',
+    getErrors: 'get_errors',
 }
 
 export const requestWithParams = (method, dataToServer = {}) => {

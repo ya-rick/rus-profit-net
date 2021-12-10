@@ -1,7 +1,10 @@
 import { observable, makeObservable, reaction } from 'mobx';
 
 import CommonInfoContract from '../CommonInfoContract';
+import LocaleService from '../../../../api/LocaleService';
 
+
+let localeService = LocaleService.getInstance();
 
 export default class RegistrationCommonInfoContract extends CommonInfoContract {
 
@@ -11,9 +14,7 @@ export default class RegistrationCommonInfoContract extends CommonInfoContract {
     user_password = '';
     user_password_confirm = '';
     
-    // registration type is chosen
-    registration_type = null;
-
+    registration_type = 'vacancy';
 
     constructor() {
         super();
@@ -30,27 +31,22 @@ export default class RegistrationCommonInfoContract extends CommonInfoContract {
     }
 
     validatePassword(callback) {
-        if (!/^\w{6,}$/.test(this.user_password)) callback('Введите больше 6-ти символов латиницей и цифрами в поле пароль');
-        if (this.user_password !== this.user_password_confirm) callback('Пароли должны совпадать');
+        if (!/^\w{6,}$/.test(this.user_password)) callback(localeService.getByKey('password_invalid'));
+        if (this.user_password !== this.user_password_confirm) callback(localeService.getByKey('password_equals'));
 
         ['user_password', 'user_password_confirm'].forEach(field => {
-            if (!this[field].trim().length) callback('Заполните все необходимые поля');
+            if (!this[field].trim().length) callback(localeService.getByKey('all_fields'));
         });
     }
 
     validateEmail(callback) {
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.user_email)) callback('Email неправильного формата');
-        if (this.user_email !== this.user_email_confirm) callback('Почты должны совпадать');
-    }
-
-    validateRegistrationType(callback) {
-        if (!this.registration_type) callback('Для регистрации необходимо создать анкету или вакансию');
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.user_email)) callback(localeService.getByKey('email_invalid'));
+        if (this.user_email !== this.user_email_confirm) callback(localeService.getByKey('email_equals'));
     }
 
     validateMain(callback) {
 
         this.validateEmail(callback);
-        this.validateRegistrationType(callback);
         this.validatePassword(callback);
 
         super.validateMain(callback);
@@ -68,5 +64,4 @@ export default class RegistrationCommonInfoContract extends CommonInfoContract {
             registration_type: this.registration_type
         }
     }
-
 }

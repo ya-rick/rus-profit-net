@@ -9,7 +9,10 @@ import { requestWithFormData } from '../../api/exchangeLayer';
 import { ModalVariants } from '../../common/consts';
 
 
-export default inject('uiStore')(function QuestionModalContent({ uiStore: { openModal } }) {
+export default inject('uiStore', 'localeService')(function QuestionModalContent({
+    uiStore: { openModal },
+    localeService
+}) {
     const [fields, setFields] = useState({});
 
     function setField(e) {
@@ -26,9 +29,12 @@ export default inject('uiStore')(function QuestionModalContent({ uiStore: { open
             openModal(ModalVariants.InfoModal, {
                 title: 'Поздравляем!',
                 description: 'Ответ на Ваш вопрос будет отправлен на указанный почтовый ящик'
-            })
+            });
         } catch (e) {
-            console.error(e);
+            openModal(ModalVariants.InfoModal, {
+                title: 'Ошибка!',
+                description: localeService.getByKey(e.message)
+            });
         }
     }
 

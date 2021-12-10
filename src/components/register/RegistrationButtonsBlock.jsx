@@ -1,34 +1,30 @@
 import styled from 'styled-components';
 
 import { CommonButton } from '../../common/components/Buttons';
-import ErrorMessage from '../../common/components/ErrorMessage';
 import { Centerer } from '../../common/components/Layouts';
-import { PageSubtitle } from '../../common/components/TitleVariants';
 
 
-export default function RegistrationButtonsBlock({ onClickLeft, onClickRight, current, creationInfo }) {
+export default function RegistrationButtonsBlock({ onClickLeft, onClickRight, current }) {
     return <>
-        <PageSubtitle>Создание вакансии/анкеты
-            <p className='subtext-new'>Для продолжения работы с сайтом, необходимо создать вакансию или анкету работника</p>
-            {creationInfo && <ErrorMessage>{creationInfo}</ErrorMessage>}
-        </PageSubtitle>
-
         <ButtonsLayout>
 
             <CommonButton
                 onClick={onClickLeft}
                 active={'vacancy' === current}
-            >Регистрация вакансии</CommonButton>
+            >Создать вакансию</CommonButton>
             <CommonButton
                 onClick={onClickRight}
                 active={'resume' === current}
-            >Регистрация анкеты</CommonButton>
+            >Создать анкету</CommonButton>
 
         </ButtonsLayout>
+
+        <p className='subtext-new'>Для продолжения работы с сайтом, необходимо создать вакансию или анкету работника</p>
     </>
 }
 
 const ButtonsLayout = styled(Centerer)`
     flex-wrap: wrap;
     column-gap: 40px;
+    margin-block: 40px;
 `;

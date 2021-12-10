@@ -11,7 +11,7 @@ import { CommonButton } from '../../common/components/Buttons';
 import ErrorMessage from '../../common/components/ErrorMessage';
 import TextArea from '../../common/components/TextArea';
 import { ModalVariants } from '../../common/consts';
-import { useCategoryFilters } from '../../common/hooks';
+import { useCategoryFilters, useToggle } from '../../common/hooks';
 import WorkExamples from './WorkExamples';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -22,24 +22,30 @@ function RegisterVacancies({
     uiStore: { openModal }, isResume,
     fields: { description, result_cat, agree, category, isWorksAddable, files_images, addImage, removeImage, ...restFields },
     error: { targetedInfo, descriptionBlock },
-    onFieldChange, onConfirmClicked, successMessage
+    onFieldChange, onConfirmClicked, successMessage,
+    localeService
 }) {
 
     const { categories, setCurrentCategory, filtersByCategory } = useCategoryFilters(category?.id);
 
+    const [isError, toggleIsError] = useToggle();
+
     async function finishRegistration() {
         try {
+            toggleIsError(false);
+
             await onConfirmClicked();
 
             openModal(ModalVariants.InfoModal, successMessage)
         } catch(e) {
-            console.error(e);
-            
-            if (e === false) return;
+            if (e === false) {
+                toggleIsError(true);
+                return;
+            };
 
             openModal(ModalVariants.InfoModal, {
                 title: 'Произошла ошибка!',
-                description: 'Обратитесь в поддержку'
+                description: localeService.getByKey(e.message)
             });
         } 
     }
@@ -99,7 +105,17 @@ function RegisterVacancies({
                 </CheckBox>
             </div>
 
-            <div style={{ margin: '50px 0', display: 'flex', justifyContent: 'center' }}>
+            <div style={{
+                margin: '50px auto',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: '300px',
+                rowGap: '20px'
+            }}>
+                {isError && <ErrorMessage style={{ textAlign: 'center' }}>{localeService.getByKey('invalid_data')}</ErrorMessage>}
+
                 <CommonButton
                     className='img-reg-button'
                     onClick={finishRegistration}
@@ -107,23 +123,18 @@ function RegisterVacancies({
                     Сохранить {isResume ? 'анкету' : 'вакансию'}
                 </CommonButton>
             </div>
-            <div>
-                <p className='reg-intro'>*Поля, обязательные для заполнения</p>
-            </div>
+
+            <p className='reg-intro'>*Поля, обязательные для заполнения</p>
         </>
     )
 }
 
-export default inject('uiStore')(observer(RegisterVacancies));
+export default inject('uiStore', 'localeService')(observer(RegisterVacancies));
 
 const AgreementLink = styled(Link)`
     display: inline-block;
     width: 400px;
     line-height: 30px;
-
-    :hover {
-        text-decoration: underline;
-    }
 `;
 
 const Underlined = styled.span`

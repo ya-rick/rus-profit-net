@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+
 import './menuNannyItem.css';
-import CheckBox from "../../checkbox";
-import Icon from "../../../common/components/Icon";
-import styled from "styled-components";
+import CheckBox from '../../checkbox';
+import Icon from '../../../common/components/Icon';
+
 
 const MenuNannyItem = ({ listsData, chek, selectedIDs }) => {
     const [isFullSized, setFullSized] = useState(false);
@@ -10,7 +12,7 @@ const MenuNannyItem = ({ listsData, chek, selectedIDs }) => {
     const elements = (isFullSized ? listsData : listsData.slice(0, 4)).map((item) => {
         const {id, name } = item;
         return (
-            <div key={id} className="input-item">
+            <div key={id} className='input-item'>
                 <CheckBox isChecked={selectedIDs.includes(id)} check={()=>chek(id)}>
                     <span  className='p-item'>{name}</span>
                 </CheckBox>
@@ -18,7 +20,7 @@ const MenuNannyItem = ({ listsData, chek, selectedIDs }) => {
         );
     });
     return(
-       <div className="input-list">
+       <div className='input-list'>
            {elements}
            {listsData.length > 4 && <div 
                 onClick={() => setFullSized(!isFullSized)}

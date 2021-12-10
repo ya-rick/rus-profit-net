@@ -57,6 +57,7 @@ const CurrencySelectWrapper = styled.div`
     width: 50px;
     color: #6F80A5;
     padding: 0 0.5em;
+    
     cursor: pointer;
 `;
 

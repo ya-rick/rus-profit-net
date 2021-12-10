@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { inject, observer } from 'mobx-react';
 import styled from 'styled-components';
 
@@ -12,9 +13,9 @@ import Input from '../../common/components/Input';
 import { PageSubtitle } from '../../common/components/TitleVariants';
 
 
-export default inject('uiStore')(observer(UserInfoPage));
+export default inject('uiStore', 'localeService')(observer(UserInfoPage));
 
-function UserInfoPage({ uiStore }) {
+function UserInfoPage({ uiStore, localeService }) {
 
     const { userModel, openModal } = uiStore;
 
@@ -26,9 +27,13 @@ function UserInfoPage({ uiStore }) {
         error: { generalInfo, contactInfo, mainInfo }, setField, saveData
     } = userModel;
 
+    const [error, setError] = useState(false);
+
 
     async function onSave() {
         try {
+
+            setError(false);
 
             await saveData();
 
@@ -38,11 +43,14 @@ function UserInfoPage({ uiStore }) {
             });
 
         } catch(e) {
-            console.error(e);
+            if (e === false) {
+                setError(true);
+                return;
+            }
 
             openModal(ModalVariants.InfoModal, {
-                title: 'Приносим извинения!',
-                description: 'Произошла ошибка, обратитесь, пожалуйста, к поддержке'
+                title: 'Ошибка!',
+                description: localeService.getByKey(e.message)
             });
         }
     }
@@ -112,6 +120,8 @@ function UserInfoPage({ uiStore }) {
         </GeneralInfoLayout>
 
         <ButtonLayout>
+            {error && <ErrorMessage>{localeService.getByKey('invalid_data')}</ErrorMessage>}
+
             <CommonButton
                 onClick={onSave}
             >Сохранить</CommonButton>
@@ -154,4 +164,7 @@ const GeneralInfoLayout = styled.div`
 
 const ButtonLayout = styled(Centerer)`
     margin-top: 50px;
+
+    flex-direction: column;
+    row-gap: 20px;
 `;

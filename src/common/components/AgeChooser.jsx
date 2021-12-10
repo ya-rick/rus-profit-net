@@ -14,7 +14,7 @@ export default observer(function AgeChooser({ min, max, currentMinValue,
     function onChangeMinMax(value) {
         let [newFrom, newTo] = value;
 
-        newFrom = clamp(0, newFrom, newTo)
+        newFrom = clamp(min, newFrom, newTo)
         newTo = clamp(newFrom, newTo, max)
 
         onChangeMin(newFrom);
@@ -39,7 +39,7 @@ export default observer(function AgeChooser({ min, max, currentMinValue,
     }
         
     return <div {...props}>
-        <p className='bg-long-text'>Возраст</p>
+        <p>Возраст</p>
         <div>
             <MultiRangeSlider
                 min={min}
@@ -49,7 +49,7 @@ export default observer(function AgeChooser({ min, max, currentMinValue,
                 onChange={onChangeMinMax}
             />
             <div className='text-slider'>
-                <p>до 18 лет</p>
+                <p>18 лет</p>
                 <p>60+ лет</p>
             </div>
         </div>

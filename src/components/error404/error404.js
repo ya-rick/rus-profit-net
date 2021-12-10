@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
-import './error404.css';
-
 import { requestWithParams } from '../../api/exchangeLayer';
 import { LinkedButton } from '../../common/components/Buttons';
-import styled from 'styled-components';
+import { ButtonGroup, Layout, Numberedtitle, Title, Wrapper } from '../../common/components/BlockWithImage';
 
 
 const Error404 = () => {
@@ -22,53 +20,30 @@ const Error404 = () => {
 
     // refactor as imgtext 
     return (
-        <Layout image={data.image}>
-            <p className='number-error'>
-                {data.title}
-            </p>
-            <div className='text-block'>
-                <p className='text-block-text'>
+        <Wrapper image={data.image}>
+            <Layout>
+                <Numberedtitle>{data.title}</Numberedtitle>
+                <Title>
                     {data.subtitle}
-                </p>
-                <p className='text-block-text'>
+                    <br/>
                     {data.subtitle2}
-                </p>
-            </div>
-            <ButtonGroup>
-                <LinkedButton
-                    to={'/searchWorker'}
-                >
-                    Найти работника
-                </LinkedButton>
-                <LinkedButton
-                    to={'/searchWork'}
-                >
-                    Найти работу
-                </LinkedButton>
-            </ButtonGroup>
-        </Layout>
+                </Title>
+                <ButtonGroup>
+                    <LinkedButton
+                        to={'/searchWorker'}
+                    >
+                        Найти работника
+                    </LinkedButton>
+                    <LinkedButton
+                        to={'/searchWork'}
+                    >
+                        Найти работу
+                    </LinkedButton>
+                </ButtonGroup>
+            </Layout>
+        </Wrapper>
+        
     );
 };
 
 export default Error404;
-
-const Layout = styled.div`
-    display: grid;
-    background-image: url(${props => props.image});
-    background-position: center;
-    background-size: cover;
-    background-clip: content-box;
-    justify-content: center;
-    align-items: end;
-`;
-
-const ButtonGroup = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    gap: 50px;
-    margin: 50px 0;
-
-    > * {
-        margin: 0 auto;
-    }
-`;

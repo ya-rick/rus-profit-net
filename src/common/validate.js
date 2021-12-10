@@ -1,3 +1,8 @@
+import LocaleService from '../api/LocaleService';
+
+
+let localeService = LocaleService.getInstance();
+
 export const validationTypes = {
     length: 'length',
     oneTrueOf: 'oneTrueOf',
@@ -9,28 +14,28 @@ export const validationTypes = {
 
 const validationPredicates = {
     [validationTypes.length]: {
-        validate: (testables) => /^.{6,}$/.test(testables[0]),
-        errorMessage: 'Допустимо не менее 6-ти символов в пароле'
+        validate: (testables) => /^[a-zA-Z]{6,}$/.test(testables[0]),
+        errorMessage: localeService.getByKey('password_invalid')
     },
     [validationTypes.arrayLength]: {
         validate: (testables) => testables.length > 0,
-        errorMessage: 'Необходимо выбрать хотя бы 1 город и профессию'
+        errorMessage: localeService.getByKey('city_profession')
     },
     [validationTypes.oneTrueOf]: {
         validate: (testables) => testables.some(el => el === true),
-        errorMessage: 'Выберите хотя бы один вариант'
+        errorMessage: localeService.getByKey('at_least_one_variant')
     },
     [validationTypes.oneNotNullOf]: {
         validate: (testables) => testables.some(el => !!el !== false),
-        errorMessage: 'Заполните хотя бы одно поле'
+        errorMessage: localeService.getByKey('at_least_one_field')
     },
     [validationTypes.allNotNull]: {
         validate: (testables) => testables.every(el => !!el !== false),
-        errorMessage: 'Заполните все обязательные поля'
+        errorMessage: localeService.getByKey('all_fields')
     },
     [validationTypes.toBeEqual]: {
         validate: (testables) => testables.every(el => el === testables[0]),
-        errorMessage: 'Пароли должны быть идентичными'
+        errorMessage: localeService.getByKey('password_equals')
     }
 }
 

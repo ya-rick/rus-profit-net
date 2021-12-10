@@ -114,9 +114,7 @@ export default class SearchStore {
     }
 
     async getContactsByID(id) {
-        const contats = (await requestWithParams('getContacts', { id })).contacts_info;
-
-        this.currentChosenResult.contacts_info = contats;
+        return (await requestWithParams('getContacts', { id })).contacts_info;
     }
 
 }

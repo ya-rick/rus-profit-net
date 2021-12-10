@@ -10,9 +10,9 @@ import PasswordInput from '../../common/components/PasswordInput';
 import { ModalVariants } from '../../common/consts';
 
 
-export default inject('uiStore')(observer(PasswordChangePage));
+export default inject('uiStore', 'localeService')(observer(PasswordChangePage));
 
-function PasswordChangePage({ uiStore }) {
+function PasswordChangePage({ uiStore, localeService }) {
     const [error, setError] = useState(null);
     const [passwords, setPasswords] = useState({
         old_password: '',
@@ -30,13 +30,13 @@ function PasswordChangePage({ uiStore }) {
     function validatePasswords() {
         setError(null);
 
-        if (passwords.old_password === passwords.new_password) return setError('Старый и новый пароли не должны совпадать');
-        if (passwords.new_password !== passwords.password_confirm) return setError('Подтверждённый и новый пароль должны совпадать');
+        if (passwords.old_password === passwords.new_password) return setError(localeService.getByKey('password_old'));
+        if (passwords.new_password !== passwords.password_confirm) return setError(localeService.getByKey('password_equals'));
 
-        if (!/^\w{6,}$/.test(passwords.new_password)) return setError('Введите больше 6-ти символов латиницей и цифрами в поле пароль');
+        if (!/^\w{6,}$/.test(passwords.new_password)) return setError(localeService.getByKey('password_invalid'));
 
         for (let field of Object.values(passwords)) {
-            if (!field.trim().length) return setError('Заполните все поля');
+            if (!field.trim().length) return setError(localeService.getByKey('all_fields'));
         }
 
         return true;
@@ -53,11 +53,9 @@ function PasswordChangePage({ uiStore }) {
                 description: 'Вы успешно изменили пароль'
             })
         } catch(e) {
-            console.error(e);
-
             uiStore.openModal(ModalVariants.InfoModal, {
-                title: 'Упс!',
-                description: 'Вы указали неверный старый пароль'
+                title: 'Ошибка!',
+                description: localeService.getByKey(e.message)
             })
         }
     }

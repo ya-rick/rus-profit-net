@@ -13,8 +13,9 @@ import Icon from '../../common/components/Icon';
 import Notifications from './notifications';
 
 
-const Header = inject('uiStore')(observer(({
-    uiStore: { openModal, userModel: { isUserAuthenticated, user, userLogout  } }
+const Header = inject('uiStore', 'searchStore')(observer(({
+    uiStore: { openModal, userModel: { isUserAuthenticated, user, userLogout  } },
+    searchStore: { mainFiltersStore: { clearState } }
 }) => {
     const headerRef = useRef(null);
     const history = useHistory();
@@ -37,11 +38,18 @@ const Header = inject('uiStore')(observer(({
         return () => history.push(route);
     }
 
+    function bindHeaderClick() {
+        return () => {
+            bindRedirect('/')();
+            clearState();
+        }
+    }
+
     return (
         <HeaderLayout>
             <HeaderContainer ref={headerRef}>
                 <HeaderImage
-                    onClick={bindRedirect('/')}
+                    onClick={bindHeaderClick()}
                     src={isRoot() ? FullLogo : Logo}
                     alt='logo'
                 />

@@ -12,12 +12,13 @@ import ProfileFooter, { ProfileFooterLayout } from './ProfileFooter';
 import ProfileHeaderOptions from './ProfileHeaderOptions';
 
 
-export default inject('searchStore', 'uiStore', 'createEditStore')(observer(ResultCard));
+export default inject('searchStore', 'uiStore', 'createEditStore', 'localeService')(observer(ResultCard));
 
 function ResultCard({
     result, onSelectResult, userProfileInfo = false, viewsOrFavourites = false,
     uiStore: { userModel: { isUserAuthenticated, setTabResultsType }, openModal },
-    createEditStore, onDeleteCallback, ...props
+    createEditStore, onDeleteCallback,
+    localeService
 }) {
 
     const { category, places, experience, parameters, salary, type,
@@ -35,7 +36,7 @@ function ResultCard({
             .then(() => {
                 result.isFavourite = !result.isFavourite;
             })
-            .catch(err => console.error(err))
+            .catch(err => localeService.getByKey(err.type));
     }
 
     function favouriteClickHandler(type, id) {
@@ -52,20 +53,19 @@ function ResultCard({
     }
 
     function likeClicked(type_mark, id) {
-        return (mark) => {
-            if (!isUserAuthenticated) {
-                openModal(ModalVariants.InfoModal, {
-                    title: 'Для оценки',
-                    description: 'необходимо авторизироваться в системе'
+        return async (mark) => {
+            try {
+                const fromServerResult = await requestWithParams('setMark', {
+                    type_mark, id, value: mark
                 });
-    
-                return;
-            }
 
-            requestWithParams('setMark', {
-                type_mark, id, value: mark
-            })
-                .catch(err => console.error(err))
+                result.mark = fromServerResult.new_mark;
+            } catch(e) {
+                openModal(ModalVariants.InfoModal, {
+                    title: 'Ошибка!',
+                    description: localeService.getByKey('unauthorized_mark')
+                });
+            }
         }
     }
 
@@ -73,7 +73,7 @@ function ResultCard({
         try {
             createEditStore.startUpdating(result)
         } catch (e) {
-            console.error(e);
+            localeService.getByKey(e.message);
         }
     }
 
@@ -86,7 +86,7 @@ function ResultCard({
 
             result.status = status;
         } catch (e) {
-            console.error(e);
+            localeService.getByKey(e.message);
         }
     }
 
@@ -96,7 +96,7 @@ function ResultCard({
 
             onDeleteCallback && onDeleteCallback(id);
         } catch (e) {
-            console.error(e);
+            localeService.getByKey(e.message);
         }
     }
 
@@ -139,7 +139,7 @@ function ResultCard({
                     <CardHeader>
                         <CardTitle>
                             {isResume ? name : category.name}
-                            {!isResume && <CardCountryBlock>{places[0]?.country_name}: {places[0]?.cities?.map(city => city.name).join(',')}</CardCountryBlock>}
+                            {!isResume && <CardCountryBlock>{places[0]?.country_name}{places[0]?.cities?.length > 0 && ': '}{places[0]?.cities?.map(city => city.name).join(', ')}</CardCountryBlock>}
                         </CardTitle>
                         {isUserAuthenticated && !userProfileInfo && <FavouriteIcon
                             iconName={'favourite'}
@@ -255,7 +255,7 @@ const PlusIcon = styled(Icon)`
 `;
 
 const CardImage = styled.img`
-    align-self: stretch;
+    width: 100%;
 `;
 
 const CardInfoBlock = styled.div`

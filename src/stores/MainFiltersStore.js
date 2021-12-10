@@ -1,28 +1,21 @@
 import { makeAutoObservable, action } from 'mobx';
 
 import CityCountryModel from './Models/CityCountryModel';
+import LocaleService from '../api/LocaleService';
+
+
+let localeService = LocaleService.getInstance();
 
 export default class MainFiltersStore {
-
-    cityCountryModel = new CityCountryModel();
-    result_cat = [];
-    years_with = 18;
-    years_to = 60;
-    category = '';
-    experience = '';
-    salary = '';
-    salary_type = '';
-    currency = '';
-
-    type_search = null;
 
     initialErrorState = {
         noFullInfo: null
     }
 
-    error = {...this.initialErrorState};
-
     constructor() {
+        Object.entries(this.basicTemplate)
+            .forEach(([fieldName, fieldValue]) => this[fieldName] = fieldValue);
+
         this.validateFullInfo = this.validateFullInfo.bind(this);
         this.filtersToServerContract = this.filtersToServerContract.bind(this);
 
@@ -31,7 +24,26 @@ export default class MainFiltersStore {
             clearError: action.bound,
             setError: action.bound,
             filtersToServerContract: action.bound,
+            clearState: action.bound
         });
+    }
+
+    get basicTemplate() {
+        return {
+            cityCountryModel: new CityCountryModel(),
+            result_cat: [],
+            years_with: 18,
+            years_to: 60,
+            category: '',
+            experience: '',
+            salary: '',
+            salary_type: '',
+            currency: '',
+
+            type_search: null,
+
+            error: {...this.initialErrorState},
+        }
     }
 
     get isSearchWorker() {
@@ -63,22 +75,33 @@ export default class MainFiltersStore {
     validateFullInfo() {
         this.clearError();
 
-        this.cityCountryModel.validateCountry(this.setError);
-        if (!this.category) this.setError('Необходимо выбрать хотя бы одну категорию');
+        if (!this.category) this.setError(localeService.getByKey('empty_category'));
 
         return this.isError;
     }
 
-    filtersToServerContract() {
-        const { cityCountryModel, result_cat, years_with, years_to, category: { id: category },
-            experience, salary, salary_type, currency, type_search } = this;
-
-        return {
-            places: cityCountryModel.toServerContract(),
-            result_cat, years_with, years_to, category, experience,
-            salary, salary_type, currency,
-            type_search
-        };
+    clearState() {
+        Object.entries(this.basicTemplate)
+            .forEach(([fieldName, fieldValue]) => this[fieldName] = fieldValue);
     }
 
+    filtersToServerContract() {
+        return Object.keys(this.basicTemplate)
+            .reduce((serverContract, key) => {
+                switch(key) {
+                    case 'cityCountryModel': {
+                        serverContract.places = this.cityCountryModel.toServerContract();
+                        break;
+                    }
+                    case 'category': {
+                        serverContract.category = this.category.id;
+                        break;
+                    }
+                    case 'error': return serverContract;
+                    default: serverContract[key] = this[key];
+                }
+
+                return serverContract;
+            }, {});
+    }
 }

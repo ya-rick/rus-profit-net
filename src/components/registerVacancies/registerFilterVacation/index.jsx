@@ -25,7 +25,7 @@ function RegisterFilterVacation({
 
     return <Wrapper cols={isResume ? 2 : 3}>
         <div className='name-info-subblock'>
-            <p className='bg-long-text'>Выберите страну*</p>
+            <p>Выберите страну*</p>
             <SearchableMultiSelect
                 onTagClick={(tag) => onChangeActiveEditableCountry(tag)}
                 onTagDelete={(tag) => onChangeCountries(tag, 'delete')}
@@ -34,11 +34,12 @@ function RegisterFilterVacation({
                 isCountry={true}
                 onItemSelected={(tag) => onChangeCountries(tag, 'add')}
                 editableCountryID={currentEditCountry?.id}
+                emptyCaseMessage={'Все страны'}
             />
         </div>
 
         <div className='name-info-subblock'>
-            <p className='bg-long-text'>Выберите город</p>
+            <p>Выберите город</p>
             <SearchableMultiSelect
                 onTagClick={() => {}}
                 onTagDelete={(tag) => onChangeCities(tag, 'delete')}
@@ -47,6 +48,7 @@ function RegisterFilterVacation({
                 isCountry={false}
                 onItemSelected={(tag) => onChangeCities(tag, 'add')}
                 editableCountryID={currentEditCountry?.id}
+                emptyCaseMessage={'Все города по выбранным странам'}
             />
         </div>
         {isResume ? <>
@@ -68,7 +70,7 @@ function RegisterFilterVacation({
             />
         </> : <>
             <div>
-                <p className='bg-long-text'>Название вакансии*</p>
+                <p>Название вакансии*</p>
                 <Input
                     value={vacancy_name}
                     onChange={e => onFieldChange('vacancy_name')(e.target.value)}

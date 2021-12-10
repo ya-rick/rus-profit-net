@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useParams, Redirect } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import styled from 'styled-components';
 
@@ -20,12 +20,20 @@ import Loading from '../../../common/components/Loading';
 import { useMetaTags, useRequest } from '../../../common/hooks';
 
 
-function Vacancy({ searchStore, uiStore: { userModel: { isUserAuthenticated }, openModal, openImage, setImages, isImageShown } }) {
-    const [isContactsShown, setContactsShown] = useState(false);
+function Vacancy({
+    searchStore,
+    uiStore: {
+        userModel: { isUserAuthenticated },
+        openModal, openImage, setImages, isImageShown
+    },
+    localeService
+}) {
+    const [contacts_info, setContacts] = useState(null);
 
     const {
         isCurrentSearchResult, setCurrentResult, mainInfoSearchResult,
-        secondaryInfoSearchResult, getContactsByID, searchResultsCollection
+        secondaryInfoSearchResult, getContactsByID, searchResultsCollection,
+        currentChosenResult
     } = searchStore;
 
     const isResultsPresent = searchResultsCollection.results?.length > 0;
@@ -35,17 +43,23 @@ function Vacancy({ searchStore, uiStore: { userModel: { isUserAuthenticated }, o
     const { result, isLoading, error } = useRequest({ requestType: 'getByID', requestParams: { id } });
 
     const { name, description, experience, avatar, salary,
-        places, category, employer, contacts_info, mark, isFavourite, vacancy_name,
+        places, category, employer, vacancy_name,
         create_date, example, type } = result || {};
-
+    
     useEffect(() => {
-        if (!isLoading && result) {
+        if (error) return;
+
+        if (!isLoading && result && !currentChosenResult) {
             setCurrentResult(result);
 
             setImages(example?.map(el => el.photo));
         }
-    }, [result, example]);
+    }, [result, example, error]);
 
+    useEffect(() => {
+        isUserAuthenticated && onContactsClick();
+    }, []);
+    
     const isResume = type === 'resume';
 
     useMetaTags({
@@ -57,16 +71,12 @@ function Vacancy({ searchStore, uiStore: { userModel: { isUserAuthenticated }, o
 
     if (isLoading) return <Loading/>;
 
-    if (error) return error.message;
+    if (error) return <Redirect to={'/404'}/>;
 
     async function onContactsClick() {
         try {
-            await getContactsByID(id);
-            
-            setContactsShown(true);
+            setContacts(await getContactsByID(id));
         } catch (e) {
-            console.error(e);
-
             openModal(ModalVariants.UnregisteredInfo);
         }
     }
@@ -75,10 +85,11 @@ function Vacancy({ searchStore, uiStore: { userModel: { isUserAuthenticated }, o
         requestWithParams(type, {
             id,
         })
-            .then(() => {
-                searchStore.currentChosenResult.isFavourite = !searchStore.currentChosenResult.isFavourite;
-            })
-            .catch(err => console.error(err))
+            .then(() => currentChosenResult.isFavourite = !currentChosenResult.isFavourite)
+            .catch(err => openModal(ModalVariants.InfoModal, {
+                title: 'Ошибка!',
+                description: localeService.getByKey(err.type)
+            }));
     }
 
     function favouriteClickHandler(type, id) {
@@ -91,19 +102,14 @@ function Vacancy({ searchStore, uiStore: { userModel: { isUserAuthenticated }, o
 
     function likeClicked(type_mark, id) {
         return (mark) => {
-            if (!isUserAuthenticated) {
-                openModal(ModalVariants.InfoModal, {
-                    title: 'Для оценки',
-                    description: 'необходимо авторизироваться в системе'
-                });
-    
-                return;
-            }
-
             requestWithParams('setMark', {
                 type_mark, id, value: mark
             })
-                .catch(err => console.error(err))
+                .then(result => currentChosenResult.mark = result.new_mark)
+                .catch(() => openModal(ModalVariants.InfoModal, {
+                    title: 'Ошибка!',
+                    description: localeService.getByKey('unauthorized_mark')
+                }));
         }
     }
 
@@ -116,77 +122,75 @@ function Vacancy({ searchStore, uiStore: { userModel: { isUserAuthenticated }, o
                         {isUserAuthenticated && <FavouriteIcon
                             iconName={'favourite'}
                             onClick={favouriteClickHandler('setToFavourites', id)}
-                            isActive={isFavourite}
+                            isActive={currentChosenResult.isFavourite}
                         />}
                         
                         <ShareIcon
                             iconName={'share'}
                             onClick={() => openModal(ModalVariants.Share)}
                         />
-
-                        {isResultsPresent && <LinkedButton to={'/searchResults'}>
-                            Вернуться к списку
-                        </LinkedButton>}
                     </FullInfoHeader>
                 </PageTitle>
 
                 <ContentLayout>
 
                     <MainBlock>
-                        {isResume && <FullInfoImageBlock>
+                        <ImgAndMainInfoBlock>
+                            {isResume && <FullInfoImageBlock>
 
-                            <FullInfoImage src={avatar || DefaultAvatar}/>
+                                <FullInfoImage src={avatar || DefaultAvatar}/>
 
-                            <HandsLike
-                                currentMark={mark}
-                                onHandClick={likeClicked(type, id)}
-                            />
+                                <HandsLike
+                                    currentMark={currentChosenResult.mark}
+                                    onHandClick={likeClicked(type, id)}
+                                />
 
-                        </FullInfoImageBlock>}
+                                </FullInfoImageBlock>}
 
+                                <FullInfoTextBlock>
+
+                                {isResume && <CategoryName>{category.name}</CategoryName>}
+
+                                <MainInfoBlock>
+                                    <FullInfoBolderText>{`${salary.value} ${salary.currency.value} ${salary.type.value}`}</FullInfoBolderText>
+
+                                    {!isResume && <MainInfoBlockItem>
+                                        <FullInfoBolderText>Работодатель:</FullInfoBolderText>
+                                        <SimpleInfo>{employer}</SimpleInfo>
+                                    </MainInfoBlockItem>}
+
+                                    {!isResume && <MainInfoBlockItem>
+                                        <FullInfoBolderText>Дата публикации:</FullInfoBolderText>
+                                        <div>{create_date}</div>
+                                    </MainInfoBlockItem>}
+
+                                    <MainInfoBlockItem>
+                                        <FullInfoBolderText>Опыт работы:</FullInfoBolderText>
+                                        <SimpleInfo>{experience} лет</SimpleInfo>
+                                    </MainInfoBlockItem>
+
+                                    <MainInfoBlockItem>
+                                        <FullInfoBolderText>Города:</FullInfoBolderText>
+                                        <SimpleInfo>
+                                            {places.map(place => <SimpleInfo>{place.country_name}{place.cities.length > 0 && ': '}{place.cities.map(city => city.name).join(', ')}</SimpleInfo>)}
+                                        </SimpleInfo>    
+                                    </MainInfoBlockItem>
+
+                                    {mainInfoSearchResult.map(param => <MainInfoBlockItem>
+                                        <FullInfoBolderText>{param.name}:</FullInfoBolderText>
+                                        <SimpleInfo>{param.options?.map(option => option.name).join(', ')}</SimpleInfo>
+                                    </MainInfoBlockItem>)}
+                                </MainInfoBlock>
+
+                            </FullInfoTextBlock>
+                        </ImgAndMainInfoBlock>
+                        
                         <FullInfoTextBlock>
+                            <FullInfoSubtitle>{isResume ? 'О себе' : 'Описание вакансии'}</FullInfoSubtitle>
 
-                            {isResume && <CategoryName>{category.name}</CategoryName>}
-
-                            <MainInfoBlock>
-                                <FullInfoBolderText>{`${salary.value} ${salary.currency.value} ${salary.type.value}`}</FullInfoBolderText>
-
-                                {!isResume && <MainInfoBlockItem>
-                                    <FullInfoBolderText>Работодатель:</FullInfoBolderText>
-                                    <SimpleInfo>{employer}</SimpleInfo>
-                                </MainInfoBlockItem>}
-
-                                {!isResume && <MainInfoBlockItem>
-                                    <FullInfoBolderText>Дата публикации:</FullInfoBolderText>
-                                    <div>{create_date}</div>
-                                </MainInfoBlockItem>}
-
-                                <MainInfoBlockItem>
-                                    <FullInfoBolderText>Опыт работы:</FullInfoBolderText>
-                                    <SimpleInfo>{experience} лет</SimpleInfo>
-                                </MainInfoBlockItem>
-
-                                <MainInfoBlockItem>
-                                    <FullInfoBolderText>Города:</FullInfoBolderText>
-                                    <SimpleInfo>
-                                        {places.map(place => <SimpleInfo>{`${place.country_name}: ${place.cities.map(city => city.name).join(',')}`}</SimpleInfo>)}
-                                    </SimpleInfo>    
-                                </MainInfoBlockItem>
-
-                                {mainInfoSearchResult.map(param => <MainInfoBlockItem>
-                                    <FullInfoBolderText>{param.name}:</FullInfoBolderText>
-                                    <SimpleInfo>{param.options?.map(option => option.name).join(', ')}</SimpleInfo>
-                                </MainInfoBlockItem>)}
-                            </MainInfoBlock>
-
+                            <FullInfoDescrption>{description}</FullInfoDescrption>
                         </FullInfoTextBlock>
                     </MainBlock>
-
-                    <DescriptionBlock>
-                        <FullInfoSubtitle>{isResume ? 'О себе' : 'Описание вакансии'}</FullInfoSubtitle>
-
-                        <FullInfoDescrption>{description}</FullInfoDescrption>
-                    </DescriptionBlock>
 
                     <DescriptionBlock>
                             <FullInfoSubtitle>Подробнее</FullInfoSubtitle>
@@ -196,15 +200,20 @@ function Vacancy({ searchStore, uiStore: { userModel: { isUserAuthenticated }, o
                                     key={param.name}
                                 >
                                     <FullInfoBolderText>{param.name}:</FullInfoBolderText>
-                                    <SimpleInfo>{param.options?.map(option => option.name).join(', ')}</SimpleInfo>
+                                    <TwoColumnsText>{param.options?.map(option => <div>{option.name}</div>)}</TwoColumnsText>
                                 </MainInfoBlockItem>)}
                                 
                             </SecondaryBlockLayout>
 
-                            {isContactsShown && isUserAuthenticated ? <SecondaryBlockLayout>
-                                {contacts_info?.map(contact => <FullInfoBolderText>
-                                    {contact.value}
-                                </FullInfoBolderText>)}
+                            {contacts_info && isUserAuthenticated ? <SecondaryBlockLayout>
+                                {contacts_info.filter(contact => Boolean(contact.value)).map(contact => <MainInfoBlockItem key={contact.key}>
+                                    <FullInfoBolderText>
+                                        {contact.name}:
+                                    </FullInfoBolderText>
+                                    <TwoColumnsText>
+                                        {contact.value}
+                                    </TwoColumnsText>
+                                </MainInfoBlockItem>)}
                             </SecondaryBlockLayout>
                             : <ContactsButton
                                 style={{ marginLeft: 'auto', marginRight: 'o' }}
@@ -225,7 +234,10 @@ function Vacancy({ searchStore, uiStore: { userModel: { isUserAuthenticated }, o
 
                         
                     </ExamplesContainer>}
-                    
+
+                    {isResultsPresent && <LinkedButton to={'/searchResults'}>
+                        Вернуться к списку
+                    </LinkedButton>}
                 </ContentLayout>
                 
                 {isImageShown && <FullSizedImage/>}
@@ -238,7 +250,7 @@ function Vacancy({ searchStore, uiStore: { userModel: { isUserAuthenticated }, o
     );
 };
 
-export default inject('searchStore', 'uiStore')(observer(Vacancy));
+export default inject('searchStore', 'uiStore', 'localeService')(observer(Vacancy));
 
 const FullInfoHeader = styled.div`
     ${flexAlignCenter}
@@ -261,14 +273,18 @@ const ContentLayout = styled.div`
 `;
 
 const MainBlock = styled.div`
+    padding: 50px;
+    border-radius: 15px;
+    background-color: #F7FBFC;
+`;
+
+const ImgAndMainInfoBlock = styled.div`
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     align-items: start;
     gap: 50px;
 
-    padding: 50px;
-    border-radius: 15px;
-    background-color: #F7FBFC;
+    margin-bottom: 30px;
 `;
 
 const MainInfoBlock = styled.div`
@@ -280,7 +296,7 @@ const MainInfoBlock = styled.div`
 
 const MainInfoBlockItem = styled.div`
     display: grid;
-    grid-template-columns: repeat(2, minmax(min-content, 200px));
+    grid-template-columns: 1fr 2fr;
     column-gap: 20px;
 `;
 
@@ -296,11 +312,12 @@ const DescriptionBlock = styled.div`
 
 const SecondaryBlockLayout = styled.div`
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
     gap: 30px;
 `;
 
 const FullInfoImageBlock = styled.div`
+
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -358,8 +375,12 @@ const FullInfoImage = styled.img`
     max-height: 400px;
 `;
 
-const SimpleInfo = styled.div`
-    line-height: 25px;
+const SimpleInfo = styled.div``;
+
+const TwoColumnsText = styled.div`
+    display: grid;
+    grid-template-columns: repeat(2, 50%);
+    gap: 20px;
 `;
 
 const FullInfoTitle = styled.div`

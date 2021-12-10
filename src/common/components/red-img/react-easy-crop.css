@@ -1,20 +1,20 @@
 .reactEasyCrop_Container {
-  margin-top: 100px;
-  margin-left: 12%;
   position: absolute;
-  height: 350px;
-  width: 350px;
-  background: #f1f3f6;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  overflow: hidden;
-  user-select: none;
-  touch-action: none;
+
   display: flex;
   justify-content: center;
   align-items: center;
+
+  height: 300px;
+  width: 300px;
+
+  overflow: hidden;
+  user-select: none;
+  touch-action: none;
+  
+  background: #f1f3f6;
+  border-radius: 15px;
+  border: 1px solid #6f80a5;
 }
 
 .reactEasyCrop_Image,

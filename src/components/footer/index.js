@@ -1,6 +1,6 @@
 import { inject } from 'mobx-react';
 import React from 'react';
-import { Link, useLocation} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { PageContentWrapper } from '../../common/components/Layouts';
 import { ModalVariants } from '../../common/consts';
@@ -9,46 +9,37 @@ import BigLogo from '../../images/2021RusProfiNetFooterLogo.svg';
 
 const layoutGap = '30px';
 
-const Footer = inject('uiStore')(({ uiStore: { openModal } }) => {
-    const { pathname } = useLocation();
+const Footer = inject('uiStore')(({ uiStore: { openModal } }) => <FooterWrapper>
+    <PageContentWrapper>
+        <FooterRowsLayout>
+            <ContactsRows area={'contacts1'}>
+                <ContactBlock>+7 916 500 50 50</ContactBlock>
+                <ContactBlock>
+                    <LinLikeButton onClick={() => openModal(ModalVariants.FAQ)}>Напишите нам</LinLikeButton>
+                </ContactBlock>
+                <ContactBlock>
+                    <Link to={'/advertMen'}>Рекламодателям</Link>
+                </ContactBlock>
+                
+            </ContactsRows>
+            <ContactsRows area={'contacts2'}>
+                <ContactBlock>
+                    <Link to={'/faq'}>FAQ</Link>
+                </ContactBlock>
+                <ContactBlock>
+                    <Link to={'/userAgreement'}>Пользовательское соглашение</Link>
+                </ContactBlock>
+            </ContactsRows>
+            <div style={{ justifySelf: 'end', gridArea: 'logo' }}>
+                <img src={BigLogo} alt='logo'/>
+            </div>
+        </FooterRowsLayout>
 
-    function isRoot() {
-        return pathname === '/'
-    }
-
-    return isRoot() ? null
-        : <FooterWrapper>
-            <PageContentWrapper>
-                <FooterRowsLayout>
-                    <ContactsRows area={'contacts1'}>
-                        <ContactBlock>+7 916 500 50 50</ContactBlock>
-                        <ContactBlock>
-                            <LinLikeButton onClick={() => openModal(ModalVariants.FAQ)}>Напишите нам</LinLikeButton>
-                        </ContactBlock>
-                        <ContactBlock>
-                            <Link to={'/advertMen'}>Рекламодателям</Link>
-                        </ContactBlock>
-                        
-                    </ContactsRows>
-                    <ContactsRows area={'contacts2'}>
-                        <ContactBlock>
-                            <Link to={'/faq'}>FAQ</Link>
-                        </ContactBlock>
-                        <ContactBlock>
-                            <Link to={'/userAgreement'}>Пользовательское соглашение</Link>
-                        </ContactBlock>
-                    </ContactsRows>
-                    <div style={{ justifySelf: 'end', gridArea: 'logo' }}>
-                        <img src={BigLogo} alt='logo'/>
-                    </div>
-                </FooterRowsLayout>
-
-                <div style={{ textAlign: 'center', color: '#153D70', fontSize: '13px' }}>
-                    2021 RusProfiNet. Все права защищены
-                </div>
-            </PageContentWrapper>
-        </FooterWrapper>
-});
+        <div style={{ textAlign: 'center', color: '#153D70', fontSize: '13px' }}>
+            2021 RusProfiNet. Все права защищены
+        </div>
+    </PageContentWrapper>
+</FooterWrapper>);
 
 export default Footer;
 

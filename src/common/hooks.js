@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react'
+
 import { requestWithParams } from '../api/exchangeLayer';
+import LocaleService from '../api/LocaleService';
+
+
+let localeService = LocaleService.getInstance();
 
 export function useCategoryFilters(initialCategory = null) {
     const [categories, setCategories] = useState(null);
@@ -49,9 +54,11 @@ export function useRequest({ requestType, requestParams, onSuccess, onError }) {
                 setError(null);
                 onSuccess && onSuccess(result);
             } catch(e) {
+                const eType = e.message;
+
                 setResult(null);
-                setError(e.message);
-                onError && onError(e);
+                setError(localeService.getByKey(eType));
+                onError && onError(eType);
             }
         })();
 

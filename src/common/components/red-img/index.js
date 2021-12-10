@@ -1,5 +1,6 @@
 import React, {useState, useCallback } from 'react';
 import Cropper from 'react-easy-crop';
+import { inject, observer } from 'mobx-react';
 
 import './react-easy-crop.css';
 import './red-img.css';
@@ -7,18 +8,20 @@ import './red-img.css';
 import getCroppedImg from './cropImage';
 import RangeSlider from '../rangeSlider';
 import { CommonButton } from '../Buttons';
-import { inject, observer } from 'mobx-react';
+import styled from 'styled-components';
 
 const RedImg = inject('uiStore')(observer(({
-        uiStore: { modalPayload: { photo, onSuccessCallback }, closeModal }
-    }) => {
+    uiStore: { modalPayload, closeModal }
+}) => {
+    const { photo, onSuccessCallback } = modalPayload;
+
     const [crop, setCrop] = useState({ x: 0, y: 0 })
     const [zoom, setZoom] = useState(1)
     const [croppedAreaPixels, setCroppedAreaPixels] = useState(null)
 
     const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
-        setCroppedAreaPixels(croppedAreaPixels)
-    }, [])
+        setCroppedAreaPixels(croppedAreaPixels);
+    }, []);
 
     async function showCroppedImage() {
         try {
@@ -40,7 +43,7 @@ const RedImg = inject('uiStore')(observer(({
 
     return (
         <div className='red-display'>
-            <div className='modal-redact'>
+            <CropperLayout>
                 <Cropper
                     disableAutomaticStylesInjection={true}
                     image={photo}
@@ -51,17 +54,37 @@ const RedImg = inject('uiStore')(observer(({
                     onCropComplete={onCropComplete}
                     onZoomChange={setZoom}
                 />
-            </div>
-            <div className='margin-top-15'>
-                <RangeSlider min={1} max={10} onChange={onChange} value={zoom} />
-            </div>
-            <div className='center margin-top-15'>
-                <CommonButton onClick={showCroppedImage}>
-                    Сохранить
-                </CommonButton>
-            </div>
+
+                <SliderWrapper>
+                    <RangeSlider min={1} max={10} onChange={onChange} value={zoom}/>
+                </SliderWrapper>
+            </CropperLayout>
+
+
+            <CommonButton onClick={showCroppedImage}>
+                Сохранить
+            </CommonButton>
         </div>
     )
 }));
 
 export default RedImg;
+
+const CropperLayout = styled.div`
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    width: 100%;
+    height: 300px;
+`;
+
+const SliderWrapper = styled.div`
+    width: 300px;
+
+    margin-top: auto;
+    margin-bottom: 0;
+`;

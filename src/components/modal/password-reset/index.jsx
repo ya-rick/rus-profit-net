@@ -8,7 +8,10 @@ import PasswordInput from '../../../common/components/PasswordInput';
 import { CommonButton } from '../../../common/components/Buttons';
 import ErrorMessage from '../../../common/components/ErrorMessage';
 import { ModalVariants } from '../../../common/consts';
+import LocaleService from '../../../api/LocaleService';
 
+
+let localeService = LocaleService.getInstance();
 
 const PasswordResetModal = ({ uiStore: { openModal, modalPayload: { request, isReset = false } } }) => {
     const history = useHistory();
@@ -28,11 +31,11 @@ const PasswordResetModal = ({ uiStore: { openModal, modalPayload: { request, isR
         setError(null);
 
         if (passwordInputs.new_password !== passwordInputs.password_confirm) {
-            setError('Введенные пароли не совпадают');
+            setError(localeService.getByKey('password_equals'));
             return false;
         }
         if (passwordInputs.new_password.length < 6 && /[a-zA-Z]{6,}/.test(passwordInputs.new_password)) {
-            setError('Пароль должен иметь длину 6-ти и состоять из латинских символов');
+            setError(localeService.getByKey('password_invalid'));
             return false;
         }
         
@@ -49,7 +52,11 @@ const PasswordResetModal = ({ uiStore: { openModal, modalPayload: { request, isR
                         title: 'Ваш пароль успешно изменён!',
                         description: 'Теперь вы можете войти в систему с новым'
                     });
-                });
+                })
+                .catch(e => openModal(ModalVariants.InfoModal, {
+                    title: 'Ошибка!',
+                    description: localeService.getByKey(e.message)
+                }));
         }
     }
 
