@@ -77,7 +77,7 @@ function EmailChangePage({ uiStore, localeService }) {
                     onChange={onChangeEmails('user_email_confirm')}/>
             </div>
             <div>
-                <p className='name-info-text'>Старый пароль</p>
+                <p className='name-info-text'>Пароль</p>
                 <PasswordInput
                     className='input-reg'
                     value={emails.password}

@@ -86,7 +86,10 @@ function ResultCard({
 
             result.status = status;
         } catch (e) {
-            localeService.getByKey(e.message);
+            openModal(ModalVariants.InfoModal, {
+                title: 'Ошибка!',
+                description: localeService.getByKey(e.message)
+            });
         }
     }
 
@@ -96,7 +99,10 @@ function ResultCard({
 
             onDeleteCallback && onDeleteCallback(id);
         } catch (e) {
-            localeService.getByKey(e.message);
+            openModal(ModalVariants.InfoModal, {
+                title: 'Ошибка!',
+                description: localeService.getByKey(e.message)
+            });
         }
     }
 
