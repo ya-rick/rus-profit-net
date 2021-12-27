@@ -1,25 +1,29 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import { forDevice } from '../../../common/commonAdaptiveStyles';
+import { AdditionalText } from '../../../common/components/Typography';
 
 
 export const GeneralInfoWrapper = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-    gap: 50px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: max-content;
 
-    > * {
-        flex: 1 1 50%;
-        max-width: 300px;
-    }
+    justify-items: center;
+    
+    gap: 1rem;
+    
+    ${forDevice.M(css`
+        justify-items: stretch;
+        grid-template-columns: repeat(2, 1fr);
+    `)}
 
-    @media (max-width: 1020px) {
-        flex-wrap: wrap;
-    }
+    ${forDevice.L(css`
+        grid-template-columns: repeat(4, 1fr);
+    `)}
 `;
 
 export const Image = styled.img`
-    width: 100%;
+    height: 100%;
     min-width: 250px;
     max-width: 300px;
     height: auto;
@@ -36,4 +40,8 @@ export const InfoWrapper = styled.div`
     row-gap: 30px;
 
     cursor: default;
+`;
+
+export const Description = styled(AdditionalText)`
+    text-align: center;
 `;

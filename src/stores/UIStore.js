@@ -1,8 +1,8 @@
 import { action, makeAutoObservable } from 'mobx';
 
 import { ModalVariants } from '../common/consts';
-import QuestionModalContent from '../components/FAQ/QuestionModalContent';
-import Authorization from '../components/authorization';
+import QuestionModalContent from '../components/modal/faq';
+import Authorization from '../components/modal/authorization';
 import ForgotPassword from '../components/forgot-password';
 import InfoModal from '../components/modal/info-form';
 import RedImg from '../common/components/red-img';

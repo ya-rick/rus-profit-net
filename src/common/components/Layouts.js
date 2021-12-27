@@ -1,16 +1,19 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
+import { forDevice } from '../commonAdaptiveStyles';
 
-export const PageContentWrapper = styled.div`
-    padding: 3% 2%;
 
-    @media (min-width: 1320px) {
-        width: 1320px;
-        margin: 0 auto;
-    }
+export const DefaultContainer = styled.div`
+    padding-block: 2%;
 `;
 
-export const PageInfoBlockWithTitle = styled.div`
+export const MainContainer = styled(DefaultContainer)`
+    padding-inline: 4%;
+    width: 100%;
     
+    ${forDevice.XL(css`
+        margin: 0 auto;
+        width: 1580px;
+    `)}
 `;
 
 export const Centerer = styled.div`
@@ -22,14 +25,33 @@ export const Centerer = styled.div`
 
 export const AdaptiveGrid = styled.div`
     display: grid;
-    grid-template-columns: repeat(${props => props.cols}, 1fr);
-    gap: 20px;
+    gap: 1rem;
+    grid-auto-columns: 1fr;
+    grid-template-areas:
+        'country'    'city'
+        'salary'     'search'
+        'experience' 'age'
+    ;
 
-    @media (max-width: 1024px) {
-        grid-template-columns: repeat(2, 1fr);
-    }
+    ${forDevice.M(css`
+        
+        grid-template-areas:
+            'country    salary'
+            'city       search'
+            'experience age';
+    `)}
 
-    @media (max-width: 768px) {
-        grid-template-columns: 1fr;
-    }
+    ${forDevice.L(css`
+        row-gap: 0;
+        grid-template-areas:
+            'country salary experience ${props => props.isBigger && 'age'}'
+            'city    search experience ${props => props.isBigger && 'age'}'
+        ;
+    `)}
+`;
+
+export const FlexSpaceBetweenContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    aiign-items: center;
 `;

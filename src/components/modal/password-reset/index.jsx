@@ -9,6 +9,7 @@ import { CommonButton } from '../../../common/components/Buttons';
 import ErrorMessage from '../../../common/components/ErrorMessage';
 import { ModalVariants } from '../../../common/consts';
 import LocaleService from '../../../api/LocaleService';
+import { DefaultContainer } from '../../../common/components/Layouts';
 
 
 let localeService = LocaleService.getInstance();
@@ -62,7 +63,9 @@ const PasswordResetModal = ({ uiStore: { openModal, modalPayload: { request, isR
 
     return (
         <>
-            <ModalTitle>Введите новый пароль</ModalTitle>
+            <DefaultContainer>
+                <ModalTitle>Введите новый пароль</ModalTitle>
+            </DefaultContainer>
             
             <ModalContent>
 

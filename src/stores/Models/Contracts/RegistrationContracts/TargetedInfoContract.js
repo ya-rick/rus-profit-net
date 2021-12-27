@@ -1,4 +1,4 @@
-import { action, makeAutoObservable, toJS } from 'mobx';
+import { action, makeAutoObservable } from 'mobx';
 
 import CityCountryModel from '../../CityCountryModel';
 import LocaleService from '../../../../api/LocaleService';

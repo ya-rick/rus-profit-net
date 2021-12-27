@@ -2,8 +2,8 @@ import { inject, observer } from 'mobx-react';
 import { useParams, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { PageContentWrapper } from '../../common/components/Layouts';
-import { PageTitle } from '../../common/components/TitleVariants';
+import { DefaultContainer, MainContainer } from '../../common/components/Layouts';
+import { MainTitle } from '../../common/components/Typography';
 import SideBar from './SideBar';
 import UserInfoPage from './UserInfoPage';
 import { Favourites, UserProfileResults, Views } from '../SearchResults';
@@ -67,48 +67,35 @@ function UserProfile({ uiStore: { userModel: { setTabResults } } }) {
         }
     }
 
-    return <PageContentWrapper>
+    return <MainContainer>
 
-        <PageTitle>Личный кабинет</PageTitle>
+        <DefaultContainer>
+            <MainTitle>Личный кабинет</MainTitle>
 
-        <ProfileContentLayout>
-            
             <SideBar
                 onTablClickCallback={setTabResults}
             >
                 {tabs}
             </SideBar>
+        </DefaultContainer>
 
+        <ProfileContentLayout>
             {renderTab() && <ContentContainer>
                 {renderTab()}
             </ContentContainer>}
             
         </ProfileContentLayout>
 
-    </PageContentWrapper>
+    </MainContainer>
 }
 
 
-const ProfileContentLayout = styled.div`
-    display: grid;
-    grid-template-columns: min-content auto;
-    grid-template-rows: minmax(400px, 1fr);
-    gap: 20px;
-
-    grid-template-areas: ' sidebar content ';
-`;
+const ProfileContentLayout = styled.div``;
 
 const ContentContainer = styled.div`
-    grid-area: content;
     padding: 3% 5%;
-    border-radius: 15px;
 
     box-shadow: 0 0 10px rgb(0, 0, 0, 0.5);
-`;
 
-export const ContentTitle = styled.h2`
-    display: flex;
-    justify-content: space-between;
-    font-weight: 600;
-    margin-block-start: 0;
+    ${props => props.theme.smallBorderRadius}
 `;

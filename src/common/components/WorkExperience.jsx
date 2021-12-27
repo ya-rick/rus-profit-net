@@ -1,30 +1,32 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import RangeSlider from './rangeSlider'
+import { RangeSlider } from './rangeSlider'
 import NumberInput from './NumberInput'
+import { AdditionalText, RegularTitle } from './Typography'
+import { FlexSpaceBetweenContainer } from './Layouts'
 
-export default function WorkExperience({ min, max, value, onChange, ...props }) {
+export default function WorkExperience({ min, max, value, onChange, disabledInput = true, ...props }) {
 
     return <Wrapper {...props}>
-        <p>Опыт работы</p>
+        <RegularTitle>Опыт работы</RegularTitle>
         <div>
             <RangeSlider
                 max={max}
                 value={value}
                 onChange={onChange}
             />
-            <div className='text-slider'>
-                <p>без опыта</p>
-                <p>более 10 лет</p>
-            </div>
+            <FlexSpaceBetweenContainer>
+                <AdditionalText>без опыта</AdditionalText>
+                <AdditionalText>более 10 лет</AdditionalText>
+            </FlexSpaceBetweenContainer>
         </div>
         <NumberInputCenterer>
             <NumberInputStyled
                 value={value}
-                className={'input-number'}
                 max={max}
-                onChange={onChange}
+                onChange={disabledInput ? () => {} : onChange}
+                disabled={disabledInput}
             />
         </NumberInputCenterer>
     </Wrapper>

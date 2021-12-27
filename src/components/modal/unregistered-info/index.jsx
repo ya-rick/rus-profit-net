@@ -4,9 +4,10 @@ import { useHistory } from 'react-router-dom';
 
 import Icon from '../../../common/components/Icon';
 import { ModalSubtitle, ModalTitle } from '../../../common/components/ModalStyles';
-import { ButtonGroup } from '../../../common/components/BlockWithImage';
 import { CommonButton } from '../../../common/components/Buttons';
 import { ModalVariants } from '../../../common/consts';
+import { DefaultContainer } from '../../../common/components/Layouts';
+import { TwoLinkedButtonGroup } from '../../../common/components/StaticPagesStyles';
 
 
 export default inject('uiStore')(function UnregisteredInfo({ uiStore: { openModal, closeModal } }) {
@@ -18,70 +19,74 @@ export default inject('uiStore')(function UnregisteredInfo({ uiStore: { openModa
         history.push('/register');
     }
 
-    return <>
-        <ModalTitle>Зарегистрируйтесь или авторизуйтесь</ModalTitle>
+    return (
+        <>
+            <DefaultContainer>
+                <ModalTitle>Зарегистрируйтесь или авторизуйтесь</ModalTitle>
+            </DefaultContainer>
 
-        <ModalSubtitle>Как работает наш сайт?</ModalSubtitle>
+            <ModalSubtitle>Как работает наш сайт?</ModalSubtitle>
 
-        <InstructionsLayout>
-            <InstractopnWithArrow>
-                <InstructionWithText>
+            <InstructionsLayout>
+                <InstractopnWithArrow>
+                    <InstructionWithText>
+                        <Icon
+                            iconName={'registration_info'}
+                            size={'md'}
+                        />
+                        <div style={{ textAlign: 'center' }}>
+                            Заполните анкету
+                            и зарегистрируйтесь
+                        </div>
+                    </InstructionWithText>
                     <Icon
-                        iconName={'registration_info'}
+                        iconName={'arrow_right'}
                         size={'md'}
                     />
-                    <div style={{ textAlign: 'center' }}>
-                        Заполните анкету
-                        и зарегистрируйтесь
-                    </div>
-                </InstructionWithText>
-                <Icon
-                    iconName={'arrow_right'}
-                    size={'md'}
-                />
-            </InstractopnWithArrow>
+                </InstractopnWithArrow>
 
-            <InstractopnWithArrow>
-                <InstructionWithText>
+                <InstractopnWithArrow>
+                    <InstructionWithText>
+                        <Icon
+                            iconName={'publication_info'}
+                            size={'md'}
+                        />
+                        <div style={{ textAlign: 'center' }}>
+                            Опубликуйте вашу 
+                            вакансию/анкету
+                        </div>
+                    </InstructionWithText>
                     <Icon
-                        iconName={'publication_info'}
+                        iconName={'arrow_right'}
                         size={'md'}
                     />
-                    <div style={{ textAlign: 'center' }}>
-                        Опубликуйте вашу 
-                        вакансию/анкету
-                    </div>
-                </InstructionWithText>
-                <Icon
-                    iconName={'arrow_right'}
-                    size={'md'}
-                />
-            </InstractopnWithArrow>
+                </InstractopnWithArrow>
 
-            <InstractopnWithArrow>
-                <InstructionWithText>
-                    <Icon
-                        iconName={'find_info'}
-                        size={'md'}
-                    />
-                    <div style={{ textAlign: 'center' }}>
-                        Выберите нужный
-                        из тысячи вариантов
-                    </div>
-                </InstructionWithText>
-            </InstractopnWithArrow>
-        </InstructionsLayout>
+                <InstractopnWithArrow>
+                    <InstructionWithText>
+                        <Icon
+                            iconName={'find_info'}
+                            size={'md'}
+                        />
+                        <div style={{ textAlign: 'center' }}>
+                            Выберите нужный
+                            из тысячи вариантов
+                        </div>
+                    </InstructionWithText>
+                </InstractopnWithArrow>
+            </InstructionsLayout>
 
-        <ButtonGroup>
-            <CommonButton
-                onClick={() => openModal(ModalVariants.Authorization)}
-            >Авторизация</CommonButton>
+            <TwoLinkedButtonGroup>
+                <CommonButton
+                    onClick={() => openModal(ModalVariants.Authorization)}
+                >Авторизация</CommonButton>
 
-            <CommonButton
-                onClick={registrationClicked}
-            >Регистрация</CommonButton>
-        </ButtonGroup>
-    </>
+                <CommonButton
+                    onClick={registrationClicked}
+                >Регистрация</CommonButton>
+            </TwoLinkedButtonGroup>
+        </>
+    )
 })
 
 const gap = '30px';

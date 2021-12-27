@@ -1,11 +1,11 @@
 import { inject, observer } from 'mobx-react';
 import { useParams, useHistory } from 'react-router-dom';
 
-import { ContentTitle } from '../components/userProfile';
-import { PageContentWrapper } from './components/Layouts';
+import { MainContainer } from './components/Layouts';
 import { ACTIONS } from '../stores/CreateEditStore';
 import { useRequest } from './hooks';
 import Loading from './components/Loading';
+import { MainSubtitle } from './components/Typography';
 
 
 export const SearchResultsFromSearchStore = SearchResultsComponent => {
@@ -21,7 +21,7 @@ export const SearchResultsFromSearchStore = SearchResultsComponent => {
             searchStore.setCurrentResult(result);
         }
 
-        return <PageContentWrapper>
+        return <MainContainer>
             <SearchResultsComponent
                 results={searchResultsCollection.results}
                 isVacancy={isSearchWorker}
@@ -33,7 +33,7 @@ export const SearchResultsFromSearchStore = SearchResultsComponent => {
                 onSelectCallback={onSelectCallback}
                 {...props}
             />
-        </PageContentWrapper>
+        </MainContainer>
     }
 
     return inject('searchStore')(observer(Wrapper));
@@ -82,7 +82,7 @@ export const SearchResultsFromUserProfile = SearchResultsComponent => {
             resultsTitleVariants={[ 'Мои вакансии', 'Мои анкеты' ]}
             onSelectCallback={onSelectCallback}
             userProfileInfo
-            TitleComponent={ContentTitle}
+            TitleComponent={MainSubtitle}
             onCreateClick={onCreateClick}
             onDeleteCallback={deleteTabResult}
             {...props}
@@ -129,7 +129,7 @@ export const SearchResultsFavourites = SearchResultsComponent => {
             isPresent={isPresent}
             resultsTitleVariants={[ 'Отобранные вакансии', 'Отобранные анкеты' ]}
             onSelectCallback={onSelectCallback}
-            TitleComponent={ContentTitle}
+            TitleComponent={MainSubtitle}
             onDeleteCallback={deleteTabResult}
             viewsOrFavourites
             {...props}
@@ -176,7 +176,7 @@ export const SearchResultsViews = SearchResultsComponent => {
             isPresent={isPresent}
             resultsTitleVariants={[ 'Просмотры вакансии', 'Просмотры анкеты' ]}
             onSelectCallback={onSelectCallback}
-            TitleComponent={ContentTitle}
+            TitleComponent={MainSubtitle}
             onDeleteCallback={deleteTabResult}
             viewsOrFavourites
             {...props}

@@ -22,14 +22,16 @@ export default function Notifications() {
         ?.reduce((acc, notification) => acc || !notification.viewed, false);
 
     useEffect(() => {
-        if (!isRead && notifsPresent) {
+        if (isOpen && notifsPresent) {
             requestWithParams('readNotifications')
-                .then(() => {
-                    setIsRead(true);
-                })
                 .catch(e => console.error(e))
         }
     }, [notifsPresent]);
+
+    function notificationBellClicked() {
+        setIsRead(true);
+        toggleIsOpen();
+    }
 
     function renderNotification({ type, text, id, notif_id }) {
         switch(type) {
@@ -62,7 +64,7 @@ export default function Notifications() {
                 : <>
                     <NotificationButtonWrapper
                         notifsPresent={notifsPresent}
-                        onClick={() => toggleIsOpen()}
+                        onClick={notificationBellClicked}
                     >
                         <Icon
                             iconName={`notifications_${notifsPresent && !isRead ? 'enabled' : 'disabled'}`}
@@ -123,6 +125,8 @@ const NotificationsItemsWrapper = styled.div`
     border: 2px solid #6F80A5;
     width: max-content;
     padding: 25px;
+
+    max-height: 200px;
 
     > * {
         margin-top: 30px;

@@ -4,7 +4,7 @@ import { clamp } from '../utils'
 import Input from './Input'
 
 
-export default function NumberInput ({onChange, min, max, value = 0, ...props}) {
+export default function NumberInput ({onChange, min, max, value = 0, disabled = false, ...props}) {
 
     function setNumber(e) {
         let value = e.target.value;
@@ -30,5 +30,6 @@ export default function NumberInput ({onChange, min, max, value = 0, ...props}) 
         {...props}
         onChange={setNumber}
         value={value}
+        disabled={disabled}
     />
 }

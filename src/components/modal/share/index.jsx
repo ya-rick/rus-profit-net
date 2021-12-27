@@ -67,5 +67,5 @@ export default function Share() {
 const Layout = styled.div`
     display: flex;
     flex-wrap: wrap;
-    gap: 30px;
+    gap: 1.5rem;
 `;

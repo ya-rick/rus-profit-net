@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import { useLocation } from 'react-router-dom';
 
 import { LinkedButton } from '../../common/components/Buttons';
+import { CommonText } from '../../common/components/Typography';
 
 export default function SideBar({ children = [], onTablClickCallback = () => {} }) {
     const { pathname } = useLocation();
@@ -12,31 +13,26 @@ export default function SideBar({ children = [], onTablClickCallback = () => {} 
             to={tab.to}
             onClick={() => onTablClickCallback(tab.onClickType)}
             active={pathname === tab.to}
-        >{tab.name}</SideBarTab>)}
+        >
+            <CommonText>{tab.name}</CommonText>
+        </SideBarTab>)}
     </SideBarContainer>
 }
 
 const SideBarContainer = styled.div`
-    grid-area: sidebar;
-    padding: 10px;
-    border-radius: 15px;
     display: flex;
-    flex-direction: column;
-    gap: 20px;
+    flex-wrap: wrap;
+    gap: 1rem;
 
-    box-shadow: 0 0 10px rgb(0, 0, 0, 0.5);
+    ${props => props.theme.smallBorderRadius}
 `;
 
 const SideBarTab = styled(LinkedButton)`
-    min-width: auto;
-    margin: 0;
-    outline: none;
     box-shadow: none;
     background-color: #f7fbfc !important;
     border: none;
-    font-weight: 300;
-    white-space: nowrap;
-    width: 100%;
+    font-weight: 400;
+    padding: .25rem .5rem;
 
     ${props => props.active && 'box-shadow: 4px 4px 10px #4C5E8B;'}
 

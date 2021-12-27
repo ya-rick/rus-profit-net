@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { AdditionalText } from '../Typography';
 
 
 export const SelectWrapper = styled.div`
@@ -6,7 +7,7 @@ export const SelectWrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 20px;
+    gap: 1rem;
 
     > input:first-child {
         width: 200%;
@@ -22,27 +23,27 @@ export const SelectLayout = styled.div`
     width: 100%;
   `;
 
-export const SelectHeader = styled.div`
+export const SelectHeader = styled.button`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    width: 100%;
 
-    padding: 10px 12px;
-    border-radius: ${props => props.theme.borderRadius};
-    border-radius: 15px;
+    gap: 1rem;
+
+    padding: .5rem .75rem;
     background: #FFFFFF;
+
     ${props => !props.noBorders && 'border: 2px solid #6F80A5;'}
-    
-    cursor: pointer;
+    ${props => props.theme.smallBorderRadius};
 `;
 
 export const SelectTitle = styled.div`
-    margin-bottom: 30px;
+    margin-bottom: 1.5rem;
 `;
 
-export const SelectedItem = styled.div`
+export const SelectedItem = styled(AdditionalText)`
     height: 18px;
-    font-size: 13px;
 `;
 
 export const SelectDropdownLayout = styled.div`
@@ -54,9 +55,9 @@ export const SelectDropdownLayout = styled.div`
 
     border: 2px solid ${props => props.theme.borderColor};
     border-top: none;
-    border-radius: ${props => `${props.theme.borderRadius} ${props.theme.borderRadius}`};
-    border-radius: 15px;
     background-color: #FFFFFF;
+
+    ${props => props.theme.smallBorderRadius}
 `;
 
 export const SelectDropdownList = styled.ul`
@@ -69,9 +70,9 @@ export const SelectDropdownList = styled.ul`
 `;
 
 export const SelectDropdownItem = styled.li`
-    padding: 10px 12px;
+    padding: .5rem .75rem;
     list-style: none;
-    font-size: 13px;
+    font-size: .75rem;
 `;
 
 export const ArrowWrapper = styled.span`

@@ -1,9 +1,4 @@
-export const defaultStyles = {
-    borderColor: '#6F80A5',
-    borderRadius: '20px',
-    fontSize: '13px',
-    backgroundColor: '#E5E5E5'
-}
+import { css } from 'styled-components';
 
 export const ModalVariants = {
     Authorization: 'Authorization',
@@ -20,4 +15,10 @@ export const ModalVariants = {
 export const SalaryTypes = {
     1: 'в час',
     2: 'в месяц'
+}
+
+export const THEME = {
+    borderColor: '#6F80A5',
+    smallBorderRadius: css`border-radius: .75rem;`,
+    backgroundColor: '#E5E5E5',
 }

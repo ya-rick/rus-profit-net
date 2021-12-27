@@ -1,14 +1,18 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
+import { forDevice } from '../../common/commonAdaptiveStyles';
 
 export const DropdownContainer = styled.div`
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    gap: 30px;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+
+    ${forDevice.M(css`
+        grid-template-columns: repeat(2, 1fr);
+    `)}
 
     > :last-child {
-        width: min-content;
-        height: min-content;
-        align-self: center;
-        justify-self: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 `;

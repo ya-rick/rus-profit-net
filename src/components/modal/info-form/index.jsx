@@ -1,5 +1,6 @@
 import { inject, observer } from 'mobx-react';
 import React from 'react';
+import { DefaultContainer } from '../../../common/components/Layouts';
 
 import { ModalContent, ModalSubtitle, ModalTitle } from '../../../common/components/ModalStyles';
 
@@ -7,9 +8,9 @@ import { ModalContent, ModalSubtitle, ModalTitle } from '../../../common/compone
 const InfoModal = ({ uiStore: { modalPayload } }) => {
     return (
         <>
-            <ModalTitle>
-                {modalPayload.title}
-            </ModalTitle>
+            <DefaultContainer>
+                <ModalTitle>{modalPayload.title}</ModalTitle>
+            </DefaultContainer>
             
             <ModalContent>
 

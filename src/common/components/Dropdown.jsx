@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import { useState } from 'react';
 
 import Icon from './Icon';
+import { RegularTextWrapper } from './StaticPagesStyles';
+import { Subtitle } from './Typography';
 
 export default function Dropdown ({ content, title }) {
     const [isOpened, setIsOpened] = useState(false);
@@ -19,12 +21,12 @@ export default function Dropdown ({ content, title }) {
     return (
         <DropdownWrapper>
             <DropdownHeader onClick={toggleIsOpened}>
-                {title || 'Как работает сайт?'}
+                <Subtitle>{title ?? 'Как работает сайт?'}</Subtitle>
                 <Icon iconName={'circle_plus'}/>
             </DropdownHeader>
 
             {isOpened && <DropdownContent>
-                {content}
+                <RegularTextWrapper>{content}</RegularTextWrapper>
             </DropdownContent>}
         </DropdownWrapper>
     )
@@ -34,15 +36,18 @@ const DropdownWrapper = styled.div`
 
 `;
 
-const DropdownHeader = styled.div`
+const DropdownHeader = styled.button`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 17px 20px;
-    border-radius: ${props => props.theme.borderRadius};
+
+    column-gap: .5rem;
+    width: 100%;
+
     border: 1px solid #6F80A5;
-    cursor: pointer;
-    font-weight: 600;
+    padding: .25rem .5rem;
+
+    ${props => props.theme.smallBorderRadius}
 `;
 
 const DropdownContent = styled.div`

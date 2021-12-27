@@ -27,37 +27,51 @@ export default observer(function ProfileHeaderOptions({
 
     function renderByStatus() {
         switch(status) {
-            case 'shown': return <SecondaryButton onClick={bindOnButtonClick('stopped')}>Убрать из поиска</SecondaryButton>;
-            case 'stopped': return <SecondaryButton onClick={bindOnButtonClick('shown')}>Активировать {isResume ? 'анкету' : 'вакансию'}</SecondaryButton>;
-            default: return <PendingBar>Ожидает подтверждения модератором</PendingBar>;
+            case 'shown': return <SecondaryButton
+                onClick={bindOnButtonClick('stopped')}
+            >
+                    Убрать из поиска
+            </SecondaryButton>;
+
+            case 'stopped': return <SecondaryButton
+                onClick={bindOnButtonClick('shown')}
+            >
+                    Активировать {isResume ? 'анкету' : 'вакансию'}
+            </SecondaryButton>;
+
+            default: return <PendingBar>
+                Ожидает подтверждения
+            </PendingBar>;
         }
     }
 
-    return <ProfileHeaderOptionsLayout>
+    return (
+        <ProfileHeaderOptionsLayout>
 
-        {renderByStatus()}
+            {renderByStatus()}
 
-        <Icon
-            iconName={'trash'}
-            onClick={onTrashClick}
-            disabled={disabled}
-        />
+            <Icon
+                iconName={'trash'}
+                onClick={onTrashClick}
+                disabled={disabled}
+            />
 
-    </ProfileHeaderOptionsLayout>
+        </ProfileHeaderOptionsLayout>
+    );
 })
 
 export const ProfileHeaderOptionsLayout = styled.div`
     display: flex;
     align-items: center;
-    column-gap: 40px;
+    column-gap: 2rem;
 
     margin-left: auto;
     margin-right: 0;
 `;
 
 export const PendingBar = styled.div`
-    border-radius: 20px;
+    border-radius: 1rem;
     background-color: rgb(111, 128, 165, 0.2);
-    padding: 20px 30px;
+    padding: .5rem 1rem;
     font-size: .7em;
 `;

@@ -29,7 +29,7 @@ export default class CityCountryModel {
     get chosenCountries() {
         let retVal = [];
 
-        for (let id of this.countries.keys()) {
+        for (let [id] of this.countries) {
             retVal.push({ id, name: this.countries.get(id).name});
         }
 
@@ -39,11 +39,11 @@ export default class CityCountryModel {
     get chosenCities() {
         let retVal = [];
 
-        for (let { cities } of this.countries.values()) {
-            retVal.push(cities);
+        for (let [id, { cities }] of this.countries) {
+            cities.reduce((result, city) => (result.push(city), result), retVal);
         }
 
-        return retVal.flat();
+        return retVal;
     }
 
     onChangeCountries(newCountry, operationType) {

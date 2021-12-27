@@ -2,11 +2,13 @@ import styled from 'styled-components';
 
 import { CommonButton } from '../../common/components/Buttons';
 import { Centerer } from '../../common/components/Layouts';
+import { TwoLinkedButtonGroup } from '../../common/components/StaticPagesStyles';
+import { AdditionalText } from '../../common/components/Typography';
 
 
 export default function RegistrationButtonsBlock({ onClickLeft, onClickRight, current }) {
     return <>
-        <ButtonsLayout>
+        <TwoLinkedButtonGroup>
 
             <CommonButton
                 onClick={onClickLeft}
@@ -17,14 +19,8 @@ export default function RegistrationButtonsBlock({ onClickLeft, onClickRight, cu
                 active={'resume' === current}
             >Создать анкету</CommonButton>
 
-        </ButtonsLayout>
+        </TwoLinkedButtonGroup>
 
-        <p className='subtext-new'>Для продолжения работы с сайтом, необходимо создать вакансию или анкету работника</p>
+        <AdditionalText>Для продолжения работы с сайтом, необходимо создать вакансию или анкету работника</AdditionalText>
     </>
 }
-
-const ButtonsLayout = styled(Centerer)`
-    flex-wrap: wrap;
-    column-gap: 40px;
-    margin-block: 40px;
-`;

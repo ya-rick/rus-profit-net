@@ -1,7 +1,9 @@
 import { useEffect } from 'react';
 
-import { SelectWrapper, SelectHeader, SelectDropdownList, SelectDropdownItem,
-    ArrowWrapper, SelectLayout, SelectedItem, SelectDropdownLayout } from './styles';
+import {
+    SelectWrapper, SelectHeader, SelectDropdownList, SelectDropdownItem,
+    ArrowWrapper, SelectLayout, SelectedItem, SelectDropdownLayout
+} from './styles';
 import { arrow_down } from '../../svgElements';
 import OutsideClickWrapper from '../OutsideClickWrapper';
 import { useToggle } from '../../hooks';

@@ -5,10 +5,10 @@ import * as svgIcons from '../svgElements';
 
 function mapSize(size) {
     switch(size) {
-        case 'xl': return '150px';
-        case 'md': return '100px';
-        case 'xxs': return '20px';
-        default: return '40px';
+        case 'xl': return '7rem';
+        case 'md': return '5rem';
+        case 'xxs': return '1rem';
+        default: return '2rem';
     }
 }
 

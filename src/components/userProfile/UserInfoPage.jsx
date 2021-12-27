@@ -2,22 +2,29 @@ import { useState } from 'react';
 import { inject, observer } from 'mobx-react';
 import styled from 'styled-components';
 
-import UserContactFields from '../nameContact/UserContactFields';
-import GeneralInformationFields from '../register/generalInformation/GeneralInformationFields';
-import { ContentTitle } from '.';
+import UserContactFields from '../register/nameContact/UserContactFields';
+import { Contact3Grid } from '../register/nameContact';
+import GeneralInformationFields from '../register/generalInformation';
 import ErrorMessage from '../../common/components/ErrorMessage';
-import { Centerer } from '../../common/components/Layouts';
+import { Centerer, DefaultContainer } from '../../common/components/Layouts';
 import { CommonButton } from '../../common/components/Buttons';
 import { ModalVariants } from '../../common/consts';
 import Input from '../../common/components/Input';
-import { PageSubtitle } from '../../common/components/TitleVariants';
+import { MainSubtitle, RegularTitle, Subtitle } from '../../common/components/Typography';
+import Loading from '../../common/components/Loading';
 
 
 export default inject('uiStore', 'localeService')(observer(UserInfoPage));
 
 function UserInfoPage({ uiStore, localeService }) {
 
+    const [error, setError] = useState(false);
+
     const { userModel, openModal } = uiStore;
+
+    if (!userModel.editInfo) {
+        return <Loading/>
+    }
 
     const {
         editInfo: {
@@ -26,9 +33,6 @@ function UserInfoPage({ uiStore, localeService }) {
         user: { user_email },
         error: { generalInfo, contactInfo, mainInfo }, setField, saveData
     } = userModel;
-
-    const [error, setError] = useState(false);
-
 
     async function onSave() {
         try {
@@ -56,31 +60,33 @@ function UserInfoPage({ uiStore, localeService }) {
     }
 
     return <>
-        <ContentTitle>
-            Личная информация
-            {mainInfo && <ErrorMessage>{mainInfo}</ErrorMessage>}
-        </ContentTitle>
+        <DefaultContainer>
+            <MainSubtitle>
+                Личная информация
+                {mainInfo && <ErrorMessage>{mainInfo}</ErrorMessage>}
+            </MainSubtitle>
+        </DefaultContainer>
 
         <UserMainInfoLayout>
 
-            <div className='name-info-subblock'>
-                <p className='name-info-text'>Фамилия*</p>
+            <div>
+                <RegularTitle>Фамилия*</RegularTitle>
                 <Input
                     className='input-reg'
                     value={user_surname}
                     onChange={e => setField('user_surname')(e.target.value)}/>
             </div>
 
-            <div className='name-info-subblock'>
-                <p className='name-info-text'>Имя*</p>
+            <div>
+                <RegularTitle>Имя*</RegularTitle>
                 <Input
                     className='input-reg'
                     value={user_name}
                     onChange={e => setField('user_name')(e.target.value)}/>
             </div>
 
-            <div className='name-info-subblock'>
-                <p className='name-info-text'>E-mail*</p>
+            <div>
+                <RegularTitle>E-mail*</RegularTitle>
                 <Input
                     className='input-reg'
                     value={user_email}
@@ -90,41 +96,36 @@ function UserInfoPage({ uiStore, localeService }) {
 
         </UserMainInfoLayout>
 
-        <PageSubtitle>Предпочитаемый способ связи
-            <p className='subtext-new'>Необходимо указать хотя бы один дополнительный способ связи</p>
-            {contactInfo && <ErrorMessage>{contactInfo}</ErrorMessage>}
-        </PageSubtitle>
+        <DefaultContainer>
+            <Subtitle>
+                Предпочитаемый способ связи
+                {contactInfo && <ErrorMessage>{contactInfo}</ErrorMessage>}
+            </Subtitle>
+        </DefaultContainer>
 
-        <UserContactsLayout>
-
+        <Contact3Grid>
             <UserContactFields
                 onChangeField={setField}
                 contactFields={contacts_info}
                 showMoreButton
             />
+        </Contact3Grid>
 
-        </UserContactsLayout>
-
-        <PageSubtitle>Общие данные
-            {generalInfo && <ErrorMessage>{generalInfo}</ErrorMessage>}
-        </PageSubtitle>
-
-        <GeneralInfoLayout>
-
-            <GeneralInformationFields
-                onChangeField={setField}
-                birthday={birthday}
-                avatar={avatar}
-            />
-
-        </GeneralInfoLayout>
+        <GeneralInformationFields
+            onChange={setField}
+            error={generalInfo}
+            birthday={birthday}
+            avatar={avatar}
+        />
 
         <ButtonLayout>
             {error && <ErrorMessage>{localeService.getByKey('invalid_data')}</ErrorMessage>}
 
             <CommonButton
                 onClick={onSave}
-            >Сохранить</CommonButton>
+            >
+                Сохранить
+            </CommonButton>
         </ButtonLayout>
     </>
 }
@@ -135,7 +136,7 @@ const UserMainInfoLayout = styled.div`
     align-items: baseline;
     align-content: center;
     flex-wrap: wrap;
-    column-gap: 30px;
+    column-gap: 1.5rem;
 
     > * {
         flex: 1 1 30%;
@@ -143,28 +144,9 @@ const UserMainInfoLayout = styled.div`
     }
 `;
 
-const UserContactsLayout = styled.div`
-    display: grid;
-    grid-template-columns: max-content;
-    grid-row-gap: 40px;
-`;
-
-const GeneralInfoLayout = styled.div`
-    display: grid;
-    width: 100%;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    justify-items: center;
-    align-items: center;
-
-    > img {
-        max-width: 300px;
-    }
-`;
-
 const ButtonLayout = styled(Centerer)`
-    margin-top: 50px;
+    margin-block: 2.5rem;
 
     flex-direction: column;
-    row-gap: 20px;
+    row-gap: 1rem;
 `;

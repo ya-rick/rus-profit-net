@@ -10,6 +10,7 @@ import { ModalVariants } from '../../consts';
 import { requestWithParams } from '../../../api/exchangeLayer';
 import ProfileFooter, { ProfileFooterLayout } from './ProfileFooter';
 import ProfileHeaderOptions from './ProfileHeaderOptions';
+import { forDevice } from '../../commonAdaptiveStyles';
 
 
 export default inject('searchStore', 'uiStore', 'createEditStore', 'localeService')(observer(ResultCard));
@@ -127,6 +128,7 @@ function ResultCard({
             onClick={onClickWrapper}
             disabled={disabled}
             withImage={withImageBlock}
+            isInProfile={userProfileInfo}
         >
             <CardInfosLayout withImage={withImageBlock}>
                 {withImageBlock && <CardImageBlock>
@@ -145,7 +147,10 @@ function ResultCard({
                     <CardHeader>
                         <CardTitle>
                             {isResume ? name : category.name}
-                            {!isResume && <CardCountryBlock>{places[0]?.country_name}{places[0]?.cities?.length > 0 && ': '}{places[0]?.cities?.map(city => city.name).join(', ')}</CardCountryBlock>}
+                            {!isResume && places.length > 0 && <CardCountryBlock>
+                                {places[0].country_name}
+                                {places[0].cities.length > 0 && `: ${places[0].cities.map(city => city.name).join(', ')}`}
+                            </CardCountryBlock>}
                         </CardTitle>
                         {isUserAuthenticated && !userProfileInfo && <FavouriteIcon
                             iconName={'favourite'}
@@ -193,17 +198,17 @@ function ResultCard({
 };
 
 const CardWrapper = styled.div`
+    font-size: ${props => props.isInProfile ? '.75rem' : '1rem'};
     padding: 4%${props => props.withImage && '5%'};
-    border-radius: 15px;
     background-color: #F7FBFC;
-    margin-bottom: 30px;
-
+    margin-bottom: 1.5rem;
+    
     > :last-child {
         margin-bottom: 0;
     }
-
+    
     ${props => props.disabled && css`
-
+    
         ${CardInfosLayout} > *, ${ProfileFooterLayout}, ${CardTitle} {
             > *:not(${CardHeader}) {
                 filter: opacity(0.5);
@@ -212,22 +217,22 @@ const CardWrapper = styled.div`
             }
         }
     `};
-
+    
     :hover {
         box-shadow: 4px 4px 10px #4C5E8B;
     }
+
+    ${props => props.theme.smallBorderRadius};
 `;
 
 const CardInfosLayout = styled.div`
-    display: grid;
-    grid-template-columns: ${props => props.withImage && '1fr'} 2fr;
-    align-items: start;
+    gap: 2rem;
 
-    gap: 40px;
-
-    @media (max-width: 720px) {
-        display: block;
-    }
+    ${forDevice.M(css`
+        display: grid;
+        grid-template-columns: ${props => props.withImage && '1fr'} 2fr;
+        align-items: start;
+    `)}
 `;
 
 const CardImageBlock = styled.div`
@@ -237,7 +242,7 @@ const CardImageBlock = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    gap: 20px;
+    gap: 1rem;
 `;
 
 const FavouriteIcon = styled(Icon)`
@@ -269,10 +274,10 @@ const CardInfoBlock = styled.div`
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
-    font-size: ${props => props.smallerFont ? '25px' : '30px'};
+    font-size: ${props => props.smallerFont ? '1.5rem' : '2rem'};
 
     > * {
-        margin-bottom: 20px;
+        margin-bottom: 1rem;
     }
 
     > *:last-child {
@@ -285,10 +290,11 @@ const CardInfoBlock = styled.div`
 const CardHeader = styled.div`
     display: flex;
     align-items: center;
-    align-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
 
     > * {
-        margin-right: 40px;
+        margin-right: 2rem;
     }
 
     > *:last-child {
@@ -313,23 +319,20 @@ const CardSubtitle = styled.div`
 
 const CardOptionalInfoBlock = styled.div`
     display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
 
     > div {
-        margin-inline-start: 100px;
-        font-size: .6em;
-    }
-
-    > div:first-child {
-        margin-inline-start: 0;
+        font-size: .7em;
     }
 `;
 
 const CardDescrption = styled.div`
-    border-radius: 15px;
-    padding: 20px;
+    padding: 1rem;
     font-size: .6em;
     border: 1px solid #6F80A5;
     max-height: calc(23px * 10);
     word-break: break-all;
     overflow-y: auto;
+    ${props => props.theme.smallBorderRadius};
 `;

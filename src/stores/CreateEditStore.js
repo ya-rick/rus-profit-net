@@ -102,7 +102,7 @@ export default class CreateEditStore {
         this.currentTemplate.validateDescriptionBlock(this.setError('descriptionBlock'));
         this.currentTemplate.validateCategory(this.setError('targetedInfo'));
 
-        if (this.currentAction === 'vacancy') {
+        if (this.currentAction === ACTIONS.CREATE_VACANCY) {
             this.currentTemplate.validateName(this.setError('targetedInfo'));
         }
 

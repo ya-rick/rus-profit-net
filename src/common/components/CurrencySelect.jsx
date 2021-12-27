@@ -4,8 +4,9 @@ import { requestWithParams } from '../../api/exchangeLayer';
 import { useToggle } from '../hooks';
 import OutsideClickWrapper from './OutsideClickWrapper';
 import { ArrowDown } from './select';
+import { AdditionalText } from './Typography';
 
-export default function CurrencySelect({ onChange, current }) {
+export default function CurrencySelect({ onChange, current, ...rest }) {
     const [currencies, setCurrencies] = useState([]);
     const [isOpen, toggleOpen] = useToggle(false);
 
@@ -30,33 +31,37 @@ export default function CurrencySelect({ onChange, current }) {
         }
     }
 
-    return <OutsideClickWrapper onOutsideClickHandler={() => toggleOpen(false)}>
-        {elRef => <CurrencySelectWrapper ref={elRef}>
-            <CurrencySelectHeader onClick={() => toggleOpen()}>
-                {currencies.find(currency => currency.id === current)?.value}
-                <ArrowDown isInverted={isOpen}/> 
-            </CurrencySelectHeader>
+    return (
+        <div {...rest}>
+            <OutsideClickWrapper onOutsideClickHandler={() => toggleOpen(false)}>
+                {elRef => <CurrencySelectWrapper ref={elRef}>
+                    <CurrencySelectHeader onClick={() => toggleOpen()}>
+                        {currencies.find(currency => currency.id === current)?.value}
+                        <ArrowDown isInverted={isOpen}/> 
+                    </CurrencySelectHeader>
 
 
-            {isOpen && <CurrencySelectDropdown>
-                {currencies.map(currency => <CurrencySelectDropdownItem 
-                    key={currency.id}
-                    onClick={onItemClick(currency)}
-                >
-                    {currency.value}
-                </CurrencySelectDropdownItem>)}
-            </CurrencySelectDropdown>}
-            
-        </CurrencySelectWrapper>}
-    </OutsideClickWrapper>
+                    {isOpen && <CurrencySelectDropdown>
+                        {currencies.map(currency => <CurrencySelectDropdownItem 
+                            key={currency.id}
+                            onClick={onItemClick(currency)}
+                        >
+                            {currency.value}
+                        </CurrencySelectDropdownItem>)}
+                    </CurrencySelectDropdown>}
+                    
+                </CurrencySelectWrapper>}
+            </OutsideClickWrapper>
+        </div>
+    );
 }
 
 const CurrencySelectWrapper = styled.div`
     position: relative;
 
-    width: 50px;
+    width: 40px;
     color: #6F80A5;
-    padding: 0 0.5em;
+    padding-inline-end: .25rem;
     
     cursor: pointer;
 `;
@@ -77,11 +82,11 @@ const CurrencySelectDropdown = styled.div`
     max-height: 100px;
     transform: translateX(-50%);
     border: 2px solid #6F80A5;
-    border-radius: 15px;
+
+    ${props => props.theme.smallBorderRadius};
 `;
 
-const CurrencySelectDropdownItem = styled.div`
+const CurrencySelectDropdownItem = styled(AdditionalText)`
     background: #FFFFFF;
     text-align: center;
-    font-size: 13px;
 `;

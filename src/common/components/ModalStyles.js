@@ -2,20 +2,22 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 import Icon from './Icon';
+import { MainSubtitle, Subtitle } from './Typography';
+import HeaderButton from '../../components/header/headerButton';
 
 
 export const ModalContainer = styled.div`
     position: relative;
     background-color: #f1f3f6;
-    border-radius: 15px;
     overflow: auto;
     overflow-x: hidden;
+
+    ${props => props.theme.smallBorderRadius}
 `;
 
 export const ModalLayout = styled.div`
     margin-right: -15px;
     padding: 3em;
-    min-width: 500px;
     max-height: 70vh;
     overflow-y: scroll;
 `;
@@ -35,8 +37,10 @@ export const ModalContent = styled.div`
 
 export const ModalLink = styled(Link)`
     display: block;
+
     margin-top: 15px;
-    font-size: 15px;
+    font-size: .75rem;
+    
     color: #4C5E8B;
     text-decoration: underline;
 `;
@@ -48,20 +52,16 @@ export const ModalButtonWapper = styled.div`
     margin-block-start: 20px;
 `;
 
-export const ModalTitle = styled.h2`
+export const ModalTitle = styled(MainSubtitle)`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-size: 30px;
-    font-weight: 600;
 `;
 
-export const ModalSubtitle = styled.h2`
+export const ModalSubtitle = styled(Subtitle)`
     position: relative;
 
-    font-size: 22px;
     margin-block: 20px;
-    font-weight: 500;
 `;
 
 export const ReplacedIcon = styled(Icon)`
@@ -69,4 +69,8 @@ export const ReplacedIcon = styled(Icon)`
 
     right: 20px;
     top: 20px;
+`;
+
+export const ModalButton = styled(HeaderButton)`
+    ${props => props.theme.smallBorderRadius}
 `;

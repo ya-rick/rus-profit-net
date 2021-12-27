@@ -1,82 +1,37 @@
+html {
+    font-size: 20px;
+}
+
+html * {
+    font-weight: 400;
+    font-family: 'Raleway', sans-serif;
+    box-sizing: border-box;
+}
+
+@media (max-width: 1080px) {
+    html {
+        font-size: 19px;
+    }
+}
+
+@media (max-width: 640px) {
+    html {
+        font-size: 18px;
+    }
+}
+
 html, body, #root {
-    height: 100%;
+    min-height: 100%;
     padding: 0;
     margin: 0;
     background: #f1f3f6;
 }
 
-* :focus{
-    outline: none;
-}
-
-* {
-    font-family: 'Raleway', sans-serif;
-    font-style: normal;
-    font-weight: 400;
-}
-
-*, *::after, *::after {
-    box-sizing: border-box;
-}
-
-a {
-    font-style: normal;
-    font-weight: normal;
-    font-size: 16px;
+button, a, a:visited, a:active {
     text-decoration: none;
-    color: #000000;
-}
-
-body * {
-    font-family: 'Raleway', sans-serif;
-}
-
-a:hover, a:active {
-    text-decoration: none;
-    color: #000000;
-}
-
-.subtext-new {
-    margin-top: 10px;
-    font-weight: normal;
-    font-size: 13px;
-    text-align: left;
-
-    color: #4C5E8B;
-}
-
-.button-group {
-    display: flex;
-}
-
-.wrap-box {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.input-number {
-    width: 70px !important;
-    text-align: center;
-}
-
-@media (min-width: 1580px) {
-    .container {
-        width: 1320px;
-    }
-}
-
-@media (max-width: 600px) {
+    color: black;
+    border: none;
+    background-color: transparent;
     
-    .linked-button-group {
-        flex-direction: column;
-    }
-
-    .linked-button-group > a {
-        text-align: center;
-    }
-
-}
-
-.register-title {
-    
+    cursor: pointer;
 }

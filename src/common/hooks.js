@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useState } from 'react'
 
 import { requestWithParams } from '../api/exchangeLayer';
 import LocaleService from '../api/LocaleService';
@@ -88,4 +88,54 @@ export function useMetaTags(props) {
         })
 
     }, [props]);
+}
+
+export const breakPoints = {
+    // < 640
+    S: 'S',
+    // >= 640
+    M: 'M',
+    // >= 1080
+    L: 'L',
+    // >= 1580
+    XL: 'XL',
+}
+const sizeMapping = {
+    [breakPoints.S]: 320,
+    [breakPoints.M]: 640,
+    [breakPoints.L]: 1080,
+    [breakPoints.XL]: 1580,
+}
+export function useImperativeBreakPoint() {
+    function getBreakPointByWidth(currentWidth) {
+        if (currentWidth >= 1580) return breakPoints.XL;
+        if (currentWidth >= 1080) return breakPoints.L;
+        if (currentWidth >= 640) return breakPoints.M;
+        
+        return breakPoints.S;
+    }
+    
+    const [currentBreakPoint, setCurrentBreakPoint] = useState(() => getBreakPointByWidth(window.innerWidth));
+
+    console.log(currentBreakPoint)
+
+    function isCurrentMoreOrEqualThan(necessaryBreakPoint) {
+        return sizeMapping[currentBreakPoint] >= sizeMapping[necessaryBreakPoint];
+    }
+    
+    useEffect(() => {
+        function resizeHandler() {
+            const newBreakPoint = getBreakPointByWidth(window.innerWidth);
+
+            if (currentBreakPoint !== newBreakPoint) {
+                setCurrentBreakPoint(newBreakPoint);
+            }
+        }
+
+        window.addEventListener('resize', resizeHandler);
+
+        return () => window.removeEventListener('resize', resizeHandler);
+    });
+
+    return { currentBreakPoint, isCurrentMoreOrEqualThan };
 }

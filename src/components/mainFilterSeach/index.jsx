@@ -4,19 +4,18 @@ import { inject, observer } from 'mobx-react';
 import { autorun } from 'mobx';
 import styled from 'styled-components';
 
-import './mainFilterSearch.css';
-
-import Select from '../../common/components/select';
-import MenuButtonsDocs from '../menuButtonsDocs';
+import MenuButtonsDocs from '../AdditionalParams';
 import { CommonButton } from '../../common/components/Buttons';
-import { AdaptiveGrid, Centerer, PageContentWrapper } from '../../common/components/Layouts';
+import { AdaptiveGrid, Centerer, MainContainer } from '../../common/components/Layouts';
 import AgeChooser from '../../common/components/AgeChooser';
 import WorkExperience from '../../common/components/WorkExperience';
 import SuggestSalary from '../../common/components/SuggestSalary';
-import { SearchableMultiSelect } from '../nameContact/searchableMultiSelect';
+import { SearchableMultiSelect } from '../register/nameContact/searchableMultiSelect';
 import ErrorMessage from '../../common/components/ErrorMessage';
 import { useCategoryFilters } from '../../common/hooks';
 import { ModalVariants } from '../../common/consts';
+import WorkSearchSelect from '../../common/components/WorkSearchSelect';
+import { TwoLinkedButtonGroup } from '../../common/components/StaticPagesStyles';
 
 
 function MainFilterSearch({
@@ -129,118 +128,109 @@ function MainFilterSearch({
     }
 
     return (
-            <Wrapper>
-                <AdaptiveGrid cols={isSearchWorker ? 3 : 4}>
-                    <VerticalPlacesBlock
-                        ref={el => setScrollToEl(el)}
-                    >
-                        <div className='name-info-subblock'>
-                            <p>Выберите страну*</p>
-                            <SearchableMultiSelect
-                                onTagClick={(tag) => onChangeActiveEditableCountry(tag)}
-                                onTagDelete={(tag) => onChangeCountries(tag, 'delete')}
-                                chosenOptions={chosenCountries}
-                                requestType={'get_countries'}
-                                isCountry={true}
-                                onItemSelected={(tag) => onChangeCountries(tag, 'add')}
-                                editableCountryID={currentEditCountry?.id}
-                                emptyCaseMessage={'Все страны'}
-                            />
-                        </div>
-
-                        <div className='name-info-subblock'>
-                            <p>Выберите город</p>
-                            <SearchableMultiSelect
-                                onTagClick={() => {}}
-                                onTagDelete={(tag) => onChangeCities(tag, 'delete')}
-                                chosenOptions={chosenCities}
-                                requestType={'get_cities'}
-                                isCountry={false}
-                                onItemSelected={(tag) => onChangeCities(tag, 'add')}
-                                editableCountryID={currentEditCountry?.id}
-                                emptyCaseMessage={'Все города по выбранным странам'}
-                            />
-                        </div>
-                    </VerticalPlacesBlock>
+        <Wrapper>
+            <AdaptiveGrid isBigger={!isSearchWorker}>
                 
-                    <div>
-                        <div className='main-filter-search-subBlock'>
-                            <p>{!isSearchWorker ? 'Кого вы ищете?'
-                                : 'Вакансия'}</p>
-                            {categories && <Select
-                                onItemClickCallback={onChangeCategory}
-                                current={category.id}
-                            >
-                                {categories}
-                            </Select>}
-                        </div>
-                        <SuggestSalary
-                            onSelectChanged={setField('salary_type')}
-                            onSalaryChanged={setField('salary')}
-                            onCurrencyChanged={setField('currency')}
-                            salary={salary}
-                            currencyID={currency}
-                            salaryTypeID={salary_type}
-                        />
-                    </div>
+                <SearchableMultiSelect
+                    onTagClick={(tag) => onChangeActiveEditableCountry(tag)}
+                    onTagDelete={(tag) => onChangeCountries(tag, 'delete')}
+                    chosenOptions={chosenCountries}
+                    isCountry={true}
+                    onItemSelected={(tag) => onChangeCountries(tag, 'add')}
+                    editableCountryID={currentEditCountry?.id}
+                    emptyCaseMessage={'Все страны'}
+                    title={'Выберите страну'}
 
-                    <WorkExperience
-                        min={0}
-                        max={10}
-                        onChange={setField('experience')}
-                        value={experience}
-                    />
+                    style={{ gridArea: 'country' }}
+                />
 
-                    {!isSearchWorker && <AgeChooser
-                        min={18}
-                        max={60}
-                        currentMinValue={years_with}
-                        currentMaxValue={years_to}
-                        onChangeMin={setField('years_with')}
-                        onChangeMax={setField('years_to')}
-                    />}
-                </AdaptiveGrid>
+                <SearchableMultiSelect
+                    onTagClick={() => {}}
+                    onTagDelete={(tag) => onChangeCities(tag, 'delete')}
+                    chosenOptions={chosenCities}
+                    isCountry={false}
+                    onItemSelected={(tag) => onChangeCities(tag, 'add')}
+                    editableCountryID={currentEditCountry?.id}
+                    emptyCaseMessage={'Все города'}
+                    title={'Выберите город'}
 
-                {filtersByCategory && <>
-                    {categories_and.length > 0 && <MenuButtonsDocs
-                        categories={categories_and}
-                        selectedParameters={result_cat}
-                        onCheckChanged={setField('result_cat')}
-                        title={'Заголовок 1 (AND)'}
-                    />}
+                    style={{ gridArea: 'city' }}
+                />
+            
+                <WorkSearchSelect
+                    categories={categories}
+                    currentCategoryId={category.id}
+                    isSearchWorker={isSearchWorker}
+                    onChange={onChangeCategory}
 
-                    {categories_or.length > 0 && <MenuButtonsDocs
-                        categories={categories_or}
-                        selectedParameters={result_cat}
-                        onCheckChanged={setField('result_cat')}
-                        title={'Заголовок 2 (OR)'}
-                    />}
-                </>}
+                    style={{ gridArea: 'search' }}
+                />
 
-                {noFullInfo && <ErrorMessage>{noFullInfo}</ErrorMessage>}
+                <SuggestSalary
+                    onSelectChanged={setField('salary_type')}
+                    onSalaryChanged={setField('salary')}
+                    onCurrencyChanged={setField('currency')}
+                    salary={salary}
+                    currencyID={currency}
+                    salaryTypeID={salary_type}
 
-                <VerticalCenterer>
-                    <CommonButton
-                        onClick={makeSearch}
-                    >
-                        Подобрать {isSearchWorker ? 'вакансии' : 'анкеты'}
-                    </CommonButton>
-                </VerticalCenterer>
-            </Wrapper>
-        );
+                    style={{ gridArea: 'salary' }}
+                />
+
+                <WorkExperience
+                    min={0}
+                    max={10}
+                    onChange={setField('experience')}
+                    value={experience}
+
+                    style={{ gridArea: 'experience' }}
+                />
+
+                {!isSearchWorker && <AgeChooser
+                    min={18}
+                    max={60}
+                    currentMinValue={years_with}
+                    currentMaxValue={years_to}
+                    onChangeMin={setField('years_with')}
+                    onChangeMax={setField('years_to')}
+
+                    style={{ gridArea: 'age' }}
+                />}
+            </AdaptiveGrid>
+
+            {filtersByCategory && <>
+                {categories_and.length > 0 && <MenuButtonsDocs
+                    categories={categories_and}
+                    selectedParameters={result_cat}
+                    onCheckChanged={setField('result_cat')}
+                    title={'Заголовок 1 (AND)'}
+                />}
+
+                {categories_or.length > 0 && <MenuButtonsDocs
+                    categories={categories_or}
+                    selectedParameters={result_cat}
+                    onCheckChanged={setField('result_cat')}
+                    title={'Заголовок 2 (OR)'}
+                />}
+            </>}
+
+            {noFullInfo && <ErrorMessage>{noFullInfo}</ErrorMessage>}
+
+            <TwoLinkedButtonGroup>
+                <CommonButton
+                    onClick={makeSearch}
+                >
+                    Подобрать {isSearchWorker ? 'вакансии' : 'анкеты'}
+                </CommonButton>
+            </TwoLinkedButtonGroup>
+        </Wrapper>
+    );
 };
 
 export default inject('registrationStore', 'searchStore', 'uiStore', 'localeService')(observer(MainFilterSearch));
 
-const Wrapper = styled(PageContentWrapper)`
+const Wrapper = styled(MainContainer)`
     display: grid;
-    row-gap: 40px;
-`;
-
-const VerticalCenterer = styled(Centerer)`
-    flex-direction: column;
-`;
-
-const VerticalPlacesBlock = styled(VerticalCenterer)`
-    align-items: stretch;
+    row-gap: 2rem;
+    width: 100%;
 `;

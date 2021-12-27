@@ -2,12 +2,14 @@ import { observer, inject } from 'mobx-react';
 import { useState } from 'react';
 import styled from 'styled-components';
 
-import { ContentTitle } from '.';
 import { requestWithParams } from '../../api/exchangeLayer';
 import { CommonButton } from '../../common/components/Buttons';
 import ErrorMessage from '../../common/components/ErrorMessage';
+import { DefaultContainer } from '../../common/components/Layouts';
 import PasswordInput from '../../common/components/PasswordInput';
+import { MainSubtitle, RegularTitle } from '../../common/components/Typography';
 import { ModalVariants } from '../../common/consts';
+import { TwoLinkedButtonGroup } from '../../common/components/StaticPagesStyles';
 
 
 export default inject('uiStore', 'localeService')(observer(PasswordChangePage));
@@ -61,28 +63,30 @@ function PasswordChangePage({ uiStore, localeService }) {
     }
 
     return <>
-        <ContentTitle>
-            Смена пароля
-            {error && <ErrorMessage>{error}</ErrorMessage>}
-        </ContentTitle>
+        <DefaultContainer>
+            <MainSubtitle>
+                Смена пароля
+                {error && <ErrorMessage>{error}</ErrorMessage>}
+            </MainSubtitle>
+        </DefaultContainer>
 
         <PasswordsLayout>
             <div>
-                <p className='name-info-text'>Старый пароль</p>
+                <RegularTitle>Старый пароль</RegularTitle>
                 <PasswordInput
                     className='input-reg'
                     value={passwords.old_password}
                     onChange={onChangePaswords('old_password')}/>
             </div>
             <div>
-                <p className='name-info-text'>Новый пароль</p>
+                <RegularTitle>Новый пароль</RegularTitle>
                 <PasswordInput
                     className='input-reg'
                     value={passwords.new_password}
                     onChange={onChangePaswords('new_password')}/>
             </div>
             <div>
-                <p className='name-info-text'>Подтвердите пароль</p>
+                <RegularTitle>Подтвердите пароль</RegularTitle>
                 <PasswordInput
                     className='input-reg'
                     value={passwords.password_confirm}
@@ -90,10 +94,13 @@ function PasswordChangePage({ uiStore, localeService }) {
             </div>
         </PasswordsLayout>
 
-        <CommonButton
-            style={{ margin: '20px auto 0' }}
-            onClick={sendPasswords}
-        >Подтвердить</CommonButton>
+        <TwoLinkedButtonGroup>
+            <CommonButton
+                onClick={sendPasswords}
+            >
+                Подтвердить
+            </CommonButton>
+        </TwoLinkedButtonGroup>
     </>
 }
 

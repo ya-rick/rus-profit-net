@@ -4,6 +4,7 @@
   border-radius: 20px ;
   font-family: Raleway, sans-serif;
   width: 300px;
+  height: 300px;
 }
 .react-calendar--doubleView {
   width: 700px;
@@ -25,7 +26,6 @@
 .react-calendar button {
   margin: 0;
   border: 0;
-  outline: none;
 }
 .react-calendar button:enabled:hover {
   cursor: pointer;

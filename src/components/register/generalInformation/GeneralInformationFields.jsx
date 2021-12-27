@@ -1,17 +1,18 @@
 import { observer, inject } from 'mobx-react';
 import Calendar from 'react-calendar';
 
-import './generalInformation.css';
 import './Calendar.css';
 import Avatar from '../../../images/avatar.png';
 
-import { Image, InfoWrapper } from './styles';
+import { Description, Image, InfoWrapper } from './styles';
 import { ModalVariants } from '../../../common/consts';
+import { CommonText, RegularTitle } from '../../../common/components/Typography';
+import styled from 'styled-components';
 
 
 export default inject('uiStore', 'localeService')(observer(GeneralInformation));
 
-function GeneralInformation({ uiStore, birthday, onChangeField, avatar, localeService }) {
+function GeneralInformation({ uiStore, birthday, onChange, avatar, localeService }) {
     const formats = ['image/jpeg', 'image/png'];
 
     function changeDate(date) {
@@ -19,7 +20,7 @@ function GeneralInformation({ uiStore, birthday, onChangeField, avatar, localeSe
 
         const formatedDate = dateObj.getUTCFullYear() + '-' + (dateObj.getMonth() + 1) + '-' + dateObj.getDate();
 
-        onChangeField('birthday')(formatedDate);
+        onChange('birthday')(formatedDate);
     }
 
     function choosePhoto(e) {
@@ -47,7 +48,7 @@ function GeneralInformation({ uiStore, birthday, onChangeField, avatar, localeSe
         reader.onloadend = () => {
             uiStore.openModal(ModalVariants.RedImg, {
                 photo: reader.result,
-                onSuccessCallback: onChangeField('avatar')
+                onSuccessCallback: onChange('avatar')
             });
         };
 
@@ -63,7 +64,7 @@ function GeneralInformation({ uiStore, birthday, onChangeField, avatar, localeSe
     return (
         <>
             <div>
-                <p>Ваша фотография</p>
+                <RegularTitle>Ваша фотография</RegularTitle>
                 <Image
                     src={avatar ? typeof avatar === 'string' ? avatar : URL.createObjectURL(avatar) : Avatar}
                     alt='avatar'
@@ -74,25 +75,25 @@ function GeneralInformation({ uiStore, birthday, onChangeField, avatar, localeSe
             <InfoWrapper>
                 <input
                     id='in'
-                    className='reg-dwn-img'
                     type='file'
                     style={myStyle}
                     onClick={e => e.target.value = null}
                     onChange={choosePhoto}
                 />
 
-                <label
-                    for='in'
-                    className='reg-dwn-img'
-                >
-                    {avatar ? 'Изменить фотографию' : 'Добавьте фотографию'}
-                </label>
+                <WithBackgroundWrapper>
+                    <label
+                        for='in'
+                    >
+                        {avatar ? 'Изменить фотографию' : 'Добавьте фотографию'}
+                    </label>
+                </WithBackgroundWrapper>
 
-                <p className='reg-subtext'>Размер файла не более 5 Мб.<br/>Поддерживаемые форматы png и jpeg</p>
+                <Description>Размер файла не более 5 Мб.<br/>Поддерживаемые форматы png и jpeg</Description>
             </InfoWrapper>
 
             <div>
-                <p>Дата рождения</p>
+                <RegularTitle>Дата рождения</RegularTitle>
             <Calendar
                 onChange={changeDate}
                 value={birthday ? new Date(birthday) : new Date()}
@@ -100,8 +101,18 @@ function GeneralInformation({ uiStore, birthday, onChangeField, avatar, localeSe
             </div>
 
             <InfoWrapper>
-                <p for='in' className='reg-dwn-img'>{birthday?.split('-').reverse().map(value => value.padStart(2, '0')).join('-') || 'Дата рождения*'}</p>
+                <WithBackgroundWrapper>
+                    <CommonText for='in'>{birthday?.split('-').reverse().map(value => value.padStart(2, '0')).join('-') || 'Дата рождения*'}</CommonText>
+                </WithBackgroundWrapper>
             </InfoWrapper>
         </>
     );
 };
+
+const WithBackgroundWrapper = styled.div`
+    background: #F7FBFC;
+    padding: .5rem 1rem;
+    text-align: center;
+
+    ${props => props.theme.smallBorderRadius}
+`;

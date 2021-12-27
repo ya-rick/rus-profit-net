@@ -1,9 +1,10 @@
 import { inject, observer } from 'mobx-react';
 import { Redirect } from 'react-router-dom';
+import { DefaultContainer } from '../../common/components/Layouts';
+import { MainSubtitle } from '../../common/components/Typography';
 
 import { ACTIONS } from '../../stores/CreateEditStore';
-import RegisterVacancy from '../registerVacancies';
-import { ContentTitle } from '../userProfile';
+import TargetInformation from '../register/targetInformation';
 
 
 export default inject('createEditStore')(observer(function CreateEditSearch({
@@ -17,9 +18,15 @@ export default inject('createEditStore')(observer(function CreateEditSearch({
     if (!currentAction) return <Redirect to={'/profile/userInfo'}/>
 
     return <>
-        <ContentTitle>{currentAction === ACTIONS.UPDATE ? 'Редактирование' : 'Создание'} {createEditStore.isResume ? 'анкеты' : 'вакансии'}</ContentTitle>
+        <DefaultContainer>
+            <MainSubtitle>
+                {`${currentAction === ACTIONS.UPDATE ?
+                    'Редактирование' : 'Создание'} ${createEditStore.isResume ?
+                        'анкеты' : 'вакансии'}`}
+            </MainSubtitle>
+        </DefaultContainer>
 
-        <RegisterVacancy
+        <TargetInformation
             onFieldChange={setField}
             fields={currentTemplate}
             error={error}

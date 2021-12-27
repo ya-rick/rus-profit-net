@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { PageContentWrapper } from './Layouts';
+import { MainContainer } from './Layouts';
+import { MainTitle } from './Typography';
 
 
 export const Wrapper = styled.div`
@@ -9,7 +10,7 @@ export const Wrapper = styled.div`
     background-clip: border-box;
  `;
 
-export const Layout = styled(PageContentWrapper)`
+export const Layout = styled(MainContainer)`
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -17,15 +18,12 @@ export const Layout = styled(PageContentWrapper)`
     height: 100%;
 `;
 
-export const Title = styled.h2`
+export const Title = styled(MainTitle)`
+    border-radius: 1rem;
     background: #F7FBFC;
-    border-radius: 20px;
-    font-size: 2em;
-    font-weight: 600;
-    text-align: center;
     padding-block: 2em;
-    margin-block: 0;
     opacity: 0.9;
+    text-align: center;
 `;
 
 export const Numberedtitle = styled(Title)`
@@ -34,14 +32,4 @@ export const Numberedtitle = styled(Title)`
     text-shadow: 6px 6px 10px rgba(0, 0, 0, 0.8);
     background-color: transparent;
     padding-block: 0;
-`;
-
-export const ButtonGroup = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    gap: 50px;
-
-    > * {
-        margin: 0 auto;
-    }
 `;
