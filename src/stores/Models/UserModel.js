@@ -1,4 +1,4 @@
-import { action, flow, makeAutoObservable } from 'mobx';
+import { action, flow, makeAutoObservable, runInAction } from 'mobx';
 
 import { requestWithFormData, requestWithParams } from '../../api/exchangeLayer';
 import CommonInfoContract from './Contracts/CommonInfoContract';
@@ -97,13 +97,15 @@ export default class UserModel {
 
     async getUserData() {
         try {
-            this.user = new UserContract(await requestWithParams('getUserData'));
+            const userFromServerInfo = await requestWithParams('getUserData');
 
-            // this.user = new UserContract({
-            //     user_name: 'testing only'
-            // })
-
-            this.editInfo = CommonInfoContract.fromServerContract(this.user);
+            runInAction(() => {
+                this.user = new UserContract(userFromServerInfo);
+                this.editInfo = CommonInfoContract.fromServerContract(this.user);
+                // this.user = new UserContract({
+                //     user_name: 'testing only'
+                // })
+            });
         } catch(e) {
             console.error(e)
 
