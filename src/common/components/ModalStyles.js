@@ -19,7 +19,7 @@ export const ModalLayout = styled.div`
     margin-right: -15px;
     padding: 3em;
     max-height: 70vh;
-    max-width: 600px;
+    max-width: 1080px;
     overflow-y: scroll;
 `;
 

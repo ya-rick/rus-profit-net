@@ -1,8 +1,8 @@
 import { observer } from 'mobx-react';
 import styled from 'styled-components';
 
-import { SecondaryButton } from '../Buttons';
-import Icon from '../Icon';
+import { SecondaryButton } from '../../../common/components/Buttons';
+import Icon from '../../../common/components/Icon';
 
 
 export default observer(function ProfileHeaderOptions({

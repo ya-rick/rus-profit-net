@@ -1,11 +1,11 @@
 import { observer } from 'mobx-react';
 import { useHistory } from 'react-router-dom';
 import styled, { css } from 'styled-components';
-import { forDevice } from '../../commonAdaptiveStyles';
-import { useImperativeBreakPoint } from '../../hooks';
+import { forDevice } from '../../../common/commonAdaptiveStyles';
+import { useImperativeBreakPoint } from '../../../common/hooks';
 
-import { SecondaryButton } from '../Buttons';
-import Icon from '../Icon';
+import { SecondaryButton } from '../../../common/components/Buttons';
+import Icon from '../../../common/components/Icon';
 
 
 export default observer(function ProfileFooter({

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { observer } from 'mobx-react';
 import { useHistory } from 'react-router-dom';
 
-import ResultCard from '../../common/components/ResultCard';
+import ResultCard from './ResultCard';
 import { MainTitle } from '../../common/components/Typography';
 import Loading from '../../common/components/Loading';
 import { SearchResultsFavourites, SearchResultsFromSearchStore, SearchResultsFromUserProfile, SearchResultsViews } from '../../common/HOCs';

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
-import { forDevice } from '../../../common/commonAdaptiveStyles';
-import Icon from '../../../common/components/Icon';
+
+import { forDevice } from '../../../../common/commonAdaptiveStyles';
+import Icon from '../../../../common/components/Icon';
 
 
 const HandsLike = ({ currentMark, onHandClick }) => {

@@ -1,16 +1,14 @@
 import styled, { css } from 'styled-components';
 import { inject, observer } from 'mobx-react';
 
-import DefaultAvatar from '../../../images/avatar.png'
-
-import HandsLike from '../../../components/SearchResults/HandsLike';
-import Icon from '../Icon';
-import { mapAge } from '../../utils';
-import { ModalVariants } from '../../consts';
+import Icon from '../../../common/components/Icon';
+import { mapAge } from '../../../common/utils';
+import { ModalVariants } from '../../../common/consts';
 import { requestWithParams } from '../../../api/exchangeLayer';
 import ProfileFooter, { ProfileFooterLayout } from './ProfileFooter';
 import ProfileHeaderOptions from './ProfileHeaderOptions';
-import { forDevice } from '../../commonAdaptiveStyles';
+import { forDevice } from '../../../common/commonAdaptiveStyles';
+import ImageAndMarkBlock from '../common/ImageAndMarkBlock';
 
 
 export default inject('searchStore', 'uiStore', 'createEditStore', 'localeService')(observer(ResultCard));
@@ -131,16 +129,11 @@ function ResultCard({
             isInProfile={userProfileInfo}
         >
             <CardInfosLayout withImage={withImageBlock}>
-                {withImageBlock && <CardImageBlock>
-
-                    <CardImage src={avatar || DefaultAvatar}/>
-
-                    <HandsLike
-                        currentMark={mark}
-                        onHandClick={likeClicked(type, id)}
-                    />
-
-                </CardImageBlock>}
+                {withImageBlock && <ImageAndMarkBlock
+                        avatar={avatar}
+                        mark={mark}
+                        onMarkClick={likeClicked(type, id)}
+                />}
 
                 <CardInfoBlock smallerFont={userProfileInfo || viewsOrFavourites}>
 
@@ -186,7 +179,7 @@ function ResultCard({
 
                 </CardInfoBlock>
             </CardInfosLayout>
-            
+
             {userProfileInfo && <ProfileFooter
                 resultID={id}
                 disabled={disabled}

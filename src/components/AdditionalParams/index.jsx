@@ -49,7 +49,7 @@ export default class MenuButtonsDocs extends Component {
         const { categories, selectedParameters, title } = this.props;
 
         return <div>
-            {title && <RegularTitle>{title}</RegularTitle>}
+            {title && <Title>{title}</Title>}
             <ColumnsCenterer>
                 {categories && categories.map((category, index) => (
                     <div>
@@ -85,4 +85,8 @@ const ComboButton = styled.button`
     font-size: .9rem;
 
     ${props => props.theme.smallBorderRadius}
+`;
+
+const Title = styled(RegularTitle)`
+    width: auto;
 `;

@@ -3,13 +3,11 @@ import { useParams, Redirect } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import styled, { css } from 'styled-components';
 
-import DefaultAvatar from '../../../images/avatar.png';
 import Logo from '../../../images/2021RusProfiNetFooterLogo.svg';
 
 import { requestWithParams } from '../../../api/exchangeLayer';
 import { DefaultContainer, MainContainer } from '../../../common/components/Layouts';
-import { LinkedButton } from "../../../common/components/Buttons";
-import HandsLike from '../HandsLike';
+import { LinkedButton } from '../../../common/components/Buttons';
 import { MainTitle, Subtitle } from '../../../common/components/Typography';
 import Icon from '../../../common/components/Icon';
 import { flexAlignCenter } from '../../../common/components/mixins';
@@ -21,6 +19,7 @@ import { useMetaTags, useRequest } from '../../../common/hooks';
 import { mapAge } from '../../../common/utils';
 import { TwoLinkedButtonGroup } from '../../../common/components/StaticPagesStyles';
 import { forDevice } from '../../../common/commonAdaptiveStyles';
+import ImageAndMarkBlock from '../common/ImageAndMarkBlock';
 
 
 function Vacancy({
@@ -123,6 +122,7 @@ function Vacancy({
                     <MainTitle>
                         <FullInfoHeader>
                             <FullInfoTitle>{isResume ? name : vacancy_name}</FullInfoTitle>
+
                             {isUserAuthenticated && <FavouriteIcon
                                 iconName={'favourite'}
                                 onClick={favouriteClickHandler('setToFavourites', id)}
@@ -141,18 +141,13 @@ function Vacancy({
 
                     <MainBlock>
                         <ImgAndMainInfoBlock>
-                            {isResume && <FullInfoImageBlock>
+                            {isResume && <ImageAndMarkBlock
+                                    avatar={avatar}
+                                    mark={currentChosenResult.mark}
+                                    onMarkClick={likeClicked(type, id)}
+                            />}
 
-                                <FullInfoImage src={avatar || DefaultAvatar}/>
-
-                                <HandsLike
-                                    currentMark={currentChosenResult.mark}
-                                    onHandClick={likeClicked(type, id)}
-                                />
-
-                                </FullInfoImageBlock>}
-
-                                <FullInfoTextBlock>
+                            <FullInfoTextBlock>
 
                                 {isResume && <CategoryName>{category.name}</CategoryName>}
 
