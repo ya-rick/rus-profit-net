@@ -1,54 +1,36 @@
-import { useEffect, useState } from 'react';
-
 import { DefaultContainer } from '../../../common/components/Layouts';
-import { requestWithParams } from '../../../api/exchangeLayer';
 import { RegularTextWrapper } from '../../../common/components/StaticPagesStyles';
 import { ModalContent, ModalSubtitle, ModalTitle } from '../../../common/components/ModalStyles';
 import styled from 'styled-components';
+import { useRequest } from '../../../common/hooks';
+import Loading from '../../../common/components/Loading';
 
 export default function UserAgreement () {
-    const [data, setData] = useState({});
-
-    useEffect(() => {
-        requestWithParams('getPageLicense')
-            .then(data => {
-                const [
-                    { block1_title },
-                    { block1_subtitle },
-                    { block2_title },
-                    { block2_subtitle },
-                    { block_title },
-                ] = data.options;
-
-                setData({
-                    block1_title,
-                    block1_subtitle,
-                    block2_title,
-                    block2_subtitle,
-                    block_title
-                })
-            });
-    }, [])
+    const { isLoading, result } = useRequest({ requestType: 'getPageLicense' });
+    
+    if (isLoading) return <Loading />;
+    
+    const { options } = result;
 
     return (
         <>
             <DefaultContainer>
-                <ModalTitle>{data.block_title}</ModalTitle>
+                <ModalTitle>{options[4].block_title}</ModalTitle>
             </DefaultContainer>
                 
             <ModalContent>
 
                 <DefaultContainer>
-                    <AgreementSubtitle>{data.block1_title}</AgreementSubtitle>
+                    <AgreementSubtitle>{options[0].block1_title}</AgreementSubtitle>
                 </DefaultContainer>
 
-                <RegularTextWrapper>{data.block1_subtitle}</RegularTextWrapper>
+                <RegularTextWrapper>{options[1].block1_subtitle}</RegularTextWrapper>
 
                 <DefaultContainer>
-                    <AgreementSubtitle>{data.block2_title}</AgreementSubtitle>
+                    <AgreementSubtitle>{options[2].block2_title}</AgreementSubtitle>
                 </DefaultContainer>
 
-                <RegularTextWrapper>{data.block2_subtitle}</RegularTextWrapper>
+                <RegularTextWrapper>{options[3].block2_subtitle}</RegularTextWrapper>
 
             </ModalContent>
         </>
