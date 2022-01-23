@@ -80,8 +80,9 @@ const FooterRowsLayout = styled.div`
 
     @media (max-width: 680px) {
         grid-template-columns: 1fr;
+        grid-auto-rows: auto;
         grid-row-gap: ${layoutGap};
-        grid-template-areas: 'contacts1' 'contacts2' 'logo';
+        grid-template-areas: 'contacts1 contacts2' 'logo logo';
     }
 `;
 

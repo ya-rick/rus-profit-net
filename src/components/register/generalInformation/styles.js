@@ -5,10 +5,10 @@ import { AdditionalText } from '../../../common/components/Typography';
 
 export const GeneralInfoWrapper = styled.div`
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: max-content;
     grid-template-rows: max-content;
 
-    justify-items: center;
+    justify-content: center;
     
     gap: 1rem;
     
@@ -34,7 +34,6 @@ export const Image = styled.img`
 export const InfoWrapper = styled.div`
     position: relative;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     row-gap: 30px;
@@ -43,5 +42,9 @@ export const InfoWrapper = styled.div`
 `;
 
 export const Description = styled(AdditionalText)`
+    position: absolute;
+
+    transform: translateY(120%);
+
     text-align: center;
 `;

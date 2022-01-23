@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Redirect } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import DefaultAvatar from '../../../images/avatar.png';
 import Logo from '../../../images/2021RusProfiNetFooterLogo.svg';
@@ -10,7 +10,7 @@ import { requestWithParams } from '../../../api/exchangeLayer';
 import { DefaultContainer, MainContainer } from '../../../common/components/Layouts';
 import { LinkedButton } from "../../../common/components/Buttons";
 import HandsLike from '../HandsLike';
-import { MainTitle } from '../../../common/components/Typography';
+import { MainTitle, Subtitle } from '../../../common/components/Typography';
 import Icon from '../../../common/components/Icon';
 import { flexAlignCenter } from '../../../common/components/mixins';
 import { CommonButton } from '../../../common/components/Buttons';
@@ -20,6 +20,7 @@ import Loading from '../../../common/components/Loading';
 import { useMetaTags, useRequest } from '../../../common/hooks';
 import { mapAge } from '../../../common/utils';
 import { TwoLinkedButtonGroup } from '../../../common/components/StaticPagesStyles';
+import { forDevice } from '../../../common/commonAdaptiveStyles';
 
 
 function Vacancy({
@@ -165,7 +166,7 @@ function Vacancy({
 
                                     {!isResume && <MainInfoBlockItem>
                                         <FullInfoBolderText>Дата публикации:</FullInfoBolderText>
-                                        <div>{create_date}</div>
+                                        <SimpleInfo>{create_date}</SimpleInfo>
                                     </MainInfoBlockItem>}
 
                                     <MainInfoBlockItem>
@@ -193,14 +194,14 @@ function Vacancy({
                         </ImgAndMainInfoBlock>
                         
                         <FullInfoTextBlock>
-                            <FullInfoSubtitle>{isResume ? 'О себе' : 'Описание вакансии'}</FullInfoSubtitle>
+                            <Subtitle>{isResume ? 'О себе' : 'Описание вакансии'}</Subtitle>
 
                             <FullInfoDescrption>{description}</FullInfoDescrption>
                         </FullInfoTextBlock>
                     </MainBlock>
 
                     <DescriptionBlock>
-                            <FullInfoSubtitle>Подробнее</FullInfoSubtitle>
+                            <Subtitle>Подробнее</Subtitle>
 
                             <SecondaryBlockLayout>
                                 {secondaryInfoSearchResult.map(param => <MainInfoBlockItem
@@ -230,7 +231,7 @@ function Vacancy({
                     </DescriptionBlock>
 
                     {example?.length > 0 && <ExamplesContainer>
-                        <FullInfoSubtitle>Примеры работ</FullInfoSubtitle>
+                        <Subtitle>Примеры работ</Subtitle>
 
                         <ExamplesImageLayout>
                             {example.map((image, index) => <StyledImage
@@ -290,24 +291,36 @@ const MainBlock = styled.div`
 
 const ImgAndMainInfoBlock = styled.div`
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: 1fr;
     align-items: start;
     gap: 2rem;
 
     margin-bottom: 1.5rem;
+
+    ${forDevice.M(css`
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    `)}
 `;
 
 const MainInfoBlock = styled.div`
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    grid-template-columns: 1fr;
 
     gap: 1rem;
+
+    ${forDevice.M(css`
+        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    `)}
 `;
 
 const MainInfoBlockItem = styled.div`
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 1fr;
     column-gap: 1rem;
+
+    ${forDevice.M(css`
+        grid-template-columns: 1fr 2fr;
+    `)}
 `;
 
 const DescriptionBlock = styled.div`
@@ -387,21 +400,23 @@ const FullInfoImage = styled.img`
     max-height: 20rem;
 `;
 
-const SimpleInfo = styled.div``;
+const SimpleInfo = styled.div`
+    line-height: 1.5;
+`;
 
 const TwoColumnsText = styled.div`
     display: grid;
-    grid-template-columns: repeat(2, 50%);
-    gap: 1rem;
+    grid-template-columns: 100%;
+    line-height: 1.5;
+
+    ${forDevice.M(css`
+        grid-template-columns: repeat(2, 50%);
+    `)}
 `;
 
 const FullInfoTitle = styled.div`
     font-size: 1.5rem;
     font-weight: bold;
-`;
-
-const FullInfoSubtitle = styled.div`
-    font-size: 1.25rem;
 `;
 
 const FullInfoBolderText = styled.div`

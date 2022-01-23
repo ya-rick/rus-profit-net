@@ -1,12 +1,13 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { Redirect } from 'react-router-dom';
+import styled from 'styled-components';
 
-import { DefaultContainer, MainContainer } from '../../common/components/Layouts'
+import { DefaultContainer, MainContainer } from '../../common/components/Layouts';
 import { MainTitle } from '../../common/components/Typography';
 import GeneralInformation from './generalInformation';
 import NameContact from './nameContact';
-import TargetInformation from './targetInformation'
+import TargetInformation from './targetInformation';
 import RegistrationButtonsBlock from './RegistrationButtonsBlock';
 import ErrorMessage from '../../common/components/ErrorMessage';
 
@@ -37,37 +38,45 @@ export default inject('registrationStore', 'uiStore')(observer(function Register
                 </MainTitle>
             </DefaultContainer>
 
-            <NameContact
-                onChangeField={setField}
-                fields={commonInfo}
-                error={contactInfo}
-            />
+            <BlocksLayout>
+                <NameContact
+                    onChangeField={setField}
+                    fields={commonInfo}
+                    error={contactInfo}
+                />
 
-            <GeneralInformation
-                onChange={setField}
-                error={generalInfo}
-                birthday={birthday}
-                avatar={avatar}
-            />
+                <GeneralInformation
+                    onChange={setField}
+                    error={generalInfo}
+                    birthday={birthday}
+                    avatar={avatar}
+                />
 
-            <RegistrationButtonsBlock
-                onClickLeft={() => setField('registration_type')('vacancy')}
-                onClickRight={() => setField('registration_type')('resume')}
-                current={commonInfo.registration_type}
-                creationError={creationInfo}
-            />
+                <RegistrationButtonsBlock
+                    onClickLeft={() => setField('registration_type')('vacancy')}
+                    onClickRight={() => setField('registration_type')('resume')}
+                    current={commonInfo.registration_type}
+                    creationError={creationInfo}
+                />
 
-            {commonInfo.registration_type && <TargetInformation
-                onFieldChange={setField}
-                fields={targetedInfo}
-                error={error}
-                onConfirmClicked={sendData}
-                isResume={commonInfo.registration_type === 'resume'}
-                successMessage={{
-                    title: 'Поздравляю!',
-                    description: 'Для завершения регистрация на Ваш почтовый ящик было отправлена ссылка, по которой необходимо перейти'
-                }}
-            />}
+                {commonInfo.registration_type && <TargetInformation
+                    onFieldChange={setField}
+                    fields={targetedInfo}
+                    error={error}
+                    onConfirmClicked={sendData}
+                    isResume={commonInfo.registration_type === 'resume'}
+                    successMessage={{
+                        title: 'Ваш аккаунт успешно создан!',
+                        description: 'Для завершения регистрации, пожалуйста, перейдите по ссылке, отправленной на Вашу почту'
+                    }}
+                />}
+            </BlocksLayout>
         </MainContainer>
     );
-}))
+}));
+
+const BlocksLayout = styled.div`
+    display: grid;
+
+    gap: 1rem;
+`;

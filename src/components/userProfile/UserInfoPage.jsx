@@ -43,7 +43,7 @@ function UserInfoPage({ uiStore, localeService }) {
 
             openModal(ModalVariants.InfoModal, {
                 title: 'Получилось!',
-                description: 'Вы изменили свои личные данные'
+                description: 'Ваши личные данные изменены'
             });
 
         } catch(e) {

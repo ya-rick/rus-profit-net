@@ -14,16 +14,16 @@ export const Layout = styled(MainContainer)`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    row-gap: 50px;
+    row-gap: 2rem;
     height: 100%;
 `;
 
 export const Title = styled(MainTitle)`
-    border-radius: 1rem;
     background: #F7FBFC;
-    padding-block: 2em;
     opacity: 0.9;
     text-align: center;
+    border-radius: 1rem;
+    padding: 2rem 1rem;
 `;
 
 export const Numberedtitle = styled(Title)`

@@ -1,5 +1,5 @@
 import { css } from 'styled-components';
-import { commonPadding } from '../commonAdaptiveStyles';
+import { commonPadding, forDevice } from '../commonAdaptiveStyles';
 import { fontWeight } from './Typography';
 
 export const HeaderButtonTextMixin = css`
@@ -10,13 +10,20 @@ export const HeaderButtonTextMixin = css`
 
 export const ActionButtonTextMixin = css`
     ${fontWeight}
-    font-size:  1.25rem;
+
+    font-size:  1.1rem;
+
+    ${forDevice.M(css`
+      font-size:  1.25rem;
+    `)}
 `;
 
 export const buttonStylesMixin = css`
   min-width: max-content;
   background: #F7FBFC;
   border: 2px solid #6F80A5;
+
+  padding: .5rem 1rem;
   
   display: flex;
   align-items: center;
@@ -30,9 +37,12 @@ export const buttonStylesMixin = css`
     background: #E9F0FF;
   }
   
-  ${commonPadding}
   ${ActionButtonTextMixin}
   ${props => props.theme.smallBorderRadius};
+
+  ${forDevice.M(css`
+    ${commonPadding}
+  `)}
 `;
 
 export const activeButtonStyleMixin = css`
@@ -49,7 +59,7 @@ export const inputMixins = css`
   padding: .5rem 1rem;
   
   ::placeholder {
-    color: #4C5E8B;
+    color: rgb(0, 0, 0, 0.5)
   }
   
   ${props => props.disabled && css`

@@ -25,7 +25,7 @@ export const Centerer = styled.div`
 
 export const AdaptiveGrid = styled.div`
     display: grid;
-    gap: 1rem;
+    gap: .5rem;
     grid-auto-columns: 1fr;
     grid-template-areas:
         'country'    'city'
@@ -34,7 +34,6 @@ export const AdaptiveGrid = styled.div`
     ;
 
     ${forDevice.M(css`
-        
         grid-template-areas:
             'country    salary'
             'city       search'
@@ -42,7 +41,6 @@ export const AdaptiveGrid = styled.div`
     `)}
 
     ${forDevice.L(css`
-        row-gap: 0;
         grid-template-areas:
             'country salary experience ${props => props.isBigger && 'age'}'
             'city    search experience ${props => props.isBigger && 'age'}'

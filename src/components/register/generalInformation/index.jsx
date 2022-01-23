@@ -12,7 +12,7 @@ export default inject('registrationStore')(observer(GeneralInformation));
 function GeneralInformation({ error, onChange, birthday, avatar }) {
 
     return (
-        <>
+        <DefaultContainer>
             <DefaultContainer>
                 <Subtitle>Общие данные
                     {error && <ErrorMessage>{error}</ErrorMessage>}
@@ -20,14 +20,12 @@ function GeneralInformation({ error, onChange, birthday, avatar }) {
             </DefaultContainer>
 
             <GeneralInfoWrapper>
-
                 <GeneralInformationFields
                     onChange={onChange}
                     birthday={birthday}
                     avatar={avatar}
                 />
-
             </GeneralInfoWrapper>
-        </>
+        </DefaultContainer>
     );
 };

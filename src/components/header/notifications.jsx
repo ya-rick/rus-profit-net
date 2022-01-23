@@ -18,15 +18,17 @@ export default function Notifications() {
 
     const { result, isLoading, error } = useRequest({ requestType: 'getNotifications' });
 
-    const notifsPresent = !isLoading && result.notifications
-        ?.reduce((acc, notification) => acc || !notification.viewed, false);
+    const notifsPresent = !isLoading &&
+        result.notifications?.some(notification => !notification.viewed);
 
     useEffect(() => {
-        if (isOpen && notifsPresent) {
-            requestWithParams('readNotifications')
-                .catch(e => console.error(e))
+        if (isOpen && !isLoading) {
+            if (result.notifications?.some(notification => !notification.viewed)) {
+                requestWithParams('readNotifications')
+                    .catch(e => console.error(e));
+            }
         }
-    }, [notifsPresent]);
+    }, [notifsPresent, isLoading, isOpen, result]);
 
     function notificationBellClicked() {
         setIsRead(true);
@@ -63,7 +65,7 @@ export default function Notifications() {
             : error ? 'Ошибка'
                 : <>
                     <NotificationButtonWrapper
-                        notifsPresent={notifsPresent}
+                        notifsPresent={notifsPresent && !isRead}
                         onClick={notificationBellClicked}
                     >
                         <Icon
@@ -74,9 +76,11 @@ export default function Notifications() {
                     {isOpen && notifsPresent && <OutsideClickWrapper onOutsideClickHandler={() => toggleIsOpen(false)}>
                         {ref => <>
                             <NotificationsBackground onClick={() => toggleIsOpen(false)}/>
-                            
+
                             <NotificationsItemsWrapper ref={ref}>
-                                {result.notifications.map(notification => renderNotification(notification))}
+                                <ScrollWrapper>
+                                    {result.notifications.map(notification => renderNotification(notification))}
+                                </ScrollWrapper>
                             </NotificationsItemsWrapper>
                         </>}
                     </OutsideClickWrapper>}
@@ -124,23 +128,28 @@ const NotificationsItemsWrapper = styled.div`
     background-color: #F7FBFC;
     border: 2px solid #6F80A5;
     width: max-content;
-    padding: 25px;
-
-    max-height: 200px;
-
-    > * {
-        margin-top: 30px;
-
-        :first-child {
-            margin-top: 0;
-        }
-    }
+    padding: .5rem;
 
     @media (max-width: 1000px) {
         right: 50%;
         transform: translateX(50%);
         max-width: 600px;
         width: 100vw;
+    }
+`;
+
+const ScrollWrapper = styled.div`
+    overflow-y: scroll;
+    margin-right: 20px;
+    padding: 0.5rem;
+    max-height: 200px;
+    
+    > * {
+        margin-top: 30px;
+
+        :first-child {
+            margin-top: 0;
+        }
     }
 `;
 

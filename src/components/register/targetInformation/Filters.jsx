@@ -120,5 +120,5 @@ function RegisterFilterVacation({
 export default inject('registrationStore')(observer(RegisterFilterVacation));
 
 const Wrapper = styled(AdaptiveGrid)`
-    margin-block: 50px;
+    margin-block: 1rem;
 `;

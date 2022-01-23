@@ -89,7 +89,6 @@ export const SearchableMultiSelect = observer(({
                                 {emptyCaseMessage}    
                             </Message>}
                             {chosenOptions?.map(tag => <SelectTag
-                                active={tag.id === editableCountryID}
                                 onClick={onSomethingClicked(tag, onTagClick)}
                             >
                                 {tag.name}
@@ -183,8 +182,6 @@ const SelectTag = styled.div`
     cursor: pointer;
     transition: box-shadow 300ms;
     box-shadow: 2px 2px 10px #4C5E8B;
-
-    ${props => props.active && css`border: 2px solid #6F80A5;`}
 
     :hover {
         box-shadow: 2px 2px 15px #4C5E8B;

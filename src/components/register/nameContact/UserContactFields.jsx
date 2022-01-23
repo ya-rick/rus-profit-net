@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Input from '../../../common/components/Input';
 import { useToggle } from '../../../common/hooks';
 import CheckBox from '../../../common/components/checkbox';
-import { RegularTitle } from '../../../common/components/Typography';
+import { AdditionalText, RegularTitle } from '../../../common/components/Typography';
 
 
 export default observer(UserContactFields);
@@ -48,7 +48,11 @@ function UserContactFields({ onChangeField, contactFields = [], showMoreButton =
             </ContactBlockContainer>
         ))}
 
-        {showMoreButton && <ShowMoreButton onClick={() => toggleVisibility()}>{!isAllVisible ? 'Посмотреть все' : 'Свернуть'}</ShowMoreButton>}
+        {showMoreButton && <ShowMoreButton
+            onClick={() => toggleVisibility()}
+        >
+            <AdditionalText>{!isAllVisible ? 'Посмотреть все' : 'Свернуть'}</AdditionalText>
+        </ShowMoreButton>}
     </>
 }
 
@@ -66,7 +70,7 @@ const ShowMoreButton = styled.button`
     background-color: #F7FBFC;
     width: max-content;
     height: min-content;
-    margin-block: auto 0;
+    margin: auto;
 
     ${props => props.theme.smallBorderRadius}
 `;

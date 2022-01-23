@@ -7,22 +7,26 @@ import { CommonText } from '../../common/components/Typography';
 export default function SideBar({ children = [], onTablClickCallback = () => {} }) {
     const { pathname } = useLocation();
 
-    return <SideBarContainer>
-        {children.map(tab => <SideBarTab
-            key={tab.to}
-            to={tab.to}
-            onClick={() => onTablClickCallback(tab.onClickType)}
-            active={pathname === tab.to}
-        >
-            <CommonText>{tab.name}</CommonText>
-        </SideBarTab>)}
-    </SideBarContainer>
+    return (
+        <SideBarContainer>
+            {children.map(tab => <SideBarTab
+                key={tab.to}
+                to={tab.to}
+                onClick={() => onTablClickCallback(tab.onClickType)}
+                active={pathname === tab.to}
+            >
+                <CommonText>{tab.name}</CommonText>
+            </SideBarTab>)}
+        </SideBarContainer>
+    );
 }
 
 const SideBarContainer = styled.div`
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: .5rem;
+
+    margin-block: 1rem;
 
     ${props => props.theme.smallBorderRadius}
 `;

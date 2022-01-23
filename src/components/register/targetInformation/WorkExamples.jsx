@@ -4,7 +4,8 @@ import styled from 'styled-components';
 
 import { InfoWrapper } from '../generalInformation/styles';
 import Icon from '../../../common/components/Icon';
-import { MainSubtitle } from '../../../common/components/Typography';
+import { AdditionalText, MainSubtitle, Subtitle } from '../../../common/components/Typography';
+import { DefaultContainer } from '../../../common/components/Layouts';
 
 
 function WorkExample({ addImage, removeImage, files_images }) {
@@ -28,41 +29,51 @@ function WorkExample({ addImage, removeImage, files_images }) {
         }
     }
 
-    return <WorkExamplesContainer>
-        <div>
-            <MainSubtitle>Примеры работ</MainSubtitle>
-        </div>
+    return (
+        <WorkExamplesContainer>
+            <DefaultContainer>
+                <Subtitle>Примеры работ</Subtitle>
+            </DefaultContainer>
 
-        <AddImageLayout>
-            <InfoWrapper>
-                <input
-                    id='file-in'
-                    className='reg-dwn-img'
-                    type='file'
-                    style={{ display: 'none' }}
-                    onClick={e => e.target.value = null}
-                    onChange={onChoosePhotoes}
-                    multiple
-                />
-                <label for='file-in' className='reg-dwn-img'>Добавьте фотографию</label>
-                <p className='reg-subtext'>Размер файла не более 5 Мб</p>
-            </InfoWrapper>
-        </AddImageLayout>
-        
-        {files_images.length > 0 && <ExamplesImageLayout>
-            {files_images.map((image, index) => <ImageContainer
-                onMouseEnter={onImageMouseEnter(index)}
-                onMouseLeave={onImageMouseLeave()}
-            >
-                <StyledImage src={typeof image === 'string' ? image : URL.createObjectURL(image)}/>
-                {hoveredImageIndex === index && <RemoveImageIcon
-                    iconName={'garbage_collector'}
-                    onClick={() => removeImage(image)}
-                />}
-            </ImageContainer>)}
-        </ExamplesImageLayout>}
+            <AddImageLayout>
+                <InfoWrapper>
+                    <input
+                        id='file-in'
+                        className='reg-dwn-img'
+                        type='file'
+                        style={{ display: 'none' }}
+                        onClick={e => e.target.value = null}
+                        onChange={onChoosePhotoes}
+                        multiple
+                    />
 
-    </WorkExamplesContainer>
+                    <WithBackgroundWrapper>
+                        <label
+                            for='file-in'
+                        >
+                            Добавьте фотографию
+                        </label>
+                    </WithBackgroundWrapper>
+
+                    <Description>Размер файла не более 5 Мб</Description>
+                </InfoWrapper>
+            </AddImageLayout>
+            
+            {files_images.length > 0 && <ExamplesImageLayout>
+                {files_images.map((image, index) => <ImageContainer
+                    onMouseEnter={onImageMouseEnter(index)}
+                    onMouseLeave={onImageMouseLeave()}
+                >
+                    <StyledImage src={typeof image === 'string' ? image : URL.createObjectURL(image)}/>
+                    {hoveredImageIndex === index && <RemoveImageIcon
+                        iconName={'garbage_collector'}
+                        onClick={() => removeImage(image)}
+                    />}
+                </ImageContainer>)}
+            </ExamplesImageLayout>}
+
+        </WorkExamplesContainer>
+    );
 }
 
 export default inject('registrationStore')(observer(WorkExample));
@@ -77,18 +88,17 @@ const AddImageLayout = styled.div`
     margin-bottom: 2rem;
 `;
 
-const imageSize = '7rem';
-
 const ExamplesImageLayout = styled.div`
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(calc(${imageSize} / 2), imageSize));
-    grid-gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 140px));
+    grid-auto-rows: minmax(100px, 140px);
+    gap: 1rem;
 `;
 
 const ImageContainer = styled.div`
     position: relative;
-    width: imageSize;
-    height: imageSize;
+    width: 100%;
+    height: 100%;
 `;
 
 const StyledImage = styled.img`
@@ -110,4 +120,18 @@ const RemoveImageIcon = styled(Icon)`
         height: 100%;
         background-color: rgb(255, 255, 255, 0.7);
     }
+`;
+
+const WithBackgroundWrapper = styled.div`
+    background: #F7FBFC;
+    padding: .5rem 1rem;
+    text-align: center;
+
+    ${props => props.theme.smallBorderRadius}
+`;
+
+const Description = styled(AdditionalText)`
+    position: absolute;
+
+    transform: translateY(200%);
 `;

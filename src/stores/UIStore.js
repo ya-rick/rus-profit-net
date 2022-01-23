@@ -10,16 +10,18 @@ import PasswordResetModal from '../components/modal/password-reset';
 import UserModel from './Models/UserModel'
 import UnregisteredInfo from '../components/modal/unregistered-info';
 import Share from '../components/modal/share';
+import UserAgreement from '../components/modal/userAgreement';
 
 const modals = {
-    [ModalVariants.Authorization]: <Authorization/>,
-    [ModalVariants.ForgotPassword]: <ForgotPassword/>,
-    [ModalVariants.InfoModal]: <InfoModal/>,
-    [ModalVariants.FAQ]: <QuestionModalContent/>,
-    [ModalVariants.RedImg]: <RedImg/>,
-    [ModalVariants.PasswordResetModal]: <PasswordResetModal/>,
-    [ModalVariants.UnregisteredInfo]: <UnregisteredInfo/>,
-    [ModalVariants.Share]: <Share/>,
+    [ModalVariants.Authorization]: <Authorization />,
+    [ModalVariants.ForgotPassword]: <ForgotPassword />,
+    [ModalVariants.InfoModal]: <InfoModal />,
+    [ModalVariants.FAQ]: <QuestionModalContent />,
+    [ModalVariants.RedImg]: <RedImg />,
+    [ModalVariants.PasswordResetModal]: <PasswordResetModal />,
+    [ModalVariants.UnregisteredInfo]: <UnregisteredInfo />,
+    [ModalVariants.Share]: <Share />,
+    [ModalVariants.UserAgreement]: <UserAgreement />,
 };
 
 export default class UIStore {

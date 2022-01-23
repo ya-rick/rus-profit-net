@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { inject } from 'mobx-react';
 import { useHistory } from 'react-router-dom';
 
@@ -8,6 +8,8 @@ import { CommonButton } from '../../../common/components/Buttons';
 import { ModalVariants } from '../../../common/consts';
 import { DefaultContainer } from '../../../common/components/Layouts';
 import { TwoLinkedButtonGroup } from '../../../common/components/StaticPagesStyles';
+import { CommonText } from '../../../common/components/Typography';
+import { forDevice } from '../../../common/commonAdaptiveStyles';
 
 
 export default inject('uiStore')(function UnregisteredInfo({ uiStore: { openModal, closeModal } }) {
@@ -34,10 +36,10 @@ export default inject('uiStore')(function UnregisteredInfo({ uiStore: { openModa
                             iconName={'registration_info'}
                             size={'md'}
                         />
-                        <div style={{ textAlign: 'center' }}>
+                        <CommonText style={{ textAlign: 'center' }}>
                             Заполните анкету
                             и зарегистрируйтесь
-                        </div>
+                        </CommonText>
                     </InstructionWithText>
                     <Icon
                         iconName={'arrow_right'}
@@ -51,10 +53,10 @@ export default inject('uiStore')(function UnregisteredInfo({ uiStore: { openModa
                             iconName={'publication_info'}
                             size={'md'}
                         />
-                        <div style={{ textAlign: 'center' }}>
+                        <CommonText style={{ textAlign: 'center' }}>
                             Опубликуйте вашу 
                             вакансию/анкету
-                        </div>
+                        </CommonText>
                     </InstructionWithText>
                     <Icon
                         iconName={'arrow_right'}
@@ -68,10 +70,10 @@ export default inject('uiStore')(function UnregisteredInfo({ uiStore: { openModa
                             iconName={'find_info'}
                             size={'md'}
                         />
-                        <div style={{ textAlign: 'center' }}>
+                        <CommonText style={{ textAlign: 'center' }}>
                             Выберите нужный
                             из тысячи вариантов
-                        </div>
+                        </CommonText>
                     </InstructionWithText>
                 </InstractopnWithArrow>
             </InstructionsLayout>
@@ -91,23 +93,16 @@ export default inject('uiStore')(function UnregisteredInfo({ uiStore: { openModa
 
 const gap = '30px';
 
-const InstructionsLayout = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-items: center;
-    justify-content: start;
-    gap: ${gap};
-
-    margin-block: ${gap};
-`;
-
 const InstractopnWithArrow = styled.div`
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: start;
     flex-grow: 1;
     column-gap: calc(${gap} - 20px);
+
+    ${forDevice.M(css`
+        justify-content: center;
+    `)}
 `;
 
 const InstructionWithText = styled.div`
@@ -117,4 +112,14 @@ const InstructionWithText = styled.div`
     width: 200px;
     gap: ${gap};
     line-height: 25px;
+`;
+
+const InstructionsLayout = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    align-items: start;
+    justify-content: start;
+    gap: ${gap};
+
+    margin-block: ${gap};
 `;

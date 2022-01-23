@@ -32,10 +32,6 @@ export default function Dropdown ({ content, title }) {
     )
 }
 
-const DropdownWrapper = styled.div`
-
-`;
-
 const DropdownHeader = styled.button`
     display: flex;
     align-items: center;
@@ -51,5 +47,16 @@ const DropdownHeader = styled.button`
 `;
 
 const DropdownContent = styled.div`
-    margin-top: 30px;
+    margin-top: .5rem;
+`;
+
+const DropdownWrapper = styled.div`
+    ${Subtitle} {
+        font-size: .9rem;
+        text-align: left;
+    }
+
+    ${RegularTextWrapper} {
+        font-size: .8rem;
+    }
 `;

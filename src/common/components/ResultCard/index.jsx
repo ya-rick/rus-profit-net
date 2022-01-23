@@ -152,21 +152,26 @@ function ResultCard({
                                 {places[0].cities.length > 0 && `: ${places[0].cities.map(city => city.name).join(', ')}`}
                             </CardCountryBlock>}
                         </CardTitle>
+
                         {isUserAuthenticated && !userProfileInfo && <FavouriteIcon
                             iconName={'favourite'}
                             onClick={favouriteClickHandler('setToFavourites', id)}
                             isActive={isFavourite}
                         />}
-                        {userProfileInfo ? <ProfileHeaderOptions 
-                            onTrashClickCallback={deleteResult}
-                            onButtonClickCallback={toggleActiveState}
-                            status={status}
-                            disabled={disabled}
-                            isResume={isResume}
-                        /> : <PlusIcon
-                            iconName={'plus'}
-                            onClick={onSelectResult}
-                        />}
+
+                        {userProfileInfo
+                            ? <ProfileHeaderOptions 
+                                    onTrashClickCallback={deleteResult}
+                                    onButtonClickCallback={toggleActiveState}
+                                    status={status}
+                                    disabled={disabled}
+                                    isResume={isResume}
+                                />
+                            : <PlusIcon
+                                iconName={'plus'}
+                                onClick={onSelectResult}
+                            />
+                        }
                     </CardHeader>
 
                     <CardOptionalInfoBlock>
@@ -198,6 +203,8 @@ function ResultCard({
 };
 
 const CardWrapper = styled.div`
+    position: relative;
+
     font-size: ${props => props.isInProfile ? '.75rem' : '1rem'};
     padding: 4%${props => props.withImage && '5%'};
     background-color: #F7FBFC;
@@ -242,6 +249,7 @@ const CardImageBlock = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+
     gap: 1rem;
 `;
 
@@ -262,7 +270,16 @@ const FavouriteIcon = styled(Icon)`
 `;
 
 const PlusIcon = styled(Icon)`
+    position: absolute;
+    top: 10px;
+    right: 10px;
+
     cursor: pointer;
+
+    ${forDevice.M(css`
+        position: static;
+        margin-inline: auto 0; 
+    `)}
 `;
 
 const CardImage = styled.img`
@@ -292,44 +309,37 @@ const CardHeader = styled.div`
     align-items: center;
     flex-wrap: wrap;
     gap: 1rem;
-
-    > * {
-        margin-right: 2rem;
-    }
-
-    > *:last-child {
-        margin-right: 0;
-        margin-left: auto;
-    }
 `;
 
 const CardTitle = styled.div`
-    font-size: 1em;
+    font-size: .8em;
     font-weight: bold;
+
+    margin-block-start: 1rem;
 `;
 
 const CardCountryBlock = styled.div`
-    font-size: .7em;
+    font-size: .6em;
 `;
 
 const CardSubtitle = styled.div`
-    font-size: .8em;
+    font-size: .7em;
     font-weight: 500;
 `;
 
 const CardOptionalInfoBlock = styled.div`
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: .5rem;
 
     > div {
-        font-size: .7em;
+        font-size: .5em;
     }
 `;
 
 const CardDescrption = styled.div`
     padding: 1rem;
-    font-size: .6em;
+    font-size: .5em;
     border: 1px solid #6F80A5;
     max-height: calc(23px * 10);
     word-break: break-all;

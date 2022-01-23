@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { ModalButtonWapper, ModalContent, ModalSubtitle, ModalTitle } from '../../common/components/ModalStyles';
 import Input from '../../common/components/Input';
-import { CommonButton } from '../../common/components/Buttons';
+import { CommonButton, SecondaryButton } from '../../common/components/Buttons';
 import ErrorMessage from '../../common/components/ErrorMessage';
 import { requestWithParams } from '../../api/exchangeLayer';
 import { inject, observer } from 'mobx-react';
@@ -36,7 +36,7 @@ function ForgotPassword ({
                 .then(() => {
                     openModal(ModalVariants.InfoModal, {
                         title: 'Получилось!',
-                        description: 'На Ваш почтовый ящик было отправлена ссылка, по которой вы сможете установить новый пароль'
+                        description: 'Ссылка для восстановления пароля отправлена на Ваш почтовый ящик'
                     })
                 })
                 .catch(e => localeService.getByKey(e.message));
@@ -64,7 +64,7 @@ function ForgotPassword ({
             </ModalContent>
 
             <ModalButtonWapper>
-                <CommonButton onClick={onSubmit}>Отправить</CommonButton>
+                <SecondaryButton onClick={onSubmit}>Отправить</SecondaryButton>
             </ModalButtonWapper>
 
         </>

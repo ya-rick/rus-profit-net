@@ -46,8 +46,8 @@ function EmailChangePage({ uiStore, localeService }) {
             await requestWithParams('changerEmailUser', emails);
 
             uiStore.openModal(ModalVariants.InfoModal, {
-                title: 'Поздравляем!',
-                description: 'Вы успешно изменили имейл. На Вашу новую почту отправлено письмо с подтверждением'
+                title: 'Ваш e-mail изменен!',
+                description: 'Для подтверждения, пожалуйста, перейдите по ссылке, отправленной на Вашу новую почту'
             });
         } catch(e) {
             uiStore.openModal(ModalVariants.InfoModal, {
@@ -100,10 +100,13 @@ function EmailChangePage({ uiStore, localeService }) {
 }
 
 const EmailsLayout = styled.div`
-    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: .5rem;
 
     > * {
-        min-width: 300px;
-        width: 50%;
+        width: 300px;
     }
 `;

@@ -1,19 +1,18 @@
 import styled, { css } from 'styled-components';
-import { commonPadding, forDevice } from '../commonAdaptiveStyles';
+import { forDevice } from '../commonAdaptiveStyles';
 
 import { DefaultContainer } from './Layouts';
-import { CommonText, MainSubtitle } from './Typography';
+import { CommonText, Subtitle } from './Typography';
 
 
-export const BorderedTitle = styled(MainSubtitle)`
+export const BorderedTitle = styled(Subtitle)`
     border: 2px solid #6F80A5;
+    padding: .75rem;
+    
     ${props => props.theme.smallBorderRadius};
-    ${commonPadding};
 `;
 
 export const TwoLinkedButtonGroup =  styled(DefaultContainer)`
-    margin-block: 2rem;
-
     display: grid;
     grid-template-columns: max-content;
     justify-content: center;
@@ -21,7 +20,11 @@ export const TwoLinkedButtonGroup =  styled(DefaultContainer)`
     gap: 2rem;
 
     ${forDevice.M(css`
-        grid-template-columns: repeat(2, 15rem);
+        display: flex;
+
+        > * {
+            width: 300px;
+        }
     `)}
 `;
 

@@ -30,7 +30,7 @@ const CheckBoxContainer = styled.div`
 const CheckedIconContainer = styled.button`
     height: 2rem;
     width: 2rem;
-    border: .25rem solid #6F80A5;
+    border: .2rem solid #6F80A5;
     box-sizing: border-box;
     border-radius: .5rem;
     margin-right: .75rem;

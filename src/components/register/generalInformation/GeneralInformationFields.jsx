@@ -7,7 +7,8 @@ import Avatar from '../../../images/avatar.png';
 import { Description, Image, InfoWrapper } from './styles';
 import { ModalVariants } from '../../../common/consts';
 import { CommonText, RegularTitle } from '../../../common/components/Typography';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import { forDevice } from '../../../common/commonAdaptiveStyles';
 
 
 export default inject('uiStore', 'localeService')(observer(GeneralInformation));
@@ -63,16 +64,16 @@ function GeneralInformation({ uiStore, birthday, onChange, avatar, localeService
 
     return (
         <>
-            <div>
+            <ComplexLayout>
                 <RegularTitle>Ваша фотография</RegularTitle>
                 <Image
                     src={avatar ? typeof avatar === 'string' ? avatar : URL.createObjectURL(avatar) : Avatar}
                     alt='avatar'
                 />
-            </div>
+            </ComplexLayout>
             
 
-            <InfoWrapper>
+            <InfoWrapper style={{ marginBlockEnd: '2rem' }}>
                 <input
                     id='in'
                     type='file'
@@ -92,13 +93,13 @@ function GeneralInformation({ uiStore, birthday, onChange, avatar, localeService
                 <Description>Размер файла не более 5 Мб.<br/>Поддерживаемые форматы png и jpeg</Description>
             </InfoWrapper>
 
-            <div>
+            <ComplexLayout>
                 <RegularTitle>Дата рождения</RegularTitle>
-            <Calendar
-                onChange={changeDate}
-                value={birthday ? new Date(birthday) : new Date()}
-            />
-            </div>
+                <Calendar
+                    onChange={changeDate}
+                    value={birthday ? new Date(birthday) : new Date()}
+                />
+            </ComplexLayout>
 
             <InfoWrapper>
                 <WithBackgroundWrapper>
@@ -108,6 +109,19 @@ function GeneralInformation({ uiStore, birthday, onChange, avatar, localeService
         </>
     );
 };
+
+const ComplexLayout = styled.div`
+    display: flex;
+    flex-direction: column;
+
+    > *:nth-child(1) {
+        margin-inline: auto;
+
+        ${forDevice.M(css`
+            margin-inline: initial;
+        `)}
+    }
+`;
 
 const WithBackgroundWrapper = styled.div`
     background: #F7FBFC;

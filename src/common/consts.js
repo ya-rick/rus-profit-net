@@ -10,6 +10,7 @@ export const ModalVariants = {
     PasswordResetModal: 'PasswordResetModal',
     UnregisteredInfo: 'UnregisteredInfo',
     Share: 'Share',
+    UserAgreement: 'UserAgreement',
 }
 
 export const SalaryTypes = {

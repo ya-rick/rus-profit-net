@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import { forDevice } from '../../../common/commonAdaptiveStyles';
 import Icon from '../../../common/components/Icon';
 
 
@@ -33,7 +34,11 @@ const HandsLikeContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 1rem;
+    gap: .5rem;
+
+    ${forDevice.M(css`
+        gap: 1rem;
+    `)}
 `;
 
 const HandLike = styled(Icon)`

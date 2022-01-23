@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 export const fontWeight = css`font-weight: 600;`;
 
 export const MainTitle = styled.h1`
-    font-size: 2rem;
+    font-size: 1.6rem;
 
     margin: 0;
 
@@ -11,7 +11,7 @@ export const MainTitle = styled.h1`
 `;
 
 export const MainSubtitle = styled.h2`
-    font-size: 1.5rem;
+    font-size: 1.4rem;
 
     margin: 0;
 
@@ -19,7 +19,7 @@ export const MainSubtitle = styled.h2`
 `;
 
 export const Subtitle = styled.h3`
-    font-size: 1.25rem;
+    font-size: 1.15rem;
 
     margin: 0;
 
@@ -43,7 +43,7 @@ export const RegularTitle = styled(CommonText)`
 
     width: max-content;
 
-    margin-block: 1rem;
+    margin-block-end: 1rem;
 `;
 
 export const AdditionalText = styled.div`

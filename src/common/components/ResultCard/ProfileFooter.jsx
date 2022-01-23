@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react';
 import { useHistory } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import { forDevice } from '../../commonAdaptiveStyles';
 import { useImperativeBreakPoint } from '../../hooks';
 
 import { SecondaryButton } from '../Buttons';
@@ -69,9 +70,12 @@ export const ProfileFooterLayout = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 1rem;
 
     margin-top: 2rem;
+
+    ${forDevice.M(css`
+        gap: 1rem;
+    `)}
 `;
 
 const ButtonWrapper = styled.button`

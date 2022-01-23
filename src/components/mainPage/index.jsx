@@ -112,7 +112,7 @@ const MainPageLayout = styled.div`
     background: #F1F3F6;
     height: 100%;
     display: grid;
-    grid-template-rows: var(--header-size) minmax(calc(100vh - var(--header-size)), auto) auto;
+    grid-template-rows: var(--header-size) minmax(calc(90vh - var(--header-size)), auto) auto;
     grid-template-columns: 1fr;
 
     @media (max-width: 1024px) {

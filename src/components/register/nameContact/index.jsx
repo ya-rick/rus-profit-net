@@ -5,7 +5,7 @@ import { observer } from 'mobx-react';
 import ErrorMessage from '../../../common/components/ErrorMessage';
 import UserMainFields from './UserMainFields';
 import UserContactFields from './UserContactFields';
-import { AdditionalText, MainSubtitle, Subtitle } from '../../../common/components/Typography';
+import { AdditionalText, Subtitle } from '../../../common/components/Typography';
 import { DefaultContainer } from '../../../common/components/Layouts';
 import { forDevice } from '../../../common/commonAdaptiveStyles';
 
@@ -30,18 +30,20 @@ export default observer(function NameContact({ onChangeField, error, fields }) {
             </Contact4Grid>
 
             <DefaultContainer>
-                <Subtitle>Предпочитаемый способ связи
-                    <AdditionalText>Необходимо указать хотя бы один дополнительный способ связи</AdditionalText>
-                    {error && <ErrorMessage>{error}</ErrorMessage>}
-                </Subtitle>
-            </DefaultContainer>
+                <DefaultContainer>
+                    <Subtitle>Предпочитаемый способ связи
+                        <AdditionalText>Необходимо указать хотя бы один дополнительный способ связи</AdditionalText>
+                        {error && <ErrorMessage>{error}</ErrorMessage>}
+                    </Subtitle>
+                </DefaultContainer>
 
-            <Contact3Grid>
-                <UserContactFields
-                    onChangeField={onChangeField}
-                    contactFields={contacts_info}
-                />
-            </Contact3Grid>
+                <Contact3Grid>
+                    <UserContactFields
+                        onChangeField={onChangeField}
+                        contactFields={contacts_info}
+                    />
+                </Contact3Grid>
+            </DefaultContainer>
         </>
     );
 })
@@ -49,6 +51,7 @@ export default observer(function NameContact({ onChangeField, error, fields }) {
 export const Contact3Grid = styled.div`
     display: grid;
     grid-template-columns: 1fr;
+
     gap: 1rem;
 
     ${forDevice.M(css`

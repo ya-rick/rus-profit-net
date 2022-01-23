@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 import MenuButtonsDocs from '../AdditionalParams';
 import { CommonButton } from '../../common/components/Buttons';
-import { AdaptiveGrid, Centerer, MainContainer } from '../../common/components/Layouts';
+import { AdaptiveGrid, MainContainer } from '../../common/components/Layouts';
 import AgeChooser from '../../common/components/AgeChooser';
 import WorkExperience from '../../common/components/WorkExperience';
 import SuggestSalary from '../../common/components/SuggestSalary';
@@ -203,14 +203,14 @@ function MainFilterSearch({
                     categories={categories_and}
                     selectedParameters={result_cat}
                     onCheckChanged={setField('result_cat')}
-                    title={'Заголовок 1 (AND)'}
+                    title={'Заполните фильтры по требуемым параметрам. Поиск осуществляется по всем выбранным категориям'}
                 />}
 
                 {categories_or.length > 0 && <MenuButtonsDocs
                     categories={categories_or}
                     selectedParameters={result_cat}
                     onCheckChanged={setField('result_cat')}
-                    title={'Заголовок 2 (OR)'}
+                    title={'Заполните фильтры по требуемым параметрам. Поиск осуществляется по одной или нескольким выбранным категориям'}
                 />}
             </>}
 
@@ -231,6 +231,6 @@ export default inject('registrationStore', 'searchStore', 'uiStore', 'localeServ
 
 const Wrapper = styled(MainContainer)`
     display: grid;
-    row-gap: 2rem;
+    row-gap: 1rem;
     width: 100%;
 `;

@@ -45,8 +45,8 @@ export default inject('uiStore', 'localeService')(function QuestionModalContent(
             await requestWithFormData('sendQuestion', fields);
 
             openModal(ModalVariants.InfoModal, {
-                title: 'Поздравляем!',
-                description: 'Ответ на Ваш вопрос будет отправлен на указанный почтовый ящик'
+                title: 'Спасибо!',
+                description: 'Ваш вопрос принят, ответ будет отправлен в ближайшее время на указанный почтовый ящик'
             });
         } catch (e) {
             openModal(ModalVariants.InfoModal, {
@@ -102,7 +102,7 @@ export default inject('uiStore', 'localeService')(function QuestionModalContent(
 
             </ModalContent>
 
-            <VerticallyAlignedButtonWrapper>
+            <ButtonWithErrorBlock>
                 {isError && <ErrorMessage
                     style={{ textAlign: 'center' }}
                 >
@@ -114,14 +114,17 @@ export default inject('uiStore', 'localeService')(function QuestionModalContent(
                 >
                     Отправить
                 </ModalButton>
-            </VerticallyAlignedButtonWrapper>
+            </ButtonWithErrorBlock>
         </>
     )
 })
 
-const VerticallyAlignedButtonWrapper = styled(ModalButtonWapper)`
-    margin-inline: auto;
-    width: min-content;
-    flex-direction: column;
-    row-gap: 10px;
+const ButtonWithErrorBlock = styled.div`
+    display: grid;
+    place-items: center;
+    grid-template-columns: minmax(auto, 300px);
+
+    margin-block-start: 1rem;
+
+    gap: .5rem;
 `;

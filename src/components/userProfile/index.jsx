@@ -67,28 +67,33 @@ function UserProfile({ uiStore: { userModel: { setTabResults } } }) {
         }
     }
 
-    return <MainContainer>
+    return (
+        <ProfileMainContainer>
 
-        <DefaultContainer>
-            <MainTitle>Личный кабинет</MainTitle>
+            <DefaultContainer>
+                <MainTitle>Личный кабинет</MainTitle>
 
-            <SideBar
-                onTablClickCallback={setTabResults}
-            >
-                {tabs}
-            </SideBar>
-        </DefaultContainer>
+                <SideBar
+                    onTablClickCallback={setTabResults}
+                >
+                    {tabs}
+                </SideBar>
+            </DefaultContainer>
 
-        <ProfileContentLayout>
-            {renderTab() && <ContentContainer>
-                {renderTab()}
-            </ContentContainer>}
-            
-        </ProfileContentLayout>
+            <ProfileContentLayout>
+                {renderTab() && <ContentContainer>
+                    {renderTab()}
+                </ContentContainer>}
+                
+            </ProfileContentLayout>
 
-    </MainContainer>
+        </ProfileMainContainer>
+    );
 }
 
+const ProfileMainContainer = styled(MainContainer)`
+    margin-block-end: 20px;
+`;
 
 const ProfileContentLayout = styled.div``;
 

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import CheckBox from '../../../common/components/checkbox';
 import Icon from '../../../common/components/Icon';
-import { CommonText } from '../../../common/components/Typography';
+import { AdditionalText, CommonText } from '../../../common/components/Typography';
 
 
 const MenuNannyItem = ({ listsData, chek, selectedIDs }) => {
@@ -14,7 +14,7 @@ const MenuNannyItem = ({ listsData, chek, selectedIDs }) => {
         return (
             <ParamsListItem key={id}>
                 <CheckBox isChecked={selectedIDs.includes(id)} check={()=>chek(id)}>
-                    <CommonText>{name}</CommonText>
+                    <AdditionalText>{name}</AdditionalText>
                 </CheckBox>
             </ParamsListItem>
         );
@@ -25,7 +25,7 @@ const MenuNannyItem = ({ listsData, chek, selectedIDs }) => {
            {listsData.length > 4 && <SpreadButton
                 onClick={() => setFullSized(!isFullSized)}
             >
-                <CommonText>{isFullSized ? 'Свернуть' : 'Посмотреть все'}</CommonText>
+                <AdditionalText>{isFullSized ? 'Свернуть' : 'Посмотреть все'}</AdditionalText>
                 <ArrowIcon
                     iconName={'arrow_down'}
                     spread={isFullSized}
@@ -46,6 +46,10 @@ const SpreadButton = styled.button`
     margin-block-start: .5rem;
 
     ${props => props.theme.smallBorderRadius}
+    
+    ${AdditionalText} {
+        font-size: .85rem;
+    }
 `;
 
 const ParamsListItem = styled.li`

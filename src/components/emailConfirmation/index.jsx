@@ -25,8 +25,8 @@ export default inject('uiStore', 'localeService')(observer(function EmailConfirm
                     })
     
                     openModal(ModalVariants.InfoModal, {
-                        title: 'Поздравляем!!!',
-                        description: 'Вы успешно завершили регистрацию. Ваша заявка будет рассмотрена и подтверждена модерацией в течении 24 часов'
+                        title: 'Поздравляем!',
+                        description: 'Регистрация пройдена успешно, Ваша заявка будет рассмотрена и подтверждена модератором в течение 24 часов'
                     })
     
                     timeOut = setTimeout(() => setIsRedirecting(true), 3000)

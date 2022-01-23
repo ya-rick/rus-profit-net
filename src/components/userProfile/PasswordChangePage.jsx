@@ -52,7 +52,7 @@ function PasswordChangePage({ uiStore, localeService }) {
 
             uiStore.openModal(ModalVariants.InfoModal, {
                 title: 'Поздравляем!',
-                description: 'Вы успешно изменили пароль'
+                description: 'Ваш пароль изменен'
             })
         } catch(e) {
             uiStore.openModal(ModalVariants.InfoModal, {
@@ -62,53 +62,58 @@ function PasswordChangePage({ uiStore, localeService }) {
         }
     }
 
-    return <>
-        <DefaultContainer>
-            <MainSubtitle>
-                Смена пароля
-                {error && <ErrorMessage>{error}</ErrorMessage>}
-            </MainSubtitle>
-        </DefaultContainer>
+    return (
+        <>
+            <DefaultContainer>
+                <MainSubtitle>
+                    Смена пароля
+                    {error && <ErrorMessage>{error}</ErrorMessage>}
+                </MainSubtitle>
+            </DefaultContainer>
 
-        <PasswordsLayout>
-            <div>
-                <RegularTitle>Старый пароль</RegularTitle>
-                <PasswordInput
-                    className='input-reg'
-                    value={passwords.old_password}
-                    onChange={onChangePaswords('old_password')}/>
-            </div>
-            <div>
-                <RegularTitle>Новый пароль</RegularTitle>
-                <PasswordInput
-                    className='input-reg'
-                    value={passwords.new_password}
-                    onChange={onChangePaswords('new_password')}/>
-            </div>
-            <div>
-                <RegularTitle>Подтвердите пароль</RegularTitle>
-                <PasswordInput
-                    className='input-reg'
-                    value={passwords.password_confirm}
-                    onChange={onChangePaswords('password_confirm')}/>
-            </div>
-        </PasswordsLayout>
+            <PasswordsLayout>
+                <div>
+                    <RegularTitle>Старый пароль</RegularTitle>
+                    <PasswordInput
+                        className='input-reg'
+                        value={passwords.old_password}
+                        onChange={onChangePaswords('old_password')}/>
+                </div>
+                <div>
+                    <RegularTitle>Новый пароль</RegularTitle>
+                    <PasswordInput
+                        className='input-reg'
+                        value={passwords.new_password}
+                        onChange={onChangePaswords('new_password')}/>
+                </div>
+                <div>
+                    <RegularTitle>Подтвердите пароль</RegularTitle>
+                    <PasswordInput
+                        className='input-reg'
+                        value={passwords.password_confirm}
+                        onChange={onChangePaswords('password_confirm')}/>
+                </div>
+            </PasswordsLayout>
 
-        <TwoLinkedButtonGroup>
-            <CommonButton
-                onClick={sendPasswords}
-            >
-                Подтвердить
-            </CommonButton>
-        </TwoLinkedButtonGroup>
-    </>
+            <TwoLinkedButtonGroup>
+                <CommonButton
+                    onClick={sendPasswords}
+                >
+                    Подтвердить
+                </CommonButton>
+            </TwoLinkedButtonGroup>
+        </>
+    );
 }
 
 const PasswordsLayout = styled.div`
-    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: .5rem;
 
     > * {
-        min-width: 300px;
-        width: 50%;
+        width: 300px;
     }
 `;

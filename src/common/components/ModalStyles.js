@@ -19,6 +19,7 @@ export const ModalLayout = styled.div`
     margin-right: -15px;
     padding: 3em;
     max-height: 70vh;
+    max-width: 600px;
     overflow-y: scroll;
 `;
 
@@ -56,6 +57,8 @@ export const ModalTitle = styled(MainSubtitle)`
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    margin-bottom: 1rem;
 `;
 
 export const ModalSubtitle = styled(Subtitle)`
