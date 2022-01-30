@@ -95,7 +95,7 @@ function WorkExample({ addImage, removeImage, files_images }) {
                 {files_images.map((image, index) => <SingleExample
                     onMouseEnter={onImageMouseEnterBinder(index)}
                     onMouseLeave={onImageMouseLeaveBinder()}
-                    src={typeof image === 'string' ? image : URL.createObjectURL(image)}
+                    src={image}
                     isActive={hoveredImageIndex === index}
                     onRemoveClicked={removeImage}
                     onResizeClicked={setFullSizedImage}
