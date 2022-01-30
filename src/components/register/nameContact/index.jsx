@@ -8,6 +8,7 @@ import UserContactFields from './UserContactFields';
 import { AdditionalText, Subtitle } from '../../../common/components/Typography';
 import { DefaultContainer } from '../../../common/components/Layouts';
 import { forDevice } from '../../../common/commonAdaptiveStyles';
+import Icon from '../../../common/components/Icon';
 
 
 export default observer(function NameContact({ onChangeField, error, fields }) {
@@ -31,10 +32,15 @@ export default observer(function NameContact({ onChangeField, error, fields }) {
 
             <DefaultContainer>
                 <DefaultContainer>
-                    <Subtitle>Предпочитаемый способ связи
-                        <AdditionalText>Необходимо указать хотя бы один дополнительный способ связи</AdditionalText>
-                        {error && <ErrorMessage>{error}</ErrorMessage>}
+                    <Subtitle>
+                        Предпочитаемый способ связи
+                        <Icon
+                            iconName={'info'}
+                            title={'Необходимо указать хотя бы один дополнительный способ связи'}
+                            size={'xs'}
+                        />
                     </Subtitle>
+                    {error && <ErrorMessage>{error}</ErrorMessage>}
                 </DefaultContainer>
 
                 <Contact3Grid>

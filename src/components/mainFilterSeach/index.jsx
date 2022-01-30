@@ -203,14 +203,16 @@ function MainFilterSearch({
                     categories={categories_and}
                     selectedParameters={result_cat}
                     onCheckChanged={setField('result_cat')}
-                    title={'Заполните фильтры по требуемым параметрам. Поиск осуществляется по всем выбранным категориям'}
+                    title={'Заполните фильтры по требуемым параметрам'}
+                    additionalInfo={'Поиск осуществляется по всем выбранным категориям'}
                 />}
 
                 {categories_or.length > 0 && <MenuButtonsDocs
                     categories={categories_or}
                     selectedParameters={result_cat}
                     onCheckChanged={setField('result_cat')}
-                    title={'Заполните фильтры по требуемым параметрам. Поиск осуществляется по одной или нескольким выбранным категориям'}
+                    title={'Заполните фильтры по требуемым параметрам'}
+                    additionalInfo={'Поиск осуществляется по одной или нескольким выбранным категориям'}
                 />}
             </>}
 

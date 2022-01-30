@@ -65,10 +65,10 @@ function RegisterVacancies({
                 <DefaultContainer>
                     <Subtitle>
                         {isResume ? 'Какую работу вы ищете'
-                        : 'Кого вы ищете'}
-                        {targetedInfo && 
-                            <ErrorMessage>{targetedInfo}</ErrorMessage>}
+                            : 'Кого вы ищете'}
                     </Subtitle>
+
+                    {targetedInfo && <ErrorMessage>{targetedInfo}</ErrorMessage>}
                 </DefaultContainer>
                 
                 <WorkCluster

@@ -65,10 +65,9 @@ function UserInfoPage({ uiStore, localeService }) {
 
     return <>
         <DefaultContainer>
-            <MainSubtitle>
-                Личная информация
-                {mainInfo && <ErrorMessage>{mainInfo}</ErrorMessage>}
-            </MainSubtitle>
+            <MainSubtitle>Личная информация</MainSubtitle>
+
+            {mainInfo && <ErrorMessage>{mainInfo}</ErrorMessage>}
         </DefaultContainer>
 
         <UserMainInfoLayout>
@@ -101,10 +100,9 @@ function UserInfoPage({ uiStore, localeService }) {
         </UserMainInfoLayout>
 
         <DefaultContainer>
-            <Subtitle>
-                Предпочитаемый способ связи
-                {contactInfo && <ErrorMessage>{contactInfo}</ErrorMessage>}
-            </Subtitle>
+            <Subtitle>Предпочитаемый способ связи</Subtitle>
+
+            {contactInfo && <ErrorMessage>{contactInfo}</ErrorMessage>}
         </DefaultContainer>
 
         <Contact3Grid>

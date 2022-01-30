@@ -19,6 +19,10 @@ export const MainSubtitle = styled.h2`
 `;
 
 export const Subtitle = styled.h3`
+    display: flex;
+    align-items: center;
+    column-gap: 5px;
+
     font-size: 1.15rem;
 
     margin: 0;

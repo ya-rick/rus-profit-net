@@ -66,6 +66,7 @@ function GeneralInformation({ uiStore, birthday, onChange, avatar, localeService
         <>
             <ComplexLayout>
                 <RegularTitle>Ваша фотография</RegularTitle>
+
                 <Image
                     src={avatar ? typeof avatar === 'string' ? avatar : URL.createObjectURL(avatar) : Avatar}
                     alt='avatar'

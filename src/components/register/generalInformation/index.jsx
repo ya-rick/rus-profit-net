@@ -14,9 +14,9 @@ function GeneralInformation({ error, onChange, birthday, avatar }) {
     return (
         <DefaultContainer>
             <DefaultContainer>
-                <Subtitle>Общие данные
-                    {error && <ErrorMessage>{error}</ErrorMessage>}
-                </Subtitle>
+                <Subtitle>Общие данные</Subtitle>
+
+                {error && <ErrorMessage>{error}</ErrorMessage>}
             </DefaultContainer>
 
             <GeneralInfoWrapper>

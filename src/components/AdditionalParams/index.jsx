@@ -4,6 +4,7 @@ import styled, { css } from 'styled-components';
 import AdditionalParamItem from './AdditionalParamItem';
 import { RegularTitle } from '../../common/components/Typography';
 import { forDevice } from '../../common/commonAdaptiveStyles';
+import Icon from '../../common/components/Icon';
 
 
 export default class MenuButtonsDocs extends Component {
@@ -46,10 +47,19 @@ export default class MenuButtonsDocs extends Component {
     };
 
     render() {
-        const { categories, selectedParameters, title } = this.props;
+        const { categories, selectedParameters, title, additionalInfo } = this.props;
 
         return <div>
-            {title && <Title>{title}</Title>}
+            {title && (
+                <Title>
+                    {title}
+
+                    <Icon
+                        iconName={'info'}
+                        title={additionalInfo}
+                    />
+                </Title>
+            )}
             <ColumnsCenterer>
                 {categories && categories.map((category, index) => (
                     <div>
@@ -88,5 +98,7 @@ const ComboButton = styled.button`
 `;
 
 const Title = styled(RegularTitle)`
-    width: auto;
+    display: flex;
+    align-items: center;
+    column-gap: 5px;
 `;

@@ -12,8 +12,10 @@ function mapSize(size) {
     }
 }
 
-export default function Icon ({ iconName, text, disabled, size, cursorDefault, ...props }) {
-
+export default function Icon ({
+    iconName, text, disabled = false, size = 'xs', cursorDefault = false,
+    ...props
+}) {
     return <Wrapper
         {...props}
         size={size}
@@ -32,19 +34,12 @@ Icon.propTypes = {
     disabled: PropTypes.bool
 }
 
-Icon.defaultProps = {
-    size: 'xs',
-    cursorDefault: false,
-    disabled: false
-}
-
-const Wrapper = styled.div`
+const Wrapper = styled.span`
     position: relative;
 
     display: flex;
     justify-content: center;
     align-items: center;
-
     max-width: ${props => mapSize(props.size)};
     max-height: ${props => mapSize(props.size)};
 
@@ -56,7 +51,7 @@ const Wrapper = styled.div`
         pointer-events: none;
     `};
 
-    > svg > path {
+    > svg path {
         stroke: #153D70;
         stroke-width: 2px;
 
@@ -64,7 +59,7 @@ const Wrapper = styled.div`
     }
 
     :hover {
-        > svg > path {
+        > svg path {
             stroke-width: 3px;
         }
     }
