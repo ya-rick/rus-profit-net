@@ -57,7 +57,7 @@ const Wrapper = styled.div`
     `};
 
     > svg > path {
-        stroke: black;
+        stroke: #153D70;
         stroke-width: 2px;
 
         ${props => props.color && css`fill: ${props.color};`}

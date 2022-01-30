@@ -10,10 +10,12 @@ import Background from '../../../common/components/Background';
 
 
 function SingleExample({ src, onRemoveClicked, onResizeClicked, isActive, ...wrapperProps }) {
+    const stringifyed = typeof src === 'string' ? src : URL.createObjectURL(src);
+
     return (
         <ExampleWrapper {...wrapperProps}>
             <ExampleImage
-                src={typeof src === 'string' ? src : URL.createObjectURL(src)}
+                src={stringifyed}
                 alt={'Пример работ'}
                 isActive={isActive}
             />
@@ -22,7 +24,7 @@ function SingleExample({ src, onRemoveClicked, onResizeClicked, isActive, ...wra
                 <Icon
                     iconName={'resize'}
                     color={'white'}
-                    onClick={() => onResizeClicked(src)}
+                    onClick={() => onResizeClicked(stringifyed)}
                 />
 
                 <Icon

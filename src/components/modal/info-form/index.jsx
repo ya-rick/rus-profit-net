@@ -13,13 +13,13 @@ const InfoModal = ({ uiStore: { modalPayload } }) => {
                 <ModalTitle>{modalPayload.title}</ModalTitle>
             </DefaultContainer>
             
-            <InfoModalContent>
+            <ModalContent>
 
                 <ModalSubtitle>
                     {modalPayload.description}
                 </ModalSubtitle>
 
-            </InfoModalContent>
+            </ModalContent>
         </>
     )
 }

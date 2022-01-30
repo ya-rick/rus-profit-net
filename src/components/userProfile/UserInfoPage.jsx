@@ -12,6 +12,7 @@ import { ModalVariants } from '../../common/consts';
 import Input from '../../common/components/Input';
 import { MainSubtitle, RegularTitle, Subtitle } from '../../common/components/Typography';
 import Loading from '../../common/components/Loading';
+import { findErrorAndScrollTo } from '../../common/utils';
 
 
 export default inject('uiStore', 'localeService')(observer(UserInfoPage));
@@ -49,6 +50,9 @@ function UserInfoPage({ uiStore, localeService }) {
         } catch(e) {
             if (e === false) {
                 setError(true);
+
+                findErrorAndScrollTo();
+
                 return;
             }
 

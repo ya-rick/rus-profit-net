@@ -8,3 +8,7 @@ export function mapAge(age) {
     if (['2', '3', '4', 2, 3, 4].includes(age)) return age + ' года';
     return age + ' лет';
 }
+
+export function findErrorAndScrollTo() {
+    document.querySelector('.error-message')?.scrollIntoView();
+}

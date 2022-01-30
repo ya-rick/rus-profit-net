@@ -16,6 +16,7 @@ import { useCategoryFilters, useToggle } from '../../../common/hooks';
 import WorkExamples from './WorkExamples';
 import { AdditionalText, MainSubtitle, Subtitle } from '../../../common/components/Typography';
 import { forDevice } from '../../../common/commonAdaptiveStyles';
+import { findErrorAndScrollTo } from '../../../common/utils';
 
 
 function RegisterVacancies({
@@ -40,6 +41,9 @@ function RegisterVacancies({
         } catch(e) {
             if (e === false) {
                 toggleIsError(true);
+
+                findErrorAndScrollTo();
+                
                 return;
             };
 
