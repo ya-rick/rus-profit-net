@@ -108,6 +108,13 @@ export const garbage_collector = (
     </svg>
 )
 
+export const resize = (
+    <svg xmlns="http://www.w3.org/2000/svg" height="78.876px" id="Capa_1" version="1.1" viewBox="0 0 79.124 78.876" width="79.124px">
+        <path d="M47.624,0l12.021,9.73L44.5,24.376l10,10l14.661-15.161L79.124,31.5V0H47.624z M24.5,44.376L9.847,59.529L0,47.376v31.5  h31.5l-12.153-9.847L34.5,54.376L24.5,44.376z"/>
+        <g/><g/><g/><g/><g/><g/><g/><g/><g/><g/><g/><g/><g/><g/><g/>
+    </svg>
+)
+
 export const prev = (
     <svg width="58" height="54" viewBox="0 0 58 54" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M26.9231 52L2 27L26.9231 2M5.46154 27H56" stroke="#E5E5E5" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>

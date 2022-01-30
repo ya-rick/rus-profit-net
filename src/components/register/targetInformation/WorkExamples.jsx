@@ -1,21 +1,53 @@
 import { useState } from 'react';
 import { inject, observer } from 'mobx-react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { InfoWrapper } from '../generalInformation/styles';
 import Icon from '../../../common/components/Icon';
-import { AdditionalText, MainSubtitle, Subtitle } from '../../../common/components/Typography';
+import { AdditionalText, Subtitle } from '../../../common/components/Typography';
 import { DefaultContainer } from '../../../common/components/Layouts';
+import Background from '../../../common/components/Background';
 
+
+function SingleExample({ src, onRemoveClicked, onResizeClicked, isActive, ...wrapperProps }) {
+    return (
+        <ExampleWrapper {...wrapperProps}>
+            <ExampleImage
+                src={typeof src === 'string' ? src : URL.createObjectURL(src)}
+                alt={'Пример работ'}
+                isActive={isActive}
+            />
+
+            {isActive && <ExampleOptionsContainer>
+                <Icon
+                    iconName={'resize'}
+                    color={'white'}
+                    onClick={() => onResizeClicked(src)}
+                />
+
+                <Icon
+                    iconName={'garbage_collector'}
+                    color={'#e43e62'}
+                    onClick={() => onRemoveClicked(src)}
+                />
+            </ExampleOptionsContainer>}
+        </ExampleWrapper>
+    )
+}
 
 function WorkExample({ addImage, removeImage, files_images }) {
     const [hoveredImageIndex, setHoveredImageIndex] = useState(null);
+    const [fullSizedImage, setFullSizedImage] = useState(null);
 
-    function onImageMouseEnter(index) {
+    function closeImage() {
+        setFullSizedImage(null);
+    }
+
+    function onImageMouseEnterBinder(index) {
         return () => setHoveredImageIndex(index);
     }
 
-    function onImageMouseLeave() {
+    function onImageMouseLeaveBinder() {
         return () => setHoveredImageIndex(null);
     }
 
@@ -60,17 +92,22 @@ function WorkExample({ addImage, removeImage, files_images }) {
             </AddImageLayout>
             
             {files_images.length > 0 && <ExamplesImageLayout>
-                {files_images.map((image, index) => <ImageContainer
-                    onMouseEnter={onImageMouseEnter(index)}
-                    onMouseLeave={onImageMouseLeave()}
-                >
-                    <StyledImage src={typeof image === 'string' ? image : URL.createObjectURL(image)}/>
-                    {hoveredImageIndex === index && <RemoveImageIcon
-                        iconName={'garbage_collector'}
-                        onClick={() => removeImage(image)}
-                    />}
-                </ImageContainer>)}
+                {files_images.map((image, index) => <SingleExample
+                    onMouseEnter={onImageMouseEnterBinder(index)}
+                    onMouseLeave={onImageMouseLeaveBinder()}
+                    src={typeof image === 'string' ? image : URL.createObjectURL(image)}
+                    isActive={hoveredImageIndex === index}
+                    onRemoveClicked={removeImage}
+                    onResizeClicked={setFullSizedImage}
+                />)}
             </ExamplesImageLayout>}
+
+            {fullSizedImage && <Background onClick={closeImage}>
+                <FullSizeImage
+                    src={fullSizedImage}
+                    onClick={closeImage}
+                />
+            </Background>}
 
         </WorkExamplesContainer>
     );
@@ -78,9 +115,7 @@ function WorkExample({ addImage, removeImage, files_images }) {
 
 export default inject('registrationStore')(observer(WorkExample));
 
-const WorkExamplesContainer = styled.div`
-
-`;
+const WorkExamplesContainer = styled.div``;
 
 const AddImageLayout = styled.div`
     display: flex;
@@ -95,30 +130,52 @@ const ExamplesImageLayout = styled.div`
     gap: 1rem;
 `;
 
-const ImageContainer = styled.div`
+const ExampleWrapper = styled.div`
     position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    cursor: pointer;
+`;
+
+const ExampleImage = styled.img`
+    position: relative;
+
     width: 100%;
     height: 100%;
 `;
 
-const StyledImage = styled.img`
-    width: 100%;
-    height: 100%;
+const FullSizeImage = styled.img`
+    max-height: 80%;
+    max-width: 80%;
+
+    cursor: pointer;
 `;
 
-const RemoveImageIcon = styled(Icon)`
+const ExampleOptionsContainer = styled.div`
     position: absolute;
 
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
 
-    ${ImageContainer}:after {
-        content: '';
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background-color: rgb(255, 255, 255, 0.7);
+    top: 0;
+
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
+    align-items: center;
+
+    :hover {
+        ::before {
+            content: '';
+    
+            position: absolute;
+            width: 100%;
+            height: 100%;
+
+            background-color: rgb(255, 255, 255, 0.6);
+        }
     }
 `;
 

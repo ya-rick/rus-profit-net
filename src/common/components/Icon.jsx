@@ -44,6 +44,7 @@ const Wrapper = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+
     max-width: ${props => mapSize(props.size)};
     max-height: ${props => mapSize(props.size)};
 
@@ -54,6 +55,19 @@ const Wrapper = styled.div`
         cursor: default;
         pointer-events: none;
     `};
+
+    > svg > path {
+        stroke: black;
+        stroke-width: 2px;
+
+        ${props => props.color && css`fill: ${props.color};`}
+    }
+
+    :hover {
+        > svg > path {
+            stroke-width: 3px;
+        }
+    }
 `;
 
 const Text = styled.span`
